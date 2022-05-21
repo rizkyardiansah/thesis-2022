@@ -117,30 +117,40 @@
                 <form action="<?= base_url("mahasiswa/insertPengajuanPraSidang") ?>" method="post" id="formPengajuanPraSidang" enctype="multipart/form-data">
                     <div class="modal-body">
                         <div class="row">
-                            <input type="hidden" id="id_skripsi" name="id_skripsi" value="<?= $lastSkripsi['id'] ?>">
+                            <?php if ($lastSkripsi != null) : ?>
+                                <input type="hidden" id="id_skripsi" name="id_skripsi" value="<?= $lastSkripsi['id'] ?>">
+                            <?php endif; ?>
                             <input type="hidden" id="npm" name="npm" value="<?= $mahasiswa['npm'] ?>">
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label for="judul">Judul</label>
-                                    <textarea class="form-control" id="judul" name="judul" rows="2" disabled><?= $lastSkripsi['judul'] ?></textarea>
+                                    <?php if ($lastSkripsi != null) : ?>
+                                        <textarea class="form-control" id="judul" name="judul" rows="2" disabled><?= $lastSkripsi['judul'] ?></textarea>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label for="bidang">Bidang</label>
-                                    <input type="text" class="form-control" id="bidang" name="bidang" value="<?= $lastSkripsi['nama_bidang'] ?>" disabled>
+                                    <?php if ($lastSkripsi != null) : ?>
+                                        <input type="text" class="form-control" id="bidang" name="bidang" value="<?= $lastSkripsi   ['nama_bidang'] ?>" disabled>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="sifat">Sifat</label>
-                                    <input type="text" class="form-control" id="sifat" name="sifat" value="<?= $lastSkripsi['sifat'] ?>" disabled>
+                                    <?php if ($lastSkripsi != null) : ?>
+                                        <input type="text" class="form-control" id="sifat" name="sifat" value="<?= $lastSkripsi['sifat'] ?>" disabled>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="sumber">Sumber</label>
-                                    <input type="text" class="form-control" id="sumber" name="sumber" value="<?= $lastSkripsi['sumber'] ?>" disabled>
+                                    <?php if ($lastSkripsi != null) : ?>
+                                        <input type="text" class="form-control" id="sumber" name="sumber" value="<?= $lastSkripsi['sumber'] ?>" disabled>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                             <div class="col-lg-12">

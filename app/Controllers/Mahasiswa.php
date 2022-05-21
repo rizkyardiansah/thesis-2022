@@ -526,7 +526,9 @@ class Mahasiswa extends BaseController
     public function pengajuanPraSidang() {
         $mahasiswa = $this->mahasiswaModel->find(session()->get("user_session")['id']);
         $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($mahasiswa['npm']);
-        $lastSkripsi['nama_bidang'] = $this->bidangModel->find($lastSkripsi['id_bidang'])['nama'];
+        if ($lastSkripsi != null) {
+            $lastSkripsi['nama_bidang'] = $this->bidangModel->find($lastSkripsi['id_bidang'])['nama'];
+        }
         $pengajuanPrasidang = $this->pengajuanPrasidangModel->getPengajuanPrasidangByNpm($mahasiswa['npm']);
         $data = [
             'title' => 'Pengajuan Seminar Pra Sidang',

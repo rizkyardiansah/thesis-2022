@@ -108,5 +108,5 @@
 <?= $this->endSection(); ?>
 
 <?= $this->section("scripts"); ?>
-    <script src="<?= base_url("assets/js/dosen/pengujiSeminarProposal.js");?>" defer></script>
+    <script src="<?= base_url("assets/js/dosen/pengujiSeminarPrasidang.js");?>" defer></script>
 <?= $this->endSection(); ?>

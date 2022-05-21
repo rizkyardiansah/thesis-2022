@@ -593,6 +593,23 @@ class Dosen extends BaseController
         return view("dosen/review_seminar_prasidang", $data);
     }
 
+    public function komentariSeminarPrasidang($idSeminarPrasidang) {
+        $komentar1 = $this->request->getPost("komentar1", FILTER_SANITIZE_SPECIAL_CHARS);
+        $komentar2 = $this->request->getPost("komentar2", FILTER_SANITIZE_SPECIAL_CHARS);
+        if ($komentar1 == null) {
+            $this->seminarPrasidangModel->update($idSeminarPrasidang, [
+                'komentar_penguji2' => $komentar2,
+            ]);
+        } else if ($komentar2 == null) {
+            $this->seminarPrasidangModel->update($idSeminarPrasidang, [
+                'komentar_penguji1' => $komentar1,
+            ]);
+        }
+
+        session()->setFlashdata("message", ["icon" => "success", "title" => "Hasil Review Seminar Prasidang Terkirim", "text" => "Hasil Review telah terkirim kepada mahasiswa"]);
+        return redirect()->to(base_url("dosen/pengujiSeminarPrasidang"));
+    }
+
     public function cetakBimbingan() {
         return view("cetakBimbingan");
     }
