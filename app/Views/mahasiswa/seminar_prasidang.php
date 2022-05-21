@@ -51,7 +51,9 @@
                             <th>Ruangan</th>
                             <th>Penguji 1</th>
                             <th>Penguji 2</th>
-                            
+                            <th hidden>Masukan Penguji 1</th>
+                            <th hidden>Masukan Penguji 2</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -70,6 +72,15 @@
                         <?php else: ?>
                             <td>-</td>
                         <?php endif; ?>
+                            <td hidden class="komentar1"><?= $jsp['komentar_penguji1'] ?></td>
+                            <td hidden class="komentar2"><?= $jsp['komentar_penguji2'] ?></td>
+                            <td>
+                                <?php if ($jsp['komentar_penguji1'] == null): ?>
+                                    <button class="btn btn-primary" disabled>Hasil</button>
+                                <?php else: ?>
+                                    <button class="btn btn-primary hasil-prasidang" data-toggle="modal" data-target="#hasilPrasidang">Hasil</button>
+                                <?php endif; ?>
+                            </td>
                         </tr>
                     <?php
                     $counter++; 
@@ -80,6 +91,37 @@
         </div>
     </div>
 
+    <div class="modal fade" id="hasilPrasidang" tabindex="-1" role="dialog" aria-labelledby="hasilPrasidangLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="hasilPrasidangLabel">Hasil Seminar Prasidang</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label for="komentar1">Hasil Review Penguji 1</label>
+                                <textarea name="komentar1" id="komentar1" rows="6" class="form-control" disabled></textarea>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label for="komentar2">Hasil Review Penguji 2</label>
+                                <textarea name="komentar2" id="komentar2" rows="6" class="form-control" disabled></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
+                </div>
+            </div>
+        </div>
+    </div>
 <?= $this->endSection(); ?>
 
 <?= $this->section("scripts"); ?>
