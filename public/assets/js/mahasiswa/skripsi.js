@@ -25,6 +25,30 @@ $(function () {
     },
   });
 
+  $("#formUbahSkripsi").validate({
+    rules: {
+      judul: {
+        required: true,
+        minlength: 20,
+        maxlength: 300,
+      },
+      sifat: {
+        required: true,
+      },
+      sumber: {
+        required: true,
+      },
+      bidang: {
+        required: true,
+      },
+    },
+    errorClass: "text-danger",
+    errorElement: "small",
+    submitHandler: function (form) {
+      form.submit();
+    },
+  });
+
   $("#tableSkripsi .ubah-skripsi").on("click", function () {
     const parent = $(this).parent().parent();
     const judul = parent.children(".judul").text();

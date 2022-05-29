@@ -1,49 +1,32 @@
 $(function () {
-  $("#formDataPersetujuanSkripsi").validate({
+  $("#editPengajuan").validate({
     rules: {
-      sks_lulus: {
-        required: true,
-        number: true,
-        min: 1,
-        max: 140,
-      },
-      pembimbing_akademik: {
-        required: true,
-      },
-      mk_sedang_diambil: {
-        required: true,
-        maxlength: 150,
-      },
-      mk_akan_diambil: {
-        required: true,
-        maxlength: 150,
-      },
-      inputKhs: {
+      file_draft_final: {
         required: true,
         extension: "pdf",
         filesize: 2048000,
       },
-      inputKrs: {
+      file_form_bimbingan: {
         required: true,
         extension: "pdf",
         filesize: 2048000,
       },
-      inputPersetujuanSkripsi: {
+      file_persyaratan_sidang: {
         required: true,
         extension: "pdf",
         filesize: 2048000,
       },
     },
     messages: {
-      inputKhs: {
+      file_draft_final: {
         extension: "File harus berekstensi PDF",
         filesize: "File tidak boleh melebihi 2MB",
       },
-      inputKrs: {
+      file_form_bimbingan: {
         extension: "File harus berekstensi PDF",
         filesize: "File tidak boleh melebihi 2MB",
       },
-      inputPersetujuanSkripsi: {
+      file_persyaratan_sidang: {
         extension: "File harus berekstensi PDF",
         filesize: "File tidak boleh melebihi 2MB",
       },
@@ -51,7 +34,6 @@ $(function () {
     errorClass: "text-danger",
     errorElement: "small",
     errorPlacement: function (error, element) {
-      console.log(element.attr("type") == "file");
       if (element.attr("type") == "file") {
         error.insertAfter(element.parent().parent());
       } else {
@@ -73,61 +55,67 @@ $(function () {
 
   //BASE_URL didapatkan dari constant.js
   //kalo mau deploy BASE_URL harus diubah
-  $("#tinjauKhs").on("click", function () {
+  $("#tinjauDraftFinal").on("click", function () {
     const file = $(this).parent().parent().children("input").val();
-    const npm = $(this).data("npm");
+    const id = $(this).data("id");
 
     $("#filePreview").modal("show");
-    $("#filePreviewLabel").text("Tinjau File KHS");
-    $("#previewContainer iframe").attr("src", `${BASE_URL}folderKHS/${file}`);
-    $("#filePreview #formHapus").attr(
-      "action",
-      `${BASE_URL}mahasiswa/deleteKhs/${npm}`
-    );
-    $("#filePreview #formUnduh").attr(
-      "action",
-      `${BASE_URL}mahasiswa/downloadKhs/${npm}`
-    );
-  });
-
-  //BASE_URL didapatkan dari constant.js
-  //kalo mau deploy BASE_URL harus diubah
-  $("#tinjauKrs").on("click", function () {
-    const file = $(this).parent().parent().children("input").val();
-    const npm = $(this).data("npm");
-
-    $("#filePreview").modal("show");
-    $("#filePreviewLabel").text("Tinjau File KRS");
-    $("#previewContainer iframe").attr("src", `${BASE_URL}folderKRS/${file}`);
-    $("#filePreview #formHapus").attr(
-      "action",
-      `${BASE_URL}mahasiswa/deleteKrs/${npm}`
-    );
-    $("#filePreview #formUnduh").attr(
-      "action",
-      `${BASE_URL}mahasiswa/downloadKrs/${npm}`
-    );
-  });
-
-  //BASE_URL didapatkan dari constant.js
-  //kalo mau deploy BASE_URL harus diubah
-  $("#tinjauPersetujuan").on("click", function () {
-    const file = $(this).parent().parent().children("input").val();
-    const npm = $(this).data("npm");
-
-    $("#filePreview").modal("show");
-    $("#filePreviewLabel").text("Tinjau File Persetujuan Penulisan Skripsi");
+    $("#filePreviewLabel").text("Tinjau File Draft Final Skripsi");
     $("#previewContainer iframe").attr(
       "src",
-      `${BASE_URL}folderPersetujuanSkripsi/${file}`
+      `${BASE_URL}folderDraftFinal/${file}`
     );
     $("#filePreview #formHapus").attr(
       "action",
-      `${BASE_URL}mahasiswa/deletePersetujuanSkripsi/${npm}`
+      `${BASE_URL}mahasiswa/deleteDraftFinal/${id}`
     );
     $("#filePreview #formUnduh").attr(
       "action",
-      `${BASE_URL}mahasiswa/downloadPersetujuanSkripsi/${npm}`
+      `${BASE_URL}mahasiswa/downloadDraftFinal/${id}`
+    );
+  });
+
+  //BASE_URL didapatkan dari constant.js
+  //kalo mau deploy BASE_URL harus diubah
+  $("#tinjauFormBimbingan").on("click", function () {
+    const file = $(this).parent().parent().children("input").val();
+    const id = $(this).data("id");
+
+    $("#filePreview").modal("show");
+    $("#filePreviewLabel").text("Tinjau File Form Bimbingan Skripsi");
+    $("#previewContainer iframe").attr(
+      "src",
+      `${BASE_URL}folderFormBimbingan/${file}`
+    );
+    $("#filePreview #formHapus").attr(
+      "action",
+      `${BASE_URL}mahasiswa/deleteFormBimbingan/${id}`
+    );
+    $("#filePreview #formUnduh").attr(
+      "action",
+      `${BASE_URL}mahasiswa/downloadFormBimbingan/${id}`
+    );
+  });
+
+  //BASE_URL didapatkan dari constant.js
+  //kalo mau deploy BASE_URL harus diubah
+  $("#tinjauPersyaratanSidang").on("click", function () {
+    const file = $(this).parent().parent().children("input").val();
+    const id = $(this).data("id");
+
+    $("#filePreview").modal("show");
+    $("#filePreviewLabel").text("Tinjau File Persyaratan Sidang Skripsi");
+    $("#previewContainer iframe").attr(
+      "src",
+      `${BASE_URL}folderPersyaratanSidang/${file}`
+    );
+    $("#filePreview #formHapus").attr(
+      "action",
+      `${BASE_URL}mahasiswa/deletePersyaratanSidang/${id}`
+    );
+    $("#filePreview #formUnduh").attr(
+      "action",
+      `${BASE_URL}mahasiswa/downloadPersyaratanSidang/${id}`
     );
   });
 

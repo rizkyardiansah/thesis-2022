@@ -15,18 +15,49 @@ class MahasiswaModel extends Model
 
     public function getAllPengajuanSkripsi() {
         $db = \Config\Database::connect();
-        $builder = $db->table("mahasiswa");
-        return $builder->
-        select("npm, nama, id_prodi, sks_lulus, pembimbing_akademik, mk_sedang_diambil, mk_akan_diambil, file_khs, file_krs, file_persetujuan_skripsi, status_persetujuan_skripsi")->
-        getWhere([
-            'sks_lulus !=' => null,
-            'pembimbing_akademik !=' => null,
-            'mk_sedang_diambil !=' => null,
-            'mk_akan_diambil !=' => null,
-            'file_khs !=' => null,
-            'file_krs !=' => null,
-            'file_persetujuan_skripsi !=' => null,
-        ])->getResultArray();
+        $sql = "SELECT m.nama as nama_mahasiswa, m.npm, m.sks_lulus, m.mk_sedang_diambil, m.mk_akan_diambil,
+        m.file_khs, m.file_krs, m.file_persetujuan_skripsi, m.status_persetujuan_skripsi, prodi.inisial as inisial_prodi, prodi.nama as nama_prodi,
+        d.inisial as inisial_pembimbing_akademik, d.nama as nama_pembimbing_akademik
+        FROM mahasiswa as m
+        INNER JOIN dosen as d on d.id = m.pembimbing_akademik
+        INNER JOIN program_studi as prodi on prodi.id = m.id_prodi
+        WHERE m.sks_lulus is not null and
+        m.pembimbing_akademik is not null and
+        m.mk_sedang_diambil is not null and
+        m.mk_akan_diambil is not null and
+        m.file_khs is not null and
+        m.file_krs is not null and
+        m.file_persetujuan_skripsi is not null and
+        m.status_persetujuan_skripsi is null";
+        $result = $db->query($sql);
+        return $result->getResultArray();
+    }
+
+    public function getPengajuanSkripsiByNpm($npm) {
+        $db = \Config\Database::connect();
+        $sql = "SELECT m.nama as nama_mahasiswa, m.npm, m.sks_lulus, m.mk_sedang_diambil, m.mk_akan_diambil,
+        m.file_khs, m.file_krs, m.file_persetujuan_skripsi, m.status_persetujuan_skripsi, 
+        prodi.nama as nama_prodi, d.nama as nama_pembimbing_akademik
+        FROM mahasiswa as m
+        INNER JOIN dosen as d on d.id = m.pembimbing_akademik
+        INNER JOIN program_studi as prodi on prodi.id = m.id_prodi
+        WHERE m.sks_lulus is not null and
+        m.pembimbing_akademik is not null and
+        m.mk_sedang_diambil is not null and
+        m.mk_akan_diambil is not null and
+        m.file_khs is not null and
+        m.file_krs is not null and
+        m.file_persetujuan_skripsi is not null and
+        m.status_persetujuan_skripsi is null and
+        m.npm = ?";
+
+        $result = $db->query($sql, [$npm]);
+
+        if (count($result->getResultArray()) == 0) {
+            return null;
+        }
+
+        return $result->getResultArray()[0];
     }
 
     public function getMahasiswaBelumDapatSemproByProdi($idProdi) {
@@ -46,7 +77,7 @@ class MahasiswaModel extends Model
 
     public function getMahasiswaBelumDapatSempraByProdi($idProdi) {
         $db = \Config\Database::connect();
-        $sql = "SELECT m.npm, m.nama, s.judul AS judul_proposal, b.nama AS nama_bidang
+        $sql = "SELECT m.npm, m.nama, s.judul AS judul, b.nama AS nama_bidang
                 FROM mahasiswa AS m
                 INNER JOIN skripsi AS s ON s.npm = m.npm
                 INNER JOIN pengajuan_prasidang AS pp ON pp.id_skripsi = s.id
@@ -57,6 +88,33 @@ class MahasiswaModel extends Model
                 AND s.status = 'Dalam Pengerjaan'
                 AND pp.status = 'DISETUJUI'
                 AND sp.id IS NULL";
+        $result = $db->query($sql, [$idProdi]);
+        return $result->getResultArray();
+    }
+
+    public function getMahasiswaBelumDapatSidangByProdi($idProdi) {
+        $db = \Config\Database::connect();
+        $sql = "SELECT m.npm, m.nama, s.judul AS judul, b.nama AS nama_bidang, 
+                d1.nama as nama_pembimbing1, d2.nama as nama_pembimbing2, d3.nama as nama_pembimbing_agama
+                FROM mahasiswa AS m
+                INNER JOIN skripsi AS s ON s.npm = m.npm
+                INNER JOIN pengajuan_sidang AS ps ON ps.id_skripsi = s.id
+                INNER JOIN bidang AS b ON b.id = s.id_bidang
+                LEFT JOIN sidang_skripsi AS ss ON ss.id_skripsi = s.id
+                INNER JOIN pembimbing as p1 on p1.id_skripsi = s.id
+                LEFT JOIN pembimbing as p2 on p2.id_skripsi = s.id
+                INNER JOIN pembimbing as p3 on p3.id_skripsi = s.id
+                INNER JOIN dosen as d1 on d1.id = p1.id_dosen
+                LEFT JOIN dosen as d2 on d2.id = p2.id_dosen
+                INNER JOIN dosen as d3 on d3.id = p3.id_dosen
+                WHERE m.id_prodi = ? 
+                AND s.tanggal_skripsi = (SELECT max(s2.tanggal_skripsi) FROM skripsi AS s2 WHERE s2.npm = m.npm)
+                AND s.status = 'Dalam Pengerjaan'
+                AND ps.status = 'DISETUJUI'
+                AND p1.role = 'Pembimbing Ilmu 1'
+                AND p2.role in ('Pembimbing Ilmu 2', null)
+                AND p3.role = 'Pembimbing Agama'
+                AND ss.id IS NULL";
         $result = $db->query($sql, [$idProdi]);
         return $result->getResultArray();
     }

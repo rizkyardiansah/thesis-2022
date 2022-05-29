@@ -17,6 +17,7 @@ class Mahasiswa extends BaseController
     protected $catatanBimbinganModel;
     protected $skripsiModel;
     protected $pengajuanPrasidangModel;
+    protected $pengajuanSidangModel;
     protected $seminarPrasidangModel;
 
     public function __construct() 
@@ -32,6 +33,7 @@ class Mahasiswa extends BaseController
         $this->catatanBimbinganModel = new \App\Models\CatatanBimbinganModel();
         $this->skripsiModel = new \App\Models\SkripsiModel();
         $this->pengajuanPrasidangModel = new \App\Models\PengajuanPrasidangModel();
+        $this->pengajuanSidangModel = new \App\Models\PengajuanSidangModel();
         $this->seminarPrasidangModel = new \App\Models\SeminarPrasidangModel();
     }
 
@@ -40,7 +42,8 @@ class Mahasiswa extends BaseController
 
     }
 
-    public function profil() {
+    public function profil() 
+    {
         //autentikasi
         if (!$this->authenticate(["mahasiswa"])) 
         {
@@ -79,7 +82,8 @@ class Mahasiswa extends BaseController
         return redirect()->to(base_url("mahasiswa/profil"));
     }
 
-    public function pengajuanPenulisanSkripsi() {
+    public function pengajuanPenulisanSkripsi() 
+    {
         $mahasiswa = $this->mahasiswaModel->find(session()->get("user_session")['id']);
         $dosen = $this->dosenModel->getDosenByProdi($mahasiswa['id_prodi']);
 
@@ -92,7 +96,8 @@ class Mahasiswa extends BaseController
         return view("mahasiswa/pengajuan_penulisan_skripsi", $data);
     }
 
-    public function insertPengajuanPenulisanSkripsi($npm) {
+    public function insertPengajuanPenulisanSkripsi($npm) 
+    {
         //autentikasi
         if (!$this->authenticate(["mahasiswa"])) 
         {
@@ -106,7 +111,6 @@ class Mahasiswa extends BaseController
             $fileKhsBaru = "KHS_". $npm . "." .$fileKhsLama->getClientExtension();
             $fileKhsLama->move("folderKHS", $fileKhsBaru);
         }
-
 
         $fileKrsLama = $this->request->getFile("inputKrs");
         $fileKrsBaru = $mahasiswa['file_krs'];
@@ -134,90 +138,6 @@ class Mahasiswa extends BaseController
         ]);
 
         session()->setFlashdata("message", ["icon" => "success", "title" => "Upload Data Berhasil", "text" => "Data Persetujuan Penyusunan Skripsi Berhasil diunggah"]);
-        return redirect()->to(base_url("mahasiswa/pengajuanPenulisanSkripsi"));
-    }
-
-    public function downloadKhs($npm)
-    {
-        $namaFileKhs = $this->mahasiswaModel->find($npm)['file_khs'];
-        if ($namaFileKhs == null) {
-            session()->setFlashdata("message", ["icon" => "error", "title" => "Download File KHS Gagal", "text" => "File KHS tidak ditemukan"]);
-            return redirect()->to(base_url("mahasiswa/pengajuanPenulisanSkripsi"));
-        }
-        
-        redirect()->to(base_url("mahasiswa/pengajuanPenulisanSkripsi"));
-        return $this->response->download("folderKHS/".$namaFileKhs, null);
-    }
-
-    public function deleteKhs($npm) 
-    {
-        $namaFileKhs = $this->mahasiswaModel->find($npm)['file_khs'];
-        if ($namaFileKhs == null) {
-            session()->setFlashdata("message", ["icon" => "error", "title" => "Download File KHS Gagal", "text" => "File KHS tidak ditemukan"]);
-            return redirect()->to(base_url("mahasiswa/pengajuanPenulisanSkripsi"));
-        }
-        unlink("folderKHS/".$namaFileKhs);
-        $this->mahasiswaModel->update($npm, [
-            "file_khs" => null,
-            "status_persetujuan_skripsi" => null,
-        ]);
-        session()->setFlashdata("message", ["icon" => "success", "title" => "Hapus File KHS Berhasil", "text" => "File KHS berhasil dihapus"]);
-        return redirect()->to(base_url("mahasiswa/pengajuanPenulisanSkripsi"));
-    }
-
-    public function downloadKrs($npm)
-    {
-        $namaFileKrs = $this->mahasiswaModel->find($npm)['file_krs'];
-        if ($namaFileKrs == null) {
-            session()->setFlashdata("message", ["icon" => "error", "title" => "Download File KRS Gagal", "text" => "File KRS tidak ditemukan"]);
-            return redirect()->to(base_url("mahasiswa/pengajuanPenulisanSkripsi"));
-        }
-        
-        redirect()->to(base_url("mahasiswa/pengajuanPenulisanSkripsi"));
-        return $this->response->download("folderKRS/".$namaFileKrs, null);
-    }
-
-    public function deleteKrs($npm) 
-    {
-        $namaFileKrs = $this->mahasiswaModel->find($npm)['file_krs'];
-        if ($namaFileKrs == null) {
-            session()->setFlashdata("message", ["icon" => "error", "title" => "Download File KRS Gagal", "text" => "File KRS tidak ditemukan"]);
-            return redirect()->to(base_url("mahasiswa/pengajuanPenulisanSkripsi"));
-        }
-        unlink("folderKRS/".$namaFileKrs);
-        $this->mahasiswaModel->update($npm, [
-            "file_krs" => null,
-            "status_persetujuan_skripsi" => null,
-        ]);
-        session()->setFlashdata("message", ["icon" => "success", "title" => "Hapus File KRS Berhasil", "text" => "File KRS berhasil dihapus"]);
-        return redirect()->to(base_url("mahasiswa/pengajuanPenulisanSkripsi"));
-    }
-
-    public function downloadPersetujuanSkripsi($npm)
-    {
-        $namaFilePengajuan = $this->mahasiswaModel->find($npm)['file_persetujuan_skripsi'];
-        if ($namaFilePengajuan == null) {
-            session()->setFlashdata("message", ["icon" => "error", "title" => "Download File Persetujuan Skripsi Gagal", "text" => "File Persetujuan Skripsi tidak ditemukan"]);
-            return redirect()->to(base_url("mahasiswa/pengajuanPenulisanSkripsi"));
-        }
-        
-        redirect()->to(base_url("mahasiswa/pengajuanPenulisanSkripsi"));
-        return $this->response->download("folderPersetujuanSkripsi/".$namaFilePengajuan, null);
-    }
-
-    public function deletePersetujuanSkripsi($npm) 
-    {
-        $namaFilePengajuan = $this->mahasiswaModel->find($npm)['file_persetujuan_skripsi'];
-        if ($namaFilePengajuan == null) {
-            session()->setFlashdata("message", ["icon" => "error", "title" => "Download File Persetujuan Skripsi Gagal", "text" => "File Persetujuan Skripsi tidak ditemukan"]);
-            return redirect()->to(base_url("mahasiswa/pengajuanPenulisanSkripsi"));
-        }
-        unlink("folderPersetujuanSkripsi/".$namaFilePengajuan);
-        $this->mahasiswaModel->update($npm, [
-            "file_persetujuan_skripsi" => null,
-            "status_persetujuan_skripsi" => null,
-        ]);
-        session()->setFlashdata("message", ["icon" => "success", "title" => "Hapus File Persetujuan Skripsi Berhasil", "text" => "File Persetujuan Skripsi berhasil dihapus"]);
         return redirect()->to(base_url("mahasiswa/pengajuanPenulisanSkripsi"));
     }
 
@@ -531,12 +451,29 @@ class Mahasiswa extends BaseController
         }
         $pengajuanPrasidang = $this->pengajuanPrasidangModel->getPengajuanPrasidangByNpm($mahasiswa['npm']);
         $data = [
-            'title' => 'Pengajuan Seminar Pra Sidang',
+            'title' => 'Pengajuan Seminar Prasidang',
             'mahasiswa' => $mahasiswa,
             'lastSkripsi' => $lastSkripsi,
             'pengajuanPrasidang' => $pengajuanPrasidang,
         ];
         return view("mahasiswa/pengajuan_pra_sidang", $data);
+    }
+
+    public function detailPengajuanPraSidang($idPengajuanPrasidang) {
+        $dataAkun = $this->mahasiswaModel->find(session()->get("user_session")['id']);
+        $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($dataAkun['npm']);
+        $detailPengajuan = $this->pengajuanPrasidangModel->getDetailPengajuanById($idPengajuanPrasidang);
+        
+        if ($detailPengajuan == null || $dataAkun == null || $lastSkripsi == null || $lastSkripsi['id'] != $detailPengajuan['id_skripsi']) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
+        $data = [
+            'title' => 'Detail Pengajuan Seminar Prasidang',
+            'detailPengajuan' => $detailPengajuan,
+        ];
+
+        return view("mahasiswa/detail_pengajuan_prasidang", $data);
     }
 
     public function insertPengajuanPraSidang() {
@@ -565,26 +502,31 @@ class Mahasiswa extends BaseController
 
     public function updatePengajuanPrasidang($idPengajuanPrasidang) {
         $pengajuanPrasidang = $this->pengajuanPrasidangModel->find($idPengajuanPrasidang);
-        if ($pengajuanPrasidang == null) {
-            session()->setFlashdata("message", ["icon" => "error", "title" => "Ubah Pengajuan Seminar Prasidang Gagal", "text" => "Data Pengajuan tidak ditemukan!"]);
-            return redirect()->to(base_url("mahasiswa/pengajuanPraSidang"));
-        }
-        
-        unlink("folderDraft/".$pengajuanPrasidang['file_draft']);
-        unlink("folderLembarPersetujuanPrasidang/".$pengajuanPrasidang['lembar_persetujuan']);
+        $npm = $this->request->getPost("npm");
+        $id_skripsi = $this->request->getPost("id_skripsi");
 
         $fileDraft = $this->request->getFile("file_draft");
-        $fileDraft->move("folderDraft", $pengajuanPrasidang['file_draft']);
+        $fileDraftBaru = $pengajuanPrasidang['file_draft'];
+        if ($fileDraft != null) {
+            $fileDraftBaru = "Draft_". $npm ."_". $id_skripsi ."." .$fileDraft->getClientExtension();
+            $fileDraft->move("folderDraft", $fileDraftBaru);
+        }
 
         $lembarPersetujuan = $this->request->getFile("lembar_persetujuan");
-        $lembarPersetujuan->move("folderLembarPersetujuanPrasidang", $pengajuanPrasidang['lembar_persetujuan']);
+        $lembarPersetujuanBaru = $pengajuanPrasidang['lembar_persetujuan'];
+        if ($lembarPersetujuan != null) {
+            $lembarPersetujuanBaru = "LembarPersetujuanPrasidang_". $npm ."_". $id_skripsi . "." .$lembarPersetujuan->getClientExtension();
+            $lembarPersetujuan->move("folderLembarPersetujuanPrasidang", $lembarPersetujuanBaru);
+        }
 
         $this->pengajuanPrasidangModel->update($idPengajuanPrasidang, [
-            'status' => 'TERTUNDA',
+            "file_draft" => $fileDraftBaru,
+            "lembar_persetujuan" => $lembarPersetujuanBaru,
+            "status" => 'TERTUNDA'
         ]);
 
-        session()->setFlashdata("message", ["icon" => "success", "title" => "Ubah Pengajuan Seminar Prasidang Berhasil", "text" => "Data Pengajuan telah berhasil diubah!"]);
-        return redirect()->to(base_url("mahasiswa/pengajuanPraSidang"));
+        session()->setFlashdata("message", ["icon" => "success", "title" => "Perbaruan Pengajuan Seminar Prasidang Berhasil", "text" => "Data Pengajuan Seminar Prasidang Berhasil diperbarui"]);
+        return redirect()->back();
     }
 
     public function seminarPrasidang() {
@@ -609,6 +551,353 @@ class Mahasiswa extends BaseController
         ];
 
         return view("mahasiswa/seminar_prasidang", $data);
+    }
+
+    public function pengajuanSidangSkripsi() {
+        $dataAkun = $this->mahasiswaModel->find(session()->get("user_session")['id']);
+        $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($dataAkun['npm']);
+        if ($lastSkripsi != null) {
+            $lastSkripsi['nama_bidang'] = $this->bidangModel->find($lastSkripsi['id_bidang'])['nama'];
+        }
+
+        $seminarPrasidang = null;
+        if ($lastSkripsi != null) {
+            $seminarPrasidang = $this->seminarPrasidangModel->getWhere(['id_skripsi' => $lastSkripsi['id']])->getResultArray();
+            
+            if (count($seminarPrasidang) == 0) {
+                $seminarPrasidang = null;
+            } else {
+                $seminarPrasidang = $seminarPrasidang[0];
+            }
+        }
+
+        $pengajuanSidangSkripsi = $this->pengajuanSidangModel->getPengajuanSidangByNpm($dataAkun['npm']);
+
+        $data = [
+            'title' => 'Pengajuan Sidang Skripsi',
+            'dataAkun' => $dataAkun,
+            'lastSkripsi' => $lastSkripsi,
+            'seminarPrasidang' => $seminarPrasidang,
+            'pengajuanSidangSkripsi' => $pengajuanSidangSkripsi,
+        ];
+
+        return view("mahasiswa/pengajuan_sidang_skripsi", $data);
+    }
+
+    public function detailPengajuanSidangSkripsi($idpengajuanSidangSkripsi) {
+        $dataAkun = $this->mahasiswaModel->find(session()->get("user_session")['id']);
+        $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($dataAkun['npm']);
+        $detailPengajuan = $this->pengajuanSidangModel->getDetailPengajuanById($idpengajuanSidangSkripsi);
+        
+        if ($detailPengajuan == null || $dataAkun == null || $lastSkripsi == null || $lastSkripsi['id'] != $detailPengajuan['id_skripsi']) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
+        $data = [
+            'title' => 'Detail Pengajuan Sidang Skripsi',
+            'detailPengajuan' => $detailPengajuan,
+        ];
+
+        return view("mahasiswa/detail_pengajuan_sidang_skripsi", $data);
+    }
+
+    public function insertPengajuanSidangSkripsi() {
+        $id_skripsi = $this->request->getPost("id_skripsi");
+        $npm = $this->request->getPost("npm");
+
+        $fileDraftFinal = $this->request->getFile("file_draft_final");
+        $fileDraftFinalBaru = "Draft_Final_". $npm ."_". $id_skripsi ."." .$fileDraftFinal->getClientExtension();
+        $fileDraftFinal->move("folderDraftFinal", $fileDraftFinalBaru);
+
+        $formBimbingan = $this->request->getFile("file_form_bimbingan");
+        $formBimbinganBaru = "Form_Bimbingan_". $npm ."_". $id_skripsi . "." .$formBimbingan->getClientExtension();
+        $formBimbingan->move("folderFormBimbingan", $formBimbinganBaru);
+
+        $persyaratanSidang = $this->request->getFile("file_persyaratan_sidang");
+        $persyaratanSidangBaru = "Persyaratan_Sidang_". $npm ."_". $id_skripsi . "." .$persyaratanSidang->getClientExtension();
+        $persyaratanSidang->move("folderPersyaratanSidang", $persyaratanSidangBaru);
+       
+        $this->pengajuanSidangModel->insert([
+            "id_skripsi" => $id_skripsi,
+            "file_draft_final" => $fileDraftFinalBaru,
+            "file_form_bimbingan" => $formBimbinganBaru,
+            "file_persyaratan_sidang" => $persyaratanSidangBaru,
+            "tanggal_pengajuan" => date_format(Time::now('Asia/Jakarta', 'en_us'), 'Y-m-d H:i:s'),
+            "status" => "TERTUNDA",
+        ]);
+
+        session()->setFlashdata("message", ["icon" => "success", "title" => "Upload Pengajuan Sidang Berhasil", "text" => "Pengajuan Sidang Skripsi Berhasil diunggah"]);
+        return redirect()->to(base_url("mahasiswa/pengajuanSidangSkripsi"));
+    }
+
+    public function updatePengajuanSidangSkripsi($idpengajuanSidangSkripsi) {
+        $pengajuanSidang = $this->pengajuanSidangModel->find($idpengajuanSidangSkripsi);
+        $npm = $this->request->getPost("npm");
+        $id_skripsi = $this->request->getPost("id_skripsi");
+
+        $fileDraftFinal = $this->request->getFile("file_draft_final");
+        $fileDraftFinalBaru = $pengajuanSidang['file_draft_final'];
+        if ($fileDraftFinal != null) {
+            // if ($fileDraftFinalBaru != null) {
+            //     unlink("folderDraftFinal/".$fileDraftFinalBaru);
+            // }
+            $fileDraftFinalBaru = "Draft_Final_". $npm ."_". $id_skripsi ."." .$fileDraftFinal->getClientExtension();
+            $fileDraftFinal->move("folderDraftFinal", $fileDraftFinalBaru);
+        }
+
+        $formBimbingan = $this->request->getFile("file_form_bimbingan");
+        $formBimbinganBaru = $pengajuanSidang['file_form_bimbingan'];
+        if ($formBimbingan != null) {
+            // if ($formBimbinganBaru != null) {
+            //     unlink("folderFormBimbingan/".$formBimbinganBaru);
+            // }
+            $formBimbinganBaru = "Form_Bimbingan_". $npm ."_". $id_skripsi . "." .$formBimbingan->getClientExtension();
+            $formBimbingan->move("folderFormBimbingan", $formBimbinganBaru);
+        }
+
+        $persyaratanSidang = $this->request->getFile("file_persyaratan_sidang");
+        $persyaratanSidangBaru = $pengajuanSidang['file_persyaratan_sidang'];
+        if ($persyaratanSidang != null) {
+            // if ($persyaratanSidangBaru != null) {
+            //     unlink("folderFormBimbingan/".$persyaratanSidangBaru);
+            // }
+            $persyaratanSidangBaru = "Persyaratan_Sidang_". $npm ."_". $id_skripsi . "." .$persyaratanSidang->getClientExtension();
+            $persyaratanSidang->move("folderPersyaratanSidang", $persyaratanSidangBaru);
+        }
+
+        $this->pengajuanSidangModel->update($idpengajuanSidangSkripsi, [
+            "file_draft_final" => $fileDraftFinalBaru,
+            "file_form_bimbingan" => $formBimbinganBaru,
+            "file_persyaratan_sidang" => $persyaratanSidangBaru,
+            "status" => 'TERTUNDA'
+        ]);
+
+        session()->setFlashdata("message", ["icon" => "success", "title" => "Update Pengajuan Sidang Skripsi Berhasil", "text" => "Pengajuan Sidang Skripsi Berhasil diubah"]);
+        return redirect()->back();
+    }
+
+    public function downloadKhs($npm)
+    {
+        $namaFileKhs = $this->mahasiswaModel->find($npm);
+        if ($namaFileKhs == null) {
+            session()->setFlashdata("message", ["icon" => "error", "title" => "Download File KHS Gagal", "text" => "File KHS tidak ditemukan"]);
+            return redirect()->to(base_url("mahasiswa/pengajuanPenulisanSkripsi"));
+        }
+        
+        redirect()->to(base_url("mahasiswa/pengajuanPenulisanSkripsi"));
+        return $this->response->download("folderKHS/".$namaFileKhs['file_khs'], null);
+    }
+
+    public function downloadKrs($npm)
+    {
+        $namaFileKrs = $this->mahasiswaModel->find($npm);
+        if ($namaFileKrs == null) {
+            session()->setFlashdata("message", ["icon" => "error", "title" => "Download File KRS Gagal", "text" => "File KRS tidak ditemukan"]);
+            return redirect()->to(base_url("mahasiswa/pengajuanPenulisanSkripsi"));
+        }
+        
+        redirect()->to(base_url("mahasiswa/pengajuanPenulisanSkripsi"));
+        return $this->response->download("folderKRS/".$namaFileKrs['file_krs'], null);
+    }
+
+    public function downloadPersetujuanSkripsi($npm)
+    {
+        $namaFilePengajuan = $this->mahasiswaModel->find($npm);
+        if ($namaFilePengajuan == null) {
+            session()->setFlashdata("message", ["icon" => "error", "title" => "Download File Persetujuan Skripsi Gagal", "text" => "File Persetujuan Skripsi tidak ditemukan"]);
+            return redirect()->to(base_url("mahasiswa/pengajuanPenulisanSkripsi"));
+        }
+        
+        redirect()->to(base_url("mahasiswa/pengajuanPenulisanSkripsi"));
+        return $this->response->download("folderPersetujuanSkripsi/".$namaFilePengajuan['file_persetujuan_skripsi'], null);
+    }
+
+    public function downloadDraft($id)
+    {
+        $namaFilePengajuan = $this->pengajuanPrasidangModel->find($id);
+        if ($namaFilePengajuan == null) {
+            session()->setFlashdata("message", ["icon" => "error", "title" => "Unduh File Draft Skripsi Gagal", "text" => "File Draft Skripsi tidak ditemukan"]);
+            return redirect()->back();
+        }
+        
+        redirect()->back();
+        return $this->response->download("folderDraft/".$namaFilePengajuan['file_draft'], null);
+    }
+    
+    public function downloadLembarPersetujuan($id)
+    {
+        $namaFilePengajuan = $this->pengajuanPrasidangModel->find($id);
+        if ($namaFilePengajuan == null) {
+            session()->setFlashdata("message", ["icon" => "error", "title" => "Unduh Lembar Persetujuan Seminar Prasidang Gagal", "text" => "Lembar Persetujuan Seminar Prasidang tidak ditemukan"]);
+            return redirect()->back();
+        }
+        
+        redirect()->back();
+        return $this->response->download("folderLembarPersetujuanPrasidang/".$namaFilePengajuan['lembar_persetujuan'], null);
+    }
+
+    public function downloadDraftFinal($id)
+    {
+        $namaFileDraftFinal = $this->pengajuanSidangModel->find($id);
+        if ($namaFileDraftFinal == null) {
+            session()->setFlashdata("message", ["icon" => "error", "title" => "Download File Draft Final Skripsi Gagal", "text" => "File Draft Final Skripsi tidak ditemukan"]);
+            return redirect()->back();
+        }
+        
+        redirect()->back();
+        return $this->response->download("folderDraftFinal/".$namaFileDraftFinal['file_draft_final'], null);
+    }
+
+    public function downloadFormBimbingan($id)
+    {
+        $namaFormBimbingan = $this->pengajuanSidangModel->find($id);
+        if ($namaFormBimbingan == null) {
+            session()->setFlashdata("message", ["icon" => "error", "title" => "Download File Form Bimbingan Skripsi Gagal", "text" => "File Form Bimbingan Skripsi tidak ditemukan"]);
+            return redirect()->back();
+        }
+        
+        redirect()->back();
+        return $this->response->download("folderFormBimbingan/".$namaFormBimbingan['file_form_bimbingan'], null);
+    }
+
+    public function downloadPersyaratanSidang($id)
+    {
+        $namaFilePersyaratanSidang = $this->pengajuanSidangModel->find($id);
+        if ($namaFilePersyaratanSidang == null) {
+            session()->setFlashdata("message", ["icon" => "error", "title" => "Download File Persyaratan Sidang Skripsi Gagal", "text" => "File Persyaratan Sidang Skripsi tidak ditemukan"]);
+            return redirect()->back();
+        }
+        
+        redirect()->back();
+        return $this->response->download("folderPersyaratanSidang/".$namaFilePersyaratanSidang['file_persyaratan_sidang'], null);
+    }
+
+    public function deleteKhs($npm) 
+    {
+        $namaFileKhs = $this->mahasiswaModel->find($npm);
+        if ($namaFileKhs == null) {
+            session()->setFlashdata("message", ["icon" => "error", "title" => "Download File KHS Gagal", "text" => "File KHS tidak ditemukan"]);
+            return redirect()->to(base_url("mahasiswa/pengajuanPenulisanSkripsi"));
+        }
+        unlink("folderKHS/".$namaFileKhs['file_khs']);
+        $this->mahasiswaModel->update($npm, [
+            "file_khs" => null,
+            "status_persetujuan_skripsi" => null,
+        ]);
+        session()->setFlashdata("message", ["icon" => "success", "title" => "Hapus File KHS Berhasil", "text" => "File KHS berhasil dihapus"]);
+        return redirect()->to(base_url("mahasiswa/pengajuanPenulisanSkripsi"));
+    }
+
+    public function deleteKrs($npm) 
+    {
+        $namaFileKrs = $this->mahasiswaModel->find($npm);
+        if ($namaFileKrs == null) {
+            session()->setFlashdata("message", ["icon" => "error", "title" => "Download File KRS Gagal", "text" => "File KRS tidak ditemukan"]);
+            return redirect()->to(base_url("mahasiswa/pengajuanPenulisanSkripsi"));
+        }
+        unlink("folderKRS/".$namaFileKrs['file_krs']);
+        $this->mahasiswaModel->update($npm, [
+            "file_krs" => null,
+            "status_persetujuan_skripsi" => null,
+        ]);
+        session()->setFlashdata("message", ["icon" => "success", "title" => "Hapus File KRS Berhasil", "text" => "File KRS berhasil dihapus"]);
+        return redirect()->to(base_url("mahasiswa/pengajuanPenulisanSkripsi"));
+    }
+
+    public function deletePersetujuanSkripsi($npm) 
+    {
+        $namaFilePengajuan = $this->mahasiswaModel->find($npm);
+        if ($namaFilePengajuan == null) {
+            session()->setFlashdata("message", ["icon" => "error", "title" => "Download File Persetujuan Skripsi Gagal", "text" => "File Persetujuan Skripsi tidak ditemukan"]);
+            return redirect()->to(base_url("mahasiswa/pengajuanPenulisanSkripsi"));
+        }
+        unlink("folderPersetujuanSkripsi/".$namaFilePengajuan['file_persetujuan_skripsi']);
+        $this->mahasiswaModel->update($npm, [
+            "file_persetujuan_skripsi" => null,
+            "status_persetujuan_skripsi" => null,
+        ]);
+        session()->setFlashdata("message", ["icon" => "success", "title" => "Hapus File Persetujuan Skripsi Berhasil", "text" => "File Persetujuan Skripsi berhasil dihapus"]);
+        return redirect()->to(base_url("mahasiswa/pengajuanPenulisanSkripsi"));
+    }
+
+    public function deleteDraft($id) 
+    {
+        $namaFileDraft = $this->pengajuanPrasidangModel->find($id);
+        if ($namaFileDraft == null) {
+            session()->setFlashdata("message", ["icon" => "error", "title" => "Download File Draft Skripsi Gagal", "text" => "File Draft Skripsi tidak ditemukan"]);
+            return redirect()->back();
+        }
+        unlink("folderDraft/".$namaFileDraft['file_draft']);
+        $this->pengajuanPrasidangModel->update($id, [
+            "file_draft" => null,
+            "status" => 'TERTUNDA',
+        ]);
+        session()->setFlashdata("message", ["icon" => "success", "title" => "Hapus File Draft Skripsi Berhasil", "text" => "File Draft Skripsi berhasil dihapus"]);
+        return redirect()->back();
+    }
+
+    public function deleteLembarPersetujuan($id) 
+    {
+        $namaFileDraft = $this->pengajuanPrasidangModel->find($id);
+        if ($namaFileDraft == null) {
+            session()->setFlashdata("message", ["icon" => "error", "title" => "Unduh File Lembar Persetujuan Seminar Prasidang Gagal", "text" => "File Lembar Persetujuan Seminar Prasidang tidak ditemukan"]);
+            return redirect()->back();
+        }
+        unlink("folderLembarPersetujuanPrasidang/".$namaFileDraft['lembar_persetujuan']);
+        $this->pengajuanPrasidangModel->update($id, [
+            "lembar_persetujuan" => null,
+            "status" => 'TERTUNDA',
+        ]);
+        session()->setFlashdata("message", ["icon" => "success", "title" => "Hapus File Lembar Persetujuan Seminar Prasidang Berhasil", "text" => "File Lembar Persetujuan Seminar Prasidang berhasil dihapus"]);
+        return redirect()->back();
+    }
+
+    public function deleteDraftFinal($id) 
+    {
+        $namaFileDraftFinal = $this->pengajuanSidangModel->find($id);
+        if ($namaFileDraftFinal == null) {
+            session()->setFlashdata("message", ["icon" => "error", "title" => "Download File Draft Final Skripsi Gagal", "text" => "File Draft Final Skripsi tidak ditemukan"]);
+            return redirect()->back();
+        }
+        unlink("folderDraftFinal/".$namaFileDraftFinal['file_draft_final']);
+        $this->pengajuanSidangModel->update($id, [
+            "file_draft_final" => null,
+            "status" => 'TERTUNDA',
+        ]);
+        session()->setFlashdata("message", ["icon" => "success", "title" => "Hapus File Draft Final Skripsi Berhasil", "text" => "File Draft Final Skripsi berhasil dihapus"]);
+        return redirect()->back();
+    }
+
+    public function deleteFormBimbingan($id) 
+    {
+        $namaFileFormBimbingan = $this->pengajuanSidangModel->find($id);
+        if ($namaFileFormBimbingan == null) {
+            session()->setFlashdata("message", ["icon" => "error", "title" => "Download File Form Bimbingan Skripsi Gagal", "text" => "File Form Bimbingan Skripsi tidak ditemukan"]);
+            return redirect()->back();
+        }
+        unlink("folderFormBimbingan/".$namaFileFormBimbingan['file_form_bimbingan']);
+        $this->pengajuanSidangModel->update($id, [
+            "file_form_bimbingan" => null,
+            "status" => 'TERTUNDA',
+        ]);
+        session()->setFlashdata("message", ["icon" => "success", "title" => "Hapus File Form Bimbingan Skripsi Berhasil", "text" => "File Form Bimbingan Skripsi berhasil dihapus"]);
+        return redirect()->back();
+    }
+
+    public function deletePersyaratanSidang($id) 
+    {
+        $namaFilePersyaratanSidang = $this->pengajuanSidangModel->find($id);
+        if ($namaFilePersyaratanSidang == null) {
+            session()->setFlashdata("message", ["icon" => "error", "title" => "Download File Persyaratan Sidang Skripsi Gagal", "text" => "File Persyaratan Sidang Skripsi tidak ditemukan"]);
+            return redirect()->back();
+        }
+        unlink("folderPersyaratanSidang/".$namaFilePersyaratanSidang['file_persyaratan_sidang']);
+        $this->pengajuanSidangModel->update($id, [
+            "file_persyaratan_sidang" => null,
+            "status" => 'TERTUNDA',
+        ]);
+        session()->setFlashdata("message", ["icon" => "success", "title" => "Hapus File Persyaratan Sidang Skripsi Berhasil", "text" => "File Persyaratan Sidang Skripsi berhasil dihapus"]);
+        return redirect()->back();
     }
 
     private function authenticate($roles) {

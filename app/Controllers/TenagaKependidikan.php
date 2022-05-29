@@ -12,6 +12,8 @@ class TenagaKependidikan extends BaseController
     protected $pembimbingModel;
     protected $skripsiModel;
     protected $catatanBimbinganModel;
+    protected $pengajuanPrasidangModel;
+    protected $pengajuanSidangModel;
 
     public function __construct() 
     {
@@ -22,7 +24,9 @@ class TenagaKependidikan extends BaseController
         $this->bidangModel = new \App\Models\BidangModel();    
         $this->pembimbingModel = new \App\Models\PembimbingModel();    
         $this->skripsiModel = new \App\Models\SkripsiModel();    
-        $this->catatanBimbinganModel = new \App\Models\CatatanBimbinganModel();    
+        $this->catatanBimbinganModel = new \App\Models\CatatanBimbinganModel();
+         $this->pengajuanPrasidangModel = new \App\Models\PengajuanPrasidangModel();    
+        $this->pengajuanSidangModel = new \App\Models\PengajuanSidangModel();    
     }
 
     public function index()
@@ -31,13 +35,30 @@ class TenagaKependidikan extends BaseController
     }
 
     public function pengajuanSkripsi() {
+        $pengajuanPenulisanSkripsi = $this->mahasiswaModel->getAllPengajuanSkripsi();
         $data = [
             'title' => "Pengajuan Penyusunan Skripsi",
-            'dosen' => $this->dosenModel->findAll(),
-            'prodi' => $this->prodiModel->findAll(),
-            'dataMahasiswa' => $this->mahasiswaModel->getAllPengajuanSkripsi(),
+            'pengajuanPenulisanSkripsi' => $pengajuanPenulisanSkripsi,
         ];
         return view("tenagaKependidikan/pengajuan_skripsi", $data);
+    }
+
+    public function detailPengajuanSkripsi($npm) {
+        $mahasiswa = $this->mahasiswaModel->find($npm);
+        if ($mahasiswa == null || $mahasiswa['status_persetujuan_skripsi'] != null) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
+        $detailPengajuan = $this->mahasiswaModel->getPengajuanSkripsiByNpm($npm);
+        if ($detailPengajuan == null) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+        $data = [
+            'title' => 'Detail Pengajuan Penulisan Skripsi',
+            'detailPengajuan' => $detailPengajuan,
+        ];
+
+        return view("TenagaKependidikan/detail_pengajuan_skripsi", $data);
     }
 
     public function terimaPengajuanSkripsi($npm) {
@@ -106,6 +127,11 @@ class TenagaKependidikan extends BaseController
         return redirect()->to(base_url("TenagaKependidikan/pembimbing")); 
     }
 
+    public function downloadFormatPembimbing() {
+        redirect()->to(base_url("dosen/pembimbing"));
+        return $this->response->download("folderResource/Format_Pembimbing_Skripsi_Mahasiswa.xlsx", null);
+    }
+
     public function insertPembimbingBatch() {
         $validationRules = [
             'filePembimbing' => [
@@ -137,12 +163,18 @@ class TenagaKependidikan extends BaseController
 
         $worksheet = $spreadsheet->getActiveSheet();
         $highestRow = $worksheet->getHighestRow();
+        $totalRow = 0;
         $insertedData = 0;
         for ($row = 2; $row <= $highestRow; ++$row) {
+            $totalRow++;
             $arrayPembimbing = [];
             $npm = $worksheet->getCell("A$row")->getValue();
             $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($npm);
+            //cek apakah skripsinya ada
             if ($lastSkripsi == null) {
+                continue;
+            }
+            if ( count( $this->pembimbingModel->getWhere(["id_skripsi" => $lastSkripsi['id']])->getResultArray() ) == 3 ) {
                 continue;
             }
             $id_skripsi = $lastSkripsi['id'];
@@ -183,7 +215,7 @@ class TenagaKependidikan extends BaseController
             $insertedData++;
         }
 
-        session()->setFlashdata("message", ["icon" => "success", "title" => "Pembimbing Skripsi Berhasil Ditambahkan", "text" => "$insertedData Data berhasil ditambahkan"]);
+        session()->setFlashdata("message", ["icon" => "info", "title" => "Pembimbing Skripsi Berhasil Ditambahkan", "text" => "$insertedData dari $totalRow Data berhasil ditambahkan"]);
         return redirect()->to(base_url("TenagaKependidikan/pembimbing"));
     }
 
@@ -257,6 +289,100 @@ class TenagaKependidikan extends BaseController
         
         session()->setFlashdata("message", ["icon" => "success", "title" => "Update Pembimbing Berhasil", "text" => "Pembimbing untuk Mahasiswa $npm telah berhasil diperbarui"]);
         return redirect()->to(base_url("TenagaKependidikan/pembimbing")); 
+    }
+
+    public function pengajuanPrasidang() {
+        $dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
+        $daftarPengajuan = $this->pengajuanPrasidangModel->getAllPengajuanPrasidang();
+        $data = [   
+            'title' => 'Pengajuan Seminar Prasidang',
+            'daftarPengajuan' => $daftarPengajuan,
+        ];
+        return view("TenagaKependidikan/pengajuan_pra_sidang", $data);
+    }
+
+    public function detailPengajuanPrasidang($idPengajuanPrasidang) {
+        $detailPengajuan = $this->pengajuanPrasidangModel->getDetailPengajuanById($idPengajuanPrasidang);
+        if ($detailPengajuan == null) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+        $data = [
+            'title' => 'Detail Pengajuan Prasidang',
+            'detailPengajuan' => $detailPengajuan,
+        ];
+
+        return view("TenagaKependidikan/detail_pengajuan_pra_sidang", $data);
+    }
+
+    public function setujuiPengajuanPrasidang($idPengajuanPrasidang) {
+        $this->pengajuanPrasidangModel->update($idPengajuanPrasidang, [
+            'status' => 'DISETUJUI'
+        ]);
+        session()->setFlashdata("message", ["icon" => "success", "title" => "Pengajuan Seminar Prasidang Diterima", "text" => "Pengajuan Seminar Prasidang berhasil diterima!"]);
+        return redirect()->to(base_url("TenagaKependidikan/pengajuanPrasidang"));
+    }
+
+    public function tolakPengajuanPrasidang($idPengajuanPrasidang) {
+        $this->pengajuanPrasidangModel->update($idPengajuanPrasidang, [
+            'status' => 'DITOLAK'
+        ]);
+        session()->setFlashdata("message", ["icon" => "success", "title" => "Pengajuan Seminar Prasidang Ditolak", "text" => "Pengajuan Seminar Prasidang telah ditolak!"]);
+        return redirect()->to(base_url("TenagaKependidikan/pengajuanPrasidang"));
+    }
+
+    public function pengajuanSidangSkripsi() {
+        $pengajuanSidangSkripsi = $this->pengajuanSidangModel->getAllPengajuanSidang();
+        $data = [
+            "title" => "Pengajuan Sidang Skripsi",
+            "pengajuanSidangSkripsi" => $pengajuanSidangSkripsi,
+        ];
+
+        return view("TenagaKependidikan/pengajuan_sidang_skripsi", $data);
+    }
+
+    public function detailPengajuanSidangSkripsi($idPengajuanSidangSkripsi) {
+        $detailPengajuan = $this->pengajuanSidangModel->getDetailPengajuanById($idPengajuanSidangSkripsi);
+
+        //dd($detailPengajuan);
+        if ($detailPengajuan == null || ($detailPengajuan != null && $detailPengajuan['status'] != 'TERTUNDA')) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+        $data = [
+            'title' => 'Detail Pengajuan Sidang Skripsi',
+            'detailPengajuan' => $detailPengajuan,
+        ];
+
+        return view("TenagaKependidikan/detail_pengajuan_sidang_skripsi", $data);
+    }
+
+    public function tolakPengajuanSidangSkripsi($idPengajuanSidangSkripsi) {
+        $pengajuanSidang = $this->pengajuanSidangModel->find($idPengajuanSidangSkripsi);
+        if ($pengajuanSidang == null) {
+            session()->setFlashdata("message", ["icon" => "error", "title" => "Pengajuan Sidang Skripsi Tidak Ditemukan", "text" => "Pengajuan Sidang Skripsi Tidak Ditemukan"]);
+            return redirect()->to(base_url("tenagakependidikan/pengajuansidangskripsi"));
+        }
+
+        $this->pengajuanSidangModel->update($idPengajuanSidangSkripsi, [
+            'status' => 'DITOLAK',
+        ]);
+
+        session()->setFlashdata("message", ["icon" => "success", "title" => "Pengajuan Ditolak", "text" => "Pengajuan Sidang Skripsi telah Ditolak"]);
+        return redirect()->to(base_url("tenagakependidikan/pengajuansidangskripsi"));
+    }
+
+    public function setujuiPengajuanSidangSkripsi($idPengajuanSidangSkripsi) {
+        $pengajuanSidang = $this->pengajuanSidangModel->find($idPengajuanSidangSkripsi);
+        if ($pengajuanSidang == null) {
+            session()->setFlashdata("message", ["icon" => "error", "title" => "Pengajuan Sidang Skripsi Tidak Ditemukan", "text" => "Pengajuan Sidang Skripsi Tidak Ditemukan"]);
+            return redirect()->to(base_url("tenagakependidikan/pengajuansidangskripsi"));
+        }
+
+        $this->pengajuanSidangModel->update($idPengajuanSidangSkripsi, [
+            'status' => 'DISETUJUI',
+        ]);
+
+        session()->setFlashdata("message", ["icon" => "success", "title" => "Pengajuan Disetujui", "text" => "Pengajuan Sidang Skripsi telah Disetujui"]);
+        return redirect()->to(base_url("tenagakependidikan/pengajuansidangskripsi"));
     }
 
     private function authenticate($roles) {

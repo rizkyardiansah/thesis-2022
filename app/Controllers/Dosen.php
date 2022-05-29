@@ -15,8 +15,10 @@ class Dosen extends BaseController
     protected $pembimbingModel;
     protected $catatanBimbinganModel;
     protected $skripsiModel;
-    protected $pengajuanPrasidangModel;
     protected $seminarPrasidangModel;
+    protected $pengajuanPrasidangModel;
+    protected $pengajuanSidangModel;
+    protected $sidangSkripsiModel;
 
     public function __construct() {
         $this->proposalModel = new \App\Models\ProposalModel();
@@ -29,7 +31,9 @@ class Dosen extends BaseController
         $this->catatanBimbinganModel = new \App\Models\CatatanBimbinganModel();
         $this->skripsiModel = new \App\Models\SkripsiModel();
         $this->pengajuanPrasidangModel = new \App\Models\PengajuanPrasidangModel();
+        $this->pengajuanSidangModel = new \App\Models\PengajuanSidangModel();
         $this->seminarPrasidangModel = new \App\Models\SeminarPrasidangModel();
+        $this->sidangSkripsiModel = new \App\Models\SidangSkripsiModel();
     }
 
     public function index()
@@ -302,11 +306,6 @@ class Dosen extends BaseController
         return redirect()->to(base_url("dosen/pengujiSeminarProposal"));
     }
 
-    public function downloadFormatPembimbing() {
-        redirect()->to(base_url("dosen/pembimbing"));
-        return $this->response->download("folderResource/Format_Pembimbing_Skripsi_Mahasiswa.xlsx", null);
-    }
-
     public function bimbingan() {
         $dosen = $this->dosenModel->find(session()->get("user_session")['id']);
         $mahasiswaBimbingan = $this->pembimbingModel->getAllMahasiswaBimbingan($dosen['id']);
@@ -362,45 +361,6 @@ class Dosen extends BaseController
         return redirect()->back();
     }
 
-    public function pengajuanPrasidang() {
-        $dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
-        $daftarPengajuan = $this->pengajuanPrasidangModel->getPengajuanPrasidangByProdi($dataAkun['id_prodi']);
-        $data = [   
-            'title' => 'Pengajuan Seminar Pra Sidang',
-            'daftarPengajuan' => $daftarPengajuan,
-        ];
-        return view("dosen/pengajuan_pra_sidang", $data);
-    }
-
-    public function detailPengajuanPrasidang($idPengajuanPrasidang) {
-        $detailPengajuan = $this->pengajuanPrasidangModel->getDetailPengajuanById($idPengajuanPrasidang);
-        if ($detailPengajuan == null) {
-            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
-        }
-        $data = [
-            'title' => 'Detail Pengajuan Prasidang',
-            'detailPengajuan' => $detailPengajuan,
-        ];
-
-        return view("dosen/detail_pengajuan_pra_sidang", $data);
-    }
-
-    public function setujuiPengajuanPrasidang($idPengajuanPrasidang) {
-        $this->pengajuanPrasidangModel->update($idPengajuanPrasidang, [
-            'status' => 'DISETUJUI'
-        ]);
-        session()->setFlashdata("message", ["icon" => "success", "title" => "Pengajuan Seminar Prasidang Diterima", "text" => "Pengajuan Seminar Prasidang berhasil diterima!"]);
-        return redirect()->to(base_url("dosen/pengajuanPrasidang"));
-    }
-
-    public function tolakPengajuanPrasidang($idPengajuanPrasidang) {
-        $this->pengajuanPrasidangModel->update($idPengajuanPrasidang, [
-            'status' => 'DITOLAK'
-        ]);
-        session()->setFlashdata("message", ["icon" => "success", "title" => "Pengajuan Seminar Prasidang Ditolak", "text" => "Pengajuan Seminar Prasidang telah ditolak!"]);
-        return redirect()->to(base_url("dosen/pengajuanPrasidang"));
-    }
-
     public function seminarPrasidang() {
         //autentikasi
         if (!$this->authenticate(["kaprodi"])) 
@@ -432,15 +392,15 @@ class Dosen extends BaseController
         $tanggal_seminar = date_format(date_create($this->request->getPost("tanggal")), 'Y-m-d');
         $jam_seminar = $this->request->getPost("jam", FILTER_SANITIZE_SPECIAL_CHARS);
 
-            $this->seminarPrasidangModel->insert([
-                'id_skripsi' => $skripsi['id'],
-                'tanggal' => $tanggal_seminar . " " . $jam_seminar,
-                'ruangan' => $this->request->getPost("ruangan", FILTER_SANITIZE_URL),
-                'dosen_penguji1' => $this->request->getPost("dosen_penguji1"),
-                'dosen_penguji2' => $this->request->getPost("dosen_penguji2"),
-            ]);
+        $this->seminarPrasidangModel->insert([
+            'id_skripsi' => $skripsi['id'],
+            'tanggal' => $tanggal_seminar . " " . $jam_seminar,
+            'ruangan' => $this->request->getPost("ruangan", FILTER_SANITIZE_SPECIAL_CHARS),
+            'dosen_penguji1' => $this->request->getPost("dosen_penguji1"),
+            'dosen_penguji2' => $this->request->getPost("dosen_penguji2"),
+        ]);
 
-        session()->setFlashdata("message", ["icon" => "success", "title" => "Jadwal Seminar Prasidang Berhsil dibuat", "text" => "Jadwal seminar prasidang telah dibuat"]);
+        session()->setFlashdata("message", ["icon" => "success", "title" => "Jadwal Seminar Prasidang Berhasil dibuat", "text" => "Jadwal seminar prasidang telah dibuat"]);
         return redirect()->to(base_url("dosen/seminarPrasidang"));
     }
 
@@ -475,7 +435,7 @@ class Dosen extends BaseController
     }
 
     public function downloadFormatJadwalSeminarPrasidang() {
-        redirect()->to(base_url("dosen->seminarPrasidang"));
+        redirect()->to(base_url("dosen/seminarPrasidang"));
         return $this->response->download("folderResource/Format_Jadwal_Seminar_Prasidang.xlsx", null);
     }
 
@@ -519,9 +479,7 @@ class Dosen extends BaseController
         for ($row = 2; $row <= $highestRow; ++$row) {
             $totalCounter++;
             $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi(strval($worksheet->getCell("A$row")->getValue()));
-            if ($lastSkripsi == null || 
-                ($lastSkripsi != null && $lastSkripsi['status'] != 'Dalam Pengerjaan')
-            ) {
+            if ( $lastSkripsi == null || ($lastSkripsi != null && $lastSkripsi['status'] != 'Dalam Pengerjaan') ) {
                 continue;
             }
             
@@ -530,7 +488,9 @@ class Dosen extends BaseController
             $pengajuan = $this->pengajuanPrasidangModel->getWhere(['id_skripsi' => $id_skripsi])->getResultArray();
             if (count($pengajuan) == 0 || (count($pengajuan) == 1 && $pengajuan[0]['status'] != 'DISETUJUI')) { continue; }
 
-            $tanggal = date_format(date_create_from_format('d-m-Y H:i', $worksheet->getCell("B$row")->getValue()), 'Y-m-d H:i');
+            if ( count( $this->seminarPrasidangModel->getWhere(['id_skripsi' => $id_skripsi])->getResultArray() ) >= 1 ) { continue; }
+
+            $tanggal = date_format(date_create_from_format('d-m-Y H:i', trim($worksheet->getCell("B$row")->getValue(), " ")), 'Y-m-d H:i');
             
             $ruangan = $worksheet->getCell("C$row")->getValue();
 
@@ -608,6 +568,158 @@ class Dosen extends BaseController
 
         session()->setFlashdata("message", ["icon" => "success", "title" => "Hasil Review Seminar Prasidang Terkirim", "text" => "Hasil Review telah terkirim kepada mahasiswa"]);
         return redirect()->to(base_url("dosen/pengujiSeminarPrasidang"));
+    }
+
+    public function sidangSkripsi() {
+        //autentikasi
+        if (!$this->authenticate(["kaprodi"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        $dataAkun = $this->dosenModel->find(session()->get('user_session')['id']);
+        $prodi = $this->prodiModel->find($dataAkun['id_prodi']);
+        $mahasiswa = $this->mahasiswaModel->getMahasiswaBelumDapatSidangByProdi($prodi['id']);
+        $sidangSkripsi = $this->sidangSkripsiModel->getSidangSkripsiByProdi($prodi['id']);
+        $dosen = $this->dosenModel->getDosenByProdi($prodi['id']);
+        $data = [
+            "title" => "Sidang Skripsi",
+            "prodi" => $prodi,
+            "sidangSkripsi" => $sidangSkripsi,
+            "mahasiswa" => $mahasiswa,
+            "dosen" => $dosen,
+        ];
+
+        return view("dosen/sidang_skripsi", $data);
+    }
+
+    public function insertJadwalSidangSkripsi() {
+        $npm = $this->request->getPost("mahasiswa", FILTER_SANITIZE_SPECIAL_CHARS);
+        $skripsi = $this->skripsiModel->getMahasiswaLastSkripsi($npm);
+
+        $tanggal_sidang = date_format(date_create($this->request->getPost("tanggal", FILTER_SANITIZE_SPECIAL_CHARS)), 'Y-m-d');
+        $jam_sidang = $this->request->getPost("jam", FILTER_SANITIZE_SPECIAL_CHARS);
+
+        $this->sidangSkripsiModel->insert([
+            'id_skripsi' => $skripsi['id'],
+            'tanggal' => $tanggal_sidang . " " . $jam_sidang,
+            'ruangan' => $this->request->getPost("ruangan", FILTER_SANITIZE_SPECIAL_CHARS),
+            'dosen_penguji' => $this->request->getPost("dosen_penguji"),
+        ]);
+
+        session()->setFlashdata("message", ["icon" => "success", "title" => "Jadwal Sidang Skripsi Berhasil dibuat", "text" => "Jadwal sidang skripsi telah dibuat"]);
+        return redirect()->to(base_url("dosen/sidangSkripsi"));
+    }
+
+    public function updateJadwalSidangSkripsi($idSidangSkripsi) {
+        $npm = $this->request->getPost("mahasiswa", FILTER_SANITIZE_SPECIAL_CHARS);
+        $skripsi = $this->skripsiModel->getMahasiswaLastSkripsi($npm);
+
+        $tanggal_sidang = date_format(date_create($this->request->getPost("tanggal")), 'Y-m-d');
+        $jam_sidang = $this->request->getPost("jam", FILTER_SANITIZE_SPECIAL_CHARS);
+
+        $this->sidangSkripsiModel->update($idSidangSkripsi, [
+            'tanggal' => $tanggal_sidang . " " . $jam_sidang,
+            'ruangan' => $this->request->getPost("ruangan", FILTER_SANITIZE_SPECIAL_CHARS),
+            'dosen_penguji' => $this->request->getPost("dosen_penguji"),
+        ]);
+
+        session()->setFlashdata("message", ["icon" => "success", "title" => "Jadwal Sidang Skripsi Berhasil diperbarui", "text" => "Jadwal Sidang Skripsi telah diperbarui"]);
+        return redirect()->to(base_url("dosen/sidangSkripsi"));
+    }
+
+    public function deleteJadwalSidangSkripsi($idSidangSkripsi) {
+        //autentikasi
+        if (!$this->authenticate(["kaprodi"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        $this->sidangSkripsiModel->delete($idSidangSkripsi);
+        session()->setFlashdata("message", ["icon" => "success", "title" => "Hapus Jadwal Sidang Skripsi Berhasil", "text" => "Jadwal Sidang Skripsi Berhasil dihapus"]);
+        return redirect()->to(base_url("dosen/sidangSkripsi"));
+    }
+
+    public function downloadFormatJadwalSidangSkripsi() {
+        redirect()->to(base_url("dosen/sidangSkripsi"));
+        return $this->response->download("folderResource/Format_Jadwal_Sidang_Skripsi.xlsx", null);
+    }
+
+    public function insertJadwalSidangSkripsiBatch() {
+        $dataAkun = $this->dosenModel->find(session()->get('user_session')['id']);
+        $validationRules = [
+            'fileJadwal' => [
+                'rules' => 'uploaded[fileJadwal]|mime_in[fileJadwal,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet]|ext_in[fileJadwal,xls,xlsx]|max_size[fileJadwal,2048]',
+                'errors' => [
+                    'uploaded' => 'Pilih File Jadwal Sidang Skripsi terlebih dahulu',
+                    'mime_in' => 'File Jadwal Sidang Skripsi harus berupa Excel',
+                    'ext_in' => 'File Jadwal Sidang Skripsi harus berekstensi .xls atau .xlsx',
+                    'max_size' => 'Ukuran File Jadwal Sidang Skripsi tidak boleh lebih dari 2MB'
+                ]
+            ]
+        ];
+
+        if (!$this->validate($validationRules)) {
+            $validation = \Config\Services::validation();
+            session()->setFlashdata("message", ["icon" => "error", "title" => "Upload File Jadwal Sidang Skripsi Gagal", "text" => $validation->getError("fileJadwal")]);
+            return redirect()->to(base_url("dosen/sidangSkripsi"))->withInput();
+        }
+
+        $file = $this->request->getFile("fileJadwal");
+        $reader = '';
+        if ($file->getExtension() == 'xls') {
+            $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xls');
+        } else if ($file->getExtension() == 'xlsx') {
+            $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xlsx');
+        }
+
+        $reader->setReadDataOnly(TRUE);
+        $spreadsheet = $reader->load($file->getTempName());
+
+        $worksheet = $spreadsheet->getActiveSheet();
+        $highestRow = $worksheet->getHighestRow();
+
+        $arrayJadwal = [];
+        $totalCounter = 0;
+        $successCounter = 0;
+        for ($row = 2; $row <= $highestRow; ++$row) {
+            $totalCounter++;
+            $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi(strval($worksheet->getCell("A$row")->getValue()));
+            if ( $lastSkripsi == null || ($lastSkripsi != null && $lastSkripsi['status'] != 'Dalam Pengerjaan') ) {
+                continue;
+            }
+            
+            $id_skripsi = $lastSkripsi['id'];
+            
+            $pengajuan = $this->pengajuanSidangModel->getWhere(['id_skripsi' => $id_skripsi])->getResultArray();
+            if (count($pengajuan) == 0 || (count($pengajuan) == 1 && $pengajuan[0]['status'] != 'DISETUJUI')) { continue; }
+
+            if ( count( $this->sidangSkripsiModel->getWhere(['id_skripsi' => $id_skripsi])->getResultArray() ) >= 1 ) { continue; }
+
+            $tanggal = date_format(date_create_from_format('d-m-Y H:i', trim($worksheet->getCell("B$row")->getValue(), " ")), 'Y-m-d H:i');
+            
+            $ruangan = $worksheet->getCell("C$row")->getValue();
+
+            $penguji1 = $this->dosenModel->getDosenByInisial($worksheet->getCell("D$row")->getValue());
+            if ($penguji1 == null) { continue; }
+            if ($penguji1 != null && $penguji1['id_prodi'] != $dataAkun['id_prodi']) { continue; }
+
+            $dosen_penguji1 = $penguji1['id'];
+
+            $arrayJadwal[$row-2] = [
+                'id_skripsi' => $id_skripsi,
+                'tanggal' => $tanggal,
+                'ruangan' => $ruangan,
+                'dosen_penguji' => $dosen_penguji1,
+            ];
+            $successCounter++;
+        }
+
+        if (count($arrayJadwal) > 0) {
+            $this->sidangSkripsiModel->insertBatch($arrayJadwal);
+        }
+        session()->setFlashdata("message", ["icon" => "info", "title" => "Jadwal Sidang Skripsi Berhasil ditambahkan", "text" => "$successCounter dari $totalCounter Jadwal telah berhasil ditambahkan!"]);
+        return redirect()->to(base_url("dosen/sidangSkripsi"));
     }
 
     public function cetakBimbingan() {

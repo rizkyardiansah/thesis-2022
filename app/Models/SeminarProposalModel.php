@@ -15,15 +15,16 @@ class SeminarProposalModel extends Model
 
     public function getSemproByProdi($idProdi) {
         $db = \Config\Database::connect();
-        $builder = $db->table("seminar_proposal");
-
-        return $builder->
-        select("seminar_proposal.*, mahasiswa.npm, mahasiswa.nama as nama_mahasiswa, proposal.judul, proposal.status, proposal.komentar, bidang.nama as nama_bidang, bidang.inisial as inisial_bidang")->
-        join("proposal" , "proposal.id = seminar_proposal.id_proposal")->
-        join("bidang", "bidang.id = proposal.id_bidang")->
-        join("mahasiswa", "mahasiswa.npm = proposal.npm")->
-        getWhere(["mahasiswa.id_prodi" => $idProdi])->
-        getResultArray();
+        $sql = "SELECT sp.*, m.npm, m.nama as nama_mahasiswa, p.judul, p.status, p.komentar, 
+        b.nama as nama_bidang, b.inisial as inisial_bidang
+        from seminar_proposal as sp
+        inner join proposal as p on p.id = sp.id_proposal
+        inner join mahasiswa as m on m.npm = p.npm
+        inner join bidang as b on b.id = p.id_bidang
+        where m.id_prodi = ? and
+        p.status = 'TERTUNDA'";
+        $result = $db->query($sql, [$idProdi]);
+        return $result->getResultArray();
     }
 
     public function getJadwalByNPM($npm) {
@@ -53,16 +54,17 @@ class SeminarProposalModel extends Model
 
     public function getSemproByDosen($idDosen) {
         $db = \Config\Database::connect();
-        $builder = $db->table("seminar_proposal");
-
-        return $builder->
-        select("seminar_proposal.*, mahasiswa.npm, proposal.judul, proposal.status, proposal.komentar, bidang.nama as nama_bidang, bidang.inisial as inisial_bidang")->
-        join("proposal", "proposal.id = seminar_proposal.id_proposal")->
-        join("bidang", "proposal.id_bidang = bidang.id")->
-        join("mahasiswa", "mahasiswa.npm = proposal.npm")->
-        orderBy("proposal.status ASC", "seminar_proposal.tanggal ASC")->
-        where('dosen_penguji1', $idDosen)->
-        orWhere('dosen_penguji2', $idDosen)->get()->getResultArray();
+        $sql = "SELECT sp.*, m.npm, m.nama as nama_mahasiswa, p.judul, p.status, p.komentar, 
+        b.nama as nama_bidang, b.inisial as inisial_bidang
+        from seminar_proposal as sp
+        inner join proposal as p on p.id = sp.id_proposal
+        inner join mahasiswa as m on m.npm = p.npm
+        inner join bidang as b on b.id = p.id_bidang
+        where (sp.dosen_penguji1 = ? or sp.dosen_penguji2 = ?) and
+        p.status = 'TERTUNDA'
+        order by sp.tanggal asc";
+        $result = $db->query($sql, [$idDosen, $idDosen]);
+        return $result->getResultArray();
     }
 
 }

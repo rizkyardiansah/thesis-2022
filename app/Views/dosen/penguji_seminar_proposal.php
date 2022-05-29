@@ -19,6 +19,7 @@
                 <table class="table table-bordered" id="jadwalPengujiSempro" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>NPM</th>
                             <th>Judul</th>
                             <th>Bidang</th>
@@ -44,9 +45,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <?php foreach($seminarProposal as $sm): ?>
+                    <?php 
+                    $counter = 1;
+                    foreach($seminarProposal as $sm): ?>
                         <tr>
                             <td class="npm"><?= $sm['npm'] ?></td>
+                            <td><?= $sm['nama_mahasiswa'] ?></td>
                             <td><?= $sm['judul'] ?></td>
                             <td data-toggle="tooltip" data-placement="top" title="<?= $sm['nama_bidang'] ?>"><?= $sm['inisial_bidang'] ?></td>
 
@@ -79,7 +83,7 @@
                             <?php endif; ?>
                         <?php endif; ?>
 
-                            <td class="status"><?= $sm['status'] != 'TERTUNDA' ? $sm['status'] : "-" ?></td>
+                            <td class="status"><?= $sm['status'] ?></td>
                             <td class="komentar"><?= $sm['komentar'] != null ? $sm['komentar'] : "-" ?></td>
 
                             <td>
@@ -93,6 +97,7 @@
                                 <?php endif; ?>
                             </td>
                         </tr>
+                        <?php $counter++; ?>
                     <?php endforeach; ?>
                     </tbody>
                 </table>

@@ -15,7 +15,7 @@
             <?php if ($mahasiswa['file_khs'] != null && $mahasiswa['file_krs'] != null && $mahasiswa['file_persetujuan_skripsi'] != null && $mahasiswa['sks_lulus'] != null && $mahasiswa['pembimbing_akademik'] != null && $mahasiswa['mk_sedang_diambil'] != null && $mahasiswa['mk_akan_diambil'] != null && $mahasiswa['status_persetujuan_skripsi'] == 'Disetujui' ): ?>
                     <div class="alert alert-success" role="alert">
                         <small>
-                            <strong>Pengajuan penulisan skripsi</strong> anda <strong>disetujui</strong>. Silahkan kumpulkan <strong>proposal</strong> anda pada <a href="<?= base_url("mahasiswa/proposal") ?>" >menu ini</a>.
+                            <strong>Pengajuan penulisan skripsi</strong> anda <strong>disetujui</strong>. Silahkan kumpulkan <strong>proposal</strong> anda pada <a href="<?= base_url("mahasiswa/proposal") ?>" >menu berikut</a>.
                         </small>
                     </div>
                 <?php elseif ($mahasiswa['file_khs'] != null && $mahasiswa['file_krs'] != null && $mahasiswa['file_persetujuan_skripsi'] != null && $mahasiswa['sks_lulus'] != null && $mahasiswa['pembimbing_akademik'] != null && $mahasiswa['mk_sedang_diambil'] != null && $mahasiswa['mk_akan_diambil'] != null && $mahasiswa['status_persetujuan_skripsi'] == 'Ditolak' ): ?>
@@ -31,9 +31,9 @@
                         </small>
                     </div>
                 <?php elseif ($mahasiswa['file_khs'] == null || $mahasiswa['file_krs'] == null || $mahasiswa['file_persetujuan_skripsi'] == null || $mahasiswa['sks_lulus'] == null || $mahasiswa['pembimbing_akademik'] == null || $mahasiswa['mk_sedang_diambil'] == null || $mahasiswa['mk_akan_diambil'] == null || $mahasiswa['status_persetujuan_skripsi'] == null ): ?>
-                    <div class="alert alert-warning" role="alert">
+                    <div class="alert alert-danger" role="alert">
                         <small>
-                            Lengkapi data berikut sebagai syarat wajib untuk dapat mengikuti kegiatan skripsi
+                            Lengkapi data berikut sebagai syarat <strong>wajib</strong> untuk dapat mengikuti kegiatan skripsi.
                         </small>
                     </div>
                 <?php endif; ?>
@@ -97,14 +97,7 @@
                             <div class="input-group">
                                 <input type="text" class="form-control" value="<?= $mahasiswa['file_khs'] ?>" readonly>
                                 <div class="input-group-append">
-                                    <form action="<?= base_url("mahasiswa/downloadKhs/".$mahasiswa['npm']) ?>" >
-                                        <button class="btn btn-outline-primary mx-2" type="submit">Download</button>
-                                    </form>
-                                    <?php if ($mahasiswa['status_persetujuan_skripsi'] != 'Disetujui'): ?>
-                                        <form action="<?= base_url("mahasiswa/deleteKhs/".$mahasiswa['npm']) ?>" >
-                                            <button class="btn btn-outline-danger" type="submit" <?= ($mahasiswa['status_persetujuan_skripsi'] == 'Disetujui') ? "disabled" : "" ?>>Hapus</button>
-                                        </form>
-                                    <?php endif; ?>
+                                    <a role="button" class="btn btn-outline-primary" id="tinjauKhs" data-npm="<?= $mahasiswa['npm'] ?>">Tinjau</a>
                                 </div>
                             </div>
                         <?php endif; ?>
@@ -123,14 +116,7 @@
                             <div class="input-group">
                                 <input type="text" class="form-control" value="<?= $mahasiswa['file_krs'] ?>" readonly>
                                 <div class="input-group-append">
-                                    <form action="<?= base_url("mahasiswa/downloadKrs/".$mahasiswa['npm']) ?>" >
-                                        <button class="btn btn-outline-primary mx-2" type="submit">Download</button>
-                                    </form>
-                                    <?php if ($mahasiswa['status_persetujuan_skripsi'] != 'Disetujui'): ?>
-                                        <form action="<?= base_url("mahasiswa/deleteKrs/".$mahasiswa['npm']) ?>" >
-                                            <button class="btn btn-outline-danger" type="submit" <?= ($mahasiswa['status_persetujuan_skripsi'] == 'Disetujui') ? "disabled" : "" ?>>Hapus</button>
-                                        </form>
-                                    <?php endif; ?>
+                                    <a role="button" class="btn btn-outline-primary" id="tinjauKrs" data-npm="<?= $mahasiswa['npm'] ?>">Tinjau</a>
                                 </div>
                             </div>
                         <?php endif; ?>
@@ -149,14 +135,7 @@
                             <div class="input-group">
                                 <input type="text" class="form-control" value="<?= $mahasiswa['file_persetujuan_skripsi'] ?>" readonly>
                                 <div class="input-group-append">
-                                    <form action="<?= base_url("mahasiswa/downloadPersetujuanSkripsi/".$mahasiswa['npm']) ?>" >
-                                        <button class="btn btn-outline-primary mx-2" type="submit">Download</button>
-                                    </form>
-                                    <?php if ($mahasiswa['status_persetujuan_skripsi'] != 'Disetujui'): ?>
-                                        <form action="<?= base_url("mahasiswa/deletePersetujuanSkripsi/".$mahasiswa['npm']) ?>" >
-                                            <button class="btn btn-outline-danger" type="submit" <?= ($mahasiswa['status_persetujuan_skripsi'] == 'Disetujui') ? "disabled" : "" ?>>Hapus</button>
-                                        </form>
-                                    <?php endif; ?>
+                                    <a role="button" class="btn btn-outline-primary" id="tinjauPersetujuan" data-npm="<?= $mahasiswa['npm'] ?>">Tinjau</a>
                                 </div>
                             </div>
                         <?php endif; ?>
@@ -170,6 +149,43 @@
                     
                 </div>
             </form>
+        </div>
+    </div>
+
+
+    <!-- modal untuk preview file -->
+    <div class="modal fade" id="filePreview" tabindex="-1" role="dialog" aria-labelledby="filePreviewLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="filePreviewLabel"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <div class="embed-responsive embed-responsive-16by9" id="previewContainer">
+                                    <iframe class="embed-responsive-item" src=""></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
+                        <form action="" id="formUnduh">
+                            <button class="btn btn-primary" type="submit">Unduh</button>
+                        </form>
+                        <?php if ($mahasiswa['status_persetujuan_skripsi'] == null): ?>
+                            <form action="" id="formHapus">
+                                <button class="btn btn-danger" type="submit">Hapus</button>
+                            </form>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

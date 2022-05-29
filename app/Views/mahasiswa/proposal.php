@@ -14,7 +14,7 @@
             <?php if ($mahasiswa['status_persetujuan_skripsi'] == null || $mahasiswa['status_persetujuan_skripsi'] == 'Ditolak'): ?>
                 <div class="alert alert-danger" role="alert">
                     <small>
-                        Lakukan <a href="<?= base_url("mahasiswa/pengajuanPenulisanSkripsi") ?>">Pengajuan Penulisan Skripsi</a> terlebih dahulu agar bisa mengunggah <strong>Proposal</strong>. Pastikan <strong>Pengajuan Penulisan Skripsi</strong> anda telah <strong>Diterima</strong>.
+                        Buat <strong>Pengajuan Penulisan Skripsi</strong> terlebih dahulu pada <a href="<?= base_url("mahasiswa/pengajuanPenulisanSkripsi") ?>">Menu Berikut</a> dan pastikan <strong>Pengajuan Penulisan Skripsi</strong> anda telah <strong>Diterima</strong>.
                     </small>
                 </div>
             <?php elseif ($lastProposal == null): ?>
@@ -44,7 +44,7 @@
             <?php elseif($lastProposal['status'] == 'REVISI'): ?>
                 <div class="alert alert-success" role="alert">
                     <small>
-                        <strong>Proposal</strong> anda telah <strong>Diterima</strong> dengan catatan harus melakukan <strong>Revisi</strong>. Silahkan kumpulkan <strong>Judul Skripsi</strong> pada <a href="<?= base_url("mahasiswa/skripsi")?>">Menur Berikut</a>
+                        <strong>Proposal</strong> anda telah <strong>Diterima</strong> dengan catatan harus melakukan <strong>Revisi</strong>. Silahkan kumpulkan <strong>Judul Skripsi</strong> pada <a href="<?= base_url("mahasiswa/skripsi")?>">Menu Berikut</a>
                     </small>
                 </div>
             <?php elseif($lastProposal['status'] == 'DITOLAK'): ?>

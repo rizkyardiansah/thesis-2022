@@ -24,7 +24,8 @@ class SeminarPrasidangModel extends Model
         INNER JOIN bidang AS b ON b.id = s.id_bidang
         INNER JOIN dosen AS d1 ON d1.id = sp.dosen_penguji1
         LEFT JOIN dosen AS d2 ON d2.id = sp.dosen_penguji2
-        WHERE m.id_prodi = ?";
+        WHERE m.id_prodi = ? and
+        (sp.komentar_penguji1 is null and sp.komentar_penguji2 is null)";
         $result = $db->query($sql, [$idProdi]);
         return $result->getResultArray();
     }
@@ -52,7 +53,8 @@ class SeminarPrasidangModel extends Model
         INNER JOIN bidang AS b ON b.id = s.id_bidang
         INNER JOIN dosen AS d1 ON d1.id = sp.dosen_penguji1
         LEFT JOIN dosen AS d2 ON d2.id = sp.dosen_penguji2
-        WHERE sp.dosen_penguji1 = ? || sp.dosen_penguji2 = ?
+        WHERE (sp.dosen_penguji1 = ? and sp.komentar_penguji1 is null) or 
+        (sp.dosen_penguji2 = ? and sp.komentar_penguji2 is null)
         ORDER BY sp.tanggal ASC";
         $result = $db->query($sql, [$idDosen, $idDosen]);
         return $result->getResultArray();

@@ -27,7 +27,7 @@
                 </div>
             <?php elseif ($pengajuan['status'] != 'DISETUJUI') : ?>
                 <div class="alert alert-warning" role="alert">
-                    <small>Pastikan <strong>Pengajuan Seminar Prasidang</strong> anda telah <strong>Disetujui</strong> oleh <strong>Kaprodi</strong>.</small>
+                    <small>Pastikan <strong>Pengajuan Seminar Prasidang</strong> anda telah <strong>Disetujui</strong>.</small>
                 </div>
             <?php elseif ($pengajuan['status'] == 'DISETUJUI'): ?>
                 <div class="alert alert-info" role="alert">

@@ -17,30 +17,37 @@
                         <strong>Tambahkan Skripsi</strong> terlebih dahulu pada <a href="<?= base_url("mahasiswa/skripsi") ?>">Menu Berikut</a>.
                     </small>
                 </div>
-            <?php elseif (($lastSkripsi != null && count($pengajuanPrasidang) == 0)  || ($lastSkripsi['id'] != $pengajuanPrasidang[0]['id_skripsi'])): ?>
-                <div class="alert alert-info" role="alert">
-                    <small>
-                        Silahkan buat <strong>Pengajuan Seminar Prasidang</strong> pada halaman ini.
-                    </small>
-                </div>
-            <?php elseif ($lastSkripsi != null && count($pengajuanPrasidang) > 0 && $lastSkripsi['id'] == $pengajuanPrasidang[0]['id_skripsi'] && $pengajuanPrasidang[0]['status'] == 'TERTUNDA'): ?>
-                <div class="alert alert-info" role="alert">
-                    <small>
-                        <strong>Pengajuan Seminar Prasidang</strong> anda telah terkirim.
-                    </small>
-                </div>
-            <?php elseif ($lastSkripsi != null && count($pengajuanPrasidang) > 0 && $lastSkripsi['id'] == $pengajuanPrasidang[0]['id_skripsi'] && $pengajuanPrasidang[0]['status'] == 'DISETUJUI'): ?>
-                <div class="alert alert-success" role="alert">
-                    <small>
-                        <strong>Pengajuan Seminar Prasidang</strong> anda telah <strong>Disetujui</strong>. Kaprodi akan membagikan <strong>Jadwal Seminar Prasidang</strong> anda.
-                    </small>
-                </div>
-            <?php elseif ($lastSkripsi != null && count($pengajuanPrasidang) > 0 && $lastSkripsi['id'] == $pengajuanPrasidang[0]['id_skripsi'] && $pengajuanPrasidang[0]['status'] == 'DITOLAK'): ?>
+            <?php elseif ($seminarPrasidang == null || $seminarPrasidang['komentar_penguji1'] == null): ?>
                 <div class="alert alert-danger" role="alert">
                     <small>
-                        <strong>Pengajuan Seminar Prasidang</strong> anda <strong>Ditolak</strong>.
+                        Lakukan <strong>Seminar Prasidang</strong> terlebih dahulu sebelum bisa membuat <strong>Pengajuan Sidang Skripsi</strong>.
                     </small>
                 </div>
+            <?php elseif ($lastSkripsi != null && count($pengajuanSidangSkripsi) > 0 && $pengajuanSidangSkripsi[count($pengajuanSidangSkripsi)-1]['id_skripsi'] == $lastSkripsi['id'] && $pengajuanSidangSkripsi[count($pengajuanSidangSkripsi)-1]['status'] == 'TERTUNDA'): ?>
+                <div class="alert alert-info" role="alert">
+                    <small>
+                        <strong>Pengajuan Sidang Skripsi</strong> anda telah berhasil <strong>Terkirim</strong>.
+                    </small>
+                </div>
+            <?php elseif ($lastSkripsi != null && count($pengajuanSidangSkripsi) > 0 && $pengajuanSidangSkripsi[count($pengajuanSidangSkripsi)-1]['id_skripsi'] == $lastSkripsi['id'] && $pengajuanSidangSkripsi[count($pengajuanSidangSkripsi)-1]['status'] == 'DISETUJUI'): ?>
+                <div class="alert alert-success" role="alert">
+                    <small>
+                        <strong>Pengajuan Sidang Skripsi</strong> anda telah <strong>Disetujui</strong>.
+                    </small>
+                </div>
+            <?php elseif ($lastSkripsi != null && count($pengajuanSidangSkripsi) > 0 && $pengajuanSidangSkripsi[count($pengajuanSidangSkripsi)-1]['id_skripsi'] == $lastSkripsi['id'] && $pengajuanSidangSkripsi[count($pengajuanSidangSkripsi)-1]['status'] == 'DITOLAK'): ?>
+                <div class="alert alert-danger" role="alert">
+                    <small>
+                        <strong>Pengajuan Sidang Skripsi</strong> anda <strong>Ditolak</strong>.
+                    </small>
+                </div>
+            <?php elseif ($seminarPrasidang != null && $seminarPrasidang['komentar_penguji1'] != null): ?>
+                <div class="alert alert-info" role="alert">
+                    <small>
+                        Silahkan buat <strong>Pengajuan Sidang Skripsi</strong> anda.
+                    </small>
+                </div>
+            
             <?php endif; ?>
         </div>
     </div>
@@ -51,10 +58,10 @@
         <div class="card-body">
             <div class="row mb-3">
                 <div class="col-lg-3 d-flex align-items-center">
-                    <?php if ($lastSkripsi == null || ($lastSkripsi != null && count($pengajuanPrasidang) > 0 && $lastSkripsi['id'] == $pengajuanPrasidang[0]['id_skripsi'])): ?>
+                    <?php if ($lastSkripsi == null || $seminarPrasidang == null || $seminarPrasidang['komentar_penguji1'] == null || ($lastSkripsi != null && count($pengajuanSidangSkripsi) > 0 && $pengajuanSidangSkripsi[count($pengajuanSidangSkripsi)-1]['id_skripsi'] == $lastSkripsi['id'])): ?>
                         <button class="btn btn-primary" disabled>Tambahkan Pengajuan</button>
-                    <?php elseif ($lastSkripsi != null): ?>
-                        <button class="btn btn-primary" data-toggle="modal" data-target="#pengajuanPraSidang">Tambahkan Pengajuan</button>
+                    <?php elseif ($lastSkripsi != null && $seminarPrasidang != null && $seminarPrasidang['komentar_penguji1'] != null): ?>
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#tambahPengajuan">Tambahkan Pengajuan</button>
                     <?php endif; ?>
                 </div>
             </div>
@@ -76,18 +83,18 @@
                     <tbody>
                         <?php
                         $counter = 1;
-                        foreach($pengajuanPrasidang as $pp):
+                        foreach($pengajuanSidangSkripsi as $pss):
                         ?>
                             <tr>
                                 <td><?= $counter ?></td>
-                                <td data-id="<?= $pp['id_skripsi'] ?>" class="skripsi"><?= $pp['judul'] ?></td>
-                                <td class="bidang"><?= $pp['nama_bidang'] ?></td>
-                                <td class="sifat"><?= $pp['sifat'] ?></td>
-                                <td class="sumber"><?= $pp['sumber'] ?></td>
-                                <td><?= date_format(date_create(strval($pp['tanggal_pengajuan'])), 'd-m-Y') ?></td>
-                                <td class="status"><?= $pp['status'] ?></td>
+                                <td><?= $pss['judul'] ?></td>
+                                <td><?= $pss['nama_bidang'] ?></td>
+                                <td><?= $pss['sifat'] ?></td>
+                                <td><?= $pss['sumber'] ?></td>
+                                <td><?= date_format(date_create(strval($pss['tanggal_pengajuan'])), 'd-m-Y') ?></td>
+                                <td><?= $pss['status'] ?></td>
                                 <td>
-                                    <a role="button" class="btn btn-primary" href="<?= base_url("mahasiswa/detailPengajuanPraSidang/".$pp['id']) ?>">Detail</a>
+                                    <a role="button" class="btn btn-primary" href="<?= base_url("mahasiswa/detailPengajuanSidangSkripsi/".$pss['id']) ?>">Detail</a>
                                 </td>
                             </tr>
                         <?php 
@@ -100,23 +107,22 @@
         </div>
     </div>
 
-    <!-- modal tambah proposal -->
-    <div class="modal fade" id="pengajuanPraSidang" tabindex="-1" role="dialog" aria-labelledby="pengajuanPraSidangLabel" aria-hidden="true">
+    <div class="modal fade" id="tambahPengajuan" tabindex="-1" role="dialog" aria-labelledby="tambahPengajuanLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="pengajuanPraSidangLabel">Tambahkan Pengajuan Seminar Pra Sidang</h5>
+                    <h5 class="modal-title" id="tambahPengajuanLabel">Tambah Pengajuan</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="<?= base_url("mahasiswa/insertPengajuanPraSidang") ?>" method="post" id="formPengajuanPraSidang" enctype="multipart/form-data">
+                <form action="<?= base_url("mahasiswa/insertPengajuanSidangSkripsi") ?>" method="post" id="formTambahPengajuan" enctype="multipart/form-data">
                     <div class="modal-body">
                         <div class="row">
                             <?php if ($lastSkripsi != null) : ?>
                                 <input type="hidden" id="id_skripsi" name="id_skripsi" value="<?= $lastSkripsi['id'] ?>">
                             <?php endif; ?>
-                            <input type="hidden" id="npm" name="npm" value="<?= $mahasiswa['npm'] ?>">
+                            <input type="hidden" id="npm" name="npm" value="<?= $dataAkun['npm'] ?>">
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <label for="judul">Judul</label>
@@ -149,21 +155,30 @@
                                     <?php endif; ?>
                                 </div>
                             </div>
-                            <div class="col-lg-12">
-                                <label>File Draft Skripsi</label>
+                            <div class="col-lg-12 mb-3">
+                                <label>Draft Final Skripsi</label>
                                 <div class="input-group">
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="file_draft" name="file_draft">
-                                        <label class="custom-file-label" for="file_draft">Pilih File Draft Skripsi</label>
+                                        <input type="file" class="custom-file-input" id="file_draft_final" name="file_draft_final">
+                                        <label class="custom-file-label" for="file_draft_final">Pilih File Draft Final Skripsi</label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-12">
-                                <label>Lembar Persetujuan Seminar Pra Sidang</label>
+                            <div class="col-lg-12 mb-3">
+                                <label>Formulir Bimbingan Skripsi</label>
                                 <div class="input-group">
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="lembar_persetujuan" name="lembar_persetujuan">
-                                        <label class="custom-file-label" for="lembar_persetujuan">Pilih File Lembar Persetujuan Seminar Pra Sidang</label>
+                                        <input type="file" class="custom-file-input" id="file_form_bimbingan" name="file_form_bimbingan">
+                                        <label class="custom-file-label" for="file_form_bimbingan">Pilih File Formulir Bimbingan Skripsi</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 mb-3">
+                                <label>Form Persyaratan Sidang Skripsi</label>
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="file_persyaratan_sidang" name="file_persyaratan_sidang">
+                                        <label class="custom-file-label" for="file_persyaratan_sidang">Pilih File Form Persyaratan Sidang Skripsi</label>
                                     </div>
                                 </div>
                             </div>
@@ -177,9 +192,8 @@
             </div>
         </div>
     </div>
-
 <?= $this->endSection(); ?>
 
 <?= $this->section("scripts"); ?>
-    <script src="<?= base_url("assets/js/mahasiswa/pengajuanPraSidang.js");?>"></script>
+    <script src="<?= base_url("assets/js/mahasiswa/pengajuanSidangSkripsi.js");?>"></script>
 <?= $this->endSection(); ?>

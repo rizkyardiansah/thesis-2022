@@ -80,6 +80,41 @@ $(function () {
     },
   });
 
+  $("#formPembimbingBatch").validate({
+    rules: {
+      filePembimbing: {
+        required: true,
+        filesize: 1024000,
+      },
+    },
+    messages: {
+      filePembimbing: {
+        filesize: "File tidak boleh melebihi 1MB",
+      },
+    },
+    errorClass: "text-danger",
+    errorElement: "small",
+    errorPlacement: function (error, element) {
+      console.log(element.attr("type") == "file");
+      if (element.attr("type") == "file") {
+        error.insertAfter(element.parent().parent());
+      } else {
+        error.insertAfter(element);
+      }
+    },
+    submitHandler: function (form) {
+      form.submit();
+    },
+  });
+
+  jQuery.validator.addMethod(
+    "filesize",
+    function (value, element, param) {
+      return this.optional(element) || element.files[0].size <= param;
+    },
+    "Ukuran file melebihi batas"
+  );
+
   $("#tablePembimbing .ubah-pembimbing").on("click", function (e) {
     const parent = $(this).parent().parent();
     const npm = parent.children(".npm").text();
@@ -133,6 +168,11 @@ $(function () {
         e.target.submit();
       }
     });
+  });
+
+  //untuk nampilin nama file
+  $("input[type='file']").on("change", function (e) {
+    $(`label[for="${e.target.id}"]`).text(e.target.files[0].name);
   });
 
   if ($("#flashdata").data("open") == true) {

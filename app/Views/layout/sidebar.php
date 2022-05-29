@@ -53,7 +53,7 @@
         <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="<?= base_url("mahasiswa/pengajuanPenulisanSkripsi") ?>">Penulisan Skripsi</a>
             <a class="collapse-item" href="<?= base_url("mahasiswa/pengajuanPraSidang") ?>">Seminar Prasidang</a>
-            <a class="collapse-item" href="">Sidang Skripsi</a>
+            <a class="collapse-item" href="<?= base_url("mahasiswa/pengajuanSidangSkripsi") ?>">Sidang Skripsi</a>
         </div>
     </div>
 </li>
@@ -133,20 +133,7 @@
         <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="<?= base_url("dosen/seminarProposal") ?>">Seminar Proposal</a>
             <a class="collapse-item" href="<?= base_url("dosen/seminarPrasidang") ?>">Seminar Prasidang</a>
-            <a class="collapse-item" href="">Sidang Skripsi</a>
-        </div>
-    </div>
-</li>
-<li class="nav-item">
-    <a class="nav-link collapsed py-2" href="#" data-toggle="collapse" data-target="#collapsePengajuanKaprodi"
-        aria-expanded="true" aria-controls="collapsePengajuanKaprodi">
-        <i class="fas fa-fw fa-folder"></i>
-        <span>Kelola Pengajuan</span>
-    </a>
-    <div id="collapsePengajuanKaprodi" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-        <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="<?= base_url("dosen/pengajuanPrasidang") ?>">Seminar Prasidang</a>
-            <a class="collapse-item" href="">Sidang Skripsi</a>
+            <a class="collapse-item" href="<?= base_url("dosen/sidangSkripsi") ?>">Sidang Skripsi</a>
         </div>
     </div>
 </li>
@@ -203,8 +190,8 @@
     <div id="collapsePenguji" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="<?= base_url("TenagaKependidikan/pengajuanSkripsi") ?>">Pengajuan Skripsi</a>
-            <a class="collapse-item" href="">Seminar Prasidang</a>
-            <a class="collapse-item" href="">Sidang Skripsi</a>
+            <a class="collapse-item" href="<?= base_url("TenagaKependidikan/pengajuanPrasidang") ?>">Seminar Prasidang</a>
+            <a class="collapse-item" href="<?= base_url("TenagaKependidikan/pengajuanSidangSkripsi") ?>">Sidang Skripsi</a>
         </div>
     </div>
 </li>
