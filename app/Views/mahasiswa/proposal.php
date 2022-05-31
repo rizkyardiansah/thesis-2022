@@ -35,6 +35,12 @@
                         <strong>Proposal</strong> anda telah berhasil diunggah. Silahkan kumpulkan <strong>Video Seminar Proposal</strong> anda pada <a href="<?= base_url("mahasiswa/seminarProposal")?>">Menu Berikut</a>.
                     </small>
                 </div>
+            <?php elseif ($lastSkripsi != null && $lastSkripsi['status'] == 'Tidak Lulus'): ?>
+                <div class="alert alert-info" role="alert">
+                    <small>
+                        Anda dinyatakan <strong>Tidak Lulus</strong> pada semester sebelumnya. Silahkan kumpulkan <strong>Proposal</strong> pada halaman ini.
+                    </small>
+                </div>
             <?php elseif($lastProposal['status'] == 'DITERIMA'): ?>
                 <div class="alert alert-success" role="alert">
                     <small>
@@ -63,9 +69,9 @@
         <div class="card-body">
             <div class="row mb-3">
                 <div class="col-lg-3 d-flex align-items-center">
-                    <?php if ($mahasiswa['status_persetujuan_skripsi'] == 'Disetujui' && ($lastProposal == null || $lastProposal['status'] == 'DITOLAK')) : ?>
+                    <?php if (($mahasiswa['status_persetujuan_skripsi'] == 'Disetujui' && ($lastProposal == null || $lastProposal['status'] == 'DITOLAK')) && ($lastSkripsi == null || $lastSkripsi['status'] == 'Tidak Lulus') ) : ?>
                         <button class="btn btn-primary" data-toggle="modal" data-target="#tambahProposal">Tambahkan Proposal</button>
-                    <?php elseif ($mahasiswa['status_persetujuan_skripsi'] == null || $mahasiswa['status_persetujuan_skripsi'] == 'Ditolak' || $lastProposal['status'] == "TERTUNDA" ||  $lastProposal['status'] == 'DITERIMA' || $lastProposal['status'] == 'REVISI'): ?>
+                    <?php elseif (($lastSkripsi != null && $lastSkripsi['status'] != 'Tidak Lulus') || $mahasiswa['status_persetujuan_skripsi'] == null || $mahasiswa['status_persetujuan_skripsi'] == 'Ditolak' || $lastProposal['status'] == "TERTUNDA" ||  $lastProposal['status'] == 'DITERIMA' || $lastProposal['status'] == 'REVISI'): ?>
                         <button class="btn btn-primary" disabled>Tambahkan Proposal</button>
                     <?php endif; ?>
                 </div>

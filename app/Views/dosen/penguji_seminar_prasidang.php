@@ -58,53 +58,6 @@
             </div>
         </div>
     </div>
-
-    <!-- modal untuk menilai seminar proposal -->
-    <div class="modal fade" id="penilaianSempro" tabindex="-1" role="dialog" aria-labelledby="penilaianSemproLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="penilaianSemproLabel">Penilaian Seminar Proposal</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="" method="post" id="formPenilaianSempro">
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="form-group">
-                                    <label for="komentar">Komentar</label>
-                                    <textarea class="form-control" id="komentar" name="komentar" rows="8"></textarea>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <label>Status Proposal</label>
-                                <div class="form-group">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="status" id="statusDiterima" value="DITERIMA">
-                                        <label class="form-check-label" for="statusDiterima">Diterima</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="status" id="statusRevisi" value="REVISI">
-                                        <label class="form-check-label" for="statusRevisi">Revisi</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="status" id="statusDitolak" value="DITOLAK">
-                                        <label class="form-check-label" for="statusDitolak">Ditolak</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Simpan</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 <?= $this->endSection(); ?>
 
 <?= $this->section("scripts"); ?>

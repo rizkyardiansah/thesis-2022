@@ -9,6 +9,15 @@
     </div>
 <?php endif; ?>
     <h1 class="h3 mb-2 text-gray-800"><?= $title ?></h1>
+    <div class="row mb-3">
+        <?php if (count($dosenPembimbing) == 0 ) : ?>
+            <div class="col-lg-12">
+                <div class="alert alert-warning" role="alert">
+                    <small>Anda <strong>Belum</strong> mempunyai pembimbing</small>
+                </div>
+            </div>
+        <?php endif; ?>
+    </div>
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <?= $title ?>
@@ -22,11 +31,6 @@
                 <?php else: ?>
                     <div class="col-lg-3 d-flex align-items-center">
                         <button class="btn btn-primary" disabled>Catat Hasil Bimbingan</button>
-                    </div>
-                    <div class="col-lg-9 d-flex align-items-center">
-                        <div class="alert alert-warning" role="alert">
-                            <small>Anda <strong>Belum</strong> mempunyai pembimbing</small>
-                        </div>
                     </div>
                 <?php endif; ?>
             </div>

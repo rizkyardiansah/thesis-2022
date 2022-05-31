@@ -83,7 +83,7 @@
         <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="<?= base_url("mahasiswa/seminarProposal") ?>">Seminar Proposal</a>
             <a class="collapse-item" href="<?= base_url("mahasiswa/seminarPrasidang") ?>">Seminar Prasidang</a>
-            <a class="collapse-item" href="">Sidang Skripsi</a>
+            <a class="collapse-item" href="<?= base_url("mahasiswa/sidangSkripsi") ?>">Sidang Skripsi</a>
         </div>
     </div>
 </li>
@@ -168,7 +168,7 @@
         <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="<?= base_url("dosen/pengujiSeminarProposal") ?>">Seminar Proposal</a>
             <a class="collapse-item" href="<?= base_url("dosen/pengujiSeminarPrasidang") ?>">Seminar Prasidang</a>
-            <a class="collapse-item" href="">Sidang Skripsi</a>
+            <a class="collapse-item" href="<?= base_url("dosen/pengujiSidangSkripsi") ?>">Sidang Skripsi</a>
         </div>
     </div>
 </li>

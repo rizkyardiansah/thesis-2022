@@ -19,6 +19,8 @@ class Mahasiswa extends BaseController
     protected $pengajuanPrasidangModel;
     protected $pengajuanSidangModel;
     protected $seminarPrasidangModel;
+    protected $sidangSkripsiModel;
+    protected $penilaianSidangModel;
 
     public function __construct() 
     {
@@ -35,6 +37,8 @@ class Mahasiswa extends BaseController
         $this->pengajuanPrasidangModel = new \App\Models\PengajuanPrasidangModel();
         $this->pengajuanSidangModel = new \App\Models\PengajuanSidangModel();
         $this->seminarPrasidangModel = new \App\Models\SeminarPrasidangModel();
+        $this->sidangSkripsiModel = new \App\Models\SidangSkripsiModel();
+        $this->penilaianSidangModel = new \App\Models\PenilaianSidangModel();
     }
 
     public function index()
@@ -155,7 +159,7 @@ class Mahasiswa extends BaseController
         $dosen = $this->dosenModel->getDosenByProdi($mahasiswa['id_prodi']);
         $bidang = $this->bidangModel->getBidangByProdi($mahasiswa['id_prodi']);
         $prodi = $this->prodiModel->find($mahasiswa['id_prodi']);
-
+        $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($mahasiswa['npm']);
         for ($i = 0; $i < count($proposal); $i++) {
             $proposal[$i]['editable'] = $this->proposalModel->isEditable($proposal[$i]['id']);
         }
@@ -168,6 +172,7 @@ class Mahasiswa extends BaseController
             "prodi" => $prodi,
             "bidang" => $bidang,
             "lastProposal" => $lastProposal,
+            "lastSkripsi" => $lastSkripsi,
         ];
         // dd($bidang);
         return view('mahasiswa/proposal', $data);
@@ -346,10 +351,9 @@ class Mahasiswa extends BaseController
 
     public function pembimbing() {
         $mahasiswa = $this->mahasiswaModel->find(session()->get("user_session")['id']);
-        $dosenPembimbing = $this->pembimbingModel->getAllPembimbingByNpm($mahasiswa['npm']);
-        //dd($dosenPembimbing);
+        $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($mahasiswa['npm']);
+        $dosenPembimbing = $this->pembimbingModel->getAllPembimbingByIdSkripsi($lastSkripsi['id']);
         $hasilBimbingan = $this->catatanBimbinganModel->getAllCatatanByNpm($mahasiswa['npm']);
-        //dd($hasilBimbingan);
         $data = [
             'title' => "Pembimbing Skripsi",
             'dosenPembimbing' => $dosenPembimbing,
@@ -461,12 +465,17 @@ class Mahasiswa extends BaseController
 
     public function detailPengajuanPraSidang($idPengajuanPrasidang) {
         $dataAkun = $this->mahasiswaModel->find(session()->get("user_session")['id']);
-        $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($dataAkun['npm']);
         $detailPengajuan = $this->pengajuanPrasidangModel->getDetailPengajuanById($idPengajuanPrasidang);
         
-        if ($detailPengajuan == null || $dataAkun == null || $lastSkripsi == null || $lastSkripsi['id'] != $detailPengajuan['id_skripsi']) {
+        if ($detailPengajuan == null || $dataAkun == null) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
+
+        $skripsi = $this->skripsiModel->find($detailPengajuan['id_skripsi']);
+        if ($skripsi == null || $skripsi['npm'] != $dataAkun['npm']) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
 
         $data = [
             'title' => 'Detail Pengajuan Seminar Prasidang',
@@ -586,12 +595,16 @@ class Mahasiswa extends BaseController
 
     public function detailPengajuanSidangSkripsi($idpengajuanSidangSkripsi) {
         $dataAkun = $this->mahasiswaModel->find(session()->get("user_session")['id']);
-        $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($dataAkun['npm']);
         $detailPengajuan = $this->pengajuanSidangModel->getDetailPengajuanById($idpengajuanSidangSkripsi);
-        
-        if ($detailPengajuan == null || $dataAkun == null || $lastSkripsi == null || $lastSkripsi['id'] != $detailPengajuan['id_skripsi']) {
+        if ($detailPengajuan == null || $dataAkun == null) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
+
+        $skripsi = $this->skripsiModel->find($detailPengajuan['id_skripsi']);
+        if ($skripsi == null || $skripsi['npm'] != $dataAkun['npm']) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+        
 
         $data = [
             'title' => 'Detail Pengajuan Sidang Skripsi',
@@ -674,6 +687,120 @@ class Mahasiswa extends BaseController
 
         session()->setFlashdata("message", ["icon" => "success", "title" => "Update Pengajuan Sidang Skripsi Berhasil", "text" => "Pengajuan Sidang Skripsi Berhasil diubah"]);
         return redirect()->back();
+    }
+
+    public function sidangSkripsi() {
+        $dataAkun = $this->mahasiswaModel->find(session()->get("user_session")['id']);
+        $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($dataAkun['npm']);
+        $pengajuan = null;
+        if ($lastSkripsi != null) {
+            $pengajuan = $this->pengajuanSidangModel->getWhere(['id_skripsi' => $lastSkripsi['id']])->getResultArray();
+        }
+
+        if ($pengajuan != null && count($pengajuan) == 1) {
+            $pengajuan = $pengajuan[0];
+        }
+
+        $jadwalSidangSkripsi = $this->sidangSkripsiModel->getJadwalByNPM($dataAkun['npm']);
+
+        $data = [
+            'title' => "Jadwal Sidang Skripsi",
+            'jadwalSidangSkripsi' => $jadwalSidangSkripsi,
+            'lastSkripsi' => $lastSkripsi,
+            'pengajuan' => $pengajuan,
+        ];
+
+        return view("mahasiswa/sidang_skripsi", $data);
+    }
+
+    public function hasilSidangSkripsi($idSidangSkripsi) {
+        $dataAkun = $this->mahasiswaModel->find(session()->get("user_session")['id']);
+        $sidangSkripsi = $this->sidangSkripsiModel->find($idSidangSkripsi);
+        if ($sidangSkripsi == null) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
+        $lastSkripsi = $this->skripsiModel->find($sidangSkripsi['id_skripsi']);
+        if ($lastSkripsi == null || $lastSkripsi['npm'] != $dataAkun['npm']) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
+        $pembimbingIlmu1 = $this->pembimbingModel->getPembimbingIlmu1ByIdSkripsi($lastSkripsi['id']);
+        $pembimbingIlmu2 = $this->pembimbingModel->getPembimbingIlmu2ByIdSkripsi($lastSkripsi['id']);
+        $pembimbingAgama = $this->pembimbingModel->getPembimbingAgamaByIdSkripsi($lastSkripsi['id']);
+        $penguji = $this->dosenModel->find($sidangSkripsi['dosen_penguji']);
+        
+        $nilaiPembimbing1 = $this->penilaianSidangModel->getWhere(['id_sidang_skripsi' => $idSidangSkripsi, 'id_dosen' => $pembimbingIlmu1[0]['id_dosen']])->getResultArray();
+        $nilaiPembimbing2 = $this->penilaianSidangModel->getWhere(['id_sidang_skripsi' => $idSidangSkripsi, 'id_dosen' => $pembimbingIlmu2[0]['id_dosen']])->getResultArray();
+        $nilaiPembimbingAgama = $this->penilaianSidangModel->getWhere(['id_sidang_skripsi' => $idSidangSkripsi, 'id_dosen' => $pembimbingAgama[0]['id_dosen']])->getResultArray();
+        $nilaiPenguji = $this->penilaianSidangModel->getWhere(['id_sidang_skripsi' => $idSidangSkripsi, 'id_dosen' => $sidangSkripsi['dosen_penguji']])->getResultArray();
+
+        //set data kelulusan
+        if (count($nilaiPembimbing1) == 1 && ($pembimbingIlmu2[0]['id_dosen'] == null || ($pembimbingIlmu2[0]['id_dosen'] != null && count($nilaiPembimbing2) == 1)) && count($nilaiPembimbingAgama) == 1 && count($nilaiPenguji) == 1)
+        {
+            $jumlah = 0.0;
+            $total_nilai = 0.0;
+
+            //jika punya pembimbing 2
+            if ($pembimbingIlmu2[0]['id_dosen'] != null) {
+                $jumlah = floatval($nilaiPembimbing1[0]['nilai_akhir']) + floatval($nilaiPembimbing2[0]['nilai_akhir']) + floatval($nilaiPembimbingAgama[0]['nilai_akhir']) + floatval($nilaiPenguji[0]['nilai_akhir']); 
+                $total_nilai = (float)$jumlah / (float)4;
+            }//jika gak punya pembimbing 2 
+            else if ($pembimbingIlmu2[0]['id_dosen'] == null) {
+                $jumlah = floatval($nilaiPembimbing1[0]['nilai_akhir']) + floatval($nilaiPembimbingAgama[0]['nilai_akhir']) + floatval($nilaiPenguji[0]['nilai_akhir']); 
+                $total_nilai = (float)$jumlah / (float)3;
+            }
+
+            $grade = "";
+
+            if ($total_nilai >= 3.76) {
+                $grade = "A";
+            } else if ($total_nilai >= 3.51) {
+                $grade = "A-";
+            } else if ($total_nilai >= 3.10) {
+                $grade = "B+";
+            } else if ($total_nilai >= 2.76) {
+                $grade = "B";
+            }
+            
+            $status = "";
+
+            if ($total_nilai >= 2.76) {
+                $status = 'LULUS';
+            } else {
+                $status = 'TIDAK LULUS';
+            }
+
+            //update sidang skripsi
+            $this->sidangSkripsiModel->update($idSidangSkripsi, [
+                'total_nilai' => $total_nilai,
+                'grade' => $grade,
+                'status' => $status,
+            ]);
+            $sidangSkripsi = $this->sidangSkripsiModel->find($idSidangSkripsi);
+
+            //update skripsi
+            $this->skripsiModel->update($lastSkripsi['id'], [
+                'status' => $status,
+            ]);
+        } 
+        
+
+        $data = [
+            'title' => 'Hasil Sidang Skripsi',
+            'lastSkripsi' => $lastSkripsi,
+            'sidangSkripsi' => $sidangSkripsi,
+            'pembimbingIlmu1' => $pembimbingIlmu1,
+            'pembimbingIlmu2' => $pembimbingIlmu2,
+            'pembimbingAgama' => $pembimbingAgama,
+            'penguji' => $penguji,
+            'nilaiPembimbing1' => $nilaiPembimbing1,
+            'nilaiPembimbing2' => $nilaiPembimbing2,
+            'nilaiPembimbingAgama' => $nilaiPembimbingAgama,
+            'nilaiPenguji' => $nilaiPenguji,
+        ];
+
+        return view("mahasiswa/hasil_sidang_skripsi", $data);
     }
 
     public function downloadKhs($npm)

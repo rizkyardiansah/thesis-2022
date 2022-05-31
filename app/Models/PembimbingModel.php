@@ -24,19 +24,24 @@ class PembimbingModel extends Model
         return count($arrayPembimbing) >= 2 ;
     }
 
-    public function getAllPembimbingByNpm($npm) {
+    public function getAllPembimbingByIdSkripsi($idSkripsi) {
         $db = \Config\Database::connect();
-        $builder = $db->table("pembimbing");
+        $sql = "SELECT d.id as id_dosen, d.nama as nama_dosen, d.inisial as inisial_dosen, p.role, p.id as id_pembimbing
+        from pembimbing as p
+        inner join skripsi as s on s.id = p.id_skripsi
+        inner join dosen as d on d.id = p.id_dosen
+        where s.id = ? ";
+        $result = $db->query($sql, [$idSkripsi]);
+        return $result->getResultArray();
 
-        $arrayPembimbing = $builder->
-        select("dosen.id as id_dosen, dosen.nama as nama_dosen, dosen.inisial as inisial_dosen, pembimbing.role, pembimbing.id as id_pembimbing")->
-        join("skripsi", "skripsi.id = pembimbing.id_skripsi")->
-        join("mahasiswa", "mahasiswa.npm = skripsi.npm")->
-        join("dosen", "dosen.id = pembimbing.id_dosen")->
-        getWhere(["skripsi.npm" => $npm])->
-        getResultArray();
+        // $arrayPembimbing = $builder->
+        // select("dosen.id as id_dosen, dosen.nama as nama_dosen, dosen.inisial as inisial_dosen, pembimbing.role, pembimbing.id as id_pembimbing")->
+        // join("skripsi", "skripsi.id = pembimbing.id_skripsi")->
+        // join("dosen", "dosen.id = pembimbing.id_dosen")->
+        // getWhere(["skripsi.id" => $idSkripsi])->
+        // getResultArray();
 
-        return $arrayPembimbing;
+        // return $arrayPembimbing;
     }
 
     public function getAllMahasiswaBimbingan($idDosen) {
@@ -54,6 +59,36 @@ class PembimbingModel extends Model
         get()->getResultArray();
 
         
+    }
+
+    public function getPembimbingIlmu1ByIdSkripsi($idSkripsi) {
+        $db = \Config\Database::connect();
+        $sql = 'SELECT p.*, d.nama as nama_dosen, d.inisial as inisial_dosen
+        from pembimbing as p
+        inner join dosen as d on p.id_dosen = d.id
+        where p.role = "Pembimbing Ilmu 1" and p.id_skripsi = ? ';
+        $result = $db->query($sql, [$idSkripsi]);
+        return $result->getResultArray();
+    }
+
+    public function getPembimbingIlmu2ByIdSkripsi($idSkripsi) {
+        $db = \Config\Database::connect();
+        $sql = 'SELECT p.*, d.nama as nama_dosen, d.inisial as inisial_dosen
+        from pembimbing as p
+        left join dosen as d on p.id_dosen = d.id
+        where p.role = "Pembimbing Ilmu 2" and p.id_skripsi = ? ';
+        $result = $db->query($sql, [$idSkripsi]);
+        return $result->getResultArray();
+    }
+
+    public function getPembimbingAgamaByIdSkripsi($idSkripsi) {
+        $db = \Config\Database::connect();
+        $sql = 'SELECT p.*, d.nama as nama_dosen, d.inisial as inisial_dosen
+        from pembimbing as p
+        inner join dosen as d on p.id_dosen = d.id
+        where p.role = "Pembimbing Agama" and p.id_skripsi = ? ';
+        $result = $db->query($sql, [$idSkripsi]);
+        return $result->getResultArray();
     }
 
 }

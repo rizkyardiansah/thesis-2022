@@ -19,6 +19,7 @@ class Dosen extends BaseController
     protected $pengajuanPrasidangModel;
     protected $pengajuanSidangModel;
     protected $sidangSkripsiModel;
+    protected $penilaianSidangModel;
 
     public function __construct() {
         $this->proposalModel = new \App\Models\ProposalModel();
@@ -34,6 +35,7 @@ class Dosen extends BaseController
         $this->pengajuanSidangModel = new \App\Models\PengajuanSidangModel();
         $this->seminarPrasidangModel = new \App\Models\SeminarPrasidangModel();
         $this->sidangSkripsiModel = new \App\Models\SidangSkripsiModel();
+        $this->penilaianSidangModel = new \App\Models\PenilaianSidangModel();
     }
 
     public function index()
@@ -720,6 +722,83 @@ class Dosen extends BaseController
         }
         session()->setFlashdata("message", ["icon" => "info", "title" => "Jadwal Sidang Skripsi Berhasil ditambahkan", "text" => "$successCounter dari $totalCounter Jadwal telah berhasil ditambahkan!"]);
         return redirect()->to(base_url("dosen/sidangSkripsi"));
+    }
+
+    public function pengujiSidangSkripsi() {
+        $dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
+        $dosen = $this->dosenModel->getDosenByProdi($dataAkun['id_prodi']);
+        $sidangSkripsi = $this->sidangSkripsiModel->getSidangSkripsiByDosen($dataAkun['id']);
+        $data = [
+            'title' => 'Penguji Sidang Skripsi',
+            'sidangSkripsi' => $sidangSkripsi
+        ];
+
+        return view("dosen/penguji_sidang_skripsi", $data);
+    }
+
+    public function penilaianSidangSkripsi($idSidangSkripsi) {
+        $dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
+        $detailSidangSkripsi = $this->sidangSkripsiModel->getDetailSidangSkripsiById($idSidangSkripsi);
+        if (count($detailSidangSkripsi) == 0) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
+        $nilaiSidang = $this->penilaianSidangModel->getWhere([
+            'id_sidang_skripsi' => $idSidangSkripsi,
+            'id_dosen' => $dataAkun['id'], 
+        ])->getResultArray();
+
+        $data = [
+            'title' => 'Penilaian Sidang Skripsi',
+            'dataAkun' => $dataAkun,
+            'detailSidangSkripsi' => $detailSidangSkripsi[0],
+            'nilaiSidang' => $nilaiSidang,
+        ];
+
+        return view("dosen/penilaian_sidang_skripsi", $data);
+    }
+
+    public function insertNilaiSidangSkripsi() {
+        $idSidangSkripsi = $this->request->getPost("idSidangSkripsi");
+        $idDosen = $this->request->getPost("idDosen");
+        $nilai_1 = $this->request->getPost("nilai_1");
+        $nilai_2 = $this->request->getPost("nilai_2");
+        $nilai_3 = $this->request->getPost("nilai_3");
+        $nilai_4 = $this->request->getPost("nilai_4");
+        $nilai_5 = $this->request->getPost("nilai_5");
+        $nilai_6 = $this->request->getPost("nilai_6");
+        $nilai_7 = $this->request->getPost("nilai_7");
+        $nilai_8 = $this->request->getPost("nilai_8");
+        $nilai_9 = $this->request->getPost("nilai_9");
+        $nilai_10 = $this->request->getPost("nilai_10");
+        $nilai_11 = $this->request->getPost("nilai_11");
+        $nilai_12 = $this->request->getPost("nilai_12");
+        $nilai_akhir = $this->request->getPost("nilai_akhir");
+        $grade = $this->request->getPost("grade");
+        $status = $this->request->getPost("status");
+
+        $this->penilaianSidangModel->insert([
+            'id_dosen' => $idDosen,
+            'id_sidang_skripsi' => $idSidangSkripsi,
+            'nilai_1' => $nilai_1,
+            'nilai_2' => $nilai_2,
+            'nilai_3' => $nilai_3,
+            'nilai_4' => $nilai_4,
+            'nilai_5' => $nilai_5,
+            'nilai_6' => $nilai_6,
+            'nilai_7' => $nilai_7,
+            'nilai_8' => $nilai_8,
+            'nilai_9' => $nilai_9,
+            'nilai_10' => $nilai_10,
+            'nilai_11' => $nilai_11,
+            'nilai_12' => $nilai_12,
+            'nilai_akhir' => $nilai_akhir,
+            'grade' => $grade,
+            'status' => $status,
+        ]);
+
+        session()->setFlashdata("message", ["icon" => "success", "title" => "Beri Penilaian Sidang Berhasil", "text" => "Penilaian Sidang Skripsi telah berhasil disimpan"]);
+        return redirect()->back();
     }
 
     public function cetakBimbingan() {

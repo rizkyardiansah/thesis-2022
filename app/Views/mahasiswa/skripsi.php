@@ -23,10 +23,22 @@
                         Menu ini hanya dapat digunakan ketika <strong>Proposal</strong> anda telah <strong>Diterima</strong>.
                     </small>
                 </div>
-            <?php elseif($lastProposal['status'] == 'DITERIMA' || $lastProposal['status'] == 'REVISI'): ?>
+            <?php elseif(($lastProposal['status'] == 'DITERIMA' || $lastProposal['status'] == 'REVISI') && $lastSkripsi == null): ?>
                 <div class="alert alert-info" role="alert">
                     <small>
                         Silahkan <strong>Tambahkan Skripsi</strong> anda.
+                    </small>
+                </div>
+            <?php elseif ($lastSkripsi != null && $lastSkripsi['status'] == 'Lulus' ): ?>
+                <div class="alert alert-success" role="alert">
+                    <small>
+                        Selamat anda dinyatakan <strong>Lulus</strong>. Silahkan unggah Makalah anda pada <a href="<?= base_url("mahasiswa/makalah") ?>">Menu Berikut</a>.
+                    </small>
+                </div>
+            <?php elseif ($lastSkripsi != null && $lastSkripsi['status'] == 'Tidak Lulus' ): ?>
+                <div class="alert alert-danger" role="alert">
+                    <small>
+                        Maaf anda dinyatakan <strong>Tidak Lulus</strong>.
                     </small>
                 </div>
             <?php endif; ?>
