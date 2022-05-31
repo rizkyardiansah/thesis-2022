@@ -21,6 +21,7 @@ class Mahasiswa extends BaseController
     protected $seminarPrasidangModel;
     protected $sidangSkripsiModel;
     protected $penilaianSidangModel;
+    protected $makalahModel;
 
     public function __construct() 
     {
@@ -39,6 +40,7 @@ class Mahasiswa extends BaseController
         $this->seminarPrasidangModel = new \App\Models\SeminarPrasidangModel();
         $this->sidangSkripsiModel = new \App\Models\SidangSkripsiModel();
         $this->penilaianSidangModel = new \App\Models\PenilaianSidangModel();
+        $this->makalahModel = new \App\Models\MakalahModel();
     }
 
     public function index()
@@ -801,6 +803,112 @@ class Mahasiswa extends BaseController
         ];
 
         return view("mahasiswa/hasil_sidang_skripsi", $data);
+    }
+
+    public function makalah() {
+        $dataAkun = $this->mahasiswaModel->find(session()->get("user_session")['id']);
+        $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($dataAkun['npm']);
+        $bidang = $this->bidangModel->getBidangByProdi($dataAkun['id_prodi']);
+        $makalah = $this->makalahModel->getWhere(['npm' => $dataAkun['npm']])->getResultArray();
+
+        $data = [
+            'title' => 'Unggah Makalah',
+            'dataAkun' =>$dataAkun,
+            'lastSkripsi' => $lastSkripsi,
+            'bidang' => $bidang,
+            'makalah' => $makalah,
+        ];
+
+        return view("mahasiswa/makalah", $data);
+    }
+
+    public function insertMakalah() {
+        $validationRules = [
+            'file_makalah' => [
+                'rules' => 'uploaded[file_makalah]|mime_in[file_makalah,application/pdf]|ext_in[file_makalah,pdf]|max_size[file_makalah,2048]',
+                'errors' => [
+                    'uploaded' => 'Pilih File Makalah terlebih dahulu',
+                    'mime_in' => 'File Makalah harus berupa PDF',
+                    'ext_in' => 'File Makalah harus berekstensi .pdf',
+                    'max_size' => 'Ukuran File Makalah tidak boleh lebih dari 2MB'
+                ]
+            ]
+        ];
+
+        if (!$this->validate($validationRules)) {
+            $validation = \Config\Services::validation();
+            session()->setFlashdata("message", ["icon" => "error", "title" => "Unggah File Makalah Gagal", "text" => $validation->getError("file_makalah")]);
+            return redirect()->to(base_url("mahasiswa/makalah"))->withInput();
+        }
+
+        $npm = $this->request->getPost("npm");
+        $judul = $this->request->getPost("judul", FILTER_SANITIZE_SPECIAL_CHARS);
+        $deskripsi = $this->request->getPost("deskripsi", FILTER_SANITIZE_SPECIAL_CHARS);
+        $kata_kunci = $this->request->getPost("kata_kunci", FILTER_SANITIZE_SPECIAL_CHARS);
+        $id_bidang = $this->request->getPost("bidang");
+
+        $fileMakalah = $this->request->getFile("file_makalah");
+        $fileMakalahBaru = "Makalah_". $npm . ".".$fileMakalah->getClientExtension();
+        $fileMakalah->move("folderMakalah", $fileMakalahBaru);
+       
+        $this->makalahModel->insert([
+            "judul" => $judul,
+            "deskripsi" => $deskripsi,
+            "kata_kunci" => $kata_kunci,
+            "file_makalah" => $fileMakalahBaru,
+            "npm" => $npm,
+            "tanggal_upload" => date_format(Time::now('Asia/Jakarta', 'en_us'), 'Y-m-d H:i:s'),
+            "id_bidang" => $id_bidang,
+        ]);
+
+        session()->setFlashdata("message", ["icon" => "success", "title" => "Unggah Makalah Berhasil", "text" => "Makalah Anda telah berhasil diunggah"]);
+        return redirect()->to(base_url("mahasiswa/makalah"));
+    }
+
+    public function updateMakalah($idMakalah) {
+        $validationRules = [
+            'file_makalah' => [
+                'rules' => 'mime_in[file_makalah,application/pdf]|ext_in[file_makalah,pdf]|max_size[file_makalah,2048]',
+                'errors' => [
+                    'mime_in' => 'File Proposal harus berupa PDF',
+                    'ext_in' => 'File Proposal harus berekstensi .pdf',
+                    'max_size' => 'Ukuran File Proposal tidak boleh lebih dari 2MB'
+                ]
+            ]
+        ];
+
+        if (!$this->validate($validationRules)) {
+            $validation = \Config\Services::validation();
+            session()->setFlashdata("message", ["icon" => "error", "title" => "Unggah File Makalah Gagal", "text" => $validation->getError("file_makalah")]);
+            return redirect()->to(base_url("mahasiswa/makalah"))->withInput();
+        }
+
+        
+        $fileMakalah = $this->request->getFile("file_makalah");
+        if ($fileMakalah->getName() != "") {
+            $npm = $this->request->getPost("npm", FILTER_SANITIZE_SPECIAL_CHARS);
+            $namafileMakalah = $this->makalahModel->find($idMakalah)['file_makalah'];
+            unlink("folderMakalah/".$namafileMakalah);
+
+            $newName = "Makalah_". $npm . "." .$fileMakalah->getClientExtension();
+            $fileMakalah->move("folderMakalah", $newName);
+            $this->makalahModel->update($idMakalah, [ "file_makalah" => $newName]);
+        }
+
+        $judul = $this->request->getPost("judul", FILTER_SANITIZE_SPECIAL_CHARS);
+        $deskripsi = $this->request->getPost("deskripsi", FILTER_SANITIZE_SPECIAL_CHARS);
+        $kata_kunci = $this->request->getPost("kata_kunci", FILTER_SANITIZE_SPECIAL_CHARS);
+        $id_bidang = $this->request->getPost("bidang");
+       
+        $this->makalahModel->update($idMakalah,[
+            "judul" => $judul,
+            "deskripsi" => $deskripsi,
+            "kata_kunci" => $kata_kunci,
+            "id_bidang" => $id_bidang,
+        ]);
+
+        session()->setFlashdata("message", ["icon" => "success", "title" => "Perbarui Makalah Berhasil", "text" => "Makalah Anda telah berhasil diperbarui"]);
+        return redirect()->to(base_url("mahasiswa/makalah"));
     }
 
     public function downloadKhs($npm)

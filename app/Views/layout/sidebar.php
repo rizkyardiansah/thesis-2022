@@ -19,17 +19,17 @@
 <!-- Nav Item - Dashboard -->
 <li class="nav-item">
     <a class="nav-link py-2" href="<?= base_url("home/index")?>">
-        <i class="fas fa-fw fa-tachometer-alt"></i>
+        <i class="fas fa-book"></i>
         <span>Repository Skripsi</span></a>
 </li>
 <li class="nav-item ">
     <a class="nav-link py-2" href="<?= base_url("home/kalender")?>">
-        <i class="fas fa-fw fa-tachometer-alt"></i>
+        <i class="fas fa-calendar-alt"></i>
         <span>Kalender Skripsi</span></a>
 </li>
 <li class="nav-item ">
     <a class="nav-link py-2" href="<?= base_url("home/penelitian")?>">
-        <i class="fas fa-fw fa-tachometer-alt"></i>
+        <i class="fas fa-flask"></i>
         <span>Penelitian Dosen</span></a>
 </li>
 
@@ -68,7 +68,7 @@
         <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="<?= base_url("mahasiswa/proposal") ?>">Proposal</a>
             <a class="collapse-item" href="<?= base_url("mahasiswa/skripsi") ?>">Skripsi</a>
-            <a class="collapse-item" href="">Makalah</a>
+            <a class="collapse-item" href="<?= base_url("mahasiswa/makalah") ?>">Makalah</a>
         </div>
     </div>
 </li>
@@ -90,8 +90,8 @@
 
 <li class="nav-item ">
     <a class="nav-link py-2" href="<?= base_url("mahasiswa/pembimbing")?>">
-        <i class="fas fa-fw fa-tachometer-alt"></i>
-        <span>Pembimbing</span></a>
+        <i class="fas fa-file-medical"></i>
+        <span>Catatan Bimbingan</span></a>
 </li>
 <?php endif; ?>
 
@@ -105,7 +105,7 @@
 <!-- Nav Item - Pages Collapse Menu -->
 <li class="nav-item">
     <a class="nav-link py-2" href="<?= base_url("fakultas/kalender") ?>" >
-        <i class="fas fa-fw fa-cog"></i>
+        <i class="fas fa-calendar-plus"></i>
         <span>Kelola Kalender Skripsi</span>
     </a>
 </li>
@@ -149,20 +149,20 @@
 <li class="nav-item">
     <a class="nav-link py-2" href="" >
         <i class="fas fa-fw fa-cog"></i>
-        <span>Penelitian Dosen</span>
+        <span>Kelola Penelitian</span>
     </a>
 </li>
 <li class="nav-item">
     <a class="nav-link py-2" href="<?= base_url("dosen/bimbingan") ?>" >
-        <i class="fas fa-fw fa-cog"></i>
-        <span>Data Bimbingan</span>
+        <i class="fas fa-archive"></i>
+        <span>Bimbingan</span>
     </a>
 </li>
 <li class="nav-item">
     <a class="nav-link collapsed py-2" href="#" data-toggle="collapse" data-target="#collapsePenguji"
         aria-expanded="true" aria-controls="collapsePenguji">
         <i class="fas fa-fw fa-folder"></i>
-        <span>Jadwal Penguji</span>
+        <span>Jadwal</span>
     </a>
     <div id="collapsePenguji" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">

@@ -4,6 +4,12 @@ namespace App\Controllers;
 
 class Home extends BaseController
 {
+    protected $makalahModel;
+
+    public function __construct() {
+        $this->makalahModel = new \App\Models\MakalahModel();
+    }
+
     public function index()
     {
         //autentikasi
@@ -11,9 +17,11 @@ class Home extends BaseController
         {
             return redirect()->to(base_url("unauthorized.php"));
         }
+        $makalah = $this->makalahModel->getAllMakalah();
 
         $data = [
             'title' => "Repository Skripsi",
+            'makalah' => $makalah
         ];
         return view('home/repository_skripsi', $data);
     }
@@ -45,6 +53,17 @@ class Home extends BaseController
             'title' => "Penelitian Dosen",
         ];
         return view("home/penelitian_dosen", $data);
+    }
+
+    public function downloadMakalah($idMakalah) {
+        $makalah = $this->makalahModel->find($idMakalah);
+        if ($makalah == null) {
+            session()->setFlashdata("message", ["icon" => "error", "title" => "Unduh File Makalah Gagal", "text" => "File Makalah tidak ditemukan"]);
+            return redirect()->to(base_url("home/index"));
+        }
+        
+        redirect()->to(base_url("home/index"));
+        return $this->response->download("folderMakalah/".$makalah['file_makalah'], null);
     }
 
     private function authenticate($roles) {
