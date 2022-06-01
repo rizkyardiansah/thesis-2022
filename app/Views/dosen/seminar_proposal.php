@@ -73,8 +73,8 @@
                         <?php endif; ?>
 
                         <?php if ($prodi['mode_sempro'] != 'Asinkronus') : ?>
-                            <th>Penguji 1</th>
-                            <th>Penguji 2</th>
+                            <th>Reviewer 1</th>
+                            <th>Reviewer 2</th>
                         <?php endif; ?>
                             
                             <th>Status</th>

@@ -147,7 +147,7 @@
 </div>
 <!-- Nav Item - Pages Collapse Menu -->
 <li class="nav-item">
-    <a class="nav-link py-2" href="" >
+    <a class="nav-link py-2" href="<?= base_url("dosen/penelitian") ?>" >
         <i class="fas fa-fw fa-cog"></i>
         <span>Kelola Penelitian</span>
     </a>

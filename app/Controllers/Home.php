@@ -5,9 +5,11 @@ namespace App\Controllers;
 class Home extends BaseController
 {
     protected $makalahModel;
+    protected $penelitianDosenModel;
 
     public function __construct() {
         $this->makalahModel = new \App\Models\MakalahModel();
+        $this->penelitianDosenModel = new \App\Models\PenelitianDosenModel();
     }
 
     public function index()
@@ -49,8 +51,10 @@ class Home extends BaseController
             return redirect()->to(base_url("unauthorized.php"));
         }
 
+        $daftarPenelitian = $this->penelitianDosenModel->getAllPenelitian();
         $data = [
             'title' => "Penelitian Dosen",
+            'daftarPenelitian' => $daftarPenelitian,
         ];
         return view("home/penelitian_dosen", $data);
     }

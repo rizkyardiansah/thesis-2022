@@ -33,7 +33,7 @@
                                 <td><?= $m['kata_kunci'] ?></td>
                                 <td>
                                     <form action="<?= base_url("home/downloadMakalah/".$m['id']) ?>" method="post">
-                                        <button type="submit" class="btn btn-primary" data-toggle="tooltip" title="Unduh" data-placement="top"><i class="fa fa-download"></i></button>
+                                        <button type="submit" class="btn btn-primary" data-toggle="tooltip" title="Unduh" data-placement="top"><i class="fas fa-download"></i></button>
                                     </form>
                                 </td>
                             </tr>

@@ -20,6 +20,7 @@ class Dosen extends BaseController
     protected $pengajuanSidangModel;
     protected $sidangSkripsiModel;
     protected $penilaianSidangModel;
+    protected $penelitianDosenModel;
 
     public function __construct() {
         $this->proposalModel = new \App\Models\ProposalModel();
@@ -36,6 +37,7 @@ class Dosen extends BaseController
         $this->seminarPrasidangModel = new \App\Models\SeminarPrasidangModel();
         $this->sidangSkripsiModel = new \App\Models\SidangSkripsiModel();
         $this->penilaianSidangModel = new \App\Models\PenilaianSidangModel();
+        $this->penelitianDosenModel = new \App\Models\PenelitianDosenModel();
     }
 
     public function index()
@@ -799,6 +801,67 @@ class Dosen extends BaseController
 
         session()->setFlashdata("message", ["icon" => "success", "title" => "Beri Penilaian Sidang Berhasil", "text" => "Penilaian Sidang Skripsi telah berhasil disimpan"]);
         return redirect()->back();
+    }
+
+    public function penelitian() {
+        $dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
+        $daftarPenelitian = $this->penelitianDosenModel->getAllPenelitianByIdDosen($dataAkun['id']);
+        $bidang = $this->bidangModel->getBidangByProdi($dataAkun['id_prodi']);
+
+        $data = [
+            'title' => 'Kelola Penelitian',
+            'daftarPenelitian' => $daftarPenelitian,
+            'bidang' => $bidang,
+            'dataAkun' => $dataAkun,
+        ];
+
+        return view("dosen/penelitian", $data);
+    }
+
+    public function insertPenelitian() {
+        $id_dosen = $this->request->getPost("id_dosen");
+        $id_bidang = $this->request->getPost("bidang");
+        $judul = $this->request->getPost("judul", FILTER_SANITIZE_SPECIAL_CHARS);
+        $deskripsi = $this->request->getPost("deskripsi", FILTER_SANITIZE_SPECIAL_CHARS);
+        $jumlah_peneliti = $this->request->getPost("jumlah_peneliti", FILTER_SANITIZE_SPECIAL_CHARS);
+        
+        $this->penelitianDosenModel->insert([
+            'id_dosen' => $id_dosen,
+            'id_bidang' => $id_bidang,
+            'judul' => $judul,
+            'deskripsi' => $deskripsi,
+            'jumlah_peneliti' => $jumlah_peneliti,
+            'status' => 'TERSEDIA',
+        ]);
+
+        session()->setFlashdata("message", ["icon" => "success", "title" => "Tambah Penelitian Berhasil", "text" => "Penelitian berhasil ditambahkan!"]);
+        return redirect()->to(base_url("dosen/penelitian"));
+    }
+
+    public function updatePenelitian($idPenelitian) {
+        $id_bidang = $this->request->getPost("bidang");
+        $judul = $this->request->getPost("judul", FILTER_SANITIZE_SPECIAL_CHARS);
+        $deskripsi = $this->request->getPost("deskripsi", FILTER_SANITIZE_SPECIAL_CHARS);
+        $jumlah_peneliti = $this->request->getPost("jumlah_peneliti", FILTER_SANITIZE_SPECIAL_CHARS);
+        $status = $this->request->getPost("status");
+        
+        $this->penelitianDosenModel->update($idPenelitian, [
+            'id_bidang' => $id_bidang,
+            'judul' => $judul,
+            'deskripsi' => $deskripsi,
+            'jumlah_peneliti' => $jumlah_peneliti,
+            'status' => $status,
+        ]);
+
+        session()->setFlashdata("message", ["icon" => "success", "title" => "Ubah Penelitian Berhasil", "text" => "Penelitian berhasil diubah!"]);
+        return redirect()->to(base_url("dosen/penelitian"));
+    }
+
+    public function deletePenelitian($idPenelitian) {
+        $this->penelitianDosenModel->delete($idPenelitian);
+
+        session()->setFlashdata("message", ["icon" => "success", "title" => "Hapus Penelitian Berhasil", "text" => "Penelitian berhasil dihapus!"]);
+        return redirect()->to(base_url("dosen/penelitian"));
     }
 
     public function cetakBimbingan() {

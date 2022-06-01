@@ -40,7 +40,7 @@
                                 <td><?= $mb['jumlah_bimbingan'] ?></td>
                                 <td><?= $mb['role'] ?></td>
                                 <td>
-                                    <a href="<?= base_url("dosen/detailBimbingan/".$mb['npm']."/".$mb['role']) ?>" role="button" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="detail"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                                    <a href="<?= base_url("dosen/detailBimbingan/".$mb['npm']."/".$mb['role']) ?>" role="button" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Detail"><i class="fas fa-info-circle"></i></a>
                                 </td>
                             </tr>
                             <?php $counter++; ?>

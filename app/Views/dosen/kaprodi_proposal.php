@@ -59,7 +59,7 @@
                                 <td><?= ($p['komentar'] == null) ? "-": $p['komentar'] ?></td>
                                 <td>
                                     <form action="<?= base_url("mahasiswa/downloadProposal/".$p['id']) ?>" method="post">
-                                        <button class="btn btn-primary" type="submit">Download</button>
+                                        <button class="btn btn-primary" type="submit" data-toggle="tooltip" title="Unduh" data-placement="top"><i class="fas fa-download"></i></button>
                                     </form>
                                 </td>
                             </tr>

@@ -24,8 +24,8 @@
                             <th>Bidang</th>
                             <th>Tanggal Seminar</th>
                             <th>Ruangan</th>
-                            <th>Penguji 1</th>
-                            <th>Penguji 2</th>
+                            <th>Reviewer 1</th>
+                            <th>Reviewer 2</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
