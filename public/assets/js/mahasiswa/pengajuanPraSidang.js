@@ -6,7 +6,6 @@ $(function () {
       file_draft: {
         required: true,
         extension: "pdf",
-        accept: "pdf",
         filesize: 2048000,
       },
       lembar_persetujuan: {

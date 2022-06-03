@@ -185,11 +185,11 @@
     <a class="nav-link collapsed py-2" href="#" data-toggle="collapse" data-target="#collapsePenguji"
         aria-expanded="true" aria-controls="collapsePenguji">
         <i class="fas fa-fw fa-folder"></i>
-        <span>Verifikasi Berkas</span>
+        <span>Verifikasi Pengajuan</span>
     </a>
     <div id="collapsePenguji" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="<?= base_url("TenagaKependidikan/pengajuanSkripsi") ?>">Pengajuan Skripsi</a>
+            <a class="collapse-item" href="<?= base_url("TenagaKependidikan/pengajuanSkripsi") ?>">Penulisan Skripsi</a>
             <a class="collapse-item" href="<?= base_url("TenagaKependidikan/pengajuanPrasidang") ?>">Seminar Prasidang</a>
             <a class="collapse-item" href="<?= base_url("TenagaKependidikan/pengajuanSidangSkripsi") ?>">Sidang Skripsi</a>
         </div>
@@ -202,6 +202,16 @@
     </a>
 </li>
 <?php endif; ?>
+
+<!-- Divider -->
+<hr class="sidebar-divider d-none d-md-block my-0">
+
+<li class="nav-item">
+    <a class="nav-link" href="<?= base_url("home/resource") ?>">
+        <i class="fas fa-fw fa-cog"></i>
+        <span>Sumber Daya</span>
+    </a>
+</li>
 
 <!-- Divider -->
 <hr class="sidebar-divider d-none d-md-block">

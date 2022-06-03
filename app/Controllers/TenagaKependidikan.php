@@ -37,7 +37,7 @@ class TenagaKependidikan extends BaseController
     public function pengajuanSkripsi() {
         $pengajuanPenulisanSkripsi = $this->mahasiswaModel->getAllPengajuanSkripsi();
         $data = [
-            'title' => "Pengajuan Penyusunan Skripsi",
+            'title' => "Pengajuan Penulisan Skripsi",
             'pengajuanPenulisanSkripsi' => $pengajuanPenulisanSkripsi,
         ];
         return view("tenagaKependidikan/pengajuan_skripsi", $data);
