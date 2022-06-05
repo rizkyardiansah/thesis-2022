@@ -1,5 +1,21 @@
 $(function () {
-  $("#proposalMahasiswa").DataTable();
+  $("#proposalMahasiswa").DataTable({
+    columnDefs: [
+      {
+        targets: [0, 2, 3, 4, 5, 6, 7, 9],
+        className: "text-center",
+      },
+      {
+        targets: 9,
+        searchable: false,
+        orderable: false,
+      },
+      {
+        targets: "_all",
+        className: "align-middle",
+      },
+    ],
+  });
 
   $("#formTambahProposal").validate({
     rules: {

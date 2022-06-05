@@ -22,6 +22,15 @@ class Home extends BaseController
             return redirect()->to(base_url("unauthorized.php"));
         }
         $makalah = $this->makalahModel->getAllMakalah();
+        $dari = $this->request->getGet("dari");
+        $hingga = $this->request->getGet("hingga");
+
+        if ($dari != null && $hingga != null) {
+            $hingga = date_create($hingga);
+            date_add($hingga, date_interval_create_from_date_string("1 days"));
+            $hingga = date_format($hingga, 'Y-m-d');
+            $makalah = $this->makalahModel->getMakalahByDateRange($dari, $hingga);
+        } 
 
         $data = [
             'title' => "Repository Skripsi",

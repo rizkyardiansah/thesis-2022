@@ -22,8 +22,23 @@
             Kelola Jadwal Seminar Prasidang
         </div>
         <div class="card-body">
-            <div class="row mb-3">
-                <button class="btn btn-primary mr-2" data-toggle="modal" data-target="#tambahJadwal">Tambahkan Jadwal</button>
+            <div class="row">
+                <div class="col-lg-5">
+                    <button class="btn btn-primary mr-2" data-toggle="modal" data-target="#tambahJadwal">Tambahkan Jadwal</button>
+                </div>
+                <div class="col-lg-7 d-flex justify-content-end align-items-center">
+                    <form class="form-inline" action="<?= base_url("dosen/seminarPrasidang") ?>" method="get">
+                        <div class="form-group mr-2">
+                            <label for="dari" class="form-control-label mr-1">Dari</label>
+                            <input type="date" id="dari" name="dari" class="form-control" placeholder="dari">
+                        </div>
+                        <div class="form-group mr-2">
+                            <label for="hingga" class="form-control-label mr-1">Hingga</label>
+                            <input type="date" class="form-control" id="hingga" name="hingga" placeholder="hingga">
+                        </div>
+                        <button type="submit" class="btn btn-primary" data-toggle="tooltip" title="Filter Table" id="filterTable"><i class="fas fa-filter"></i></button>
+                    </form>
+                </div>
             </div>
 
             <!-- table seminar prasidang -->
@@ -31,51 +46,48 @@
                 <table class="table table-bordered" id="jadwalSeminarPrasidang" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>NPM</th>
                             <th>Nama</th>
                             <th>Judul</th>
                             <th>Bidang</th>
                             <th>Tanggal Seminar</th>
                             <th>Ruangan</th>
-                            <th>Penguji 1</th>
-                            <th>Penguji 2</th>
+                            <th>Reviewer</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
+                    <?php $counter = 1; ?>
                     <?php foreach($seminarPrasidang as $sp): ?>
                         <tr>
+                            <td><?= $counter ?></td>
                             <td class="npm"><?= $sp['npm'] ?></td>
                             <td class="nama"><?= $sp['nama_mahasiswa'] ?></td>
                             <td><?= $sp['judul'] ?></td>
                             <td data-toggle="tooltip" data-placement="top" title="<?= $sp['nama_bidang'] ?>"><?= $sp['inisial_bidang'] ?></td>                        
-                            <td class="tanggal"><?= date_format(date_create($sp['tanggal']), 'd-m-Y H:i') ?></td>
+                            <td class="tanggal" style="min-width: 8vw"><?= date_format(date_create($sp['tanggal']), 'd-m-Y H:i') ?> WIB</td>
                             <td class="ruangan"><?= $sp['ruangan'] ?></td>
 
                             <?php foreach($dosen as $d) : ?>
-                                <?php if ($d['id'] == $sp['dosen_penguji1']) : ?>
-                                    <td data-toggle="tooltip" data-placement="top" title="<?= $d['nama'] ?>" class="dosen_penguji1" data-id="<?= $d['id'] ?>"><?= $d['inisial'] ?></td>
+                                <?php if ($d['id'] == $sp['dosen_reviewer']) : ?>
+                                    <td data-toggle="tooltip" data-placement="top" title="<?= $d['nama'] ?>" class="dosen_reviewer" data-id="<?= $d['id'] ?>"><?= $d['inisial'] ?></td>
                                 <?php endif; ?>
                             <?php endforeach; ?>
 
-                            <?php if ($sp['dosen_penguji2'] == null): ?>
-                                <td>-</td>
-                            <?php else: ?>
-                                <?php foreach($dosen as $d) : ?>
-                                    <?php if ($d['id'] == $sp['dosen_penguji2']) : ?>
-                                        <td data-toggle="tooltip" data-placement="top" title="<?= $d['nama'] ?>" class="dosen_penguji2" data-id="<?= $d['id'] ?>"><?= $d['inisial'] ?></td>
-                                    <?php endif; ?>
-                                <?php endforeach; ?>
-                            <?php endif;?>
-                        
-                            <td>
-                                
+                            <td style="min-width: 7vw;">
+                                <?php if ($sp['status'] == 'TERTUNDA'): ?>
                                     <button class="btn btn-primary ubah-jadwal" data-toggle="tooltip" data-placement="top" title="Ubah" data-id="<?= $sp['id'] ?>"><i class="fas fa-pencil-alt"></i></button>
                                     <form action="<?= base_url("dosen/deleteJadwalSeminarPrasidang/" . $sp['id']) ?>" method="post" class="d-inline" id="formHapusJadwal">
                                         <button type="submit" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Hapus"><i class="fa fa-trash"></i></button>
                                     </form>
+                                <?php else: ?>
+                                    <button type="button" class="btn btn-primary" disabled><i class="fas fa-pencil-alt"></i></button>
+                                    <button type="button" class="btn btn-danger" disabled><i class="fa fa-trash"></i></button>
+                                <?php endif; ?>
                             </td>
                         </tr>
+                        <?php $counter++; ?>
                     <?php endforeach; ?>
                     </tbody>
                 </table>
@@ -155,22 +167,11 @@
                                             <input type="text" class="form-control" id="jam" name="jam" placeholder="format: (hh:mm)">
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12">
                                         <div class="form-group">
-                                            <label for="dosen_penguji1">Dosen Penguji 1</label>
-                                            <select name="dosen_penguji1" id="dosen_penguji1" class="form-control">
-                                                <option value="none" selected disabled> - Pilih Dosen Penguji - </option>
-                                                <?php foreach($dosen as $d) : ?>
-                                                    <option value="<?= $d['id'] ?>"><?= $d['inisial'] . " | " . $d['nama'] ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label for="dosen_penguji2">Dosen Penguji 2</label>
-                                            <select name="dosen_penguji2" id="dosen_penguji2" class="form-control">
-                                                <option value="none" selected disabled> - Pilih Dosen Penguji - </option>
+                                            <label for="dosen_reviewer">Dosen Reviewer</label>
+                                            <select name="dosen_reviewer" id="dosen_reviewer" class="form-control">
+                                                <option value="none" selected disabled> - Pilih Dosen Reviewer - </option>
                                                 <?php foreach($dosen as $d) : ?>
                                                     <option value="<?= $d['id'] ?>"><?= $d['inisial'] . " | " . $d['nama'] ?></option>
                                                 <?php endforeach; ?>
@@ -247,21 +248,10 @@
                                     <input type="text" class="form-control" id="jam" name="jam" placeholder="format: (hh:mm)">
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-12">
                                 <div class="form-group">
-                                    <label for="dosen_penguji1">Dosen Penguji 1</label>
-                                    <select name="dosen_penguji1" id="dosen_penguji1" class="form-control">
-                                        <option value="none" selected disabled> - Pilih Dosen Penguji - </option>
-                                        <?php foreach($dosen as $d) : ?>
-                                            <option value="<?= $d['id'] ?>"><?= $d['inisial'] . " | " . $d['nama'] ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label for="dosen_penguji2">Dosen Penguji 2</label>
-                                    <select name="dosen_penguji2" id="dosen_penguji2" class="form-control">
+                                    <label for="dosen_reviewer">Dosen Reviewer</label>
+                                    <select name="dosen_reviewer" id="dosen_reviewer" class="form-control">
                                         <option value="none" selected disabled> - Pilih Dosen Penguji - </option>
                                         <?php foreach($dosen as $d) : ?>
                                             <option value="<?= $d['id'] ?>"><?= $d['inisial'] . " | " . $d['nama'] ?></option>

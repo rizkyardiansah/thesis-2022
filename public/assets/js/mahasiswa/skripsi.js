@@ -1,5 +1,21 @@
 $(function () {
-  $("#tableSkripsi").DataTable();
+  $("#tableSkripsi").DataTable({
+    columnDefs: [
+      {
+        targets: [0, 2, 3, 4, 5, 6, 7, 8, 9],
+        className: "text-center",
+      },
+      {
+        targets: 9,
+        searchable: false,
+        orderable: false,
+      },
+      {
+        targets: "_all",
+        className: "align-middle",
+      },
+    ],
+  });
 
   $("#formTambahSkripsi").validate({
     rules: {
@@ -49,6 +65,43 @@ $(function () {
     },
   });
 
+  $("#formUploadSkripsi").validate({
+    rules: {
+      file_skripsi: {
+        required: true,
+        extension: "pdf",
+        filesize: 2048000,
+      },
+    },
+    messages: {
+      file_skripsi: {
+        extension: "File harus berekstensi PDF",
+        filesize: "File tidak boleh melebihi 2MB",
+      },
+    },
+    errorClass: "text-danger",
+    errorElement: "small",
+    errorPlacement: function (error, element) {
+      console.log(element.attr("type") == "file");
+      if (element.attr("type") == "file") {
+        error.insertAfter(element.parent().parent());
+      } else {
+        error.insertAfter(element);
+      }
+    },
+    submitHandler: function (form) {
+      form.submit();
+    },
+  });
+
+  jQuery.validator.addMethod(
+    "filesize",
+    function (value, element, param) {
+      return this.optional(element) || element.files[0].size <= param;
+    },
+    "Ukuran file melebihi batas"
+  );
+
   $("#tableSkripsi .ubah-skripsi").on("click", function () {
     const parent = $(this).parent().parent();
     const judul = parent.children(".judul").text();
@@ -68,6 +121,21 @@ $(function () {
     $("#formUbahSkripsi #sumber").val(sumber);
     $("#formUbahSkripsi #bidang").val(idBidang);
   });
+
+  $("#tableSkripsi .upload-skripsi").on("click", function () {
+    const idSkripsi = $(this).data("id");
+    $("#uploadSkripsi").modal("show");
+    $("#formUploadSkripsi").attr(
+      "action",
+      `${BASE_URL}mahasiswa/uploadFileSkripsi/${idSkripsi}`
+    );
+  });
+
+  //untuk nampilin nama file
+  $("input[type='file']").on("change", function (e) {
+    $(`label[for="${e.target.id}"]`).text(e.target.files[0].name);
+  });
+
   //untuk sweetalert
   if ($("#flashdata").data("open") == true) {
     Swal.fire(

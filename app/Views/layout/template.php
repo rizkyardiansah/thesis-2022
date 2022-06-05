@@ -21,7 +21,8 @@
     <link href="<?= base_url("assets/css/sb-admin-2.min.css") ?>" rel="stylesheet">
 
     <!-- Custom styles for this page -->
-    <link href="<?= base_url("assets/vendor/datatables/dataTables.bootstrap4.min.css") ?>" rel="stylesheet">
+    <link href="<?= base_url("assets/vendor/datatables/DataTables-1.12.1/css/dataTables.bootstrap4.min.css") ?>" rel="stylesheet">
+    <link href="<?= base_url("assets/vendor/datatables/Buttons-2.2.3/css/buttons.bootstrap4.min.css") ?>" rel="stylesheet">
     <link href="<?= base_url("assets/vendor/fullcalendar/main.css") ?>" rel="stylesheet" />
     <link href="<?= base_url("assets/vendor/daterangepicker/daterangepicker.css") ?>" rel="stylesheet" />
 
@@ -136,8 +137,16 @@
 
     <!-- Page level plugins -->
     <!-- <script src="vendor/chart.js/Chart.min.js"></script> -->
-    <script src="<?= base_url("assets/vendor/datatables/jquery.dataTables.min.js") ?>"></script>
-    <script src="<?= base_url("assets/vendor/datatables/dataTables.bootstrap4.min.js") ?>"></script>
+    <script src="<?= base_url("assets/vendor/datatables/DataTables-1.12.1/js/jquery.dataTables.min.js") ?>"></script>
+    <script src="<?= base_url("assets/vendor/datatables/DataTables-1.12.1/js/dataTables.bootstrap4.min.js") ?>"></script>
+    <script src="<?= base_url("assets/vendor/datatables/Buttons-2.2.3/js/dataTables.buttons.min.js") ?>"></script>
+    <script src="<?= base_url("assets/vendor/datatables/Buttons-2.2.3/js/buttons.bootstrap4.min.js") ?>"></script>
+    <script src="<?= base_url("assets/vendor/datatables/JSZip-2.5.0/jszip.min.js") ?>"></script>
+    <script src="<?= base_url("assets/vendor/datatables/pdfmake-0.1.36/pdfmake.min.js") ?>"></script>
+    <script src="<?= base_url("assets/vendor/datatables/pdfmake-0.1.36/vfs_fonts.js") ?>"></script>
+    <script src="<?= base_url("assets/vendor/datatables/Buttons-2.2.3/js/buttons.html5.min.js") ?>"></script>
+    <script src="<?= base_url("assets/vendor/datatables/Buttons-2.2.3/js/buttons.colVis.min.js") ?>"></script>
+
     <script src="<?= base_url("assets/vendor/moment/moment.min.js") ?>"></script>
     <script src="<?= base_url("assets/vendor/sweetalert2/sweetalert2.all.js") ?>"></script>
     <script src="<?= base_url("assets/vendor/jquery-validate/jquery.validate.min.js") ?>"></script>

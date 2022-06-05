@@ -14,6 +14,22 @@
             <?= $title ?>
         </div>
         <div class="card-body">
+            <div class="row">
+                <div class="col-lg-5"></div>
+                <div class="col-lg-7 d-flex justify-content-end align-items-center">
+                    <form class="form-inline" action="<?= base_url("dosen/pengujiSeminarProposal") ?>" method="get">
+                        <div class="form-group mr-2">
+                            <label for="dari" class="form-control-label mr-1">Dari</label>
+                            <input type="date" id="dari" name="dari" class="form-control" placeholder="dari">
+                        </div>
+                        <div class="form-group mr-2">
+                            <label for="hingga" class="form-control-label mr-1">Hingga</label>
+                            <input type="date" class="form-control" id="hingga" name="hingga" placeholder="hingga">
+                        </div>
+                        <button type="submit" class="btn btn-primary" data-toggle="tooltip" title="Filter Table" id="filterTable"><i class="fas fa-filter"></i></button>
+                    </form>
+                </div>
+            </div>
             <!-- table sempro -->
             <div class="table-responsive">
                 <table class="table table-bordered" id="jadwalPengujiSempro" width="100%" cellspacing="0">
@@ -21,9 +37,12 @@
                         <tr>
                             <th>No</th>
                             <th>NPM</th>
+                            <th>Nama</th>
                             <th>Judul</th>
                             <th>Bidang</th>
-                        <?php if ($prodi['mode_sempro'] != 'Asinkronus') : ?>
+                        <?php if ($prodi['mode_sempro'] == 'Asinkronus') : ?>
+                            <th>Tanggal Pengumpulan</th>
+                        <?php else : ?>
                             <th>Tanggal Seminar</th>
                         <?php endif; ?>
 
@@ -35,9 +54,12 @@
                             <th>Video</th>
                         <?php endif; ?>
                         
-                        <?php if ($prodi['mode_sempro'] != 'Asinkronus') : ?>
-                            <th>Penguji 1</th>
-                            <th>Penguji 2</th>
+                        <?php if ($prodi['mode_sempro'] == 'Asinkronus') : ?>
+                            <th hidden>Reviewer 1</th>
+                            <th hidden>Reviewer 2</th>
+                        <?php else: ?>
+                            <th>Reviewer 1</th>
+                            <th>Reviewer 2</th>
                         <?php endif; ?>
                             <th>Status</th>
                             <th>Komentar</th>
@@ -49,24 +71,26 @@
                     $counter = 1;
                     foreach($seminarProposal as $sm): ?>
                         <tr>
+                            <td><?= $counter ?></td>
                             <td class="npm"><?= $sm['npm'] ?></td>
                             <td><?= $sm['nama_mahasiswa'] ?></td>
-                            <td><?= $sm['judul'] ?></td>
+                            <td style="min-width: 10vw"><?= $sm['judul'] ?></td>
                             <td data-toggle="tooltip" data-placement="top" title="<?= $sm['nama_bidang'] ?>"><?= $sm['inisial_bidang'] ?></td>
 
-                        <?php if ($prodi['mode_sempro'] != 'Asinkronus') : ?>
-                            <td class="tanggal"><?= date_format(date_create($sm['tanggal']), 'd-m-Y H:i') ?></td>
-                        <?php endif; ?>
+                            <td class="tanggal" style="min-width: 8vw"><?= date_format(date_create($sm['tanggal']), 'd-m-Y H:i') ?> WIB</td>
 
                         <?php if ($prodi['mode_sempro'] == 'Sinkronus Daring') : ?>
-                            <td class="link_konferensi"><?= $sm['link_konferensi'] ?></td>
+                            <td class="link_konferensi"><a href="<?= $sm['link_konferensi'] ?>">Klik disini!</a></td>
                         <?php elseif ($prodi['mode_sempro'] == 'Sinkronus Luring') : ?>
                             <td class="ruangan"><?= $sm['ruangan'] ?></td>
                         <?php elseif ($prodi['mode_sempro'] == 'Asinkronus') : ?>
                             <td class="link_video"><a href="<?= $sm['link_video'] ?>">Klik disini!</a></td>
                         <?php endif; ?>
 
-                        <?php if ($prodi['mode_sempro'] != 'Asinkronus') : ?>
+                        <?php if ($prodi['mode_sempro'] == 'Asinkronus') : ?>
+                            <td hidden>-</td>
+                            <td hidden>-</td>
+                        <?php else: ?>
                             <?php foreach($dosen as $d) : ?>
                                 <?php if ($d['id'] == $sm['dosen_penguji1']) : ?>
                                     <td data-toggle="tooltip" data-placement="top" title="<?= $d['nama'] ?>" class="dosen_penguji1" data-id="<?= $d['id'] ?>"><?= $d['inisial'] ?></td>
@@ -86,7 +110,7 @@
                             <td class="status"><?= $sm['status'] ?></td>
                             <td class="komentar"><?= $sm['komentar'] != null ? $sm['komentar'] : "-" ?></td>
 
-                            <td>
+                            <td style="min-width: 7vw">
                                 <form action="<?= base_url("mahasiswa/downloadProposal/".$sm['id_proposal']) ?>" method="post" class="d-inline">
                                     <button class="btn btn-primary" type="submit" data-toggle="tooltip" data-placement="top" title="Unduh Proposal"><i class="fa fa-download" aria-hidden="true"></i></button>
                                 </form>

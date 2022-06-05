@@ -87,7 +87,7 @@
                                 <td><?= date_format(date_create(strval($pp['tanggal_pengajuan'])), 'd-m-Y') ?></td>
                                 <td class="status"><?= $pp['status'] ?></td>
                                 <td>
-                                    <a role="button" class="btn btn-primary" href="<?= base_url("mahasiswa/detailPengajuanPraSidang/".$pp['id']) ?>">Detail</a>
+                                    <a role="button" class="btn btn-primary" href="<?= base_url("mahasiswa/detailPengajuanPraSidang/".$pp['id']) ?>" data-toggle="tooltip" title="Detail"><i class="fas fa-info-circle"></i></a>
                                 </td>
                             </tr>
                         <?php 

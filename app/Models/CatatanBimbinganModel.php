@@ -15,17 +15,6 @@ class CatatanBimbinganModel extends Model
 
     public function getAllCatatanByNpm($npm) {
         $db = \Config\Database::connect();
-        // $sql = "SELECT m.npm, d.nama as nama_dosen, p.role, p.id as id_pembimbing, cb.*
-        // from catatan_bimbingan as cb
-        // inner join pembimbing as p on p.id = cb.id_pembimbing
-        // inner join skripsi as s on s.id = p.id_skripsi
-        // inner join mahasiswa as m on m.npm = s.npm
-        // inner join dosen as d on d.id = p.id_dosen
-        // where s.id = ? 
-        // order by cb.tanggal_bimbingan asc";
-        // $result = $db->query($sql, [$idSkripsi]);
-        // return $result->getResultArray();
-
         $builder = $db->table("catatan_bimbingan");
 
         return $builder->
@@ -37,6 +26,20 @@ class CatatanBimbinganModel extends Model
         orderBy("catatan_bimbingan.tanggal_bimbingan", "ASC")->
         getWhere(["skripsi.npm" => $npm])->
         getResultArray();
+    }
+
+    public function getAllCatatanByLastSkripsi($idSkripsi) {
+        $db = \Config\Database::connect();
+        $sql = "SELECT m.npm, d.nama as nama_dosen, p.role, p.id as id_pembimbing, cb.*
+        from catatan_bimbingan as cb
+        inner join pembimbing as p on p.id = cb.id_pembimbing
+        inner join skripsi as s on s.id = p.id_skripsi
+        inner join mahasiswa as m on m.npm = s.npm
+        inner join dosen as d on d.id = p.id_dosen
+        where s.id = ? 
+        order by cb.tanggal_bimbingan asc";
+        $result = $db->query($sql, [$idSkripsi]);
+        return $result->getResultArray();
     }
 
 }

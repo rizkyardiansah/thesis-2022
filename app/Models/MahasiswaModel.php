@@ -10,26 +10,49 @@ class MahasiswaModel extends Model
     protected $useAutoIncrement = false;
     protected $returnType = "array";
     protected $useSoftDeletes = false;
-    protected $allowedFields = ['npm', 'nama', 'email', 'angkatan', 'id_prodi', 'sks_lulus', 'pembimbing_akademik', 'mk_sedang_diambil', 'mk_akan_diambil', 'status_persetujuan_skripsi', 'file_khs', 'file_krs', 'file_persetujuan_skripsi', 'file_pengajuan_pra_sidang', 'file_lembar_pengesahan', 'file_form_bimbingan'];
+    protected $allowedFields = ['npm', 'nama', 'email', 'angkatan', 'id_prodi', 'sks_lulus', 'pembimbing_akademik', 'mk_sedang_diambil', 'mk_akan_diambil', 'status_persetujuan_skripsi', 'file_khs', 'file_krs', 'file_persetujuan_skripsi', 'file_pengajuan_pra_sidang', 'file_lembar_pengesahan', 'file_form_bimbingan', 'tanggal_pengajuan_skripsi'];
     protected $useTimestamps = false;
 
     public function getAllPengajuanSkripsi() {
         $db = \Config\Database::connect();
-        $sql = "SELECT m.nama as nama_mahasiswa, m.npm, m.sks_lulus, m.mk_sedang_diambil, m.mk_akan_diambil,
+        $sql = "SELECT m.nama as nama_mahasiswa, m.npm, m.sks_lulus, m.mk_sedang_diambil, m.mk_akan_diambil, m.tanggal_pengajuan_skripsi,
         m.file_khs, m.file_krs, m.file_persetujuan_skripsi, m.status_persetujuan_skripsi, prodi.inisial as inisial_prodi, prodi.nama as nama_prodi,
         d.inisial as inisial_pembimbing_akademik, d.nama as nama_pembimbing_akademik
         FROM mahasiswa as m
         INNER JOIN dosen as d on d.id = m.pembimbing_akademik
         INNER JOIN program_studi as prodi on prodi.id = m.id_prodi
         WHERE m.sks_lulus is not null and
+        m.tanggal_pengajuan_skripsi is not null and
+        m.pembimbing_akademik is not null and
+        m.mk_sedang_diambil is not null and
+        m.mk_akan_diambil is not null and
+        m.file_khs is not null and
+        m.file_krs is not null and
+        m.file_persetujuan_skripsi is not null
+        order by m.tanggal_pengajuan_skripsi DESC";
+        $result = $db->query($sql);
+        return $result->getResultArray();
+    }
+
+    public function getPengajuanSkripsiByDateRange($dari, $hingga) {
+        $db = \Config\Database::connect();
+        $sql = "SELECT m.nama as nama_mahasiswa, m.npm, m.sks_lulus, m.mk_sedang_diambil, m.mk_akan_diambil, m.tanggal_pengajuan_skripsi,
+        m.file_khs, m.file_krs, m.file_persetujuan_skripsi, m.status_persetujuan_skripsi, prodi.inisial as inisial_prodi, prodi.nama as nama_prodi,
+        d.inisial as inisial_pembimbing_akademik, d.nama as nama_pembimbing_akademik
+        FROM mahasiswa as m
+        INNER JOIN dosen as d on d.id = m.pembimbing_akademik
+        INNER JOIN program_studi as prodi on prodi.id = m.id_prodi
+        WHERE m.sks_lulus is not null and
+        m.tanggal_pengajuan is not null and
         m.pembimbing_akademik is not null and
         m.mk_sedang_diambil is not null and
         m.mk_akan_diambil is not null and
         m.file_khs is not null and
         m.file_krs is not null and
         m.file_persetujuan_skripsi is not null and
-        m.status_persetujuan_skripsi is null";
-        $result = $db->query($sql);
+        m.tanggal_pengajuan_skripsi between ? and ? 
+        order by m.tanggal_pengajuan_skripsi DESC";
+        $result = $db->query($sql, [$dari, $hingga]);
         return $result->getResultArray();
     }
 
@@ -48,7 +71,6 @@ class MahasiswaModel extends Model
         m.file_khs is not null and
         m.file_krs is not null and
         m.file_persetujuan_skripsi is not null and
-        m.status_persetujuan_skripsi is null and
         m.npm = ?";
 
         $result = $db->query($sql, [$npm]);

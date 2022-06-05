@@ -17,7 +17,7 @@
         <table width="100%" border="0" align="center">
             <tr>
                 <td align="center">
-                    <p><strong>FORMULIR BIMBINGAN SKRIPSI</strong></p>
+                    <h2>FORMULIR BIMBINGAN SKRIPSI</h2>
                 </td>
             </tr>
 
@@ -26,60 +26,55 @@
                     <tr>
                         <td>Nama</td>
                         <td>:</td>
-                        <td>Muhammad Rizky Ardiansah</td>
+                        <td><?= $mahasiswa['nama'] ?></td>
                     </tr>
                     <tr>
                         <td>NPM</td>
                         <td>:</td>
-                        <td>1402018149</td>
+                        <td><?= $mahasiswa['npm'] ?></td>
                     </tr>
                     <tr>
                         <td>Program Studi</td>
                         <td>:</td>
-                        <td>Teknik Informatika</td>
+                        <td><?= $prodi['nama'] ?></td>
                     </tr>
                     <tr>
                         <td>Judul Skripsi</td>
                         <td>:</td>
-                        <td>Pengembangan Sistem Informasi Skripsi Fakultas Teknologi Informasi</td>
+                        <td><?= $lastSkripsi['judul'] ?></td>
                     </tr>
                 </table>
             </tr>
-
+            <br>
+            <br>
+            <br>
             <tr>
                 <td>
-                    <table width="90%" border="1" bordercolor="#000" align="center" cellpadding="2" cellspacing="0">
+                    <table width="90%" border="1" bordercolor="#000" align="center" cellpadding="3" cellspacing="0">
                         <tr>
-                            <td width="5%">No</td>
-                            <td width="15%">Tanggal</td>
-                            <td width="50%">Materi</td>
-                            <td width="20%">Dosen Pembimbing</td>
-                            <td width="10%">Status</td>
+                            <th width="5%">No</th>
+                            <th width="15%">Tanggal</th>
+                            <th width="50%">Materi</th>
+                            <th width="20%">Dosen Pembimbing</th>
+                            <th width="10%">Status</th>
                         </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>12-05-2022</td>
-                            <td>Penjelasan tentang alur pengerjaan skripsi</td>
-                            <td>Elan Suherlan</td>
-                            <td>TERTUNDA</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>12-05-2022</td>
-                            <td>Penjelasan tentang alur pengerjaan skripsi dan kesus hanann asdfka sddf</td>
-                            <td>Elan Suherlan</td>
-                            <td>TERTUNDA</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>12-05-2022</td>
-                            <td>Penjelasan tentang alur pengerjaan skripsi asdf asd asdfasdd fasddf asd fasd fasd fasdf asd fasd f</td>
-                            <td>Elan Suherlan</td>
-                            <td>TERTUNDA</td>
-                        </tr>
+
+                        <?php $counter = 1; ?>
+                        <?php foreach($hasilBimbingan as $hb): ?>
+                            <tr>
+                                <td width="5%" style="text-align: center;"><?= $counter; ?></td>
+                                <td width="15%" style="text-align: center;"><?= date_format(date_create($hb['tanggal_bimbingan']), "d-m-Y"); ?></td>
+                                <td width="35%" style="text-align: center;"><?= $hb['hasil_bimbingan']; ?></td>
+                                <td width="35%" style="text-align: center;"><?= $hb['nama_dosen']; ?></td>
+                                <td width="10%" style="text-align: center;"><?= $hb['status'] ;?></td>
+                            </tr>
+                            <?php $counter++; ?>
+                        <?php endforeach; ?>
                     </table>
                 </td>
             </tr>
+            <br>
+            <br>
             <tr>
                 <td >
                     <div style="text-align: right; padding-right: 80px">
@@ -87,7 +82,8 @@
                     </div>
                 </td>
             </tr>
-
+            <br>
+            <br>
             <tr>
                 <td>
                     <table width="90%" align="center">
@@ -121,89 +117,6 @@
                 </td>
             </tr>
         </table>
-        <!-- <table width="100%" border="0" align="center">
-            <tr>
-                <td height="100" colspan="3" align="center">
-                    <p class="jabatan"><strong>FORMULIR BIMBINGAN SKRIPSI</strong></p>
-                    <p class="panel-heading"><span class="panel panel-default">
-                </td>
-            </tr>
-
-            <tr>
-                <td>Nama</td>
-                <td>:</td>
-                <td><?php echo 'Muhammad Rizky Ardinsah' ?> </td>
-            </tr>
-
-            <tr>
-                <td>NPM</td>
-                <td>:</td>
-                <td><?php echo '1402018149' ?></td>
-            </tr>
-
-            <tr>
-                <td>Program Studi</td>
-                <td>:</td>
-                <td><?php echo 'Teknik Informatika' ?></td>
-            </tr>
-
-            <tr>
-                <td>Judul Skripsi</td>
-                <td>:</td>
-                <td><?php echo 'Pengembangan Sistem Informasi Skripsi Fakultas Teknologi Informasi' ?></td>
-            </tr>
-
-            <tr>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
-
-            <tr>
-                <td height="55" colspan="3">
-                    <table width="99%" border="1" bordercolor="#000000" align="center" cellpadding="0" cellspacing="0">
-                      <tr>
-                        <th width="4%" align="center" bgcolor="#EEEEEE">NO</th>
-                        <th width="15%" align="center" bgcolor="#EEEEEE">TANGGAL</th>
-                        <th width="25%" align="center" bgcolor="#EEEEEE">MATERI</th>
-                        <th width="20%" align="center" bgcolor="#EEEEEE">DOSEN PEMBIMBING</th>
-                        <th width="11%" align="center" bgcolor="#EEEEEE">STATUS</th>
-                      </tr>
-                      <tr>
-                        <td align="center"><?php echo "1"; ?></td>
-                        <td align="center"><?php echo "12-05-2022" ?></td>
-                        <td align="center"><?php echo 'Penjelesana tentang alur pembuatan skripsi' ?></td>
-                        <td align="center"><?php echo 'Elan Suherlan'; ?></td>
-                        <td align="center"><?php echo 'TERTUNDA' ?></td>
-                      </tr>
-                   </table>
-                </td>
-            </tr>
-
-            <tr>
-                <td height="100" colspan="3" align="left">
-                    <table border="0" bordercolor="#000000" align="center" cellpadding="0" cellspacing="0">
-                      <tr>
-                        <td width="4%" align="center" ></td>
-                        <td width="4%" align="center" ></td>
-                        <td width="4%" align="right"> <br>Jakarta, ...........................</td>
-                      </tr>
-                    </table>
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <table width="99%" border="0" bordercolor="#000000" align="center" cellpadding="0" cellspacing="0">
-                        <tr>
-                            <td width="4%" align="center" >Pembimbing Ilmu <br><br><br><br> (...........................)</td>
-                            <td width="4%" align="center" >Pembimbing Agama <br><br><br><br> (...........................)</td>
-                            <td width="4%" align="center" >Mahasiswa <br><br><br><br> (...........................)</td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        </table> -->
     </div>
 </body>
 </html>

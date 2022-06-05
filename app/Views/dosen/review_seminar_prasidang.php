@@ -74,30 +74,29 @@
                         </div>
                     <?php endif; ?>
                     
-                    <div class="col-lg-6">
+                    <div class="col-lg-9">
                         <div class="form-group">
-                            <label for="penguji1">Penguji 1</label>
-                            <input class="form-control" id="penguji1" name="penguji1" value="<?= $detailSeminarPrasidang['nama_penguji1'] ?>" disabled>
+                            <label for="komentar">Hasil Review</label>
+                            <textarea class="form-control" id="komentar" name="komentar" rows="4" <?= $detailSeminarPrasidang['status'] != 'TERTUNDA' ? "disabled": "" ; ?>><?= $detailSeminarPrasidang['komentar_reviewer'] ?></textarea>
                         </div>
                     </div>
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label for="penguji2">Penguji 2</label>
-                            <input class="form-control" id="penguji2" name="penguji2" value="<?= $detailSeminarPrasidang['nama_penguji2'] == null ? "-": $detailSeminarPrasidang['nama_penguji2'] ;  ?>" disabled>
+
+                    <div class="col-lg-3">
+                        <label for="komentar">Status</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="status" id="layakSidang" value="LAYAK SIDANG" <?= $detailSeminarPrasidang['status'] == 'LAYAK SIDANG' ? 'checked' : '' ?> <?= $detailSeminarPrasidang['status'] != 'TERTUNDA' ? "disabled": "" ; ?>>
+                            <label class="form-check-label" for="layakSidang">
+                                Layak Sidang
+                            </label>
+                        </div>
+                        <div class="form-check last">
+                            <input class="form-check-input" type="radio" name="status" id="tidakLayakSidang" value="TIDAK LAYAK SIDANG" <?= $detailSeminarPrasidang['status'] == 'TIDAK LAYAK SIDANG' ? 'checked' : '' ?> <?= $detailSeminarPrasidang['status'] != 'TERTUNDA' ? "disabled": "" ; ?>>
+                            <label class="form-check-label" for="tidakLayakSidang">
+                                Tidak Layak Sidang
+                            </label>
                         </div>
                     </div>
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label for="komentar1">Hasil Review Penguji 1</label>
-                            <textarea class="form-control" id="komentar1" name="komentar1" rows="5" <?= $detailSeminarPrasidang['dosen_penguji1'] != $dataAkun['id'] ? "disabled": "" ; ?>><?= $detailSeminarPrasidang['komentar_penguji1'] ?></textarea>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label for="komentar2">Hasil Review Penguji 2</label>
-                            <textarea class="form-control" id="komentar2" name="komentar2" rows="5" <?= $detailSeminarPrasidang['dosen_penguji2'] != $dataAkun['id'] ? "disabled": "" ; ?>><?= $detailSeminarPrasidang['komentar_penguji2'] ?></textarea>
-                        </div>
-                    </div>
+
                     <div class="col-lg-12 mb-3">
                         <div class="form-group">
                             <label for="file_draft">Draft Skripsi</label>
@@ -116,7 +115,9 @@
                     </div>
                     <div class="col-lg-12 d-flex justify-content-end">
                         <a role="button" class="btn btn-secondary mr-3" href="<?= base_url("dosen/pengujiSeminarPrasidang") ?>">Kembali</a>
-                        <button class="btn btn-primary ubah-proposal" type="submit">Simpan</button>
+                        <?php if ($detailSeminarPrasidang['status'] == 'TERTUNDA') : ?>
+                            <button class="btn btn-primary ubah-proposal" type="submit">Simpan</button>
+                        <?php endif; ?>
                     </div>
                 </div>
             </form>

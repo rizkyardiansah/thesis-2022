@@ -46,19 +46,15 @@ class PembimbingModel extends Model
 
     public function getAllMahasiswaBimbingan($idDosen) {
         $db = \Config\Database::connect();
-        $builder = $db->table("pembimbing");
-
-        return $builder->
-        select("mahasiswa.npm, mahasiswa.nama as nama_mahasiswa, proposal.judul, proposal.id_bidang, bidang.nama as nama_bidang, bidang.inisial as inisial_bidang, pembimbing.*")->
-        join('skripsi', 'skripsi.id = pembimbing.id_skripsi')->
-        join("mahasiswa", "mahasiswa.npm = skripsi.npm")->
-        join("proposal", "proposal.npm = mahasiswa.npm")->
-        join("bidang", "bidang.id = proposal.id_bidang")->
-        where("pembimbing.id_dosen", $idDosen)->
-        where("proposal.status", 'DITERIMA')->
-        get()->getResultArray();
-
-        
+        $sql = 'SELECT p.*, m.npm, m.nama as nama_mahasiswa, s.judul, s.id_bidang, b.nama as nama_bidang,
+        b.inisial as inisial_bidang
+        from pembimbing as p
+        inner join skripsi as s on s.id = p.id_skripsi
+        inner join mahasiswa as m on m.npm = s.npm
+        inner join bidang as b on b.id = s.id_bidang
+        where p.id_dosen = ?';
+        $result = $db->query($sql, [$idDosen]);
+        return $result->getResultArray();        
     }
 
     public function getPembimbingIlmu1ByIdSkripsi($idSkripsi) {

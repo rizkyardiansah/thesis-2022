@@ -1,5 +1,21 @@
 $(function () {
-  $("#tablePengajuan").DataTable();
+  $("#tablePengajuan").DataTable({
+    columnDefs: [
+      {
+        targets: [0, 3, 4, 5, 6, 7],
+        className: "text-center",
+      },
+      {
+        targets: 7,
+        searchable: false,
+        orderable: false,
+      },
+      {
+        targets: "_all",
+        className: "align-middle",
+      },
+    ],
+  });
 
   $("#formPengajuanPraSidang").validate({
     rules: {

@@ -21,6 +21,18 @@
                         Menu ini hanya dapat digunakan oleh mahasiswa yang <strong>Sedang Menulis Skripsi</strong>.
                     </small>
                 </div>
+            <?php elseif (count($jadwalSeminarPrasidang) != 0 && $jadwalSeminarPrasidang[0]['status'] == 'TIDAK LAYAK SIDANG') : ?>
+                <div class="alert alert-danger" role="alert">
+                    <small>
+                        Hasil Seminar Anda adalah <strong>Tidak Layak Sidang</strong>. Anda Tidak dapat melanjutkan ke tahap selanjutnya.
+                    </small>
+                </div>
+            <?php elseif (count($jadwalSeminarPrasidang) != 0 && $jadwalSeminarPrasidang[0]['status'] == 'LAYAK SIDANG') : ?>
+                <div class="alert alert-success" role="alert">
+                    <small>
+                        Selamat! Anda dinyatakan <strong>Layak Sidang</strong>. Anda dapat melanjutkan ke tahap selanjutnya.
+                    </small>
+                </div>
             <?php elseif ($pengajuan == null) : ?>
                 <div class="alert alert-danger" role="alert">
                     <small>Buat <strong>Pengajuan Seminar Prasidang</strong> terlebih dahulu pada <a href="<?= base_url("mahasiswa/pengajuanPraSidang") ?>">Menu Berikut</a>.</small>
@@ -49,10 +61,9 @@
                             <th>Judul</th>
                             <th>Tanggal Seminar</th>
                             <th>Ruangan</th>
-                            <th>Penguji 1</th>
-                            <th>Penguji 2</th>
-                            <th hidden>Masukan Penguji 1</th>
-                            <th hidden>Masukan Penguji 2</th>
+                            <th>Reviewer</th>
+                            <th hidden>Masukan Reviewer</th>
+                            <th>Status</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -63,19 +74,14 @@
                         <tr>
                             <td><?= $counter ?></td>
                             <td><?= $jsp['judul'] ?></td>
-                            <td ><?= date_format(date_create($jsp['tanggal']), 'd-m-Y H:i') ?></td>
+                            <td ><?= date_format(date_create($jsp['tanggal']), 'd-m-Y H:i') ?> WIB</td>
                             <td ><?= $jsp['ruangan'] ?></td>
-                            <td data-toggle="tooltip" data-placement="top" title="<?= $jsp['nama_penguji1'] ?>"><?= $jsp['inisial_penguji1'] ?></td>
+                            <td data-toggle="tooltip" data-placement="top" title="<?= $jsp['nama_reviewer'] ?>"><?= $jsp['inisial_reviewer'] ?></td>
                         
-                        <?php if ($jsp['dosen_penguji2'] != null) : ?>
-                            <td data-toggle="tooltip" data-placement="top" title="<?= $jsp['nama_penguji2'] ?>"><?= $jsp['inisial_penguji2'] ?></td>
-                        <?php else: ?>
-                            <td>-</td>
-                        <?php endif; ?>
-                            <td hidden class="komentar1"><?= $jsp['komentar_penguji1'] ?></td>
-                            <td hidden class="komentar2"><?= $jsp['komentar_penguji2'] ?></td>
+                            <td hidden class="komentar"><?= $jsp['komentar_reviewer'] ?></td>
+                            <td><?= $jsp['status'] ?></td>
                             <td>
-                                <?php if ($jsp['komentar_penguji1'] == null): ?>
+                                <?php if ($jsp['status'] == 'TERTUNDA'): ?>
                                     <button class="btn btn-primary" disabled>Hasil</button>
                                 <?php else: ?>
                                     <button class="btn btn-primary hasil-prasidang" data-toggle="modal" data-target="#hasilPrasidang">Hasil</button>
@@ -104,14 +110,8 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <label for="komentar1">Hasil Review Penguji 1</label>
-                                <textarea name="komentar1" id="komentar1" rows="6" class="form-control" disabled></textarea>
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <label for="komentar2">Hasil Review Penguji 2</label>
-                                <textarea name="komentar2" id="komentar2" rows="6" class="form-control" disabled></textarea>
+                                <label for="komentar">Masukan dari Reviewer</label>
+                                <textarea name="komentar" id="komentar" rows="6" class="form-control" disabled></textarea>
                             </div>
                         </div>
                     </div>

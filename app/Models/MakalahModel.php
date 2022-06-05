@@ -24,4 +24,16 @@ class MakalahModel extends Model
         return $result->getResultArray();
     }
 
+    public function getMakalahByDateRange($dari, $hingga) {
+        $db = \Config\Database::connect();
+        $sql = "SELECT mak.*, m.nama as nama_mahasiswa, b.nama as nama_bidang, b.inisial as inisial_bidang, ps.nama as nama_prodi, ps.inisial as inisial_prodi
+        from makalah as mak
+        inner join mahasiswa as m on m.npm = mak.npm
+        inner join bidang as b on b.id = mak.id_bidang
+        inner join program_studi as ps on ps.id = m.id_prodi
+        where tanggal_upload between ? and ?";
+        $result = $db->query($sql, [$dari, $hingga]);
+        return $result->getResultArray();
+    }
+
 }

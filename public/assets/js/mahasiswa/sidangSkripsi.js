@@ -1,5 +1,21 @@
 $(function () {
-  $("#jadwalSidangSkripsi").DataTable();
+  $("#jadwalSidangSkripsi").DataTable({
+    columnDefs: [
+      {
+        targets: [0, 2, 4, 5, 6, 7, 8],
+        className: "text-center",
+      },
+      {
+        targets: 8,
+        searchable: false,
+        orderable: false,
+      },
+      {
+        targets: "_all",
+        className: "align-middle",
+      },
+    ],
+  });
 
   $(".hasil-prasidang").on("click", function () {
     const parent = $(this).parent().parent();

@@ -258,7 +258,7 @@
                             <div class="list-group">
                                 <div class="list-group-item d-flex justify-content-between align-items-center">
                                     Status
-                                    <input type="text" class="form-control form-control-sm" id="status" name="status" style="width: 30%" readonly>
+                                    <input type="text" class="form-control form-control-sm" id="status" name="status" style="width: 50%" readonly>
                                 </div>
                             </div>
                         </div>

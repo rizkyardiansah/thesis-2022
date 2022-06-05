@@ -54,10 +54,10 @@
                 <table class="table table-bordered" id="jadwalSempro" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>No</th>
+                            <th class="text-center align-middle">No</th>
                             <th>Judul</th>
                             <th>Link Video</th>
-                            <th>Aksi</th>
+                            <th class="text-center align-middle">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -65,10 +65,10 @@
                     $counter = 1;
                     foreach($jadwalSempro as $js): ?>
                         <tr>
-                            <td><?= $counter ?></td>
-                            <td class="judul" data-id="<?= $js['id_proposal'] ?>"><?= $js['judul'] ?></td>
-                            <td class="link_video"><?= $js['link_video'] ?></td>
-                            <td>
+                            <td class="text-center align-middle"><?= $counter ?></td>
+                            <td class="judul align-middle" data-id="<?= $js['id_proposal'] ?>"><?= $js['judul'] ?></td>
+                            <td class="link_video align-middle"><?= $js['link_video'] ?></td>
+                            <td class="text-center align-middle">
                                 <?php if ($js['editable']) : ?>
                                     <button class="btn btn-primary ubah-jadwal" data-toggle="tooltip" data-placement="top" title="Ubah" data-id="<?= $js['id'] ?>"><i class="fas fa-pencil-alt"></i></button>
                                 <?php else : ?>

@@ -30,10 +30,24 @@ class ProposalModel extends Model
         $builder = $db->table("proposal");
 
         return $builder->
-        select("proposal.*")->
+        select("proposal.*, mahasiswa.nama as nama_mahasiswa")->
         join("mahasiswa", "proposal.npm = mahasiswa.npm")->
+        orderBy("proposal.tanggal_upload", "DESC")->
         getWhere(["mahasiswa.id_prodi" => $idProdi])->
         getResultArray();
+    }
+
+    public function getProposalMahasiswaByDateRange($idProdi, $dari, $hingga) {
+        $db = \Config\Database::connect();
+        $sql = "SELECT p.*, m.nama as nama_mahasiswa
+        from proposal as p 
+        inner join mahasiswa as m on m.npm = p.npm
+        where 
+        m.id_prodi = ? and
+        p.tanggal_upload between ? and ?
+        order by p.tanggal_upload DESC";
+        $result = $db->query($sql, [$idProdi, $dari, $hingga]);
+        return $result->getResultArray();
     }
 
     public function getMahasiswaLastProposal($npm) {

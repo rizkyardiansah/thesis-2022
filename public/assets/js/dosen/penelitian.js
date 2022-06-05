@@ -1,5 +1,21 @@
 $(function () {
-  $("#daftarPenelitian").DataTable();
+  $("#daftarPenelitian").DataTable({
+    columnDefs: [
+      {
+        targets: [0, 3, 4, 5, 6],
+        className: "text-center",
+      },
+      {
+        targets: 6,
+        searchable: false,
+        orderable: false,
+      },
+      {
+        targets: "_all",
+        className: "align-middle",
+      },
+    ],
+  });
 
   $("#formTambahPenelitian").validate({
     rules: {

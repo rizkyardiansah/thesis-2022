@@ -36,6 +36,15 @@ class TenagaKependidikan extends BaseController
 
     public function pengajuanSkripsi() {
         $pengajuanPenulisanSkripsi = $this->mahasiswaModel->getAllPengajuanSkripsi();
+        $dari = $this->request->getGet("dari");
+        $hingga = $this->request->getGet("hingga");
+
+        if ( $dari != null && $hingga != null ) {
+            $hingga = date_create($hingga);
+            date_add($hingga, date_interval_create_from_date_string("1 days"));
+            $hingga = date_format($hingga, 'Y-m-d');
+            $pengajuanPenulisanSkripsi = $this->mahasiswaModel->getPengajuanSkripsiByDateRange($dari, $hingga);
+        }
         $data = [
             'title' => "Pengajuan Penulisan Skripsi",
             'pengajuanPenulisanSkripsi' => $pengajuanPenulisanSkripsi,
@@ -45,7 +54,7 @@ class TenagaKependidikan extends BaseController
 
     public function detailPengajuanSkripsi($npm) {
         $mahasiswa = $this->mahasiswaModel->find($npm);
-        if ($mahasiswa == null || $mahasiswa['status_persetujuan_skripsi'] != null) {
+        if ($mahasiswa == null) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
 
@@ -294,6 +303,16 @@ class TenagaKependidikan extends BaseController
     public function pengajuanPrasidang() {
         $dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
         $daftarPengajuan = $this->pengajuanPrasidangModel->getAllPengajuanPrasidang();
+        
+        $dari = $this->request->getGet("dari");
+        $hingga = $this->request->getGet("hingga");
+
+        if ( $dari != null && $hingga != null ) {
+            $hingga = date_create($hingga);
+            date_add($hingga, date_interval_create_from_date_string("1 days"));
+            $hingga = date_format($hingga, 'Y-m-d');
+            $daftarPengajuan = $this->pengajuanPrasidangModel->getPengajuanPrasidangByDateRange($dari, $hingga);
+        }
         $data = [   
             'title' => 'Pengajuan Seminar Prasidang',
             'daftarPengajuan' => $daftarPengajuan,
@@ -332,6 +351,16 @@ class TenagaKependidikan extends BaseController
 
     public function pengajuanSidangSkripsi() {
         $pengajuanSidangSkripsi = $this->pengajuanSidangModel->getAllPengajuanSidang();
+
+        $dari = $this->request->getGet("dari");
+        $hingga = $this->request->getGet("hingga");
+
+        if ( $dari != null && $hingga != null ) {
+            $hingga = date_create($hingga);
+            date_add($hingga, date_interval_create_from_date_string("1 days"));
+            $hingga = date_format($hingga, 'Y-m-d');
+            $pengajuanSidangSkripsi = $this->pengajuanSidangModel->getPengajuanSidangByDateRange($dari, $hingga);
+        }
         $data = [
             "title" => "Pengajuan Sidang Skripsi",
             "pengajuanSidangSkripsi" => $pengajuanSidangSkripsi,
@@ -344,7 +373,7 @@ class TenagaKependidikan extends BaseController
         $detailPengajuan = $this->pengajuanSidangModel->getDetailPengajuanById($idPengajuanSidangSkripsi);
 
         //dd($detailPengajuan);
-        if ($detailPengajuan == null || ($detailPengajuan != null && $detailPengajuan['status'] != 'TERTUNDA')) {
+        if ($detailPengajuan == null) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
         $data = [

@@ -23,6 +23,7 @@
                 <table class="table table-bordered" id="tablePembimbing" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>NPM</th>
                             <th>Nama</th>
                             <th>Prodi</th>
@@ -35,8 +36,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach($mahasiswaDenganPembimbing as $mpp): ?>
+                    <?php $counter = 1; ?>
+                    <?php foreach($mahasiswaDenganPembimbing as $mpp): ?>
                         <tr>
+                            <td><?= $counter ?></td>
                             <td class="npm"><?= $mpp['npm'] ?></td>
                             <td class="nama_mahasiswa"><?= $mpp['nama_mahasiswa'] ?></td>
                             <td data-id="<?= $mpp['id_prodi'] ?>" data-toggle="tooltip" data-placement="top" title="<?= $mpp['nama_prodi'] ?>" class="prodi"><?= $mpp['inisial_prodi'] ?></td>
@@ -65,15 +68,15 @@
                                 <?php endif; ?>
                             <?php endforeach; ?>
 
-                            <td>
-                                    <button class="btn btn-primary ubah-pembimbing" data-toggle="tooltip" data-placement="top" title="Ubah"><i class="fas fa-pencil-alt"></i></button>
-                                    <form action="<?= base_url("TenagaKependidikan/deletePembimbing/" . $mpp['npm']) ?>" method="post" class="d-inline" id="formHapusPembimbing">
-                                        <button type="submit" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Hapus"><i class="fa fa-trash"></i></button>
-                                    </form>
-                                
+                            <td style="display: inline-block; min-width: 7vw">
+                                <button class="btn btn-primary ubah-pembimbing" data-toggle="tooltip" data-placement="top" title="Ubah"><i class="fas fa-pencil-alt"></i></button>
+                                <form action="<?= base_url("TenagaKependidikan/deletePembimbing/" . $mpp['npm']) ?>" method="post" class="d-inline" id="formHapusPembimbing">
+                                    <button type="submit" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Hapus"><i class="fas fa-trash"></i></button>
+                                </form>
                             </td>
                         </tr>
-                        <?php endforeach; ?>
+                        <?php $counter++; ?>
+                    <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>

@@ -66,13 +66,13 @@
                 <table class="table table-bordered table-sm" id="hasilNilaiSidang" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th class="text-center text-dark">Aspek</th>
-                            <th class="text-center text-dark">Penguji Ilmu</th>
-                            <th class="text-center text-dark">Pembimbing Ilmu 1</th>
+                            <th class="text-center text-dark align-middle">Aspek</th>
+                            <th class="text-center text-dark align-middle">Penguji Ilmu</th>
+                            <th class="text-center text-dark align-middle">Pembimbing Ilmu 1</th>
                             <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
-                                <th class="text-center text-dark">Pembimbing Ilmu 2</th>
+                                <th class="text-center text-dark align-middle">Pembimbing Ilmu 2</th>
                             <?php endif; ?>
-                            <th class="text-center text-dark">Pembimbing Agama</th>
+                            <th class="text-center text-dark align-middle">Pembimbing Agama</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -86,76 +86,76 @@
                         <tr>
                             <td>Penyajian sesuai dengan waktu yang disediakan</td>
                             <?php if(count($nilaiPenguji) == 0): ?>
-                                <td class="text-center">-</td>
+                                <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center"><?= $nilaiPenguji[0]['nilai_1'] ?></td>
+                                <td class="text-center align-middle"><?= $nilaiPenguji[0]['nilai_1'] ?></td>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbing1) == 0): ?>
-                                <td class="text-center">-</td>
+                                <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center"><?= $nilaiPembimbing1[0]['nilai_1'] ?></td>
+                                <td class="text-center align-middle"><?= $nilaiPembimbing1[0]['nilai_1'] ?></td>
                             <?php endif; ?>
                             <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
                                 <?php if(count($nilaiPembimbing2) == 0): ?>
-                                    <td class="text-center">-</td>
+                                    <td class="text-center align-middle">-</td>
                                 <?php else: ?>
-                                    <td class="text-center"><?= $nilaiPembimbing2[0]['nilai_1'] ?></td>
+                                    <td class="text-center align-middle"><?= $nilaiPembimbing2[0]['nilai_1'] ?></td>
                                 <?php endif; ?>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbingAgama) == 0): ?>
-                                <td class="text-center">-</td>
+                                <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center"><?= $nilaiPembimbingAgama[0]['nilai_1'] ?></td>
+                                <td class="text-center align-middle"><?= $nilaiPembimbingAgama[0]['nilai_1'] ?></td>
                             <?php endif; ?>
                         </tr>
                         <tr>
                             <td>Relevansi penyajian dengan isi skripsi</td>
                             <?php if(count($nilaiPenguji) == 0): ?>
-                                <td class="text-center">-</td>
+                                <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center"><?= $nilaiPenguji[0]['nilai_2'] ?></td>
+                                <td class="text-center align-middle"><?= $nilaiPenguji[0]['nilai_2'] ?></td>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbing1) == 0): ?>
-                                <td class="text-center">-</td>
+                                <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center"><?= $nilaiPembimbing1[0]['nilai_2'] ?></td>
+                                <td class="text-center align-middle"><?= $nilaiPembimbing1[0]['nilai_2'] ?></td>
                             <?php endif; ?>
                             <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
                                 <?php if(count($nilaiPembimbing2) == 0): ?>
-                                    <td class="text-center">-</td>
+                                    <td class="text-center align-middle">-</td>
                                 <?php else: ?>
-                                    <td class="text-center"><?= $nilaiPembimbing2[0]['nilai_2'] ?></td>
+                                    <td class="text-center align-middle"><?= $nilaiPembimbing2[0]['nilai_2'] ?></td>
                                 <?php endif; ?>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbingAgama) == 0): ?>
-                                <td class="text-center">-</td>
+                                <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center"><?= $nilaiPembimbingAgama[0]['nilai_2'] ?></td>
+                                <td class="text-center align-middle"><?= $nilaiPembimbingAgama[0]['nilai_2'] ?></td>
                             <?php endif; ?>
                         </tr>
                         <tr>
                             <td>Cara Penyajian (Kelancaran, kejelasan, penampilan/sikap dll)</td>
                             <?php if(count($nilaiPenguji) == 0): ?>
-                                <td class="text-center">-</td>
+                                <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center"><?= $nilaiPenguji[0]['nilai_3'] ?></td>
+                                <td class="text-center align-middle"><?= $nilaiPenguji[0]['nilai_3'] ?></td>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbing1) == 0): ?>
-                                <td class="text-center">-</td>
+                                <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center"><?= $nilaiPembimbing1[0]['nilai_3'] ?></td>
+                                <td class="text-center align-middle"><?= $nilaiPembimbing1[0]['nilai_3'] ?></td>
                             <?php endif; ?>
                             <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
                                 <?php if(count($nilaiPembimbing2) == 0): ?>
-                                    <td class="text-center">-</td>
+                                    <td class="text-center align-middle">-</td>
                                 <?php else: ?>
-                                    <td class="text-center"><?= $nilaiPembimbing2[0]['nilai_3'] ?></td>
+                                    <td class="text-center align-middle"><?= $nilaiPembimbing2[0]['nilai_3'] ?></td>
                                 <?php endif; ?>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbingAgama) == 0): ?>
-                                <td class="text-center">-</td>
+                                <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center"><?= $nilaiPembimbingAgama[0]['nilai_3'] ?></td>
+                                <td class="text-center align-middle"><?= $nilaiPembimbingAgama[0]['nilai_3'] ?></td>
                             <?php endif; ?>
                         </tr>
                         <tr>
@@ -168,76 +168,76 @@
                         <tr>
                             <td>Kesinambungan antara alinea, antar bab dalam susunan skripsi</td>
                             <?php if(count($nilaiPenguji) == 0): ?>
-                                <td class="text-center">-</td>
+                                <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center"><?= $nilaiPenguji[0]['nilai_4'] ?></td>
+                                <td class="text-center align-middle"><?= $nilaiPenguji[0]['nilai_4'] ?></td>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbing1) == 0): ?>
-                                <td class="text-center">-</td>
+                                <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center"><?= $nilaiPembimbing1[0]['nilai_4'] ?></td>
+                                <td class="text-center align-middle"><?= $nilaiPembimbing1[0]['nilai_4'] ?></td>
                             <?php endif; ?>
                             <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
                                 <?php if(count($nilaiPembimbing2) == 0): ?>
-                                    <td class="text-center">-</td>
+                                    <td class="text-center align-middle">-</td>
                                 <?php else: ?>
-                                    <td class="text-center"><?= $nilaiPembimbing2[0]['nilai_4'] ?></td>
+                                    <td class="text-center align-middle"><?= $nilaiPembimbing2[0]['nilai_4'] ?></td>
                                 <?php endif; ?>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbingAgama) == 0): ?>
-                                <td class="text-center">-</td>
+                                <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center"><?= $nilaiPembimbingAgama[0]['nilai_4'] ?></td>
+                                <td class="text-center align-middle"><?= $nilaiPembimbingAgama[0]['nilai_4'] ?></td>
                             <?php endif; ?>
                         </tr>
                         <tr>
                             <td>Tata cara penulisan kepustakaan dan catatan kaki</td>
                             <?php if(count($nilaiPenguji) == 0): ?>
-                                <td class="text-center">-</td>
+                                <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center"><?= $nilaiPenguji[0]['nilai_5'] ?></td>
+                                <td class="text-center align-middle"><?= $nilaiPenguji[0]['nilai_5'] ?></td>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbing1) == 0): ?>
-                                <td class="text-center">-</td>
+                                <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center"><?= $nilaiPembimbing1[0]['nilai_5'] ?></td>
+                                <td class="text-center align-middle"><?= $nilaiPembimbing1[0]['nilai_5'] ?></td>
                             <?php endif; ?>
                             <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
                                 <?php if(count($nilaiPembimbing2) == 0): ?>
-                                    <td class="text-center">-</td>
+                                    <td class="text-center align-middle">-</td>
                                 <?php else: ?>
-                                    <td class="text-center"><?= $nilaiPembimbing2[0]['nilai_5'] ?></td>
+                                    <td class="text-center align-middle"><?= $nilaiPembimbing2[0]['nilai_5'] ?></td>
                                 <?php endif; ?>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbingAgama) == 0): ?>
-                                <td class="text-center">-</td>
+                                <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center"><?= $nilaiPembimbingAgama[0]['nilai_5'] ?></td>
+                                <td class="text-center align-middle"><?= $nilaiPembimbingAgama[0]['nilai_5'] ?></td>
                             <?php endif; ?>
                         </tr>
                         <tr>
                             <td>Kebersihan dan kerapihan tulisan</td>
                             <?php if(count($nilaiPenguji) == 0): ?>
-                                <td class="text-center">-</td>
+                                <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center"><?= $nilaiPenguji[0]['nilai_6'] ?></td>
+                                <td class="text-center align-middle"><?= $nilaiPenguji[0]['nilai_6'] ?></td>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbing1) == 0): ?>
-                                <td class="text-center">-</td>
+                                <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center"><?= $nilaiPembimbing1[0]['nilai_6'] ?></td>
+                                <td class="text-center align-middle"><?= $nilaiPembimbing1[0]['nilai_6'] ?></td>
                             <?php endif; ?>
                             <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
                                 <?php if(count($nilaiPembimbing2) == 0): ?>
-                                    <td class="text-center">-</td>
+                                    <td class="text-center align-middle">-</td>
                                 <?php else: ?>
-                                    <td class="text-center"><?= $nilaiPembimbing2[0]['nilai_6'] ?></td>
+                                    <td class="text-center align-middle"><?= $nilaiPembimbing2[0]['nilai_6'] ?></td>
                                 <?php endif; ?>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbingAgama) == 0): ?>
-                                <td class="text-center">-</td>
+                                <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center"><?= $nilaiPembimbingAgama[0]['nilai_6'] ?></td>
+                                <td class="text-center align-middle"><?= $nilaiPembimbingAgama[0]['nilai_6'] ?></td>
                             <?php endif; ?>
                         </tr>
                         <tr>
@@ -250,76 +250,76 @@
                         <tr>
                             <td>Kejelasan rumusan penulisan</td>
                             <?php if(count($nilaiPenguji) == 0): ?>
-                                <td class="text-center">-</td>
+                                <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center"><?= $nilaiPenguji[0]['nilai_7'] ?></td>
+                                <td class="text-center align-middle"><?= $nilaiPenguji[0]['nilai_7'] ?></td>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbing1) == 0): ?>
-                                <td class="text-center">-</td>
+                                <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center"><?= $nilaiPembimbing1[0]['nilai_7'] ?></td>
+                                <td class="text-center align-middle"><?= $nilaiPembimbing1[0]['nilai_7'] ?></td>
                             <?php endif; ?>
                             <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
                                 <?php if(count($nilaiPembimbing2) == 0): ?>
-                                    <td class="text-center">-</td>
+                                    <td class="text-center align-middle">-</td>
                                 <?php else: ?>
-                                    <td class="text-center"><?= $nilaiPembimbing2[0]['nilai_7'] ?></td>
+                                    <td class="text-center align-middle"><?= $nilaiPembimbing2[0]['nilai_7'] ?></td>
                                 <?php endif; ?>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbingAgama) == 0): ?>
-                                <td class="text-center">-</td>
+                                <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center"><?= $nilaiPembimbingAgama[0]['nilai_7'] ?></td>
+                                <td class="text-center align-middle"><?= $nilaiPembimbingAgama[0]['nilai_7'] ?></td>
                             <?php endif; ?>
                         </tr>
                         <tr>
                             <td>Kesesuaian isi tulisan dengan judul skripsi</td>
                             <?php if(count($nilaiPenguji) == 0): ?>
-                                <td class="text-center">-</td>
+                                <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center"><?= $nilaiPenguji[0]['nilai_8'] ?></td>
+                                <td class="text-center align-middle"><?= $nilaiPenguji[0]['nilai_8'] ?></td>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbing1) == 0): ?>
-                                <td class="text-center">-</td>
+                                <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center"><?= $nilaiPembimbing1[0]['nilai_8'] ?></td>
+                                <td class="text-center align-middle"><?= $nilaiPembimbing1[0]['nilai_8'] ?></td>
                             <?php endif; ?>
                             <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
                                 <?php if(count($nilaiPembimbing2) == 0): ?>
-                                    <td class="text-center">-</td>
+                                    <td class="text-center align-middle">-</td>
                                 <?php else: ?>
-                                    <td class="text-center"><?= $nilaiPembimbing2[0]['nilai_8'] ?></td>
+                                    <td class="text-center align-middle"><?= $nilaiPembimbing2[0]['nilai_8'] ?></td>
                                 <?php endif; ?>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbingAgama) == 0): ?>
-                                <td class="text-center">-</td>
+                                <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center"><?= $nilaiPembimbingAgama[0]['nilai_8'] ?></td>
+                                <td class="text-center align-middle"><?= $nilaiPembimbingAgama[0]['nilai_8'] ?></td>
                             <?php endif; ?>
                         </tr>
                         <tr>
                             <td>Kemampuan membuat analisa dan pembahasan</td>
                             <?php if(count($nilaiPenguji) == 0): ?>
-                                <td class="text-center">-</td>
+                                <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center"><?= $nilaiPenguji[0]['nilai_9'] ?></td>
+                                <td class="text-center align-middle"><?= $nilaiPenguji[0]['nilai_9'] ?></td>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbing1) == 0): ?>
-                                <td class="text-center">-</td>
+                                <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center"><?= $nilaiPembimbing1[0]['nilai_9'] ?></td>
+                                <td class="text-center align-middle"><?= $nilaiPembimbing1[0]['nilai_9'] ?></td>
                             <?php endif; ?>
                             <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
                                 <?php if(count($nilaiPembimbing2) == 0): ?>
-                                    <td class="text-center">-</td>
+                                    <td class="text-center align-middle">-</td>
                                 <?php else: ?>
-                                    <td class="text-center"><?= $nilaiPembimbing2[0]['nilai_9'] ?></td>
+                                    <td class="text-center align-middle"><?= $nilaiPembimbing2[0]['nilai_9'] ?></td>
                                 <?php endif; ?>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbingAgama) == 0): ?>
-                                <td class="text-center">-</td>
+                                <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center"><?= $nilaiPembimbingAgama[0]['nilai_9'] ?></td>
+                                <td class="text-center align-middle"><?= $nilaiPembimbingAgama[0]['nilai_9'] ?></td>
                             <?php endif; ?>
                         </tr>
                         <tr>
@@ -332,151 +332,151 @@
                         <tr>
                             <td>Pengetahuan Umum yang berhubungan dengan tulisan</td>
                             <?php if(count($nilaiPenguji) == 0): ?>
-                                <td class="text-center">-</td>
+                                <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center"><?= $nilaiPenguji[0]['nilai_10'] ?></td>
+                                <td class="text-center align-middle"><?= $nilaiPenguji[0]['nilai_10'] ?></td>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbing1) == 0): ?>
-                                <td class="text-center">-</td>
+                                <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center"><?= $nilaiPembimbing1[0]['nilai_10'] ?></td>
+                                <td class="text-center align-middle"><?= $nilaiPembimbing1[0]['nilai_10'] ?></td>
                             <?php endif; ?>
                             <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
                                 <?php if(count($nilaiPembimbing2) == 0): ?>
-                                    <td class="text-center">-</td>
+                                    <td class="text-center align-middle">-</td>
                                 <?php else: ?>
-                                    <td class="text-center"><?= $nilaiPembimbing2[0]['nilai_10'] ?></td>
+                                    <td class="text-center align-middle"><?= $nilaiPembimbing2[0]['nilai_10'] ?></td>
                                 <?php endif; ?>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbingAgama) == 0): ?>
-                                <td class="text-center">-</td>
+                                <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center"><?= $nilaiPembimbingAgama[0]['nilai_10'] ?></td>
+                                <td class="text-center align-middle"><?= $nilaiPembimbingAgama[0]['nilai_10'] ?></td>
                             <?php endif; ?>
                         </tr>
                         <tr>
                             <td>Pengetahuan khusus tentang isi tulisan</td>
                             <?php if(count($nilaiPenguji) == 0): ?>
-                                <td class="text-center">-</td>
+                                <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center"><?= $nilaiPenguji[0]['nilai_11'] ?></td>
+                                <td class="text-center align-middle"><?= $nilaiPenguji[0]['nilai_11'] ?></td>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbing1) == 0): ?>
-                                <td class="text-center">-</td>
+                                <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center"><?= $nilaiPembimbing1[0]['nilai_11'] ?></td>
+                                <td class="text-center align-middle"><?= $nilaiPembimbing1[0]['nilai_11'] ?></td>
                             <?php endif; ?>
                             <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
                                 <?php if(count($nilaiPembimbing2) == 0): ?>
-                                    <td class="text-center">-</td>
+                                    <td class="text-center align-middle">-</td>
                                 <?php else: ?>
-                                    <td class="text-center"><?= $nilaiPembimbing2[0]['nilai_11'] ?></td>
+                                    <td class="text-center align-middle"><?= $nilaiPembimbing2[0]['nilai_11'] ?></td>
                                 <?php endif; ?>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbingAgama) == 0): ?>
-                                <td class="text-center">-</td>
+                                <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center"><?= $nilaiPembimbingAgama[0]['nilai_11'] ?></td>
+                                <td class="text-center align-middle"><?= $nilaiPembimbingAgama[0]['nilai_11'] ?></td>
                             <?php endif; ?>
                         </tr>
                         <tr>
                             <td>Ketepatan menjawab</td>
                             <?php if(count($nilaiPenguji) == 0): ?>
-                                <td class="text-center">-</td>
+                                <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center"><?= $nilaiPenguji[0]['nilai_12'] ?></td>
+                                <td class="text-center align-middle"><?= $nilaiPenguji[0]['nilai_12'] ?></td>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbing1) == 0): ?>
-                                <td class="text-center">-</td>
+                                <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center"><?= $nilaiPembimbing1[0]['nilai_12'] ?></td>
+                                <td class="text-center align-middle"><?= $nilaiPembimbing1[0]['nilai_12'] ?></td>
                             <?php endif; ?>
                             <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
                                 <?php if(count($nilaiPembimbing2) == 0): ?>
-                                    <td class="text-center">-</td>
+                                    <td class="text-center align-middle">-</td>
                                 <?php else: ?>
-                                    <td class="text-center"><?= $nilaiPembimbing2[0]['nilai_12'] ?></td>
+                                    <td class="text-center align-middle"><?= $nilaiPembimbing2[0]['nilai_12'] ?></td>
                                 <?php endif; ?>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbingAgama) == 0): ?>
-                                <td class="text-center">-</td>
+                                <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center"><?= $nilaiPembimbingAgama[0]['nilai_12'] ?></td>
+                                <td class="text-center align-middle"><?= $nilaiPembimbingAgama[0]['nilai_12'] ?></td>
                             <?php endif; ?>
                         </tr>
                         <tr>
                             <td class="text-dark font-weight-bold"><strong>Nilai Akhir</strong></td>
                             <?php if(count($nilaiPenguji) == 0): ?>
-                                <td class="text-center text-dark font-weight-bold"><strong>-</strong></td>
+                                <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
                             <?php else: ?>
-                                <td class="text-center text-dark font-weight-bold"><strong><?= $nilaiPenguji[0]['nilai_akhir'] ?></strong></td>
+                                <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPenguji[0]['nilai_akhir'] ?></strong></td>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbing1) == 0): ?>
-                                <td class="text-center text-dark font-weight-bold"><strong>-</strong></td>
+                                <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
                             <?php else: ?>
-                                <td class="text-center text-dark font-weight-bold"><strong><?= $nilaiPembimbing1[0]['nilai_akhir'] ?></strong></td>
+                                <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPembimbing1[0]['nilai_akhir'] ?></strong></td>
                             <?php endif; ?>
                             <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
                                 <?php if(count($nilaiPembimbing2) == 0): ?>
-                                    <td class="text-center text-dark font-weight-bold"><strong>-</strong></td>
+                                    <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
                                 <?php else: ?>
-                                    <td class="text-center text-dark font-weight-bold"><strong><?= $nilaiPembimbing2[0]['nilai_akhir'] ?></strong></td>
+                                    <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPembimbing2[0]['nilai_akhir'] ?></strong></td>
                                 <?php endif; ?>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbingAgama) == 0): ?>
-                                <td class="text-center text-dark font-weight-bold"><strong>-</strong></td>
+                                <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
                             <?php else: ?>
-                                <td class="text-center text-dark font-weight-bold"><strong><?= $nilaiPembimbingAgama[0]['nilai_akhir'] ?></strong></td>
+                                <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPembimbingAgama[0]['nilai_akhir'] ?></strong></td>
                             <?php endif; ?>
                         </tr>
                         <tr>
                             <td class="text-dark font-weight-bold"><strong>Grade</strong></td>
                             <?php if(count($nilaiPenguji) == 0): ?>
-                                <td class="text-center text-dark font-weight-bold"><strong>-</strong></td>
+                                <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
                             <?php else: ?>
-                                <td class="text-center text-dark font-weight-bold"><strong><?= $nilaiPenguji[0]['grade'] ?></strong></td>
+                                <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPenguji[0]['grade'] ?></strong></td>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbing1) == 0): ?>
-                                <td class="text-center text-dark font-weight-bold"><strong>-</strong></td>
+                                <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
                             <?php else: ?>
-                                <td class="text-center text-dark font-weight-bold"><strong><?= $nilaiPembimbing1[0]['grade'] ?></strong></td>
+                                <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPembimbing1[0]['grade'] ?></strong></td>
                             <?php endif; ?>
                             <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
                                 <?php if(count($nilaiPembimbing2) == 0): ?>
-                                    <td class="text-center text-dark font-weight-bold"><strong>-</strong></td>
+                                    <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
                                 <?php else: ?>
-                                    <td class="text-center text-dark font-weight-bold"><strong><?= $nilaiPembimbing2[0]['grade'] ?></strong></td>
+                                    <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPembimbing2[0]['grade'] ?></strong></td>
                                 <?php endif; ?>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbingAgama) == 0): ?>
-                                <td class="text-center text-dark font-weight-bold"><strong>-</strong></td>
+                                <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
                             <?php else: ?>
-                                <td class="text-center text-dark font-weight-bold"><strong><?= $nilaiPembimbingAgama[0]['grade'] ?></strong></td>
+                                <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPembimbingAgama[0]['grade'] ?></strong></td>
                             <?php endif; ?>
                         </tr>
                         <tr>
                             <td class="text-dark font-weight-bold"><strong>Status</strong></td>
                             <?php if(count($nilaiPenguji) == 0): ?>
-                                <td class="text-center text-dark font-weight-bold"><strong>-</strong></td>
+                                <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
                             <?php else: ?>
-                                <td class="text-center text-dark font-weight-bold"><strong><?= $nilaiPenguji[0]['status'] ?></strong></td>
+                                <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPenguji[0]['status'] ?></strong></td>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbing1) == 0): ?>
-                                <td class="text-center text-dark font-weight-bold"><strong>-</strong></td>
+                                <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
                             <?php else: ?>
-                                <td class="text-center text-dark font-weight-bold"><strong><?= $nilaiPembimbing1[0]['status'] ?></strong></td>
+                                <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPembimbing1[0]['status'] ?></strong></td>
                             <?php endif; ?>
                             <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
                                 <?php if(count($nilaiPembimbing2) == 0): ?>
-                                    <td class="text-center text-dark font-weight-bold"><strong>-</strong></td>
+                                    <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
                                 <?php else: ?>
-                                    <td class="text-center text-dark font-weight-bold"><strong><?= $nilaiPembimbing2[0]['status'] ?></strong></td>
+                                    <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPembimbing2[0]['status'] ?></strong></td>
                                 <?php endif; ?>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbingAgama) == 0): ?>
-                                <td class="text-center text-dark font-weight-bold"><strong>-</strong></td>
+                                <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
                             <?php else: ?>
-                                <td class="text-center text-dark font-weight-bold"><strong><?= $nilaiPembimbingAgama[0]['status'] ?></strong></td>
+                                <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPembimbingAgama[0]['status'] ?></strong></td>
                             <?php endif; ?>
                         </tr>
                     </tbody>

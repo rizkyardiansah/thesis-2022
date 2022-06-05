@@ -54,6 +54,17 @@ class Dosen extends BaseController
 
         $prodi = $this->prodiModel->getProdiByKaprodi(session()->get("user_session")['id']);
         $proposal = $this->proposalModel->getProposalMahasiswaByProdi($prodi['id']);
+
+        $dari = $this->request->getGet("dari");
+        $hingga = $this->request->getGet("hingga");
+
+        if ( $dari != null && $hingga != null ) {
+            $hingga = date_create($hingga);
+            date_add($hingga, date_interval_create_from_date_string("1 days"));
+            $hingga = date_format($hingga, 'Y-m-d');
+            $proposal = $this->proposalModel->getProposalMahasiswaByDateRange($prodi['id'], $dari, $hingga);
+        }
+
         $dosen = $this->dosenModel->findAll();
         $bidang = $this->bidangModel->findAll();
         $data = [
@@ -73,7 +84,18 @@ class Dosen extends BaseController
         }
 
         $prodi = $this->prodiModel->getProdiByKaprodi(session()->get("user_session")['id']);
+        
         $seminarProposal = $this->semproModel->getSemproByProdi($prodi['id']);
+        $dari = $this->request->getGet("dari");
+        $hingga = $this->request->getGet("hingga");
+
+        if ($dari != null && $hingga != null) {
+            $hingga = date_create($hingga);
+            date_add($hingga, date_interval_create_from_date_string("1 days"));
+            $hingga = date_format($hingga, 'Y-m-d');
+            $seminarProposal = $this->semproModel->getSemproByDateRange($prodi['id'],$dari, $hingga);
+        } 
+
         $mahasiswa = $this->mahasiswaModel->getMahasiswaBelumDapatSemproByProdi($prodi['id']);
         $dosen = $this->dosenModel->getDosenByProdi($prodi['id']);
         $data = [
@@ -280,10 +302,27 @@ class Dosen extends BaseController
         $dataDosen = $this->dosenModel->find(session()->get("user_session")['id']);
         $prodi = $this->prodiModel->find($dataDosen['id_prodi']);
         $dosen = $this->dosenModel->getDosenByProdi($dataDosen['id_prodi']);
-        if ($prodi['mode_sempro'] == 'Asinkronus') {
-            $seminarProposal = $this->semproModel->getSemproByProdi($prodi['id']);
+
+        $dari = $this->request->getGet("dari");
+        $hingga = $this->request->getGet("hingga");
+        if ($prodi['mode_sempro'] == 'Asinkronus' ) {
+            if ($dari != null && $hingga != null) {
+                $hingga = date_create($hingga);
+                date_add($hingga, date_interval_create_from_date_string("1 days"));
+                $hingga = date_format($hingga, 'Y-m-d');
+                $seminarProposal = $this->semproModel->getSemproByDateRange($prodi['id'], $dari, $hingga);
+            }else {
+                $seminarProposal = $this->semproModel->getSemproByProdi($prodi['id']);
+            }
         } else {
-            $seminarProposal = $this->semproModel->getSemproByDosen($dataDosen['id']);
+            if ($dari != null && $hingga != null) {
+                $hingga = date_create($hingga);
+                date_add($hingga, date_interval_create_from_date_string("1 days"));
+                $hingga = date_format($hingga, 'Y-m-d');
+                $seminarProposal = $this->semproModel->getSemproByDosenDateRange($dataDosen['id'], $dari, $hingga);
+            } else {
+                $seminarProposal = $this->semproModel->getSemproByDosen($dataDosen['id']);
+            }
         }
 
         $data = [
@@ -375,7 +414,18 @@ class Dosen extends BaseController
         $dataAkun = $this->dosenModel->find(session()->get('user_session')['id']);
         $prodi = $this->prodiModel->find($dataAkun['id_prodi']);
         $mahasiswa = $this->mahasiswaModel->getMahasiswaBelumDapatSempraByProdi($prodi['id']);
+
         $seminarPrasidang = $this->seminarPrasidangModel->getPrasidangByProdi($prodi['id']);
+        $dari = $this->request->getGet("dari");
+        $hingga = $this->request->getGet("hingga");
+
+        if ($dari != null && $hingga != null) {
+            $hingga = date_create($hingga);
+            date_add($hingga, date_interval_create_from_date_string("1 days"));
+            $hingga = date_format($hingga, 'Y-m-d');
+            $seminarPrasidang = $this->seminarPrasidangModel->getPrasidangByDateRange($prodi['id'], $dari, $hingga);
+        } 
+
         $dosen = $this->dosenModel->getDosenByProdi($prodi['id']);
         $data = [
             "title" => "Seminar Prasidang Mahasiswa ". $prodi['inisial'],
@@ -386,22 +436,38 @@ class Dosen extends BaseController
         ];
 
         return view("dosen/seminar_prasidang", $data);
-
     }
 
     public function insertJadwalSeminarPrasidang() {
+        $dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
+        $prodi = $this->prodiModel->find($dataAkun['id_prodi']);
         $npm = $this->request->getPost("mahasiswa", FILTER_SANITIZE_SPECIAL_CHARS);
         $skripsi = $this->skripsiModel->getMahasiswaLastSkripsi($npm);
 
         $tanggal_seminar = date_format(date_create($this->request->getPost("tanggal")), 'Y-m-d');
         $jam_seminar = $this->request->getPost("jam", FILTER_SANITIZE_SPECIAL_CHARS);
+        $ruangan = $this->request->getPost("ruangan", FILTER_SANITIZE_SPECIAL_CHARS);
+
+        $reviewer = $this->dosenModel->find($this->request->getPost("dosen_reviewer"));
+
+        $undangan = [
+            'title' => 'Undangan Review Seminar Prasidang',
+            'nama_dosen' => $reviewer['nama'],
+            'nama_prodi' => $prodi['nama'],
+            'inisial_prodi' => $prodi['inisial'],
+            'nama_kegiatan' => 'Seminar Prasidang',
+            'selaku' => 'Reviewer Seminar Prasidang',
+            'tanggal' => $tanggal_seminar,
+            'jam' => $jam_seminar,
+            'ruangan' => $ruangan,
+        ];
+        $this->sendEmail("", $reviewer['email'], "Undangan Review Seminar Prasidang", view("undangan", $undangan));
 
         $this->seminarPrasidangModel->insert([
             'id_skripsi' => $skripsi['id'],
             'tanggal' => $tanggal_seminar . " " . $jam_seminar,
-            'ruangan' => $this->request->getPost("ruangan", FILTER_SANITIZE_SPECIAL_CHARS),
-            'dosen_penguji1' => $this->request->getPost("dosen_penguji1"),
-            'dosen_penguji2' => $this->request->getPost("dosen_penguji2"),
+            'ruangan' => $ruangan,
+            'dosen_reviewer' => $this->request->getPost("dosen_reviewer"),
         ]);
 
         session()->setFlashdata("message", ["icon" => "success", "title" => "Jadwal Seminar Prasidang Berhasil dibuat", "text" => "Jadwal seminar prasidang telah dibuat"]);
@@ -418,8 +484,7 @@ class Dosen extends BaseController
         $this->seminarPrasidangModel->update($idSeminarPrasidang, [
             'tanggal' => $tanggal_seminar . " " . $jam_seminar,
             'ruangan' => $this->request->getPost("ruangan", FILTER_SANITIZE_SPECIAL_CHARS),
-            'dosen_penguji1' => $this->request->getPost("dosen_penguji1"),
-            'dosen_penguji2' => $this->request->getPost("dosen_penguji2"),
+            'dosen_reviewer' => $this->request->getPost("dosen_reviewer")
         ]);
 
         session()->setFlashdata("message", ["icon" => "success", "title" => "Jadwal Seminar Prasidang Berhasil diperbarui", "text" => "Jadwal seminar prasidang telah diperbarui"]);
@@ -498,24 +563,17 @@ class Dosen extends BaseController
             
             $ruangan = $worksheet->getCell("C$row")->getValue();
 
-            $penguji1 = $this->dosenModel->getDosenByInisial($worksheet->getCell("D$row")->getValue());
-            $penguji2 = $this->dosenModel->getDosenByInisial($worksheet->getCell("E$row")->getValue());
-            if ($penguji1 == null) { continue; }
-            if ($penguji1 != null && $penguji1['id_prodi'] != $dataAkun['id_prodi'] || $penguji2 != null && $penguji2['id_prodi'] != $dataAkun['id_prodi']) { continue; }
-            if ($penguji2 == null && $worksheet->getCell("E$row")->getValue() != "-") { continue; }
+            $reviewer = $this->dosenModel->getDosenByInisial($worksheet->getCell("D$row")->getValue());
+            if ($reviewer == null) { continue; }
+            if ($reviewer != null && $reviewer['id_prodi'] != $dataAkun['id_prodi']) { continue; }
 
-            $dosen_penguji1 = $penguji1['id'];
-            $dosen_penguji2 = null;
-            if ($penguji2 != null) {
-                $dosen_penguji2 = $penguji2['id'];
-            }
+            $dosen_reviewer = $reviewer['id'];
 
             $arrayJadwal[$row-2] = [
                 'id_skripsi' => $id_skripsi,
                 'tanggal' => $tanggal,
                 'ruangan' => $ruangan,
-                'dosen_penguji1' => $dosen_penguji1,
-                'dosen_penguji2' => $dosen_penguji2,
+                'dosen_reviewer' => $dosen_reviewer,
             ];
             $successCounter++;
         }
@@ -530,7 +588,17 @@ class Dosen extends BaseController
     public function pengujiSeminarPrasidang() {
         $dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
         $dosen = $this->dosenModel->getDosenByProdi($dataAkun['id_prodi']);
+
         $seminarPrasidang = $this->seminarPrasidangModel->getSeminarPrasidangByDosen($dataAkun['id']);
+        $dari = $this->request->getGet("dari");
+        $hingga = $this->request->getGet("hingga");
+
+        if ($dari != null && $hingga != null) {
+            $hingga = date_create($hingga);
+            date_add($hingga, date_interval_create_from_date_string("1 days"));
+            $hingga = date_format($hingga, 'Y-m-d');
+            $seminarPrasidang = $this->seminarPrasidangModel->getSeminarPrasidangByDosenDateRange($dataAkun['id'], $dari, $hingga);
+        } 
 
         $data = [
             'title' => 'Penguji Seminar Prasidang',
@@ -544,10 +612,11 @@ class Dosen extends BaseController
     public function reviewSeminarPrasidang($idSeminarPrasidang) {
         $dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
         $detailSeminarPrasidang = $this->seminarPrasidangModel->getDetailSeminarPrasidangById($idSeminarPrasidang);
-        // dd($detailSeminarPrasidang);
+        //dd($detailSeminarPrasidang);
         if (count($detailSeminarPrasidang) == 0) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
+
         $data = [
             'title' => 'Review Seminar Prasidang',
             'dataAkun' => $dataAkun,
@@ -558,17 +627,12 @@ class Dosen extends BaseController
     }
 
     public function komentariSeminarPrasidang($idSeminarPrasidang) {
-        $komentar1 = $this->request->getPost("komentar1", FILTER_SANITIZE_SPECIAL_CHARS);
-        $komentar2 = $this->request->getPost("komentar2", FILTER_SANITIZE_SPECIAL_CHARS);
-        if ($komentar1 == null) {
-            $this->seminarPrasidangModel->update($idSeminarPrasidang, [
-                'komentar_penguji2' => $komentar2,
-            ]);
-        } else if ($komentar2 == null) {
-            $this->seminarPrasidangModel->update($idSeminarPrasidang, [
-                'komentar_penguji1' => $komentar1,
-            ]);
-        }
+        $komentar = $this->request->getPost("komentar", FILTER_SANITIZE_SPECIAL_CHARS);
+        $status = $this->request->getPost("status");
+        $this->seminarPrasidangModel->update($idSeminarPrasidang, [
+            'komentar_reviewer' => $komentar,
+            'status' => $status,
+        ]);
 
         session()->setFlashdata("message", ["icon" => "success", "title" => "Hasil Review Seminar Prasidang Terkirim", "text" => "Hasil Review telah terkirim kepada mahasiswa"]);
         return redirect()->to(base_url("dosen/pengujiSeminarPrasidang"));
@@ -584,7 +648,18 @@ class Dosen extends BaseController
         $dataAkun = $this->dosenModel->find(session()->get('user_session')['id']);
         $prodi = $this->prodiModel->find($dataAkun['id_prodi']);
         $mahasiswa = $this->mahasiswaModel->getMahasiswaBelumDapatSidangByProdi($prodi['id']);
+
         $sidangSkripsi = $this->sidangSkripsiModel->getSidangSkripsiByProdi($prodi['id']);
+        $dari = $this->request->getGet("dari");
+        $hingga = $this->request->getGet("hingga");
+
+        if ($dari != null && $hingga != null) {
+            $hingga = date_create($hingga);
+            date_add($hingga, date_interval_create_from_date_string("1 days"));
+            $hingga = date_format($hingga, 'Y-m-d');
+            $sidangSkripsi = $this->sidangSkripsiModel->getSidangSkripsiByDateRange($prodi['id'], $dari, $hingga);
+        } 
+
         $dosen = $this->dosenModel->getDosenByProdi($prodi['id']);
         $data = [
             "title" => "Sidang Skripsi",
@@ -598,16 +673,35 @@ class Dosen extends BaseController
     }
 
     public function insertJadwalSidangSkripsi() {
+        $dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
+        $prodi = $this->prodiModel->find($dataAkun['id_prodi']);
+
         $npm = $this->request->getPost("mahasiswa", FILTER_SANITIZE_SPECIAL_CHARS);
         $skripsi = $this->skripsiModel->getMahasiswaLastSkripsi($npm);
 
         $tanggal_sidang = date_format(date_create($this->request->getPost("tanggal", FILTER_SANITIZE_SPECIAL_CHARS)), 'Y-m-d');
         $jam_sidang = $this->request->getPost("jam", FILTER_SANITIZE_SPECIAL_CHARS);
+        $ruangan = $this->request->getPost("ruangan", FILTER_SANITIZE_SPECIAL_CHARS);
+
+        $penguji = $this->dosenModel->find($this->request->getPost("dosen_penguji"));
+
+        $undangan = [
+            'title' => 'Undangan Sidang Skripsi',
+            'nama_dosen' => $penguji['nama'],
+            'nama_prodi' => $prodi['nama'],
+            'inisial_prodi' => $prodi['inisial'],
+            'nama_kegiatan' => 'Sidang Skripsi',
+            'selaku' => 'Penguji Sidang Skripsi',
+            'tanggal' => $tanggal_sidang,
+            'jam' => $jam_sidang,
+            'ruangan' => $ruangan,
+        ];
+        $this->sendEmail("", $penguji['email'], "Undangan Sidang Skripsi", view("undangan", $undangan));
 
         $this->sidangSkripsiModel->insert([
             'id_skripsi' => $skripsi['id'],
             'tanggal' => $tanggal_sidang . " " . $jam_sidang,
-            'ruangan' => $this->request->getPost("ruangan", FILTER_SANITIZE_SPECIAL_CHARS),
+            'ruangan' => $ruangan,
             'dosen_penguji' => $this->request->getPost("dosen_penguji"),
         ]);
 
@@ -729,7 +823,17 @@ class Dosen extends BaseController
     public function pengujiSidangSkripsi() {
         $dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
         $dosen = $this->dosenModel->getDosenByProdi($dataAkun['id_prodi']);
+
         $sidangSkripsi = $this->sidangSkripsiModel->getSidangSkripsiByDosen($dataAkun['id']);
+        $dari = $this->request->getGet("dari");
+        $hingga = $this->request->getGet("hingga");
+
+        if ($dari != null && $hingga != null) {
+            $hingga = date_create($hingga);
+            date_add($hingga, date_interval_create_from_date_string("1 days"));
+            $hingga = date_format($hingga, 'Y-m-d');
+            $sidangSkripsi = $this->sidangSkripsiModel->getSidangSkripsiByDosenDateRange($dataAkun['id'], $dari, $hingga);
+        } 
         $data = [
             'title' => 'Penguji Sidang Skripsi',
             'sidangSkripsi' => $sidangSkripsi
@@ -864,9 +968,33 @@ class Dosen extends BaseController
         return redirect()->to(base_url("dosen/penelitian"));
     }
 
-    public function cetakBimbingan() {
-        return view("cetakBimbingan");
-    }
+    private function sendEmail($attachment, $to, $title, $message){
+        $email = \Config\Services::email();
+        $config = [
+            'protocol' => 'smtp',
+            'SMTPHost' => 'smtp-relay.sendinblue.com',
+            'SMTPUser' => 'muhammadrizkyardiansah93@gmail.com',
+            'SMTPPass' => 'CHqZbI5J04BrNELc',
+            'SMTPPort' => 587,
+            'SMTPCrypto' => 'tls',
+            'mailType' => 'html',
+        ];
+        $email->initialize($config);
+
+        $email->setFrom('muhammadrizkyardiansah93@gmail.com', 'Muhammad Rizky Ardiansah');
+		$email->setTo($to);
+
+		$email->attach($attachment);
+
+		$email->setSubject($title);
+		$email->setMessage($message);
+
+		if(! $email->send()){
+			return false;
+		}else{
+			return true;
+		}
+	}
 
     private function authenticate($roles) {
         $userSession = session("user_session");

@@ -100,7 +100,7 @@
                         ?>
                             <tr>
                                 <td><?= $counter ?></td>
-                                <td class="judul"><?= $p['judul'] ?></td>
+                                <td class="judul" style="min-width: 10vw"><?= $p['judul'] ?></td>
                                 <?php foreach($bidang as $b) : ?>
                                     <?php if ($b['id'] == $p['id_bidang']) : ?>
                                         <td data-toggle="tooltip" data-placement="top" title="<?= $b['nama'] ?>" class="bidang" data-id="<?= $p['id_bidang'] ?>"><?= $b['inisial'] ?></td>
@@ -120,7 +120,7 @@
                                 <?php endforeach; ?>
                                 <td><?= $p['status'] ?></td>
                                 <td><?= ($p['komentar'] != null) ? $p['komentar'] : "-" ?></td>
-                                <td>
+                                <td style="min-width: 7vw">
                                     <form action="<?= base_url("mahasiswa/downloadProposal/".$p['id']) ?>" method="post" class="d-inline">
                                         <button class="btn btn-primary" type="submit" data-toggle="tooltip" data-placement="top" title="Unduh Proposal"><i class="fa fa-download" aria-hidden="true"></i></button>
                                     </form>

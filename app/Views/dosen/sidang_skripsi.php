@@ -9,7 +9,7 @@
     </div>
 <?php endif; ?>
     <h1 class="h3 mb-2 text-gray-800"><?= $title ?></h1>
-
+    
     <div class="row">
         <div class="col-lg-12">
             <div class="alert alert-info" role="alert">
@@ -22,8 +22,23 @@
             Kelola Jadwal Sidang Skripsi
         </div>
         <div class="card-body">
-            <div class="row mb-3">
-                <button class="btn btn-primary mr-2" data-toggle="modal" data-target="#tambahJadwal">Tambahkan Jadwal</button>
+            <div class="row">
+                <div class="col-lg-5">
+                    <button class="btn btn-primary mr-2" data-toggle="modal" data-target="#tambahJadwal">Tambahkan Jadwal</button>
+                </div>
+                <div class="col-lg-7 d-flex justify-content-end align-items-center">
+                    <form class="form-inline" action="<?= base_url("dosen/sidangSkripsi") ?>" method="get">
+                        <div class="form-group mr-2">
+                            <label for="dari" class="form-control-label mr-1">Dari</label>
+                            <input type="date" id="dari" name="dari" class="form-control" placeholder="dari">
+                        </div>
+                        <div class="form-group mr-2">
+                            <label for="hingga" class="form-control-label mr-1">Hingga</label>
+                            <input type="date" class="form-control" id="hingga" name="hingga" placeholder="hingga">
+                        </div>
+                        <button type="submit" class="btn btn-primary" data-toggle="tooltip" title="Filter Table" id="filterTable"><i class="fas fa-filter"></i></button>
+                    </form>
+                </div>
             </div>
 
             <!-- table sidang skripsi -->
@@ -31,6 +46,7 @@
                 <table class="table table-bordered" id="jadwalSidangSkripsi" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>NPM</th>
                             <th>Nama</th>
                             <th>Judul</th>
@@ -45,15 +61,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <?php 
-                        foreach ($sidangSkripsi as $ss) :
-                    ?>
+                    <?php $counter = 1; ?>
+                    <?php foreach ($sidangSkripsi as $ss) :?>
                         <tr>
+                            <td><?= $counter ?></td>
                             <td class="npm"><?= $ss['npm'] ?></td>
                             <td class="nama"><?= $ss['nama_mahasiswa'] ?></td>
                             <td class="judul"><?= $ss['judul'] ?></td>
                             <td data-toggle="tooltip" data-placement="top" title="<?= $ss['nama_bidang'] ?>" class="bidang"><?= $ss['inisial_bidang'] ?></td>                        
-                            <td class="tanggal"><?= date_format(date_create($ss['tanggal']), 'd-m-Y H:i') ?></td>
+                            <td class="tanggal" style="min-width: 8vw"><?= date_format(date_create($ss['tanggal']), 'd-m-Y H:i') ?> WIB</td>
                             <td class="ruangan"><?= $ss['ruangan'] ?></td>
 
                             <td data-toggle="tooltip" data-placement="top" title="<?= $ss['nama_penguji'] ?>" class="penguji" data-id="<?= $ss['dosen_penguji'] ?>"><?= $ss['inisial_penguji'] ?></td>
@@ -68,17 +84,15 @@
 
                             <td data-toggle="tooltip" data-placement="top" title="<?= $ss['nama_pembimbing_agama'] ?>" class="pembimbing_agama"><?= $ss['inisial_pembimbing_agama'] ?></td>
                         
-                            <td>
-                                
-                                    <button class="btn btn-primary ubah-jadwal" data-toggle="tooltip" data-placement="top" title="Ubah" data-id="<?= $ss['id'] ?>"><i class="fas fa-pencil-alt"></i></button>
-                                    <form action="<?= base_url("dosen/deleteJadwalSidangSkripsi/" . $ss['id']) ?>" method="post" class="d-inline" id="formHapusJadwal">
-                                        <button type="submit" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Hapus"><i class="fa fa-trash"></i></button>
-                                    </form>
+                            <td style="min-width: 7vw">
+                                <button class="btn btn-primary ubah-jadwal" data-toggle="tooltip" data-placement="top" title="Ubah" data-id="<?= $ss['id'] ?>"><i class="fas fa-pencil-alt"></i></button>
+                                <form action="<?= base_url("dosen/deleteJadwalSidangSkripsi/" . $ss['id']) ?>" method="post" class="d-inline" id="formHapusJadwal">
+                                    <button type="submit" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Hapus"><i class="fa fa-trash"></i></button>
+                                </form>
                             </td>
                         </tr>
-                    <?php 
-                        endforeach;
-                    ?>
+                        <?php $counter++; ?>
+                    <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>

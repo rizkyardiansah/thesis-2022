@@ -62,8 +62,8 @@
                     foreach($jadwalSidangSkripsi as $jss): ?>
                         <tr>
                             <td><?= $counter ?></td>
-                            <td><?= $jss['judul'] ?></td>
-                            <td ><?= date_format(date_create($jss['tanggal']), 'd-m-Y H:i') ?></td>
+                            <td style="min-width: 10vw"><?= $jss['judul'] ?></td>
+                            <td style="min-width: 8vw"><?= date_format(date_create($jss['tanggal']), 'd-m-Y H:i') ?> WIB</td>
                             <td ><?= $jss['ruangan'] ?></td>
                             <td data-toggle="tooltip" data-placement="top" title="<?= $jss['nama_penguji'] ?>"><?= $jss['inisial_penguji'] ?></td>
                             <td data-toggle="tooltip" data-placement="top" title="<?= $jss['nama_pembimbing1'] ?>"><?= $jss['inisial_pembimbing1'] ?></td>

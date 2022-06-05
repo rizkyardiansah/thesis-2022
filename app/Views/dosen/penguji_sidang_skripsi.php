@@ -14,12 +14,29 @@
             <?= $title ?>
         </div>
         <div class="card-body">
-            <!-- table sempro -->
+            <div class="row">
+                <div class="col-lg-5"></div>
+                <div class="col-lg-7 d-flex justify-content-end align-items-center">
+                    <form class="form-inline" action="<?= base_url("dosen/pengujiSidangSkripsi") ?>" method="get">
+                        <div class="form-group mr-2">
+                            <label for="dari" class="form-control-label mr-1">Dari</label>
+                            <input type="date" id="dari" name="dari" class="form-control" placeholder="dari">
+                        </div>
+                        <div class="form-group mr-2">
+                            <label for="hingga" class="form-control-label mr-1">Hingga</label>
+                            <input type="date" class="form-control" id="hingga" name="hingga" placeholder="hingga">
+                        </div>
+                        <button type="submit" class="btn btn-primary" data-toggle="tooltip" title="Filter Table" id="filterTable"><i class="fas fa-filter"></i></button>
+                    </form>
+                </div>
+            </div>
             <div class="table-responsive">
                 <table class="table table-bordered" id="jadwalPengujiSidang" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>NPM</th>
+                            <th>Nama</th>
                             <th>Judul</th>
                             <th>Bidang</th>
                             <th>Tanggal Sidang</th>
@@ -32,13 +49,16 @@
                         </tr>
                     </thead>
                     <tbody>
+                    <?php $counter = 1; ?>
                     <?php foreach($sidangSkripsi as $ss): ?>
                         <tr>
+                            <td><?= $counter; ?></td>
                             <td class="npm"><?= $ss['npm'] ?></td>
+                            <td><?= $ss['nama_mahasiswa'] ?></td>
                             <td><?= $ss['judul'] ?></td>
                             <td data-toggle="tooltip" data-placement="top" title="<?= $ss['nama_bidang'] ?>"><?= $ss['inisial_bidang'] ?></td>
 
-                            <td class="tanggal"><?= date_format(date_create($ss['tanggal']), 'd-m-Y H:i') ?></td>
+                            <td class="tanggal" style="min-width: 10vw"><?= date_format(date_create($ss['tanggal']), 'd-m-Y H:i') ?> WIB</td>
 
                             <td class="ruangan"><?= $ss['ruangan'] ?></td>
 
@@ -55,9 +75,10 @@
                             <td data-toggle="tooltip" data-placement="top" title="<?= $ss['nama_pembimbing_agama'] ?>" class="pembimbing_agama"><?= $ss['inisial_pembimbing_agama'] ?></td>
 
                             <td>
-                                <a class="btn btn-primary" href="<?= base_url("dosen/penilaianSidangSkripsi/".$ss['id']) ?>">Penilaian</a>
+                                <a class="btn btn-primary" href="<?= base_url("dosen/penilaianSidangSkripsi/".$ss['id']) ?>" data-toggle="tooltip" title="Penilaian"><i class="fas fa-clipboard-list"></i></a>
                             </td>
                         </tr>
+                        <?php $counter++ ?>
                     <?php endforeach; ?>
                     </tbody>
                 </table>

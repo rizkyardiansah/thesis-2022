@@ -21,9 +21,24 @@ class SeminarProposalModel extends Model
         inner join proposal as p on p.id = sp.id_proposal
         inner join mahasiswa as m on m.npm = p.npm
         inner join bidang as b on b.id = p.id_bidang
-        where m.id_prodi = ? and
-        p.status = 'TERTUNDA'";
+        where m.id_prodi = ?
+        order by sp.tanggal DESC";
         $result = $db->query($sql, [$idProdi]);
+        return $result->getResultArray();
+    }
+
+     public function getSemproByDateRange($idProdi, $dari, $hingga) {
+        $db = \Config\Database::connect();
+        $sql = "SELECT sp.*, m.npm, m.nama as nama_mahasiswa, p.judul, p.status, p.komentar, 
+        b.nama as nama_bidang, b.inisial as inisial_bidang
+        from seminar_proposal as sp
+        inner join proposal as p on p.id = sp.id_proposal
+        inner join mahasiswa as m on m.npm = p.npm
+        inner join bidang as b on b.id = p.id_bidang
+        where m.id_prodi = ? and
+        sp.tanggal between ? and ?
+        order by sp.tanggal DESC";
+        $result = $db->query($sql, [$idProdi, $dari, $hingga]);
         return $result->getResultArray();
     }
 
@@ -60,10 +75,24 @@ class SeminarProposalModel extends Model
         inner join proposal as p on p.id = sp.id_proposal
         inner join mahasiswa as m on m.npm = p.npm
         inner join bidang as b on b.id = p.id_bidang
-        where (sp.dosen_penguji1 = ? or sp.dosen_penguji2 = ?) and
-        p.status = 'TERTUNDA'
-        order by sp.tanggal asc";
+        where (sp.dosen_penguji1 = ? or sp.dosen_penguji2 = ?)
+        order by sp.tanggal DESC";
         $result = $db->query($sql, [$idDosen, $idDosen]);
+        return $result->getResultArray();
+    }
+
+    public function getSemproByDosenDateRange($idDosen, $dari, $hingga) {
+        $db = \Config\Database::connect();
+        $sql = "SELECT sp.*, m.npm, m.nama as nama_mahasiswa, p.judul, p.status, p.komentar, 
+        b.nama as nama_bidang, b.inisial as inisial_bidang
+        from seminar_proposal as sp
+        inner join proposal as p on p.id = sp.id_proposal
+        inner join mahasiswa as m on m.npm = p.npm
+        inner join bidang as b on b.id = p.id_bidang
+        where (sp.dosen_penguji1 = ? or sp.dosen_penguji2 = ?) and
+        sp.tanggal between ? and ?
+        order by sp.tanggal DESC";
+        $result = $db->query($sql, [$idDosen, $idDosen, $dari, $hingga]);
         return $result->getResultArray();
     }
 

@@ -40,16 +40,16 @@
                 <table class="table table-bordered" id="jadwalSempro" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>No</th>
-                            <th>Judul</th>
-                            <th>Tanggal Seminar</th>
+                            <th class="text-center align-middle">No</th>
+                            <th class="align-middle">Judul</th>
+                            <th class="align-middle text-center">Tanggal Seminar</th>
                         <?php if ($prodi['mode_sempro'] == 'Sinkronus Daring') : ?>
-                            <th>Link Konferensi</th>
+                            <th class="align-middle text-center ">Link Konferensi</th>
                         <?php elseif ($prodi['mode_sempro'] == 'Sinkronus Luring') : ?>
-                            <th>Ruangan</th>
+                            <th class="align-middle text-center ">Ruangan</th>
                         <?php endif; ?>
-                            <th>Penguji 1</th>
-                            <th>Penguji 2</th>
+                            <th class="text-center align-middle">Reviewer 1</th>
+                            <th class="text-center align-middle">Reviewer 2</th>
                             
                         </tr>
                     </thead>
@@ -58,28 +58,28 @@
                     $counter = 1;
                     foreach($jadwalSempro as $js): ?>
                         <tr>
-                            <td><?= $counter ?></td>
-                            <td><?= $js['judul'] ?></td>
-                            <td class="tanggal"><?= date_format(date_create($js['tanggal']), 'd-m-Y H:i') ?></td>
+                            <td class="text-center align-middle"><?= $counter ?></td>
+                            <td class="align-middle"><?= $js['judul'] ?></td>
+                            <td class="tanggal text-center align-middle"><?= date_format(date_create($js['tanggal']), 'd-m-Y H:i') ?> WIB</td>
                         <?php if ($prodi['mode_sempro'] == 'Sinkronus Daring') : ?>
-                            <td class="link_konferensi"><?= $js['link_konferensi'] ?></td>
+                            <td class="link_konferensi text-center align-middle"><a href="<?= $js['link_konferensi'] ?>">Klik disini!</a></td>
                         <?php elseif ($prodi['mode_sempro'] == 'Sinkronus Luring') : ?>
-                            <td class="ruangan"><?= $js['ruangan'] ?></td>
+                            <td class="ruangan text-center align-middle"><?= $js['ruangan'] ?></td>
                         <?php endif; ?>
                         <?php foreach($dosen as $d) : ?>
                             <?php if ($d['id'] == $js['dosen_penguji1']) : ?>
-                                <td data-toggle="tooltip" data-placement="top" title="<?= $d['nama'] ?>" class="dosen_penguji1" data-id="<?= $d['id'] ?>"><?= $d['inisial'] ?></td>
+                                <td data-toggle="tooltip" data-placement="top" title="<?= $d['nama'] ?>" class="dosen_penguji1 text-center align-middle" data-id="<?= $d['id'] ?>"><?= $d['inisial'] ?></td>
                             <?php endif; ?>
                         <?php endforeach; ?> 
                         
                         <?php if ($js['dosen_penguji2'] != null) : ?>
                             <?php foreach($dosen as $d) : ?>
                                 <?php if ($d['id'] == $js['dosen_penguji2']) : ?>
-                                    <td data-toggle="tooltip" data-placement="top" title="<?= $d['nama'] ?>" class="dosen_penguji2" data-id="<?= $d['id'] ?>"><?= $d['inisial'] ?></td>
+                                    <td data-toggle="tooltip" data-placement="top" title="<?= $d['nama'] ?>" class="dosen_penguji2 text-center align-middle" data-id="<?= $d['id'] ?>"><?= $d['inisial'] ?></td>
                                 <?php endif; ?>
                             <?php endforeach; ?>             
                         <?php else: ?>
-                            <td>-</td>
+                            <td class="text-center align-middle">-</td>
                         <?php endif; ?>
                         </tr>
                     <?php

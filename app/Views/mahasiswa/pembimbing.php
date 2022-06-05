@@ -25,8 +25,9 @@
         <div class="card-body">
             <div class="row mb-3">
                 <?php if (count($dosenPembimbing) != 0 ) : ?>
-                    <div class="col-lg-3 d-flex align-items-center">
-                        <button class="btn btn-primary" data-toggle="modal" data-target="#catatBimbingan">Catat Hasil Bimbingan</button>
+                    <div class="col-lg-6">
+                        <button class="btn btn-primary mr-2" data-toggle="modal" data-target="#catatBimbingan">Catat Hasil Bimbingan</button>
+                        <a role="button" class="btn btn-primary" href="<?= base_url("mahasiswa/cetakFormBimbingan/".$mahasiswa['npm']) ?>">Cetak Form Bimbingan</a>
                     </div>
                 <?php else: ?>
                     <div class="col-lg-3 d-flex align-items-center">
@@ -57,7 +58,7 @@
                                 <td class="dosen" data-id="<?= $hb['id_pembimbing'] ?>"><?= $hb['nama_dosen'] ?></td>
                                 <td><?= $hb['role'] ?></td>
                                 <td><?= $hb['status'] ?></td>
-                                <td>
+                                <td style="min-width: 7vw">
                                     <button class="btn btn-primary ubah-catatan" data-toggle="tooltip" data-placement="top" title="Ubah" data-id="<?= $hb['id'] ?>" <?= $hb['status'] == 'DISETUJUI' ? 'disabled' : '' ?>><i class="fas fa-pencil-alt"></i></button>
                                     <form action="<?= base_url("mahasiswa/deleteHasilBimbingan/" . $hb['id']) ?>" method="post" class="d-inline" id="formHapusCatatan">
                                         <button type="submit" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Hapus" <?= $hb['status'] == 'DISETUJUI' ? 'disabled' : '' ?>><i class="fa fa-trash"></i></button>

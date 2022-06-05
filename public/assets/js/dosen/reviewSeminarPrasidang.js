@@ -1,20 +1,19 @@
 $(function () {
   $("#formReviewSempra").validate({
     rules: {
-      komentar1: {
+      komentar: {
         required: true,
         maxlength: 300,
       },
-      komentar2: {
+      status: {
         required: true,
-        maxlength: 300,
       },
     },
     errorClass: "text-danger",
     errorElement: "small",
     errorPlacement: function (error, element) {
       if (element.attr("name") == "status") {
-        error.insertAfter(element.parent().parent());
+        error.insertAfter(element.parent().parent().children(".last"));
       } else {
         error.insertAfter(element);
       }

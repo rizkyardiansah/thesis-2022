@@ -1,5 +1,59 @@
 $(function () {
-  $("#jadwalSeminarPrasidang").DataTable();
+  $("#jadwalSeminarPrasidang").DataTable({
+    dom:
+      "<'row mt-3'<'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'l><'col-sm-12 col-md-4'f>>" +
+      "<'row'<'col-sm-12'tr>>" +
+      "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+    buttons: [
+      // {
+      //   extend: "copyHtml5",
+      //   className: "btn-dark",
+      //   exportOptions: {
+      //     columns: ":visible",
+      //   },
+      // },
+      {
+        extend: "excelHtml5",
+        className: "btn-dark",
+        exportOptions: {
+          columns: ":visible",
+        },
+      },
+      // {
+      //   extend: "csvHtml5",
+      //   className: "btn-dark",
+      //   exportOptions: {
+      //     columns: ":visible",
+      //   },
+      // },
+      {
+        extend: "pdfHtml5",
+        className: "btn-dark",
+        exportOptions: {
+          columns: ":visible",
+        },
+      },
+      {
+        extend: "colvis",
+        className: "btn-dark",
+      },
+    ],
+    columnDefs: [
+      {
+        targets: [0, 1, 4, 5, 7, 8],
+        className: "text-center",
+      },
+      {
+        targets: 8,
+        searchable: false,
+        orderable: false,
+      },
+      {
+        targets: "_all",
+        className: "align-middle",
+      },
+    ],
+  });
 
   $("#formTambahJadwal #tanggal").daterangepicker(
     {
@@ -42,7 +96,36 @@ $(function () {
         required: true,
         jam: true,
       },
-      dosen_penguji1: {
+      dosen_reviewer: {
+        required: true,
+      },
+    },
+    errorClass: "text-danger",
+    errorElement: "small",
+    submitHandler: function (form) {
+      form.submit();
+    },
+  });
+
+  $("#formUbahJadwal").validate({
+    rules: {
+      link_konferensi: {
+        required: true,
+        url: true,
+        maxlength: 150,
+      },
+      ruangan: {
+        required: true,
+        maxlength: 20,
+      },
+      tanggal: {
+        required: true,
+      },
+      jam: {
+        required: true,
+        jam: true,
+      },
+      dosen_reviewer: {
         required: true,
       },
     },
@@ -90,8 +173,7 @@ $(function () {
       .substring(0, 5);
     const link_konferensi = parent.children(".link_konferensi").text();
     const ruangan = parent.children(".ruangan").text();
-    const dosen_penguji1 = parent.children(".dosen_penguji1").data("id");
-    const dosen_penguji2 = parent.children(".dosen_penguji2").data("id");
+    const dosen_reviewer = parent.children(".dosen_reviewer").data("id");
 
     $("#ubahJadwal").modal("show");
     $("#formUbahJadwal").attr(
@@ -108,12 +190,7 @@ $(function () {
       startDate: moment(tanggal, "DD-MM-YYYY").format("MM/DD/YYYY"),
     });
     $("#formUbahJadwal #jam").val(jam);
-    $("#formUbahJadwal #dosen_penguji1").val(dosen_penguji1);
-    if (dosen_penguji2 == undefined) {
-      $("#formUbahJadwal #dosen_penguji2").val("none");
-    } else {
-      $("#formUbahJadwal #dosen_penguji2").val(dosen_penguji2);
-    }
+    $("#formUbahJadwal #dosen_reviewer").val(dosen_reviewer);
   });
 
   $("#jadwalSeminarPrasidang #formHapusJadwal").on("submit", function (e) {

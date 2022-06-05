@@ -10,12 +10,12 @@ class SkripsiModel extends Model
     protected $useAutoIncrement = true;
     protected $returnType = "array";
     protected $useSoftDeletes = false;
-    protected $allowedFields = ['judul', 'sumber', 'sifat', 'npm', 'id_bidang', 'tanggal_skripsi', 'status', 'file_draft', 'file_final', 'file_pengajuan_pra_sidang'];
+    protected $allowedFields = ['judul', 'sumber', 'sifat', 'npm', 'id_bidang', 'tanggal_skripsi', 'status', 'file_skripsi', 'tanggal_selesai_skripsi'];
     protected $useTimestamps = false;
 
     public function getSkripsiByNpm($npm) {
         $db = \Config\Database::connect();
-        $sql = "select s.id, s.judul, s.sumber, s.sifat, s.npm, s.id_bidang, b.inisial as inisial_bidang, b.nama as nama_bidang, 
+        $sql = "SELECT s.id, s.judul, s.sumber, s.sifat, s.npm, s.id_bidang, s.file_skripsi, b.inisial as inisial_bidang, b.nama as nama_bidang, 
         s.status, d1.nama as nama_p1, d2.nama as nama_p2, dagama.nama as nama_pagama, 
         d1.inisial as inisial_p1, d2.inisial as inisial_p2, dagama.inisial as inisial_pagama
         from skripsi as s

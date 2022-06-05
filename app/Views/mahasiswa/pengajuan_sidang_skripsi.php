@@ -17,10 +17,10 @@
                         <strong>Tambahkan Skripsi</strong> terlebih dahulu pada <a href="<?= base_url("mahasiswa/skripsi") ?>">Menu Berikut</a>.
                     </small>
                 </div>
-            <?php elseif ($seminarPrasidang == null || $seminarPrasidang['komentar_penguji1'] == null): ?>
+            <?php elseif ($seminarPrasidang == null || $seminarPrasidang['status'] != 'LAYAK SIDANG'): ?>
                 <div class="alert alert-danger" role="alert">
                     <small>
-                        Lakukan <strong>Seminar Prasidang</strong> terlebih dahulu sebelum bisa membuat <strong>Pengajuan Sidang Skripsi</strong>.
+                        Lakukan <strong>Seminar Prasidang</strong> terlebih dahulu dan pastikan Anda dinyatakan <strong>Layak Sidang</strong>.
                     </small>
                 </div>
             <?php elseif ($lastSkripsi != null && count($pengajuanSidangSkripsi) > 0 && $pengajuanSidangSkripsi[count($pengajuanSidangSkripsi)-1]['id_skripsi'] == $lastSkripsi['id'] && $pengajuanSidangSkripsi[count($pengajuanSidangSkripsi)-1]['status'] == 'TERTUNDA'): ?>
@@ -41,7 +41,7 @@
                         <strong>Pengajuan Sidang Skripsi</strong> anda <strong>Ditolak</strong>.
                     </small>
                 </div>
-            <?php elseif ($seminarPrasidang != null && $seminarPrasidang['komentar_penguji1'] != null): ?>
+            <?php elseif ($seminarPrasidang != null && $seminarPrasidang['status'] == 'LAYAK SIDANG'): ?>
                 <div class="alert alert-info" role="alert">
                     <small>
                         Silahkan buat <strong>Pengajuan Sidang Skripsi</strong> anda.
@@ -58,9 +58,9 @@
         <div class="card-body">
             <div class="row mb-3">
                 <div class="col-lg-3 d-flex align-items-center">
-                    <?php if ($lastSkripsi == null || $seminarPrasidang == null || $seminarPrasidang['komentar_penguji1'] == null || ($lastSkripsi != null && count($pengajuanSidangSkripsi) > 0 && $pengajuanSidangSkripsi[count($pengajuanSidangSkripsi)-1]['id_skripsi'] == $lastSkripsi['id'])): ?>
+                    <?php if ($lastSkripsi == null || $seminarPrasidang == null || $seminarPrasidang['status'] != 'LAYAK SIDANG' || ($lastSkripsi != null && count($pengajuanSidangSkripsi) > 0 && $pengajuanSidangSkripsi[count($pengajuanSidangSkripsi)-1]['id_skripsi'] == $lastSkripsi['id'])): ?>
                         <button class="btn btn-primary" disabled>Tambahkan Pengajuan</button>
-                    <?php elseif ($lastSkripsi != null && $seminarPrasidang != null && $seminarPrasidang['komentar_penguji1'] != null): ?>
+                    <?php elseif ($lastSkripsi != null && $seminarPrasidang != null && $seminarPrasidang['status'] == 'LAYAK SIDANG'): ?>
                         <button class="btn btn-primary" data-toggle="modal" data-target="#tambahPengajuan">Tambahkan Pengajuan</button>
                     <?php endif; ?>
                 </div>
@@ -94,7 +94,7 @@
                                 <td><?= date_format(date_create(strval($pss['tanggal_pengajuan'])), 'd-m-Y') ?></td>
                                 <td><?= $pss['status'] ?></td>
                                 <td>
-                                    <a role="button" class="btn btn-primary" href="<?= base_url("mahasiswa/detailPengajuanSidangSkripsi/".$pss['id']) ?>">Detail</a>
+                                    <a role="button" class="btn btn-primary" href="<?= base_url("mahasiswa/detailPengajuanSidangSkripsi/".$pss['id']) ?>" data-toggle="tooltip" title="Detail"><i class="fas fa-info-circle"></i></a>
                                 </td>
                             </tr>
                         <?php 

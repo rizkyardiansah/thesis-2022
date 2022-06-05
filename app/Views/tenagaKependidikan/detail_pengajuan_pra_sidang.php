@@ -69,12 +69,14 @@
                 </div>
                 <div class="col-lg-12 d-flex justify-content-end">
                     <a role="button" href="<?= base_url("TenagaKependidikan/pengajuanPrasidang") ?>" class="btn btn-secondary mr-2">Kembali</a>
-                    <form action="<?= base_url("TenagaKependidikan/tolakPengajuanPrasidang/".$detailPengajuan['id']) ?>" method="post" class="d-inline">
-                        <button class="btn btn-danger mr-2" type="submit">Tolak Pengajuan</button>
-                    </form>
-                    <form action="<?= base_url("TenagaKependidikan/setujuiPengajuanPrasidang/".$detailPengajuan['id']) ?>" method="post" class="d-inline">
-                        <button class="btn btn-success" type="submit">Setujui Pengajuan</button>
-                    </form>
+                    <?php if ($detailPengajuan['status'] == 'TERTUNDA'): ?>
+                        <form action="<?= base_url("TenagaKependidikan/tolakPengajuanPrasidang/".$detailPengajuan['id']) ?>" method="post" class="d-inline">
+                            <button class="btn btn-danger mr-2" type="submit">Tolak Pengajuan</button>
+                        </form>
+                        <form action="<?= base_url("TenagaKependidikan/setujuiPengajuanPrasidang/".$detailPengajuan['id']) ?>" method="post" class="d-inline">
+                            <button class="btn btn-success" type="submit">Setujui Pengajuan</button>
+                        </form>
+                    <?php endif; ?>
                 </div>
            </div>
         </div>

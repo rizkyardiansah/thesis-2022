@@ -42,9 +42,9 @@
                                 <td data-toggle="tooltip" title="<?= $dp['nama_bidang'] ?>" data-placement="top" class="bidang" data-id="<?= $dp['id_bidang'] ?>"><?= $dp['inisial_bidang'] ?></td>
                                 <td class="jumlah_peneliti"><?= $dp['jumlah_peneliti'] ?> Orang</td>
                                 <td class="status"><?= $dp['status'] ?></td>
-                                <td>
-                                    <button class="btn btn-primary ubah-penelitian" data-toggle="tooltip" title="Ubah" data-placement="top" data-id="<?= $dp['id'] ?>"><i class="fas fa-edit"></i></button>
-                                    <form action="<?= base_url("dosen/deletePenelitian/".$dp['id']) ?>" method="post">
+                                <td style="min-width: 7vw">
+                                    <button class="btn btn-primary ubah-penelitian" data-toggle="tooltip" title="Ubah" data-placement="top" data-id="<?= $dp['id'] ?>"><i class="fas fa-pencil-alt"></i></button>
+                                    <form action="<?= base_url("dosen/deletePenelitian/".$dp['id']) ?>" method="post" class="d-inline-block">
                                         <button class="btn btn-danger" data-toggle="tooltip" title="Hapus" data-placement="top" type="submit"><i class="fas fa-trash"></i></button>
                                     </form>
                                 </td>

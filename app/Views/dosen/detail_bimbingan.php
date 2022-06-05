@@ -30,7 +30,7 @@
                         <?php foreach ($catatanBimbingan as $cb) : ?>
                             <tr>
                                 <td><?= $counter ?></td>
-                                <td><?= $cb['tanggal_bimbingan'] ?></td>
+                                <td><?= date_format(date_create($cb['tanggal_bimbingan']), 'd-m-Y') ?></td>
                                 <td><?= $cb['hasil_bimbingan'] ?></td>
                                 <td><?= $cb['status'] ?></td>
                                 <td>
