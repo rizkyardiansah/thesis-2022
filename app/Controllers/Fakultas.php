@@ -5,15 +5,89 @@ namespace App\Controllers;
 class Fakultas extends BaseController 
 {
     protected $kalenderSkripsiModel;
+    protected $skripsiModel;
+    protected $proposalModel;
+    protected $dosenModel;
+    protected $bidangModel;
+    protected $makalahModel;
 
     public function __construct() 
     {
         $this->kalenderSkripsiModel = new \App\Models\KalenderSkripsiModel();
+        $this->skripsiModel = new \App\Models\SkripsiModel();
+        $this->proposalModel = new \App\Models\ProposalModel();
+        $this->dosenModel = new \App\Models\DosenModel();
+        $this->bidangModel = new \App\Models\BidangModel();
+        $this->makalahModel = new \App\Models\MakalahModel();
     }
 
     public function index()
     {
         
+    }
+
+    public function proposal() {
+        $proposal = $this->proposalModel->getAllProposalMahasiswa();
+
+        $dari = $this->request->getGet("dari");
+        $hingga = $this->request->getGet("hingga");
+
+        if ( $dari != null && $hingga != null ) {
+            $hingga = date_create($hingga);
+            date_add($hingga, date_interval_create_from_date_string("1 days"));
+            $hingga = date_format($hingga, 'Y-m-d');
+            $proposal = $this->proposalModel->getAllProposalMahasiswaByDateRange( $dari, $hingga);
+        }
+
+        $dosen = $this->dosenModel->findAll();
+        $bidang = $this->bidangModel->findAll();
+        $data = [
+            "title" => "Proposal Mahasiswa FTI",
+            "proposal" => $proposal,
+            "bidang" => $bidang,
+            "dosen" => $dosen,
+        ];
+        return view("fakultas/proposal", $data);
+    }
+
+    public function skripsi() {
+        $skripsi = $this->skripsiModel->getAllSkripsiMahasiswa();
+
+        $dari = $this->request->getGet("dari");
+        $hingga = $this->request->getGet("hingga");
+
+        if ( $dari != null && $hingga != null ) {
+            $hingga = date_create($hingga);
+            date_add($hingga, date_interval_create_from_date_string("1 days"));
+            $hingga = date_format($hingga, 'Y-m-d');
+            $skripsi = $this->skripsiModel->getAllSkripsiMahasiswaByDateRange($dari, $hingga);
+        }
+
+        $data = [
+            "title" => "Skripsi Mahasiswa FTI",
+            "skripsi" => $skripsi,
+        ];
+        return view("fakultas/skripsi", $data);
+    }
+
+    public function makalah() {
+        $makalah = $this->makalahModel->getAllMakalah();
+
+        $dari = $this->request->getGet("dari");
+        $hingga = $this->request->getGet("hingga");
+
+        if ( $dari != null && $hingga != null ) {
+            $hingga = date_create($hingga);
+            date_add($hingga, date_interval_create_from_date_string("1 days"));
+            $hingga = date_format($hingga, 'Y-m-d');
+            $makalah = $this->makalahModel->getMakalahByDateRange( $dari, $hingga);
+        }
+
+        $data = [
+            "title" => "Skripsi Mahasiswa FTI",
+            "makalah" => $makalah,
+        ];
+        return view("fakultas/makalah", $data);
     }
 
     public function kalender()

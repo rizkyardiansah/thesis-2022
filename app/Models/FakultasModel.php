@@ -10,7 +10,7 @@ class FakultasModel extends Model
     protected $useAutoIncrement = true;
     protected $returnType = "array";
     protected $useSoftDeletes = false;
-    protected $allowedFields = ['nama', 'inisial', 'dekan', 'wadek_I', 'wadek_II', 'wadek_III'];
+    protected $allowedFields = ['nama', 'inisial'];
     protected $useTimestamps = false;
 
 }

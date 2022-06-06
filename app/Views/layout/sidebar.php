@@ -102,6 +102,24 @@
 <div class="sidebar-heading">
     Fakultas
 </div>
+<li class="nav-item">
+    <a class="nav-link py-2" href="<?= base_url("fakultas/proposal") ?>" >
+        <i class="fas fa-fw fa-cog"></i>
+        <span>Proposal</span>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link py-2" href="<?= base_url("fakultas/skripsi") ?>" >
+        <i class="fas fa-fw fa-cog"></i>
+        <span>Skripsi</span>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link py-2" href="<?= base_url("fakultas/makalah") ?>" >
+        <i class="fas fa-fw fa-cog"></i>
+        <span>Makalah</span>
+    </a>
+</li>
 <!-- Nav Item - Pages Collapse Menu -->
 <li class="nav-item">
     <a class="nav-link py-2" href="<?= base_url("fakultas/kalender") ?>" >
@@ -121,6 +139,18 @@
     <a class="nav-link py-2" href="<?= base_url("dosen/kaprodiProposal") ?>" >
         <i class="fas fa-fw fa-cog"></i>
         <span>Proposal</span>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link py-2" href="<?= base_url("dosen/kaprodiSkripsi") ?>" >
+        <i class="fas fa-fw fa-cog"></i>
+        <span>Skripsi</span>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link py-2" href="<?= base_url("dosen/kaprodiMakalah") ?>" >
+        <i class="fas fa-fw fa-cog"></i>
+        <span>Makalah</span>
     </a>
 </li>
 <li class="nav-item">

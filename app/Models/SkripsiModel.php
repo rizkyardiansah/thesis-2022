@@ -34,6 +34,111 @@ class SkripsiModel extends Model
         return $result->getResultArray();
     }
 
+    public function getAllSkripsiMahasiswa() {
+        $db = \Config\Database::connect();
+        $sql = 'SELECT s.*, m.nama as nama_mahasiswa, prodi.nama as nama_prodi, prodi.inisial as inisial_prodi,
+        b.nama as nama_bidang, b.inisial as inisial_bidang, 
+        d1.nama as nama_pembimbing1, d1.inisial as inisial_pembimbing1,
+        d2.nama as nama_pembimbing2, d2.inisial as inisial_pembimbing2,
+        d3.nama as nama_pembimbing_agama, d3.inisial as inisial_pembimbing_agama
+        from skripsi as s
+        inner join bidang as b on b.id = s.id_bidang
+        inner join mahasiswa as m on m.npm = s.npm
+        inner join program_studi as prodi on prodi.id = m.id_prodi
+        inner join pembimbing as p1 on p1.id_skripsi = s.id
+        left join pembimbing as p2 on p2.id_skripsi = s.id
+        inner join pembimbing as p3 on p3.id_skripsi = s.id
+        inner join dosen as d1 on d1.id = p1.id_dosen
+        left join dosen as d2 on d2.id = p2.id_dosen
+        inner join dosen as d3 on d3.id = p3.id_dosen
+        where 
+        p1.role = "Pembimbing Ilmu 1" and
+        p2.role = "Pembimbing Ilmu 2" and
+        p3.role = "Pembimbing Agama" 
+        order by s.tanggal_skripsi DESC';
+        $result = $db->query($sql);
+        return $result->getResultArray();
+    }
+
+    public function getAllSkripsiMahasiswaByDateRange($dari, $hingga) {
+        $db = \Config\Database::connect();
+        $sql = 'SELECT s.*, m.nama as nama_mahasiswa, prodi.nama as nama_prodi, prodi.inisial as inisial_prodi,
+        b.nama as nama_bidang, b.inisial as inisial_bidang, 
+        d1.nama as nama_pembimbing1, d1.inisial as inisial_pembimbing1,
+        d2.nama as nama_pembimbing2, d2.inisial as inisial_pembimbing2,
+        d3.nama as nama_pembimbing_agama, d3.inisial as inisial_pembimbing_agama
+        from skripsi as s
+        inner join bidang as b on b.id = s.id_bidang
+        inner join mahasiswa as m on m.npm = s.npm
+        inner join program_studi as prodi on prodi.id = m.id_prodi
+        inner join pembimbing as p1 on p1.id_skripsi = s.id
+        left join pembimbing as p2 on p2.id_skripsi = s.id
+        inner join pembimbing as p3 on p3.id_skripsi = s.id
+        inner join dosen as d1 on d1.id = p1.id_dosen
+        left join dosen as d2 on d2.id = p2.id_dosen
+        inner join dosen as d3 on d3.id = p3.id_dosen
+        where 
+        p1.role = "Pembimbing Ilmu 1" and
+        p2.role = "Pembimbing Ilmu 2" and
+        p3.role = "Pembimbing Agama" and
+        s.tanggal_skripsi between ? and ?
+        order by s.tanggal_skripsi DESC';
+        $result = $db->query($sql, [$dari, $hingga]);
+        return $result->getResultArray();
+    }
+
+    public function getSkripsiMahasiswaByProdi($idProdi) {
+        $db = \Config\Database::connect();
+        $sql = 'SELECT s.*, m.nama as nama_mahasiswa, b.nama as nama_bidang, b.inisial as inisial_bidang, 
+        d1.nama as nama_pembimbing1, d1.inisial as inisial_pembimbing1,
+        d2.nama as nama_pembimbing2, d2.inisial as inisial_pembimbing2,
+        d3.nama as nama_pembimbing_agama, d3.inisial as inisial_pembimbing_agama
+        from skripsi as s
+        inner join bidang as b on b.id = s.id_bidang
+        inner join mahasiswa as m on m.npm = s.npm
+        inner join pembimbing as p1 on p1.id_skripsi = s.id
+        left join pembimbing as p2 on p2.id_skripsi = s.id
+        inner join pembimbing as p3 on p3.id_skripsi = s.id
+        inner join dosen as d1 on d1.id = p1.id_dosen
+        left join dosen as d2 on d2.id = p2.id_dosen
+        inner join dosen as d3 on d3.id = p3.id_dosen
+        where 
+        m.id_prodi = ? and
+        p1.role = "Pembimbing Ilmu 1" and
+        p2.role = "Pembimbing Ilmu 2" and
+        p3.role = "Pembimbing Agama" 
+        order by s.tanggal_skripsi DESC';
+        $result = $db->query($sql, [$idProdi]);
+        return $result->getResultArray();
+    }
+
+    public function getSkripsiMahasiswaByDateRange($idProdi, $dari, $hingga) {
+        $db = \Config\Database::connect();
+        $sql = 'SELECT s.*, m.nama as nama_mahasiswa, b.nama as nama_bidang, b.inisial as inisial_bidang, 
+        d1.nama as nama_pembimbing1, d1.inisial as inisial_pembimbing1,
+        d2.nama as nama_pembimbing2, d2.inisial as inisial_pembimbing2,
+        d3.nama as nama_pembimbing_agama, d3.inisial as inisial_pembimbing_agama
+        from skripsi as s
+        inner join bidang as b on b.id = s.id_bidang
+        inner join mahasiswa as m on m.npm = s.npm
+        inner join pembimbing as p1 on p1.id_skripsi = s.id
+        left join pembimbing as p2 on p2.id_skripsi = s.id
+        inner join pembimbing as p3 on p3.id_skripsi = s.id
+        inner join dosen as d1 on d1.id = p1.id_dosen
+        left join dosen as d2 on d2.id = p2.id_dosen
+        inner join dosen as d3 on d3.id = p3.id_dosen
+        where 
+        m.id_prodi = ? and
+        p1.role = "Pembimbing Ilmu 1" and
+        p2.role = "Pembimbing Ilmu 2" and
+        p3.role = "Pembimbing Agama" and
+        s.tanggal_skripsi between ? and ?
+        order by s.tanggal_skripsi DESC
+        ';
+        $result = $db->query($sql, [$idProdi, $dari, $hingga]);
+        return $result->getResultArray();
+    }
+
     public function getMahasiswaLastSkripsi($npm) {
         $db = \Config\Database::connect();
         $builder = $db->table("skripsi");

@@ -1,5 +1,5 @@
 $(function () {
-  $("#kaprodiProposal").DataTable({
+  $("#kaprodiSkripsi").DataTable({
     dom:
       "<'row mt-3'<'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'l><'col-sm-12 col-md-4'f>>" +
       "<'row'<'col-sm-12'tr>>" +
@@ -40,11 +40,11 @@ $(function () {
     ],
     columnDefs: [
       {
-        targets: [0, 1, 4, 5, 6, 7, 8, 9, 10, 12],
+        targets: [0, 1, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
         className: "text-center",
       },
       {
-        targets: 12,
+        targets: 13,
         searchable: false,
         orderable: false,
       },

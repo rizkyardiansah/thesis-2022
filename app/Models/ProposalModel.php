@@ -25,6 +25,31 @@ class ProposalModel extends Model
         return $builder->select()->orderBy("tanggal_upload", 'asc')->getWhere(['npm' => $npm])->getResultArray();
     }
 
+    public function getAllProposalMahasiswa() {
+        $db = \Config\Database::connect();
+        $builder = $db->table("proposal");
+
+        return $builder->
+        select("proposal.*, mahasiswa.nama as nama_mahasiswa, program_studi.nama as nama_prodi, program_studi.inisial as inisial_prodi")->
+        join("mahasiswa", "proposal.npm = mahasiswa.npm")->
+        join("program_studi", "program_studi.id = mahasiswa.id_prodi")->
+        orderBy("proposal.tanggal_upload", "DESC")->get()->
+        getResultArray();
+    }
+
+    public function getAllProposalMahasiswaByDateRange($dari, $hingga) {
+        $db = \Config\Database::connect();
+        $sql = "SELECT p.*, m.nama as nama_mahasiswa, prodi.nama as nama_prodi, prodi.inisial as inisial_prodi
+        from proposal as p 
+        inner join mahasiswa as m on m.npm = p.npm
+        inner join program_studi as prodi on prodi.id = m.id_prodi
+        where 
+        p.tanggal_upload between ? and ?
+        order by p.tanggal_upload DESC";
+        $result = $db->query($sql, [ $dari, $hingga]);
+        return $result->getResultArray();
+    }
+
     public function getProposalMahasiswaByProdi($idProdi) {
         $db = \Config\Database::connect();
         $builder = $db->table("proposal");

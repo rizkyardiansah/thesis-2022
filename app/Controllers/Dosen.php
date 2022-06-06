@@ -21,6 +21,7 @@ class Dosen extends BaseController
     protected $sidangSkripsiModel;
     protected $penilaianSidangModel;
     protected $penelitianDosenModel;
+    protected $makalahModel;
 
     public function __construct() {
         $this->proposalModel = new \App\Models\ProposalModel();
@@ -38,6 +39,7 @@ class Dosen extends BaseController
         $this->sidangSkripsiModel = new \App\Models\SidangSkripsiModel();
         $this->penilaianSidangModel = new \App\Models\PenilaianSidangModel();
         $this->penelitianDosenModel = new \App\Models\PenelitianDosenModel();
+        $this->makalahModel = new \App\Models\MakalahModel();
     }
 
     public function index()
@@ -52,7 +54,8 @@ class Dosen extends BaseController
             return redirect()->to(base_url("unauthorized.php"));
         }
 
-        $prodi = $this->prodiModel->getProdiByKaprodi(session()->get("user_session")['id']);
+        $dataAkun = $this->mahasiswaModel->find(session()->get("user_session")['id']);
+        $prodi = $this->prodiModel->find($dataAkun['id_prodi']);
         $proposal = $this->proposalModel->getProposalMahasiswaByProdi($prodi['id']);
 
         $dari = $this->request->getGet("dari");
@@ -76,6 +79,65 @@ class Dosen extends BaseController
         return view("dosen/kaprodi_proposal", $data);
     }
 
+    public function kaprodiSkripsi() {
+        //autentikasi
+        if (!$this->authenticate(["kaprodi"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        $dataAkun = $this->mahasiswaModel->find(session()->get("user_session")['id']);
+        $prodi = $this->prodiModel->find($dataAkun['id_prodi']);
+        $skripsi = $this->skripsiModel->getSkripsiMahasiswaByProdi($prodi['id']);
+
+        $dari = $this->request->getGet("dari");
+        $hingga = $this->request->getGet("hingga");
+
+        if ( $dari != null && $hingga != null ) {
+            $hingga = date_create($hingga);
+            date_add($hingga, date_interval_create_from_date_string("1 days"));
+            $hingga = date_format($hingga, 'Y-m-d');
+            $skripsi = $this->skripsiModel->getSkripsiMahasiswaByDateRange($prodi['id'], $dari, $hingga);
+        }
+
+        $data = [
+            "title" => "Skripsi Mahasiswa ". $prodi['inisial'],
+            "skripsi" => $skripsi,
+            "bidang" => $bidang,
+            "dosen" => $dosen,
+        ];
+        return view("dosen/kaprodi_skripsi", $data);
+    }
+
+    public function kaprodiMakalah() {
+        //autentikasi
+        if (!$this->authenticate(["kaprodi"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        $dataAkun = $this->mahasiswaModel->find(session()->get("user_session")['id']);
+        $prodi = $this->prodiModel->find($dataAkun['id_prodi']);
+        $makalah = $this->makalahModel->getMakalahMahasiswaByProdi($prodi['id']);
+
+        $dari = $this->request->getGet("dari");
+        $hingga = $this->request->getGet("hingga");
+
+        if ( $dari != null && $hingga != null ) {
+            $hingga = date_create($hingga);
+            date_add($hingga, date_interval_create_from_date_string("1 days"));
+            $hingga = date_format($hingga, 'Y-m-d');
+            $makalah = $this->makalahModel->getMakalahMahasiswaByDateRange($prodi['id'], $dari, $hingga);
+        }
+
+        $data = [
+            "title" => "Skripsi Mahasiswa ". $prodi['inisial'],
+            "makalah" => $makalah,
+        ];
+        return view("dosen/kaprodi_makalah", $data);
+    }
+
+
     public function seminarProposal() {
         //autentikasi
         if (!$this->authenticate(["kaprodi"])) 
@@ -83,7 +145,8 @@ class Dosen extends BaseController
             return redirect()->to(base_url("unauthorized.php"));
         }
 
-        $prodi = $this->prodiModel->getProdiByKaprodi(session()->get("user_session")['id']);
+        $dataAkun = $this->mahasiswaModel->find(session()->get("user_session")['id']);
+        $prodi = $this->prodiModel->find($dataAkun['id_prodi']);
         
         $seminarProposal = $this->semproModel->getSemproByProdi($prodi['id']);
         $dari = $this->request->getGet("dari");

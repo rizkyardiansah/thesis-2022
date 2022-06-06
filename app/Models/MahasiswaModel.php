@@ -10,7 +10,7 @@ class MahasiswaModel extends Model
     protected $useAutoIncrement = false;
     protected $returnType = "array";
     protected $useSoftDeletes = false;
-    protected $allowedFields = ['npm', 'nama', 'email', 'angkatan', 'id_prodi', 'sks_lulus', 'pembimbing_akademik', 'mk_sedang_diambil', 'mk_akan_diambil', 'status_persetujuan_skripsi', 'file_khs', 'file_krs', 'file_persetujuan_skripsi', 'file_pengajuan_pra_sidang', 'file_lembar_pengesahan', 'file_form_bimbingan', 'tanggal_pengajuan_skripsi'];
+    protected $allowedFields = ['npm', 'nama', 'email', 'angkatan', 'id_prodi', 'sks_lulus', 'pembimbing_akademik', 'mk_sedang_diambil', 'mk_akan_diambil', 'status_persetujuan_skripsi', 'file_khs', 'file_krs', 'file_persetujuan_skripsi', 'tanggal_pengajuan_skripsi'];
     protected $useTimestamps = false;
 
     public function getAllPengajuanSkripsi() {

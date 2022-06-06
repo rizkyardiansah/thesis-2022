@@ -17,7 +17,7 @@
             <div class="row">
                 <div class="col-lg-5"></div>
                 <div class="col-lg-7 d-flex justify-content-end align-items-center">
-                    <form class="form-inline" action="<?= base_url("dosen/kaprodiProposal") ?>" method="get">
+                    <form class="form-inline" action="<?= base_url("fakultas/proposal") ?>" method="get">
                         <div class="form-group mr-2">
                             <label for="dari" class="form-control-label mr-1">Dari</label>
                             <input type="date" id="dari" name="dari" class="form-control" placeholder="dari">
@@ -31,12 +31,13 @@
                 </div>
             </div>
             <div class="table-responsive">
-                <table class="table table-bordered" id="kaprodiProposal" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="proposal" width="100%" cellspacing="0">
                     <thead>
                         <tr>
                             <th>No</th>
                             <th>NPM</th>
                             <th>Nama</th>
+                            <th>Prodi</th>
                             <th>Judul</th>
                             <th>Bidang</th>
                             <th>Sifat Penelitian</th>
@@ -58,6 +59,7 @@
                                 <td><?= $counter; ?></td>
                                 <td><?= $p['npm'] ?></td>
                                 <td><?= $p['nama_mahasiswa'] ?></td>
+                                <td data-toggle="tooltip" data-placement="top" title="<?= $p['nama_prodi'] ?>"><?= $p['inisial_prodi'] ?></td>
                                 <td style="min-width: 10vw"><?= $p['judul'] ?></td>
                                 <?php foreach($bidang as $b) : ?>
                                     <?php if ($b['id'] == $p['id_bidang']) : ?>
@@ -76,7 +78,7 @@
                                         <td data-toggle="tooltip" data-placement="top" title="<?= $d['nama'] ?>"><?= $d['inisial'] ?></td>
                                     <?php endif; ?>
                                 <?php endforeach; ?>
-                                <td style="min-width: 8vw"><?= date_format(date_create($p['tanggal_upload']), "d-m-Y") ?></td>
+                                <td  style="min-width: 8vw"><?= date_format(date_create($p['tanggal_upload']), "d-m-Y") ?></td>
                                 <td><?= $p['status'] ?></td>
                                 <td><?= ($p['komentar'] == null) ? "-": $p['komentar'] ?></td>
                                 <td>
@@ -96,5 +98,5 @@
 <?= $this->endSection(); ?>
 
 <?= $this->section("scripts"); ?>
-    <script src="<?= base_url("assets/js/dosen/kaprodiProposal.js");?>"></script>
+    <script src="<?= base_url("assets/js/fakultas/proposal.js");?>"></script>
 <?= $this->endSection(); ?>
