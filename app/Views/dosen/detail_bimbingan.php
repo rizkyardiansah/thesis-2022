@@ -52,6 +52,9 @@
                     </tbody>
                 </table>
             </div>
+            <div class="col-12 d-flex justify-content-end mt-3">
+                <a role="button" href="<?= base_url("dosen/bimbingan") ?>"class="btn btn-secondary">Kembali</a>
+            </div>
         </div>
     </div>
 

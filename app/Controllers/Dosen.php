@@ -54,7 +54,7 @@ class Dosen extends BaseController
             return redirect()->to(base_url("unauthorized.php"));
         }
 
-        $dataAkun = $this->mahasiswaModel->find(session()->get("user_session")['id']);
+        $dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
         $prodi = $this->prodiModel->find($dataAkun['id_prodi']);
         $proposal = $this->proposalModel->getProposalMahasiswaByProdi($prodi['id']);
 
@@ -86,7 +86,7 @@ class Dosen extends BaseController
             return redirect()->to(base_url("unauthorized.php"));
         }
 
-        $dataAkun = $this->mahasiswaModel->find(session()->get("user_session")['id']);
+        $dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
         $prodi = $this->prodiModel->find($dataAkun['id_prodi']);
         $skripsi = $this->skripsiModel->getSkripsiMahasiswaByProdi($prodi['id']);
 
@@ -116,7 +116,7 @@ class Dosen extends BaseController
             return redirect()->to(base_url("unauthorized.php"));
         }
 
-        $dataAkun = $this->mahasiswaModel->find(session()->get("user_session")['id']);
+        $dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
         $prodi = $this->prodiModel->find($dataAkun['id_prodi']);
         $makalah = $this->makalahModel->getMakalahMahasiswaByProdi($prodi['id']);
 
@@ -131,7 +131,7 @@ class Dosen extends BaseController
         }
 
         $data = [
-            "title" => "Skripsi Mahasiswa ". $prodi['inisial'],
+            "title" => "Makalah Mahasiswa ". $prodi['inisial'],
             "makalah" => $makalah,
         ];
         return view("dosen/kaprodi_makalah", $data);
@@ -145,7 +145,7 @@ class Dosen extends BaseController
             return redirect()->to(base_url("unauthorized.php"));
         }
 
-        $dataAkun = $this->mahasiswaModel->find(session()->get("user_session")['id']);
+        $dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
         $prodi = $this->prodiModel->find($dataAkun['id_prodi']);
         
         $seminarProposal = $this->semproModel->getSemproByProdi($prodi['id']);
@@ -257,12 +257,12 @@ class Dosen extends BaseController
         $dataAkun = $this->dosenModel->find(session()->get('user_session')['id']);
         $validationRules = [
             'fileJadwal' => [
-                'rules' => 'uploaded[fileJadwal]|mime_in[fileJadwal,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet]|ext_in[fileJadwal,xls,xlsx]|max_size[fileJadwal,2048]',
+                'rules' => 'uploaded[fileJadwal]|mime_in[fileJadwal,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet]|ext_in[fileJadwal,xls,xlsx]|max_size[fileJadwal,10000]',
                 'errors' => [
                     'uploaded' => 'Pilih File Jadwal Seminar Proposal terlebih dahulu',
                     'mime_in' => 'File Jadwal Seminar Proposal harus berupa Excel',
                     'ext_in' => 'File Jadwal Seminar Proposal harus berekstensi .xls atau .xlsx',
-                    'max_size' => 'Ukuran File Jadwal Seminar Proposal tidak boleh lebih dari 2MB'
+                    'max_size' => 'Ukuran File Jadwal Seminar Proposal tidak boleh lebih dari 10MB'
                 ]
             ]
         ];
@@ -389,7 +389,7 @@ class Dosen extends BaseController
         }
 
         $data = [
-            'title' => 'Penguji Seminar Proposal',
+            'title' => 'Review Seminar Proposal',
             'prodi' => $prodi,
             'dosen' => $dosen,
             'seminarProposal' => $seminarProposal
@@ -575,12 +575,12 @@ class Dosen extends BaseController
         $dataAkun = $this->dosenModel->find(session()->get('user_session')['id']);
         $validationRules = [
             'fileJadwal' => [
-                'rules' => 'uploaded[fileJadwal]|mime_in[fileJadwal,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet]|ext_in[fileJadwal,xls,xlsx]|max_size[fileJadwal,2048]',
+                'rules' => 'uploaded[fileJadwal]|mime_in[fileJadwal,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet]|ext_in[fileJadwal,xls,xlsx]|max_size[fileJadwal,10000]',
                 'errors' => [
                     'uploaded' => 'Pilih File Jadwal Seminar Prasidang terlebih dahulu',
                     'mime_in' => 'File Jadwal Seminar Prasidang harus berupa Excel',
                     'ext_in' => 'File Jadwal Seminar Prasidang harus berekstensi .xls atau .xlsx',
-                    'max_size' => 'Ukuran File Jadwal Seminar Prasidang tidak boleh lebih dari 2MB'
+                    'max_size' => 'Ukuran File Jadwal Seminar Prasidang tidak boleh lebih dari 10MB'
                 ]
             ]
         ];
@@ -664,7 +664,7 @@ class Dosen extends BaseController
         } 
 
         $data = [
-            'title' => 'Penguji Seminar Prasidang',
+            'title' => 'Jadwal Seminar Prasidang',
             'dosen' => $dosen,
             'seminarPrasidang' => $seminarPrasidang
         ];
@@ -810,12 +810,12 @@ class Dosen extends BaseController
         $dataAkun = $this->dosenModel->find(session()->get('user_session')['id']);
         $validationRules = [
             'fileJadwal' => [
-                'rules' => 'uploaded[fileJadwal]|mime_in[fileJadwal,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet]|ext_in[fileJadwal,xls,xlsx]|max_size[fileJadwal,2048]',
+                'rules' => 'uploaded[fileJadwal]|mime_in[fileJadwal,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet]|ext_in[fileJadwal,xls,xlsx]|max_size[fileJadwal,10000]',
                 'errors' => [
                     'uploaded' => 'Pilih File Jadwal Sidang Skripsi terlebih dahulu',
                     'mime_in' => 'File Jadwal Sidang Skripsi harus berupa Excel',
                     'ext_in' => 'File Jadwal Sidang Skripsi harus berekstensi .xls atau .xlsx',
-                    'max_size' => 'Ukuran File Jadwal Sidang Skripsi tidak boleh lebih dari 2MB'
+                    'max_size' => 'Ukuran File Jadwal Sidang Skripsi tidak boleh lebih dari 10MB'
                 ]
             ]
         ];
@@ -898,7 +898,7 @@ class Dosen extends BaseController
             $sidangSkripsi = $this->sidangSkripsiModel->getSidangSkripsiByDosenDateRange($dataAkun['id'], $dari, $hingga);
         } 
         $data = [
-            'title' => 'Penguji Sidang Skripsi',
+            'title' => 'Jadwal Sidang Skripsi',
             'sidangSkripsi' => $sidangSkripsi
         ];
 

@@ -70,13 +70,13 @@ $(function () {
       file_skripsi: {
         required: true,
         extension: "pdf",
-        filesize: 2048000,
+        filesize: 10000000,
       },
     },
     messages: {
       file_skripsi: {
         extension: "File harus berekstensi PDF",
-        filesize: "File tidak boleh melebihi 2MB",
+        filesize: "File tidak boleh melebihi 10MB",
       },
     },
     errorClass: "text-danger",

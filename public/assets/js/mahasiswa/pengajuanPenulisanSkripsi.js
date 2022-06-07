@@ -21,31 +21,31 @@ $(function () {
       inputKhs: {
         required: true,
         extension: "pdf",
-        filesize: 2048000,
+        filesize: 10000000,
       },
       inputKrs: {
         required: true,
         extension: "pdf",
-        filesize: 2048000,
+        filesize: 10000000,
       },
       inputPersetujuanSkripsi: {
         required: true,
         extension: "pdf",
-        filesize: 2048000,
+        filesize: 10000000,
       },
     },
     messages: {
       inputKhs: {
         extension: "File harus berekstensi PDF",
-        filesize: "File tidak boleh melebihi 2MB",
+        filesize: "File tidak boleh melebihi 10MB",
       },
       inputKrs: {
         extension: "File harus berekstensi PDF",
-        filesize: "File tidak boleh melebihi 2MB",
+        filesize: "File tidak boleh melebihi 10MB",
       },
       inputPersetujuanSkripsi: {
         extension: "File harus berekstensi PDF",
-        filesize: "File tidak boleh melebihi 2MB",
+        filesize: "File tidak boleh melebihi 10MB",
       },
     },
     errorClass: "text-danger",

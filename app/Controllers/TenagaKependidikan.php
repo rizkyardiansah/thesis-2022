@@ -144,12 +144,12 @@ class TenagaKependidikan extends BaseController
     public function insertPembimbingBatch() {
         $validationRules = [
             'filePembimbing' => [
-                'rules' => 'uploaded[filePembimbing]|mime_in[filePembimbing,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet]|ext_in[filePembimbing,xls,xlsx]|max_size[filePembimbing,2048]',
+                'rules' => 'uploaded[filePembimbing]|mime_in[filePembimbing,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet]|ext_in[filePembimbing,xls,xlsx]|max_size[filePembimbing,10000]',
                 'errors' => [
                     'uploaded' => 'Pilih File Pembimbing Skripsi Mahasiswa terlebih dahulu',
                     'mime_in' => 'File Pembimbing Skripsi Mahasiswa harus berupa Excel',
                     'ext_in' => 'File Pembimbing Skripsi Mahasiswa harus berekstensi .xls atau .xlsx',
-                    'max_size' => 'Ukuran File Pembimbing Skripsi Mahasiswa tidak boleh lebih dari 2MB'
+                    'max_size' => 'Ukuran File Pembimbing Skripsi Mahasiswa tidak boleh lebih dari 10MB'
                 ]
             ]
         ];

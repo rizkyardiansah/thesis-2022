@@ -84,7 +84,7 @@ class Fakultas extends BaseController
         }
 
         $data = [
-            "title" => "Skripsi Mahasiswa FTI",
+            "title" => "Makalah Mahasiswa FTI",
             "makalah" => $makalah,
         ];
         return view("fakultas/makalah", $data);

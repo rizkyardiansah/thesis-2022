@@ -33,7 +33,7 @@ class Home extends BaseController
         } 
 
         $data = [
-            'title' => "Repository Skripsi",
+            'title' => "Repositori",
             'makalah' => $makalah
         ];
         return view('home/repository_skripsi', $data);

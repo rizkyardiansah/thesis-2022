@@ -4,12 +4,12 @@ $(function () {
       judul: {
         required: true,
         minlength: 20,
-        maxlength: 70,
+        maxlength: 255,
       },
       deskripsi: {
         required: true,
         minlength: 20,
-        maxlength: 70,
+        maxlength: 255,
       },
       kata_kunci: {
         required: true,

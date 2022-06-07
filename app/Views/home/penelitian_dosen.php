@@ -28,7 +28,7 @@
             <?php endforeach; ?>
         </div>
         <div class="col-lg-8">
-            <div class="card overflow-auto" style="height: 500px">   
+            <div class="card overflow-auto" style="height: 600px">   
                 <div class="tab-content p-2" id="penelitian-tabContent">
                     <?php $counter = 1; ?>
                     <?php foreach($daftarPenelitian as $dp): ?>

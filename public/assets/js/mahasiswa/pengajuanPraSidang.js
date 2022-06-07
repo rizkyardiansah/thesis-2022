@@ -22,22 +22,22 @@ $(function () {
       file_draft: {
         required: true,
         extension: "pdf",
-        filesize: 2048000,
+        filesize: 10000000,
       },
       lembar_persetujuan: {
         required: true,
         extension: "pdf",
-        filesize: 2048000,
+        filesize: 10000000,
       },
     },
     messages: {
       file_draft: {
         extension: "File harus berekstensi PDF",
-        filesize: "File tidak boleh melebihi 2MB",
+        filesize: "File tidak boleh melebihi 10MB",
       },
       lembar_persetujuan: {
         extension: "File harus berekstensi PDF",
-        filesize: "File tidak boleh melebihi 2MB",
+        filesize: "File tidak boleh melebihi 10MB",
       },
     },
     errorClass: "text-danger",

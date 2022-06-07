@@ -184,12 +184,12 @@ class Mahasiswa extends BaseController
     public function insertProposal() {
         $validationRules = [
             'file_proposal' => [
-                'rules' => 'uploaded[file_proposal]|mime_in[file_proposal,application/pdf]|ext_in[file_proposal,pdf]|max_size[file_proposal,2048]',
+                'rules' => 'uploaded[file_proposal]|mime_in[file_proposal,application/pdf]|ext_in[file_proposal,pdf]|max_size[file_proposal,10000]',
                 'errors' => [
                     'uploaded' => 'Pilih File Proposal terlebih dahulu',
                     'mime_in' => 'File Proposal harus berupa PDF',
                     'ext_in' => 'File Proposal harus berekstensi .pdf',
-                    'max_size' => 'Ukuran File Proposal tidak boleh lebih dari 2MB'
+                    'max_size' => 'Ukuran File Proposal tidak boleh lebih dari 10MB'
                 ]
             ]
         ];
@@ -225,11 +225,11 @@ class Mahasiswa extends BaseController
     public function updateProposal($idProposal) {
         $validationRules = [
             'file_proposal' => [
-                'rules' => 'mime_in[file_proposal,application/pdf]|ext_in[file_proposal,pdf]|max_size[file_proposal,2048]',
+                'rules' => 'mime_in[file_proposal,application/pdf]|ext_in[file_proposal,pdf]|max_size[file_proposal,10000]',
                 'errors' => [
                     'mime_in' => 'File Proposal harus berupa PDF',
                     'ext_in' => 'File Proposal harus berekstensi .pdf',
-                    'max_size' => 'Ukuran File Proposal tidak boleh lebih dari 2MB'
+                    'max_size' => 'Ukuran File Proposal tidak boleh lebih dari 10MB'
                 ]
             ]
         ];
@@ -362,7 +362,7 @@ class Mahasiswa extends BaseController
         }
         $hasilBimbingan = $this->catatanBimbinganModel->getAllCatatanByNpm($mahasiswa['npm']);
         $data = [
-            'title' => "Pembimbing Skripsi",
+            'title' => "Catatan Bimbingan Skripsi",
             'mahasiswa' => $mahasiswa,
             'dosenPembimbing' => $dosenPembimbing,
             'hasilBimbingan' => $hasilBimbingan,
@@ -849,7 +849,7 @@ class Mahasiswa extends BaseController
         $makalah = $this->makalahModel->getWhere(['npm' => $dataAkun['npm']])->getResultArray();
 
         $data = [
-            'title' => 'Unggah Makalah',
+            'title' => 'Kelola Makalah',
             'dataAkun' =>$dataAkun,
             'lastSkripsi' => $lastSkripsi,
             'bidang' => $bidang,
@@ -862,12 +862,12 @@ class Mahasiswa extends BaseController
     public function insertMakalah() {
         $validationRules = [
             'file_makalah' => [
-                'rules' => 'uploaded[file_makalah]|mime_in[file_makalah,application/pdf]|ext_in[file_makalah,pdf]|max_size[file_makalah,2048]',
+                'rules' => 'uploaded[file_makalah]|mime_in[file_makalah,application/pdf]|ext_in[file_makalah,pdf]|max_size[file_makalah,10000]',
                 'errors' => [
                     'uploaded' => 'Pilih File Makalah terlebih dahulu',
                     'mime_in' => 'File Makalah harus berupa PDF',
                     'ext_in' => 'File Makalah harus berekstensi .pdf',
-                    'max_size' => 'Ukuran File Makalah tidak boleh lebih dari 2MB'
+                    'max_size' => 'Ukuran File Makalah tidak boleh lebih dari 10MB'
                 ]
             ]
         ];
@@ -905,11 +905,11 @@ class Mahasiswa extends BaseController
     public function updateMakalah($idMakalah) {
         $validationRules = [
             'file_makalah' => [
-                'rules' => 'mime_in[file_makalah,application/pdf]|ext_in[file_makalah,pdf]|max_size[file_makalah,2048]',
+                'rules' => 'mime_in[file_makalah,application/pdf]|ext_in[file_makalah,pdf]|max_size[file_makalah,10000]',
                 'errors' => [
                     'mime_in' => 'File Proposal harus berupa PDF',
                     'ext_in' => 'File Proposal harus berekstensi .pdf',
-                    'max_size' => 'Ukuran File Proposal tidak boleh lebih dari 2MB'
+                    'max_size' => 'Ukuran File Proposal tidak boleh lebih dari 10MB'
                 ]
             ]
         ];

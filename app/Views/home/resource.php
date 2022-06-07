@@ -38,13 +38,13 @@
                                 <td class="nama"><?= $r['nama'] ?></td>
                                 <td>
                                     <form action="<?= base_url("home/downloadResource/".$r['id']) ?>" class="d-inline-block">
-                                        <button class="btn btn-primary">Unduh</button>
+                                        <button class="btn btn-primary"><i class="fas fa-download"></i></button>
                                     </form>
                                 <?php if ( in_array("kaprodi", $roles) || in_array("fakultas", $roles) ) : ?>
                                     <form action="<?= base_url("home/deleteResource/".$r['id']) ?>" class="d-inline-block">
-                                        <button class="btn btn-danger">Hapus</button>
+                                        <button class="btn btn-danger"><i class="fas fa-trash"></i></button>
                                     </form>
-                                    <button class="btn btn-primary ubah-resource" data-toggle="modal" data-target="#ubahSumberDaya" data-id="<?= $r['id'] ?>">Ubah</button>
+                                    <button class="btn btn-primary ubah-resource" data-toggle="modal" data-target="#ubahSumberDaya" data-id="<?= $r['id'] ?>"><i class="fas fa-pencil-alt"></i></button>
                                     <?php endif; ?>
                                 </td>
                             </tr>

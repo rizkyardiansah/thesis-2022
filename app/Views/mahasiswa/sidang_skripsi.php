@@ -23,15 +23,15 @@
                 </div>
             <?php elseif ($pengajuan == null) : ?>
                 <div class="alert alert-danger" role="alert">
-                    <small>Buat <strong>Pengajuan Seminar Prasidang</strong> terlebih dahulu pada <a href="<?= base_url("mahasiswa/pengajuanPraSidang") ?>">Menu Berikut</a>.</small>
+                    <small>Buat <strong>Pengajuan Sidang Skripsi</strong> terlebih dahulu pada <a href="<?= base_url("mahasiswa/pengajuanSidangSkripsi") ?>">Menu Berikut</a>.</small>
                 </div>
             <?php elseif ($pengajuan['status'] != 'DISETUJUI') : ?>
                 <div class="alert alert-warning" role="alert">
-                    <small>Pastikan <strong>Pengajuan Seminar Prasidang</strong> anda telah <strong>Disetujui</strong>.</small>
+                    <small>Pastikan <strong>Pengajuan Sidang Skripsi</strong> anda telah <strong>Disetujui</strong>.</small>
                 </div>
             <?php elseif ($pengajuan['status'] == 'DISETUJUI'): ?>
                 <div class="alert alert-info" role="alert">
-                    <small><strong>Jadwal Seminar Prasidang</strong> anda dapat dilihat pada tabel dibawah.</small>
+                    <small><strong>Jadwal Sidang Skripsi</strong> anda dapat dilihat pada tabel dibawah.</small>
                 </div>
             <?php endif; ?>
         </div>

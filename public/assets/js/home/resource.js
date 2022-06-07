@@ -1,5 +1,21 @@
 $(function () {
-  $("#sumberDaya").DataTable();
+  $("#sumberDaya").DataTable({
+    columnDefs: [
+      {
+        targets: [0, 2],
+        className: "text-center",
+      },
+      {
+        targets: 2,
+        searchable: false,
+        orderable: false,
+      },
+      {
+        targets: "_all",
+        className: "align-middle",
+      },
+    ],
+  });
 
   $("#formTambahSumberDaya").validate({
     rules: {
@@ -12,7 +28,7 @@ $(function () {
       file_resource: {
         required: true,
         extension: "pdf,xls,xlsx,doc,docx",
-        filesize: 2048000,
+        filesize: 10000000,
       },
     },
     messages: {
@@ -21,7 +37,7 @@ $(function () {
       },
       file_resource: {
         extension: "File harus berekstensi PDF, XLS, XLSX, DOC dan DOCX",
-        filesize: "File tidak boleh melebihi 2MB",
+        filesize: "File tidak boleh melebihi 10MB",
       },
     },
     errorClass: "text-danger",

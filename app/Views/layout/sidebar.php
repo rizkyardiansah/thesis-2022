@@ -20,7 +20,7 @@
 <li class="nav-item">
     <a class="nav-link py-2" href="<?= base_url("home/index")?>">
         <i class="fas fa-book"></i>
-        <span>Repository Skripsi</span></a>
+        <span>Repositori</span></a>
 </li>
 <li class="nav-item ">
     <a class="nav-link py-2" href="<?= base_url("home/kalender")?>">

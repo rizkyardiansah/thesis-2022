@@ -23,31 +23,31 @@ $(function () {
         required: true,
         extension: "pdf",
         accept: "pdf",
-        filesize: 2048000,
+        filesize: 10000000,
       },
       file_form_bimbingan: {
         required: true,
         extension: "pdf",
-        filesize: 2048000,
+        filesize: 10000000,
       },
       file_persyaratan_sidang: {
         required: true,
         extension: "pdf",
-        filesize: 2048000,
+        filesize: 10000000,
       },
     },
     messages: {
       file_draft_final: {
         extension: "File harus berekstensi PDF",
-        filesize: "File tidak boleh melebihi 2MB",
+        filesize: "File tidak boleh melebihi 10MB",
       },
       file_form_bimbingan: {
         extension: "File harus berekstensi PDF",
-        filesize: "File tidak boleh melebihi 2MB",
+        filesize: "File tidak boleh melebihi 10MB",
       },
       file_persyaratan_sidang: {
         extension: "File harus berekstensi PDF",
-        filesize: "File tidak boleh melebihi 2MB",
+        filesize: "File tidak boleh melebihi 10MB",
       },
     },
     errorClass: "text-danger",
