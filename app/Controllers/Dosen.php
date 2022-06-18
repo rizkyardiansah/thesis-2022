@@ -103,8 +103,6 @@ class Dosen extends BaseController
         $data = [
             "title" => "Skripsi Mahasiswa ". $prodi['inisial'],
             "skripsi" => $skripsi,
-            "bidang" => $bidang,
-            "dosen" => $dosen,
         ];
         return view("dosen/kaprodi_skripsi", $data);
     }
@@ -692,6 +690,13 @@ class Dosen extends BaseController
     public function komentariSeminarPrasidang($idSeminarPrasidang) {
         $komentar = $this->request->getPost("komentar", FILTER_SANITIZE_SPECIAL_CHARS);
         $status = $this->request->getPost("status");
+        if ($status == 'TIDAK LAYAK SIDANG') {
+            $npm = $this->request->getPost("npm");
+            $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($npm);
+            $this->skripsiModel->update($lastSkripsi['id'], [
+                'status' => 'TIDAK LULUS'
+            ]);
+        }
         $this->seminarPrasidangModel->update($idSeminarPrasidang, [
             'komentar_reviewer' => $komentar,
             'status' => $status,

@@ -17,6 +17,12 @@
                         <strong>Tambahkan Skripsi</strong> terlebih dahulu pada <a href="<?= base_url("mahasiswa/skripsi") ?>">Menu Berikut</a>.
                     </small>
                 </div>
+            <?php elseif (count($pembimbing) < 2): ?>
+                <div class="alert alert-warning" role="alert">
+                    <small>
+                        Anda belum diberikan <strong>Pembimbing</strong>. Silahkan tunggu anda diberikan pembimbing.</a>.
+                    </small>
+                </div>
             <?php elseif (($lastSkripsi != null && count($pengajuanPrasidang) == 0)  || ($lastSkripsi['id'] != $pengajuanPrasidang[0]['id_skripsi'])): ?>
                 <div class="alert alert-info" role="alert">
                     <small>
@@ -51,9 +57,9 @@
         <div class="card-body">
             <div class="row mb-3">
                 <div class="col-lg-3 d-flex align-items-center">
-                    <?php if ($lastSkripsi == null || ($lastSkripsi != null && count($pengajuanPrasidang) > 0 && $lastSkripsi['id'] == $pengajuanPrasidang[0]['id_skripsi'])): ?>
+                    <?php if ($lastSkripsi == null || ($lastSkripsi != null && count($pengajuanPrasidang) > 0 && $lastSkripsi['id'] == $pengajuanPrasidang[0]['id_skripsi']) || ($lastSkripsi != null && count($pembimbing) < 2)): ?>
                         <button class="btn btn-primary" disabled>Tambahkan Pengajuan</button>
-                    <?php elseif ($lastSkripsi != null): ?>
+                    <?php elseif ($lastSkripsi != null && count($pembimbing) >= 2): ?>
                         <button class="btn btn-primary" data-toggle="modal" data-target="#pengajuanPraSidang">Tambahkan Pengajuan</button>
                     <?php endif; ?>
                 </div>

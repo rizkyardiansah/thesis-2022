@@ -493,11 +493,14 @@ class Mahasiswa extends BaseController
             $lastSkripsi['nama_bidang'] = $this->bidangModel->find($lastSkripsi['id_bidang'])['nama'];
         }
         $pengajuanPrasidang = $this->pengajuanPrasidangModel->getPengajuanPrasidangByNpm($mahasiswa['npm']);
+        $pembimbing = $this->pembimbingModel->getAllPembimbingByIdSkripsi($lastSkripsi['id']);
+
         $data = [
             'title' => 'Pengajuan Seminar Prasidang',
             'mahasiswa' => $mahasiswa,
             'lastSkripsi' => $lastSkripsi,
             'pengajuanPrasidang' => $pengajuanPrasidang,
+            'pembimbing' => $pembimbing,
         ];
         return view("mahasiswa/pengajuan_pra_sidang", $data);
     }

@@ -107,7 +107,6 @@ $(function () {
         targets: 9,
         searchable: false,
         orderable: false,
-        autoWidth: true,
       },
       {
         targets: "_all",

@@ -25,7 +25,7 @@
                     <div class="col-lg-6">
                         <div class="form-group">
                             <label for="npm">NPM</label>
-                            <input type="text" class="form-control" id="npm" name="npm" value="<?= $detailSeminarPrasidang['npm'] ?>" disabled>
+                            <input type="text" class="form-control" id="npm" name="npm" value="<?= $detailSeminarPrasidang['npm'] ?>" readonly>
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -100,7 +100,7 @@
                     <div class="col-lg-12 mb-3">
                         <div class="form-group">
                             <label for="file_draft">Draft Skripsi</label>
-                            <div class="embed-responsive embed-responsive-16by9" id="file_draft" style="width: 85%">
+                            <div class="embed-responsive embed-responsive-16by9 mx-auto" id="file_draft" style="width: 90%">
                                 <iframe class="embed-responsive-item" src="<?= base_url("folderDraft/".$detailSeminarPrasidang['file_draft']) ?>"></iframe>
                             </div>
                         </div>
@@ -108,7 +108,7 @@
                     <div class="col-lg-12 mb-3">
                         <div class="form-group">
                             <label for="lembar_persetujuan">Lembar Persetujuan</label>
-                            <div class="embed-responsive embed-responsive-16by9" id="lembar_persetujuan" style="width: 85%">
+                            <div class="embed-responsive embed-responsive-16by9 mx-auto" id="lembar_persetujuan" style="width: 90%">
                                 <iframe class="embed-responsive-item" src="<?= base_url("folderLembarPersetujuanPrasidang/".$detailSeminarPrasidang['lembar_persetujuan']) ?>"></iframe>
                             </div>
                         </div>

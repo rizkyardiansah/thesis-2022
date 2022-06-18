@@ -104,7 +104,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="tambahJadwalLabel">Tambahkan Jadwal Seminar Prasidang</h5>
+                    <h5 class="modal-title" id="tambahJadwalLabel">Tambahkan Jadwal Sidang Skripsi</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -245,7 +245,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="ubahJadwalLabel">Ubah Jadwal Seminar Prasidang</h5>
+                    <h5 class="modal-title" id="ubahJadwalLabel">Ubah Jadwal Sidang Skripsi</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -316,13 +316,13 @@
 
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="tanggal">Tanggal Seminar</label>
+                                    <label for="tanggal">Tanggal Sidang</label>
                                     <input type="text" class="form-control" id="tanggal" name="tanggal">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="jam">Waktu Seminar</label>
+                                    <label for="jam">Waktu Sidang</label>
                                     <input type="text" class="form-control" id="jam" name="jam" placeholder="format: (hh:mm)">
                                 </div>
                             </div>

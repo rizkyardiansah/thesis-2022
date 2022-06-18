@@ -342,8 +342,13 @@ class TenagaKependidikan extends BaseController
     }
 
     public function tolakPengajuanPrasidang($idPengajuanPrasidang) {
+        $npm = $this->request->getPost("npm");
+        $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($npm);
         $this->pengajuanPrasidangModel->update($idPengajuanPrasidang, [
             'status' => 'DITOLAK'
+        ]);
+        $this->skripsiModel->update($lastSkripsi['id'], [
+            'status' => 'TIDAK LULUS'
         ]);
         session()->setFlashdata("message", ["icon" => "success", "title" => "Pengajuan Seminar Prasidang Ditolak", "text" => "Pengajuan Seminar Prasidang telah ditolak!"]);
         return redirect()->to(base_url("TenagaKependidikan/pengajuanPrasidang"));
@@ -385,6 +390,8 @@ class TenagaKependidikan extends BaseController
     }
 
     public function tolakPengajuanSidangSkripsi($idPengajuanSidangSkripsi) {
+        $npm = $this->request->getPost("npm");
+        $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($npm);
         $pengajuanSidang = $this->pengajuanSidangModel->find($idPengajuanSidangSkripsi);
         if ($pengajuanSidang == null) {
             session()->setFlashdata("message", ["icon" => "error", "title" => "Pengajuan Sidang Skripsi Tidak Ditemukan", "text" => "Pengajuan Sidang Skripsi Tidak Ditemukan"]);
@@ -393,6 +400,10 @@ class TenagaKependidikan extends BaseController
 
         $this->pengajuanSidangModel->update($idPengajuanSidangSkripsi, [
             'status' => 'DITOLAK',
+        ]);
+
+        $this->skripsiModel->update($lastSkripsi['id'], [
+            'status' => 'TIDAK LULUS',
         ]);
 
         session()->setFlashdata("message", ["icon" => "success", "title" => "Pengajuan Ditolak", "text" => "Pengajuan Sidang Skripsi telah Ditolak"]);

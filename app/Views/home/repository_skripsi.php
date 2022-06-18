@@ -44,7 +44,7 @@
                                 <td><?= $m['deskripsi'] ?></td>
                                 <td><?= $m['nama_mahasiswa'] ?></td>
                                 <td data-toggle="tooltip" title="<?= $m['nama_prodi'] ?>" data-placement="top"><?= $m['inisial_prodi'] ?></td>
-                                <td><?= date_format(date_create($m['tanggal_upload']), "d-m-Y") ?></td>
+                                <td style="min-width: 8vw"><?= date_format(date_create($m['tanggal_upload']), "d-m-Y") ?></td>
                                 <td data-toggle="tooltip" title="<?= $m['nama_bidang'] ?>" data-placement="top"><?= $m['inisial_bidang'] ?></td>
                                 <td><?= $m['kata_kunci'] ?></td>
                                 <td>

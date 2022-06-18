@@ -40,7 +40,7 @@ $(function () {
     ],
     columnDefs: [
       {
-        targets: [0, 1, 4, 5, 6, 7, 8, 9],
+        targets: [0, 1, 4, 5, 6, 7, 8, 9, 11],
         className: "text-center",
       },
       {
