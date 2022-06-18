@@ -17,7 +17,7 @@
             <div class="row">
                 <div class="col-lg-5"></div>
                 <div class="col-lg-7 d-flex justify-content-end align-items-center">
-                    <form class="form-inline" action="<?= base_url("dosen/kaprodiMakalah") ?>" method="get">
+                    <form class="form-inline" action="<?= base_url("kaprodi/makalah") ?>" method="get">
                         <div class="form-group mr-2">
                             <label for="dari" class="form-control-label mr-1">Dari</label>
                             <input type="date" id="dari" name="dari" class="form-control" placeholder="dari">
@@ -76,5 +76,5 @@
 <?= $this->endSection(); ?>
 
 <?= $this->section("scripts"); ?>
-    <script src="<?= base_url("assets/js/dosen/kaprodiMakalah.js");?>"></script>
+    <script src="<?= base_url("assets/js/kaprodi/makalah.js");?>"></script>
 <?= $this->endSection(); ?>

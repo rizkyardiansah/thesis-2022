@@ -136,19 +136,19 @@
     Kaprodi
 </div>
 <li class="nav-item">
-    <a class="nav-link py-2" href="<?= base_url("dosen/kaprodiProposal") ?>" >
+    <a class="nav-link py-2" href="<?= base_url("kaprodi/proposal") ?>" >
         <i class="fas fa-fw fa-cog"></i>
         <span>Proposal</span>
     </a>
 </li>
 <li class="nav-item">
-    <a class="nav-link py-2" href="<?= base_url("dosen/kaprodiSkripsi") ?>" >
+    <a class="nav-link py-2" href="<?= base_url("kaprodi/skripsi") ?>" >
         <i class="fas fa-fw fa-cog"></i>
         <span>Skripsi</span>
     </a>
 </li>
 <li class="nav-item">
-    <a class="nav-link py-2" href="<?= base_url("dosen/kaprodiMakalah") ?>" >
+    <a class="nav-link py-2" href="<?= base_url("kaprodi/makalah") ?>" >
         <i class="fas fa-fw fa-cog"></i>
         <span>Makalah</span>
     </a>
@@ -161,9 +161,9 @@
     </a>
     <div id="collapseJadwalKaprodi" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="<?= base_url("dosen/seminarProposal") ?>">Seminar Proposal</a>
-            <a class="collapse-item" href="<?= base_url("dosen/seminarPrasidang") ?>">Seminar Prasidang</a>
-            <a class="collapse-item" href="<?= base_url("dosen/sidangSkripsi") ?>">Sidang Skripsi</a>
+            <a class="collapse-item" href="<?= base_url("kaprodi/seminarProposal") ?>">Seminar Proposal</a>
+            <a class="collapse-item" href="<?= base_url("kaprodi/seminarPrasidang") ?>">Seminar Prasidang</a>
+            <a class="collapse-item" href="<?= base_url("kaprodi/sidangSkripsi") ?>">Sidang Skripsi</a>
         </div>
     </div>
 </li>

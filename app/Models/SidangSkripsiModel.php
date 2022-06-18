@@ -18,7 +18,7 @@ class SidangSkripsiModel extends Model
         $sql = "SELECT m.npm, m.nama AS nama_mahasiswa, s.judul, b.nama AS nama_bidang, b.inisial AS inisial_bidang,
         ss.*, penguji.nama as nama_penguji, penguji.inisial as inisial_penguji, 
         d1.nama AS nama_pembimbing1, d2.nama AS nama_pembimbing2, d3.nama as nama_pembimbing_agama, 
-        d1.inisial AS inisial_pembimbing1, d2.inisial AS inisial_pembimbing2, d3.inisial as inisial_pembimbing_agama
+        d1.inisial AS inisial_pembimbing1, d2.inisial AS inisial_pembimbing2, d3.inisial as inisial_pembimbing_agama, count(ps.grade) as jumlah_nilai_masuk
         FROM sidang_skripsi AS ss
         INNER JOIN skripsi AS s ON s.id = ss.id_skripsi
         INNER JOIN mahasiswa AS m ON m.npm = s.npm
@@ -30,11 +30,14 @@ class SidangSkripsiModel extends Model
         INNER JOIN dosen AS d1 ON d1.id = p1.id_dosen
         LEFT JOIN dosen AS d2 ON d2.id = p2.id_dosen
         INNER JOIN dosen AS d3 ON d3.id = p3.id_dosen
+        left join penilaian_sidang as ps on ps.id_sidang_skripsi = ss.id
         WHERE m.id_prodi = ? and
         p1.role = 'Pembimbing Ilmu 1' and
         p2.role = 'Pembimbing Ilmu 2' and
         p3.role = 'Pembimbing Agama'
-        order by ss.tanggal DESC";
+        group by ss.id
+        order by ss.tanggal DESC
+        ";
         $result = $db->query($sql, [$idProdi]);
         return $result->getResultArray();
     }

@@ -1,5 +1,5 @@
 $(function () {
-  $("#jadwalSempro").DataTable({
+  $("#jadwalSeminarPrasidang").DataTable({
     dom:
       "<'row mt-3'<'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'l><'col-sm-12 col-md-4'f>>" +
       "<'row'<'col-sm-12'tr>>" +
@@ -40,11 +40,11 @@ $(function () {
     ],
     columnDefs: [
       {
-        targets: [0, 1, 4, 5, 6, 7, 8, 9, 11],
+        targets: [0, 1, 4, 5, 7, 8],
         className: "text-center",
       },
       {
-        target: 11,
+        targets: 8,
         searchable: false,
         orderable: false,
       },
@@ -53,19 +53,6 @@ $(function () {
         className: "align-middle",
       },
     ],
-  });
-
-  $("#formAturMode").validate({
-    rules: {
-      mode_sempro: {
-        required: true,
-      },
-    },
-    errorClass: "text-danger",
-    errorElement: "small",
-    submitHandler: function (form) {
-      form.submit();
-    },
   });
 
   $("#formTambahJadwal #tanggal").daterangepicker(
@@ -109,7 +96,36 @@ $(function () {
         required: true,
         jam: true,
       },
-      dosen_penguji1: {
+      dosen_reviewer: {
+        required: true,
+      },
+    },
+    errorClass: "text-danger",
+    errorElement: "small",
+    submitHandler: function (form) {
+      form.submit();
+    },
+  });
+
+  $("#formUbahJadwal").validate({
+    rules: {
+      link_konferensi: {
+        required: true,
+        url: true,
+        maxlength: 150,
+      },
+      ruangan: {
+        required: true,
+        maxlength: 20,
+      },
+      tanggal: {
+        required: true,
+      },
+      jam: {
+        required: true,
+        jam: true,
+      },
+      dosen_reviewer: {
         required: true,
       },
     },
@@ -144,7 +160,7 @@ $(function () {
     "Format jam tidak valid"
   );
 
-  $("#jadwalSempro .ubah-jadwal").on("click", function (e) {
+  $("#jadwalSeminarPrasidang .ubah-jadwal").on("click", function (e) {
     const id = $(this).data("id");
     const parent = $(this).parent().parent();
     const npm = parent.children(".npm").text();
@@ -157,13 +173,12 @@ $(function () {
       .substring(0, 5);
     const link_konferensi = parent.children(".link_konferensi").text();
     const ruangan = parent.children(".ruangan").text();
-    const dosen_penguji1 = parent.children(".dosen_penguji1").data("id");
-    const dosen_penguji2 = parent.children(".dosen_penguji2").data("id");
+    const dosen_reviewer = parent.children(".dosen_reviewer").data("id");
 
     $("#ubahJadwal").modal("show");
     $("#formUbahJadwal").attr(
       "action",
-      `${BASE_URL}dosen/updateJadwalSempro/${id}`
+      `${BASE_URL}kaprodi/updateJadwalSeminarPrasidang/${id}`
     );
 
     $("#formUbahJadwal #mahasiswa").val(`${npm} | ${nama}`);
@@ -175,15 +190,10 @@ $(function () {
       startDate: moment(tanggal, "DD-MM-YYYY").format("MM/DD/YYYY"),
     });
     $("#formUbahJadwal #jam").val(jam);
-    $("#formUbahJadwal #dosen_penguji1").val(dosen_penguji1);
-    if (dosen_penguji2 == undefined) {
-      $("#formUbahJadwal #dosen_penguji2").val("none");
-    } else {
-      $("#formUbahJadwal #dosen_penguji2").val(dosen_penguji2);
-    }
+    $("#formUbahJadwal #dosen_reviewer").val(dosen_reviewer);
   });
 
-  $("#jadwalSempro #formHapusJadwal").on("submit", function (e) {
+  $("#jadwalSeminarPrasidang #formHapusJadwal").on("submit", function (e) {
     e.preventDefault();
     Swal.fire({
       title: "Apakah anda ingin menghapus jadwal ini?",
