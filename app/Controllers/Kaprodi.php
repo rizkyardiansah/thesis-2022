@@ -136,6 +136,11 @@ class Kaprodi extends BaseController
     }
 
 
+
+
+
+
+
     public function seminarProposal() {
         //autentikasi
         if (!$this->authenticate(["kaprodi"])) 
@@ -286,7 +291,6 @@ class Kaprodi extends BaseController
         $highestRow = $worksheet->getHighestRow();
 
         $mode_sempro = $this->request->getPost("mode_sempro", FILTER_SANITIZE_SPECIAL_CHARS);
-        $arrayJadwal = [];
         $totalCounter = 0;
         $successCounter = 0;
         for ($row = 2; $row <= $highestRow; ++$row) {
@@ -299,6 +303,13 @@ class Kaprodi extends BaseController
             }
 
             $id_proposal = $lastProposal['id'];
+            $id_sempro = null;
+            $jadwalSemproByIdProposal = $this->semproModel->getWhere(['id_proposal' => $id_proposal])->getResultArray();
+            $isJadwalExist = count($jadwalSemproByIdProposal) != 0;
+            if ($isJadwalExist) {
+                $id_sempro = $jadwalSemproByIdProposal[0]['id'];
+            }
+            
             $tanggal = date_format(date_create_from_format('d-m-Y H:i', $worksheet->getCell("B$row")->getValue()), 'Y-m-d H:i');
             
             $ruangan = "";
@@ -322,7 +333,7 @@ class Kaprodi extends BaseController
                 $dosen_penguji2 = $penguji2['id'];
             }
 
-            $arrayJadwal[$row-2] = [
+            $jadwal = [
                 'id_proposal' => $id_proposal,
                 'tanggal' => $tanggal,
                 'dosen_penguji1' => $dosen_penguji1,
@@ -330,16 +341,19 @@ class Kaprodi extends BaseController
             ];
 
             if ($mode_sempro == 'Sinkronus Daring') {
-                $arrayJadwal[$row-2]['link_konferensi'] =  $link_konferensi;
+                $jadwal['link_konferensi'] =  $link_konferensi;
             } elseif ($mode_sempro == 'Sinkronus Luring') {
-                $arrayJadwal[$row-2]['ruangan'] = $ruangan;
+                $jadwal['ruangan'] = $ruangan;
+            }
+
+            if ($id_sempro == null) {
+                $this->semproModel->insert($jadwal);
+            } else {
+                $this->semproModel->update($id_sempro, $jadwal);
             }
             $successCounter++;
         }
 
-        if (count($arrayJadwal) > 0) {
-            $this->semproModel->insertBatch($arrayJadwal);
-        }
         session()->setFlashdata("message", ["icon" => "info", "title" => "Jadwal Seminar Proposal Berhasil dibuat", "text" => "$successCounter dari $totalCounter Jadwal telah berhasil ditambahkan!"]);
         return redirect()->to(base_url("kaprodi/seminarProposal"));
     }
@@ -355,12 +369,9 @@ class Kaprodi extends BaseController
 
     
 
-    
-   
 
-   
 
-    
+
 
     public function seminarPrasidang() {
         //autentikasi
@@ -500,7 +511,6 @@ class Kaprodi extends BaseController
         $worksheet = $spreadsheet->getActiveSheet();
         $highestRow = $worksheet->getHighestRow();
 
-        $arrayJadwal = [];
         $totalCounter = 0;
         $successCounter = 0;
         for ($row = 2; $row <= $highestRow; ++$row) {
@@ -511,11 +521,15 @@ class Kaprodi extends BaseController
             }
             
             $id_skripsi = $lastSkripsi['id'];
+            $id_sempra = null;
+            $jadwalSempraByIdSkripsi = $this->seminarPrasidangModel->getWhere(['id_skripsi' => $id_skripsi])->getResultArray();
+            $isJadwalExist = count($jadwalSempraByIdSkripsi) != 0;
+            if ($isJadwalExist) {
+                $id_sempra = $jadwalSempraByIdSkripsi[0]['id'];
+            }
             
             $pengajuan = $this->pengajuanPrasidangModel->getWhere(['id_skripsi' => $id_skripsi])->getResultArray();
             if (count($pengajuan) == 0 || (count($pengajuan) == 1 && $pengajuan[0]['status'] != 'DISETUJUI')) { continue; }
-
-            if ( count( $this->seminarPrasidangModel->getWhere(['id_skripsi' => $id_skripsi])->getResultArray() ) >= 1 ) { continue; }
 
             $tanggal = date_format(date_create_from_format('d-m-Y H:i', trim($worksheet->getCell("B$row")->getValue(), " ")), 'Y-m-d H:i');
             
@@ -527,26 +541,29 @@ class Kaprodi extends BaseController
 
             $dosen_reviewer = $reviewer['id'];
 
-            $arrayJadwal[$row-2] = [
+            $jadwal = [
                 'id_skripsi' => $id_skripsi,
                 'tanggal' => $tanggal,
                 'ruangan' => $ruangan,
                 'dosen_reviewer' => $dosen_reviewer,
             ];
-            $successCounter++;
-        }
 
-        if (count($arrayJadwal) > 0) {
-            $this->seminarPrasidangModel->insertBatch($arrayJadwal);
+            if ($id_sempra == null) {
+                $this->seminarPrasidangModel->insert($jadwal);
+            } else {
+                $this->seminarPrasidangModel->update($id_sempra, $jadwal);
+            }
+            $successCounter++;
         }
         session()->setFlashdata("message", ["icon" => "info", "title" => "Jadwal Seminar Prasidang Berhasil ditambahkan", "text" => "$successCounter dari $totalCounter Jadwal telah berhasil ditambahkan!"]);
         return redirect()->to(base_url("kaprodi/seminarPrasidang"));
     }
 
-   
+    
 
-   
-   
+
+
+
 
     public function sidangSkripsi() {
         //autentikasi
@@ -686,7 +703,6 @@ class Kaprodi extends BaseController
         $worksheet = $spreadsheet->getActiveSheet();
         $highestRow = $worksheet->getHighestRow();
 
-        $arrayJadwal = [];
         $totalCounter = 0;
         $successCounter = 0;
         for ($row = 2; $row <= $highestRow; ++$row) {
@@ -697,11 +713,15 @@ class Kaprodi extends BaseController
             }
             
             $id_skripsi = $lastSkripsi['id'];
-            
+            $id_sidang = null;
+            $jadwalSidangByIdSkripsi = $this->sidangSkripsiModel->getWhere(['id_skripsi' => $id_skripsi])->getResultArray();
+            $isJadwalExist = count($jadwalSidangByIdSkripsi) != 0;
+            if ($isJadwalExist) {
+                $id_sidang = $jadwalSidangByIdSkripsi[0]['id'];
+            }
+
             $pengajuan = $this->pengajuanSidangModel->getWhere(['id_skripsi' => $id_skripsi])->getResultArray();
             if (count($pengajuan) == 0 || (count($pengajuan) == 1 && $pengajuan[0]['status'] != 'DISETUJUI')) { continue; }
-
-            if ( count( $this->sidangSkripsiModel->getWhere(['id_skripsi' => $id_skripsi])->getResultArray() ) >= 1 ) { continue; }
 
             $tanggal = date_format(date_create_from_format('d-m-Y H:i', trim($worksheet->getCell("B$row")->getValue(), " ")), 'Y-m-d H:i');
             
@@ -713,28 +733,31 @@ class Kaprodi extends BaseController
 
             $dosen_penguji1 = $penguji1['id'];
 
-            $arrayJadwal[$row-2] = [
+            $jadwal = [
                 'id_skripsi' => $id_skripsi,
                 'tanggal' => $tanggal,
                 'ruangan' => $ruangan,
                 'dosen_penguji' => $dosen_penguji1,
             ];
+
+            if ($id_sidang == null) {
+                $this->sidangSkripsiModel->insert($jadwal);
+            } else {
+                $this->sidangSkripsiModel->update($id_sidang, $jadwal);
+            }
             $successCounter++;
         }
 
-        if (count($arrayJadwal) > 0) {
-            $this->sidangSkripsiModel->insertBatch($arrayJadwal);
-        }
         session()->setFlashdata("message", ["icon" => "info", "title" => "Jadwal Sidang Skripsi Berhasil ditambahkan", "text" => "$successCounter dari $totalCounter Jadwal telah berhasil ditambahkan!"]);
         return redirect()->to(base_url("kaprodi/sidangSkripsi"));
     }
 
     
 
-   
-   
 
-   
+
+
+
     private function sendEmail($attachment, $to, $title, $message){
         $email = \Config\Services::email();
         $config = [
