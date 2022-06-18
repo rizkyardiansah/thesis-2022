@@ -178,22 +178,57 @@ class TenagaKependidikan extends BaseController
             $totalRow++;
             $arrayPembimbing = [];
             $npm = $worksheet->getCell("A$row")->getValue();
+
+            $mahasiswa = $this->mahasiswaModel->find($npm);
+            if ($mahasiswa == null) { continue; }
+
             $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($npm);
             //cek apakah skripsinya ada
             if ($lastSkripsi == null) {
                 continue;
             }
-            if ( count( $this->pembimbingModel->getWhere(["id_skripsi" => $lastSkripsi['id']])->getResultArray() ) == 3 ) {
-                continue;
+
+            $idPembimbing1 = null;
+            $idPembimbing2 = null;
+            $idPembimbingAgama = null;
+
+            $resultPembimbing1 = $this->pembimbingModel->getWhere(["id_skripsi" => $lastSkripsi['id'], "role" => "Pembimbing Ilmu 1"])->getResultArray();
+            $resultPembimbing2 = $this->pembimbingModel->getWhere(["id_skripsi" => $lastSkripsi['id'], "role" => "Pembimbing Ilmu 2"])->getResultArray();
+            $resultPembimbingAgama = $this->pembimbingModel->getWhere(["id_skripsi" => $lastSkripsi['id'], "role" => "Pembimbing Agama"])->getResultArray();
+
+            $isPembimbing1Exist = count($resultPembimbing1) != 0;
+            $isPembimbing2Exist = count($resultPembimbing2) != 0;
+            $isPembimbingAgamaExist = count($resultPembimbingAgama) != 0;
+
+            $isCatatanBimbingan1Exist = false;
+            $isCatatanBimbingan2Exist = false;
+            $isCatatanBimbinganAgamaExist = false;
+
+            if ( $isPembimbing1Exist ) { 
+                $idPembimbing1 = $resultPembimbing1[0]['id']; 
+                $isCatatanBimbingan1Exist = count($this->catatanBimbinganModel->getWhere(['id_pembimbing' => $idPembimbing1])->getResultArray()) != 0;
             }
+
+            if ( $isPembimbing2Exist ) { 
+                $idPembimbing2 = $resultPembimbing2[0]['id']; 
+                $isCatatanBimbingan2Exist = count($this->catatanBimbinganModel->getWhere(['id_pembimbing' => $idPembimbing2])->getResultArray()) != 0;
+            }
+
+            if ( $isPembimbingAgamaExist ) { 
+                $idPembimbingAgama = $resultPembimbingAgama[0]['id']; 
+                $isCatatanBimbinganAgamaExist = count($this->catatanBimbinganModel->getWhere(['id_pembimbing' => $idPembimbingAgama])->getResultArray()) != 0;
+            }
+
+            if ($isCatatanBimbingan1Exist || $isCatatanBimbingan2Exist || $isCatatanBimbinganAgamaExist) { continue; }
+            
             $id_skripsi = $lastSkripsi['id'];
-            if ( $this->dosenModel->getDosenByInisial($worksheet->getCell("B$row")->getValue()) == null ) {
+            if ( $this->dosenModel->getDosenByInisial($worksheet->getCell("B$row")->getValue()) == null || $this->dosenModel->getDosenByInisial($worksheet->getCell("B$row")->getValue())['id_prodi'] != $mahasiswa['id_prodi'] ) {
                 continue;
             }
             $dosen_pembimbing1 = $this->dosenModel->getDosenByInisial($worksheet->getCell("B$row")->getValue())['id'];
             $dosen_pembimbing2 = null;
             if ($worksheet->getCell("C$row")->getValue() != "-") {
-                if ( $this->dosenModel->getDosenByInisial($worksheet->getCell("C$row")->getValue()) == null ) {
+                if ( $this->dosenModel->getDosenByInisial($worksheet->getCell("C$row")->getValue()) == null || $this->dosenModel->getDosenByInisial($worksheet->getCell("C$row")->getValue())['id_prodi'] != $mahasiswa['id_prodi'] ) {
                     continue;
                 }
                 $dosen_pembimbing2 = $this->dosenModel->getDosenByInisial($worksheet->getCell("C$row")->getValue())['id'];
@@ -203,24 +238,48 @@ class TenagaKependidikan extends BaseController
             }
             $dosen_pembimbing_agama = $this->dosenModel->getDosenByInisial($worksheet->getCell("D$row")->getValue())['id'];
 
-            array_push($arrayPembimbing, [
-                'id_skripsi' => $id_skripsi,
-                'id_dosen' => $dosen_pembimbing1,
-                'role' => 'Pembimbing Ilmu 1'
-            ]);
+            if ($idPembimbing1 == null) {
+                $this->pembimbingModel->insert([
+                    'id_skripsi' => $id_skripsi,
+                    'id_dosen' => $dosen_pembimbing1,
+                    'role' => 'Pembimbing Ilmu 1'
+                ]);
+            } else {
+                $this->pembimbingModel->update($idPembimbing1, [
+                    'id_skripsi' => $id_skripsi,
+                    'id_dosen' => $dosen_pembimbing1,
+                    'role' => 'Pembimbing Ilmu 1'
+                ]);
+            }
             
-            array_push($arrayPembimbing, [
-                'id_skripsi' => $id_skripsi,
-                'id_dosen' => $dosen_pembimbing2,
-                'role' => 'Pembimbing Ilmu 2'
-            ]);
+            if ($idPembimbing2 == null) {
+                $this->pembimbingModel->insert([
+                    'id_skripsi' => $id_skripsi,
+                    'id_dosen' => $dosen_pembimbing2,
+                    'role' => 'Pembimbing Ilmu 2'
+                ]);
+            } else {
+                $this->pembimbingModel->update($idPembimbing2, [
+                    'id_skripsi' => $id_skripsi,
+                    'id_dosen' => $dosen_pembimbing2,
+                    'role' => 'Pembimbing Ilmu 2'
+                ]);
+            }
             
-            array_push($arrayPembimbing, [
-                'id_skripsi' => $id_skripsi,
-                'id_dosen' => $dosen_pembimbing_agama,
-                'role' => 'Pembimbing Agama'
-            ]);
-            $this->pembimbingModel->insertBatch($arrayPembimbing);
+            if ($idPembimbingAgama == null) {
+                $this->pembimbingModel->insert([
+                    'id_skripsi' => $id_skripsi,
+                    'id_dosen' => $dosen_pembimbing_agama,
+                    'role' => 'Pembimbing Agama'
+                ]);
+            } else {
+                $this->pembimbingModel->update($idPembimbingAgama, [
+                    'id_skripsi' => $id_skripsi,
+                    'id_dosen' => $dosen_pembimbing_agama,
+                    'role' => 'Pembimbing Agama'
+                ]);
+            }
+            // $this->pembimbingModel->insertBatch($arrayPembimbing);
             $insertedData++;
         }
 
