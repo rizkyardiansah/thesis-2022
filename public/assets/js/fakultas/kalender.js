@@ -1,22 +1,4 @@
 $(function () {
-  $("#kegiatanSkripsi").DataTable({
-    columnDefs: [
-      {
-        targets: [0, 2, 3],
-        className: "text-center",
-      },
-      {
-        targets: 3,
-        searchable: false,
-        orderable: false,
-      },
-      {
-        targets: "_all",
-        className: "align-middle",
-      },
-    ],
-  });
-
   $("#formTambahKegiatan #durasiKegiatan").daterangepicker();
   $("#formUbahKegiatan #durasiKegiatan").daterangepicker();
 
@@ -96,65 +78,24 @@ $(function () {
     );
   }
 
-  // $("#formTambahKegiatan").submit(tambahKegiatan);
-
-  // $("#formUbahKegiatan").submit(updateKegiatan);
+  $("#kegiatanSkripsi").DataTable({
+    columnDefs: [
+      {
+        targets: [0, 2, 3],
+        className: "text-center",
+      },
+      {
+        targets: 3,
+        searchable: false,
+        orderable: false,
+      },
+      {
+        targets: "_all",
+        className: "align-middle",
+      },
+    ],
+  });
 });
-
-// function tambahKegiatan(e) {
-//   e.preventDefault();
-//   const namaKegiatan = $("#formTambahKegiatan #namaKegiatan").val();
-//   if (namaKegiatan == null || namaKegiatan == "") {
-//     return Swal.fire(
-//       "Tambah Kegiatan Gagal",
-//       "Nama kegiatan tidak boleh kosong",
-//       "error"
-//     );
-//   }
-//   const tanggalMulai = $("#formTambahKegiatan #durasiKegiatan")
-//     .data("daterangepicker")
-//     .startDate.format("YYYY-MM-DD");
-//   const tanggalSelesai = $("#formTambahKegiatan #durasiKegiatan")
-//     .data("daterangepicker")
-//     .endDate.format("YYYY-MM-DD");
-
-//   if (
-//     tanggalMulai == moment(Date.now()).format("YYYY-MM-DD") &&
-//     tanggalMulai == tanggalSelesai
-//   ) {
-//     return Swal.fire(
-//       "Tambah Kegiatan Gagal",
-//       "Durasi Kegiatan kurang tepat",
-//       "error"
-//     );
-//   }
-
-//   $.ajax({
-//     type: "Post",
-//     url: `${BASE_URL}kalenderskripsi/insert`,
-//     data: {
-//       nama_kegiatan: namaKegiatan,
-//       tanggal_mulai: tanggalMulai,
-//       tanggal_selesai: tanggalSelesai,
-//     },
-//   })
-//     .done((result) => {
-//       window.location.assign(`${BASE_URL}kalenderskripsi/index`);
-//       return Swal.fire(
-//         "Tambah Kegiatan Berhasil",
-//         "Kegiatan berhasil ditambahkan",
-//         "success"
-//       );
-//     })
-//     .fail((error) => {
-//       console.log(error);
-//       return Swal.fire(
-//         "Tambah Kegiatan Gagal",
-//         "Terjadi kesalahan server",
-//         "error"
-//       );
-//     });
-// }
 
 function ubahKegiatan(id) {
   $("#ubahKegiatan").modal("show");
@@ -177,98 +118,3 @@ function ubahKegiatan(id) {
       console.log(error);
     });
 }
-
-// function updateKegiatan(e) {
-//   e.preventDefault();
-//   const namaKegiatan = $("#formUbahKegiatan #namaKegiatan").val();
-//   if (namaKegiatan == null || namaKegiatan == "") {
-//     return Swal.fire(
-//       "Tambah Kegiatan Gagal",
-//       "Nama kegiatan tidak boleh kosong",
-//       "error"
-//     );
-//   }
-//   const tanggalMulai = $("#formUbahKegiatan #durasiKegiatan")
-//     .data("daterangepicker")
-//     .startDate.format("YYYY-MM-DD");
-//   const tanggalSelesai = $("#formUbahKegiatan #durasiKegiatan")
-//     .data("daterangepicker")
-//     .endDate.format("YYYY-MM-DD");
-
-//   if (
-//     tanggalMulai == moment(Date.now()).format("YYYY-MM-DD") &&
-//     tanggalMulai == tanggalSelesai
-//   ) {
-//     return Swal.fire(
-//       "Tambah Kegiatan Gagal",
-//       "Durasi Kegiatan kurang tepat",
-//       "error"
-//     );
-//   }
-
-//   const id = $("#formUbahKegiatan #id").val();
-//   console.log(id, namaKegiatan, tanggalMulai, tanggalSelesai);
-//   $.ajax({
-//     type: "post",
-//     url: `${BASE_URL}kalenderskripsi/update/${id}`,
-//     async: false,
-//     data: {
-//       nama_kegiatan: namaKegiatan,
-//       tanggal_mulai: tanggalMulai,
-//       tanggal_selesai: tanggalSelesai,
-//     },
-//   })
-//     .done((result) => {
-//       window.location.assign(`${BASE_URL}kalenderskripsi/index`);
-//       return Swal.fire(
-//         "Ubah Kegiatan Berhasil",
-//         "Kegiatan berhasil diubah",
-//         "success"
-//       );
-//     })
-//     .fail((error) => {
-//       console.log(error);
-//       return Swal.fire(
-//         "Ubah Kegiatan Gagal",
-//         "Terjadi kesalahan server",
-//         "error"
-//       );
-//     });
-// }
-
-// function hapusKegiatan(id) {
-//   Swal.fire({
-//     title: "Apakah anda ingin menghapus kegiatan ini?",
-//     text: "Kegiatan yang sudah dihapus tidak dapat dikembalikan",
-//     icon: "warning",
-//     showCancelButton: true,
-//     confirmButtonColor: "#3085d6",
-//     cancelButtonColor: "#d33",
-//     confirmButtonText: "Ya, Hapus!",
-//     cancelButtonText: "Batal",
-//   }).then((result) => {
-//     if (result.isConfirmed) {
-//       $.ajax({
-//         type: "post",
-//         async: false,
-//         url: `${BASE_URL}kalenderskripsi/delete/${id}`,
-//       })
-//         .done((result) => {
-//           Swal.fire(
-//             "Hapus Kegiatan Berhasil",
-//             "Kegiatan Berhasil dihapus",
-//             "success"
-//           );
-//           window.location.assign(`${BASE_URL}kalenderskripsi/index`);
-//         })
-//         .fail((error) => {
-//           console.log(error);
-//           return Swal.fire(
-//             "Tambah Kegiatan Gagal",
-//             "Terjadi kesalahan server",
-//             "error"
-//           );
-//         });
-//     }
-//   });
-// }

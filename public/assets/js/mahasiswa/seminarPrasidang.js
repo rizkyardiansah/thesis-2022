@@ -1,4 +1,20 @@
 $(function () {
+  $(".hasil-prasidang").on("click", function () {
+    const parent = $(this).parent().parent();
+    const komentar = parent.children(".komentar").text();
+    console.log("komentar");
+    $("#hasilPrasidang #komentar").text(komentar);
+  });
+
+  //untuk sweetalert
+  if ($("#flashdata").data("open") == true) {
+    Swal.fire(
+      $("#flashdata #title").text(),
+      $("#flashdata #text").text(),
+      $("#flashdata #icon").text()
+    );
+  }
+
   $("#jadwalSeminarPrasidang").DataTable({
     columnDefs: [
       {
@@ -16,20 +32,4 @@ $(function () {
       },
     ],
   });
-
-  $(".hasil-prasidang").on("click", function () {
-    const parent = $(this).parent().parent();
-    const komentar = parent.children(".komentar").text();
-    console.log("komentar");
-    $("#hasilPrasidang #komentar").text(komentar);
-  });
-
-  //untuk sweetalert
-  if ($("#flashdata").data("open") == true) {
-    Swal.fire(
-      $("#flashdata #title").text(),
-      $("#flashdata #text").text(),
-      $("#flashdata #icon").text()
-    );
-  }
 });

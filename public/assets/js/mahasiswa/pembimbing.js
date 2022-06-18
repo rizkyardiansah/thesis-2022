@@ -1,22 +1,4 @@
 $(function () {
-  $("#tableBimbingan").DataTable({
-    columnDefs: [
-      {
-        targets: [0, 1, 5, 6],
-        className: "text-center",
-      },
-      {
-        targets: 6,
-        searchable: false,
-        orderable: false,
-      },
-      {
-        targets: "_all",
-        className: "align-middle",
-      },
-    ],
-  });
-
   $("#formTambahHasilBimbingan #tanggalBimbingan").daterangepicker({
     singleDatePicker: true,
   });
@@ -112,4 +94,22 @@ $(function () {
       $("#flashdata #icon").text()
     );
   }
+
+  $("#tableBimbingan").DataTable({
+    columnDefs: [
+      {
+        targets: [0, 1, 5, 6],
+        className: "text-center",
+      },
+      {
+        targets: 6,
+        searchable: false,
+        orderable: false,
+      },
+      {
+        targets: "_all",
+        className: "align-middle",
+      },
+    ],
+  });
 });

@@ -1,22 +1,4 @@
 $(function () {
-  $("#tablePengajuan").DataTable({
-    columnDefs: [
-      {
-        targets: [0, 3, 4, 5, 6, 7],
-        className: "text-center",
-      },
-      {
-        targets: 7,
-        searchable: false,
-        orderable: false,
-      },
-      {
-        targets: "_all",
-        className: "align-middle",
-      },
-    ],
-  });
-
   $("#formTambahPengajuan").validate({
     rules: {
       file_draft_final: {
@@ -86,4 +68,22 @@ $(function () {
       $("#flashdata #icon").text()
     );
   }
+
+  $("#tablePengajuan").DataTable({
+    columnDefs: [
+      {
+        targets: [0, 3, 4, 5, 6, 7],
+        className: "text-center",
+      },
+      {
+        targets: 7,
+        searchable: false,
+        orderable: false,
+      },
+      {
+        targets: "_all",
+        className: "align-middle",
+      },
+    ],
+  });
 });

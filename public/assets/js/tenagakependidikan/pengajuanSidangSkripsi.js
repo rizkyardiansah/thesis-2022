@@ -1,4 +1,13 @@
 $(function () {
+  //untuk sweetalert
+  if ($("#flashdata").data("open") == true) {
+    Swal.fire(
+      $("#flashdata #title").text(),
+      $("#flashdata #text").text(),
+      $("#flashdata #icon").text()
+    );
+  }
+
   $("#daftarPengajuan").DataTable({
     dom:
       "<'row mt-3'<'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'l><'col-sm-12 col-md-4'f>>" +
@@ -54,13 +63,4 @@ $(function () {
       },
     ],
   });
-
-  //untuk sweetalert
-  if ($("#flashdata").data("open") == true) {
-    Swal.fire(
-      $("#flashdata #title").text(),
-      $("#flashdata #text").text(),
-      $("#flashdata #icon").text()
-    );
-  }
 });

@@ -1,4 +1,12 @@
 $(function () {
+  if ($("#flashdata").data("open") == true) {
+    Swal.fire(
+      $("#flashdata #title").text(),
+      $("#flashdata #text").text(),
+      $("#flashdata #icon").text()
+    );
+  }
+
   $("#hasilBimbingan").DataTable({
     columnDefs: [
       {
@@ -16,12 +24,4 @@ $(function () {
       },
     ],
   });
-
-  if ($("#flashdata").data("open") == true) {
-    Swal.fire(
-      $("#flashdata #title").text(),
-      $("#flashdata #text").text(),
-      $("#flashdata #icon").text()
-    );
-  }
 });

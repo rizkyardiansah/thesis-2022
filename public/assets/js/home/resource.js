@@ -1,22 +1,4 @@
 $(function () {
-  $("#sumberDaya").DataTable({
-    columnDefs: [
-      {
-        targets: [0, 2],
-        className: "text-center",
-      },
-      {
-        targets: 2,
-        searchable: false,
-        orderable: false,
-      },
-      {
-        targets: "_all",
-        className: "align-middle",
-      },
-    ],
-  });
-
   $("#formTambahSumberDaya").validate({
     rules: {
       nama: {
@@ -117,4 +99,22 @@ $(function () {
       $("#flashdata #icon").text()
     );
   }
+
+  $("#sumberDaya").DataTable({
+    columnDefs: [
+      {
+        targets: [0, 2],
+        className: "text-center",
+      },
+      {
+        targets: 2,
+        searchable: false,
+        orderable: false,
+      },
+      {
+        targets: "_all",
+        className: "align-middle",
+      },
+    ],
+  });
 });

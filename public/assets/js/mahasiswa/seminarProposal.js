@@ -1,6 +1,4 @@
 $(function () {
-  $("#jadwalSempro").DataTable();
-
   $("#formPengumpulanVideo").validate({
     rules: {
       link_video: {
@@ -42,4 +40,6 @@ $(function () {
       $("#flashdata #icon").text()
     );
   }
+
+  $("#jadwalSempro").DataTable();
 });
