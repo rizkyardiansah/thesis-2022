@@ -83,14 +83,13 @@
                 </div>
                 <div class="col-lg-12 d-flex justify-content-end">
                     <a role="button" href="<?= base_url("TenagaKependidikan/pengajuanSkripsi") ?>" class="btn btn-secondary mr-2">Kembali</a>
-                    <?php if ($detailPengajuan['status_persetujuan_skripsi'] == null) : ?>
-                        <form action="<?= base_url("TenagaKependidikan/tolakPengajuanSkripsi/".$detailPengajuan['npm']) ?>" method="post" class="d-inline">
-                            <button class="btn btn-danger mr-2" type="submit">Tolak Pengajuan</button>
-                        </form>
-                        <form action="<?= base_url("TenagaKependidikan/terimaPengajuanSkripsi/".$detailPengajuan['npm']) ?>" method="post" class="d-inline">
-                            <button class="btn btn-success" type="submit">Setujui Pengajuan</button>
-                        </form>
-                    <?php endif; ?>
+                    <form action="<?= base_url("TenagaKependidikan/tolakPengajuanSkripsi/".$detailPengajuan['npm']) ?>" method="post" class="d-inline">
+                        <button class="btn btn-danger mr-2" type="submit">Tolak Pengajuan</button>
+                    </form>
+                    <form action="<?= base_url("TenagaKependidikan/terimaPengajuanSkripsi/".$detailPengajuan['npm']) ?>" method="post" class="d-inline">
+                        <button class="btn btn-success" type="submit">Setujui Pengajuan</button>
+                    </form>
+                 
                 </div>
            </div>
         </div>

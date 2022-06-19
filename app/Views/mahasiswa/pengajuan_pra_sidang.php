@@ -44,7 +44,7 @@
             <?php elseif ($lastSkripsi != null && count($pengajuanPrasidang) > 0 && $lastSkripsi['id'] == $pengajuanPrasidang[0]['id_skripsi'] && $pengajuanPrasidang[0]['status'] == 'DITOLAK'): ?>
                 <div class="alert alert-danger" role="alert">
                     <small>
-                        <strong>Pengajuan Seminar Prasidang</strong> anda <strong>Ditolak</strong>.
+                        <strong>Pengajuan Seminar Prasidang</strong> anda <strong>Ditolak</strong>. Silahkan <strong>Perbaiki Pengajuan Terakhir</strong> Anda.
                     </small>
                 </div>
             <?php endif; ?>

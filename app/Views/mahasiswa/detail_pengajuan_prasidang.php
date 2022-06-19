@@ -14,7 +14,7 @@
             <?= $title ?>
         </div>
         <div class="card-body">
-            <?php if ($detailPengajuan['status'] == 'TERTUNDA'): ?>
+            <?php if ($detailPengajuan['status'] == 'TERTUNDA' ||$detailPengajuan['status'] == 'DITOLAK'): ?>
                 <form action="<?= base_url("mahasiswa/updatePengajuanPrasidang/".$detailPengajuan['id']) ?>" id="editPengajuan" method="post" enctype="multipart/form-data">
             <?php endif; ?>
                 <div class="row">
@@ -97,12 +97,12 @@
 
                     <div class="col-lg-12 my-2 d-flex justify-content-end">
                         <a class="btn btn-secondary mr-2" role="button" href="<?= base_url("mahasiswa/pengajuanPraSidang") ?>">Kembali</a>
-                        <?php if ($detailPengajuan['status'] == 'TERTUNDA'): ?>
+                        <?php if ($detailPengajuan['status'] == 'TERTUNDA' || $detailPengajuan['status'] == 'DITOLAK'): ?>
                             <button class="btn btn-primary" type="submit">Simpan</button>
                         <?php endif; ?>
                     </div>
                 </div>
-        <?php if ($detailPengajuan['status'] == 'TERTUNDA'): ?>
+        <?php if ($detailPengajuan['status'] == 'TERTUNDA' || $detailPengajuan['status'] == 'DITOLAK'): ?>
             </form>
         <?php endif; ?>
         </div>
@@ -133,7 +133,7 @@
                         <form action="" id="formUnduh">
                             <button class="btn btn-primary" type="submit">Unduh</button>
                         </form>
-                        <?php if ($detailPengajuan['status'] == 'TERTUNDA'): ?>
+                        <?php if ($detailPengajuan['status'] == 'TERTUNDA' || $detailPengajuan['status'] == 'DITOLAK'): ?>
                             <form action="" id="formHapus">
                                 <button class="btn btn-danger" type="submit">Hapus</button>
                             </form>
