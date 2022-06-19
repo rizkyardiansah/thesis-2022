@@ -91,7 +91,7 @@ class TenagaKependidikan extends BaseController
         $mahasiswaTanpaPembimbing = $this->mahasiswaModel->getMahasiswaTanpaPembimbing();
         // dd($mahasiswaTanpaPembimbing);
         $mahasiswaDenganPembimbing = $this->mahasiswaModel->getMahasiswaDenganPembimbing();
-        // dd($mahasiswaDenganPembimbing);
+        //dd($mahasiswaDenganPembimbing);
         $dosen = $this->dosenModel->findAll();
         $data = [
             'title' => "Kelola Pembimbing",
@@ -298,15 +298,6 @@ class TenagaKependidikan extends BaseController
         $idPembimbing2 = $this->request->getPost("pembimbing2");
         $idPembimbingAgama = $this->request->getPost("pembimbingAgama");
 
-        $jumlahCatatan1 = count($this->catatanBimbinganModel->getWhere(["id_pembimbing" => $id1])->getResultArray());
-        $jumlahCatatan2 = count($this->catatanBimbinganModel->getWhere(["id_pembimbing" => $id2])->getResultArray());
-        $jumlahCatatan3 = count($this->catatanBimbinganModel->getWhere(["id_pembimbing" => $id3])->getResultArray());
-
-        if ($jumlahCatatan1 > 0 || $jumlahCatatan2 > 0 || $jumlahCatatan3 > 0) {
-            session()->setFlashdata("message", ["icon" => "error", "title" => "Update Pembimbing Gagal", "text" => "Mahasiswa $npm telah melakukan bimbingan dengan beberapa dosen pembimbingnya sehingga dosen pembimbing tidak bisa diubah"]);
-            return redirect()->to(base_url("TenagaKependidikan/pembimbing")); 
-        } 
-
         $this->pembimbingModel->update($id1, [
             'id_dosen' => $idPembimbing1,
         ]);
@@ -337,15 +328,6 @@ class TenagaKependidikan extends BaseController
         $id1 = $this->pembimbingModel->select('id')->where("id_skripsi", $id_skripsi)->where("role", 'Pembimbing Ilmu 1')->first();
         $id2 = $this->pembimbingModel->select('id')->where("id_skripsi", $id_skripsi)->where("role", 'Pembimbing Ilmu 2')->first();
         $id3 = $this->pembimbingModel->select('id')->where("id_skripsi", $id_skripsi)->where("role", 'Pembimbing Agama')->first();
-
-        $jumlahCatatan1 = count($this->catatanBimbinganModel->getWhere(["id_pembimbing" => $id1])->getResultArray());
-        $jumlahCatatan2 = count($this->catatanBimbinganModel->getWhere(["id_pembimbing" => $id2])->getResultArray());
-        $jumlahCatatan3 = count($this->catatanBimbinganModel->getWhere(["id_pembimbing" => $id3])->getResultArray());
-
-        if ($jumlahCatatan1 > 0 || $jumlahCatatan2 > 0 || $jumlahCatatan3 > 0) {
-            session()->setFlashdata("message", ["icon" => "error", "title" => "Delete Pembimbing Gagal", "text" => "Mahasiswa $npm telah melakukan bimbingan dengan beberapa dosen pembimbingnya sehingga dosen pembimbing tidak bisa dihapus"]);
-            return redirect()->to(base_url("TenagaKependidikan/pembimbing")); 
-        }
 
         $this->pembimbingModel->delete($id1);
 

@@ -32,6 +32,7 @@
                             <th>Pembimbing 1</th>
                             <th>Pembimbing 2</th>
                             <th>Pembimbing Agama</th>
+                            <th>Total Bimbingan</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -68,11 +69,18 @@
                                 <?php endif; ?>
                             <?php endforeach; ?>
 
-                            <td style="display: inline-block; min-width: 7vw">
-                                <button class="btn btn-primary ubah-pembimbing" data-toggle="tooltip" data-placement="top" title="Ubah"><i class="fas fa-pencil-alt"></i></button>
-                                <form action="<?= base_url("TenagaKependidikan/deletePembimbing/" . $mpp['npm']) ?>" method="post" class="d-inline" id="formHapusPembimbing">
-                                    <button type="submit" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Hapus"><i class="fas fa-trash"></i></button>
-                                </form>
+                            <td data-toggle="tooltip" data-placement="top" title="<?= $mpp['total_bimbingan'] ?> kali bimbingan" class="totalBimbingan"><?= $mpp['total_bimbingan'] ?></td>
+
+                            <td style="min-width: 7vw">
+                                <?php if ($mpp['total_bimbingan'] == 0) : ?>
+                                    <button class="btn btn-primary ubah-pembimbing" data-toggle="tooltip" data-placement="top" title="Ubah"><i class="fas fa-pencil-alt"></i></button>
+                                    <form action="<?= base_url("TenagaKependidikan/deletePembimbing/" . $mpp['npm']) ?>" method="post" class="d-inline" id="formHapusPembimbing">
+                                        <button type="submit" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Hapus"><i class="fas fa-trash"></i></button>
+                                    </form>
+                                <?php else: ?>
+                                    <button class="btn btn-primary" disabled><i class="fas fa-pencil-alt"></i></button>
+                                    <button type="button" class="btn btn-danger" disabled><i class="fas fa-trash"></i></button>
+                                <?php endif; ?> 
                             </td>
                         </tr>
                         <?php $counter++; ?>

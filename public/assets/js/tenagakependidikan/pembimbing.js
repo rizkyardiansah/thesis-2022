@@ -222,11 +222,11 @@ $(function () {
     ],
     columnDefs: [
       {
-        targets: [0, 1, 3, 5, 6, 7, 8, 9],
+        targets: [0, 1, 3, 5, 6, 7, 8, 9, 10],
         className: "text-center",
       },
       {
-        targets: 9,
+        targets: 10,
         searchable: false,
         orderable: false,
       },
