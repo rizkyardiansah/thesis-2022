@@ -198,7 +198,8 @@ class MahasiswaModel extends Model
         pem1.role = 'Pembimbing Ilmu 1' and
         (pem2.role = 'Pembimbing Ilmu 2' or pem2.role is null) and
         pem3.role = 'Pembimbing Agama'
-        group by s.id";
+        group by s.id
+        order by s.tanggal_skripsi";
         $result = $db->query($sql);
         return $result->getResultArray();
     }

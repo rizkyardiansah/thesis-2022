@@ -40,16 +40,14 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-5">
-                    <?php if ($prodi['mode_sempro'] == null): ?>
-                        <button class="btn btn-primary mr-2" disabled>Tambahkan Jadwal</button>
-                        <button class="btn btn-primary mr-2" data-toggle="modal" data-target="#aturMode">Atur Mode SemPro</button>
-                    <?php elseif ($prodi['mode_sempro'] == 'Sinkronus Daring' || $prodi['mode_sempro'] == 'Sinkronus Luring'): ?>
+                    
+                    <?php if ($prodi['mode_sempro'] == 'Sinkronus Daring' || $prodi['mode_sempro'] == 'Sinkronus Luring'): ?>
                         <button class="btn btn-primary mr-2" data-toggle="modal" data-target="#tambahJadwal">Tambahkan Jadwal</button>
-                        <button class="btn btn-primary mr-2" disabled>Atur Mode SemPro</button>
                     <?php elseif ($prodi['mode_sempro'] == 'Asinkronus'): ?>
                         <button class="btn btn-primary mr-2" disabled>Tambahkan Jadwal</button>
-                        <button class="btn btn-primary mr-2" disabled>Atur Mode SemPro</button>
                     <?php endif; ?>
+                    <button class="btn btn-primary mr-2" data-toggle="modal" data-target="#aturMode">Atur Mode SemPro</button>
+
                 </div>
                 <div class="col-lg-7 d-flex justify-content-end align-items-center">
                     <form class="form-inline" action="<?= base_url("kaprodi/seminarProposal") ?>" method="get">
@@ -122,22 +120,39 @@
                             <td class="tanggal" style="min-width: 8vw"><?= date_format(date_create($sm['tanggal']), 'd-m-Y H:i') ?> WIB</td>
 
                         <?php if ($prodi['mode_sempro'] == 'Sinkronus Daring') : ?>
-                            <td class="link_konferensi"><a href="<?= $sm['link_konferensi'] ?>">Klik disini!</td>
+                            <?php if ($sm['link_konferensi'] == null): ?>
+                                <td>-</td>
+                            <?php else: ?>
+                                <td class="link_konferensi"><a href="<?= $sm['link_konferensi'] ?>">Klik disini!</td>
+                            <?php endif; ?>
                         <?php elseif ($prodi['mode_sempro'] == 'Sinkronus Luring') : ?>
-                            <td class="ruangan"><?= $sm['ruangan'] ?></td>
+                            <?php if ($sm['ruangan'] == null): ?>
+                                <td>-</td>
+                            <?php else: ?>
+                                <td class="ruangan"><?= $sm['ruangan'] ?></td>
+                            <?php endif; ?>
                         <?php elseif ($prodi['mode_sempro'] == 'Asinkronus') : ?>
-                            <td class="link_video"><a href="<?= $sm['link_video'] ?>">Klik disini!</td>
+                            <?php if ($sm['link_video'] == null): ?>
+                                <td>-</td>
+                            <?php else: ?>
+                                <td class="link_video"><a href="<?= $sm['link_video'] ?>">Klik disini!</td>
+                            <?php endif; ?>
                         <?php endif; ?>
 
                         <?php if ($prodi['mode_sempro'] == 'Asinkronus') : ?>
                             <td hidden>-</td>
                             <td hidden>-</td>
                         <?php else: ?>
-                            <?php foreach($dosen as $d) : ?>
-                                <?php if ($d['id'] == $sm['dosen_penguji1']) : ?>
-                                    <td data-toggle="tooltip" data-placement="top" title="<?= $d['nama'] ?>" class="dosen_penguji1" data-id="<?= $d['id'] ?>"><?= $d['inisial'] ?></td>
-                                <?php endif; ?>
-                            <?php endforeach; ?>
+                            <?php if ($sm['dosen_penguji1'] == null) : ?>
+                                <td>-</td>
+                            <?php else: ?>
+                                <?php foreach($dosen as $d) : ?>
+                                    <?php if ($d['id'] == $sm['dosen_penguji1']) : ?>
+                                        <td data-toggle="tooltip" data-placement="top" title="<?= $d['nama'] ?>" class="dosen_penguji1" data-id="<?= $d['id'] ?>"><?= $d['inisial'] ?></td>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                            
 
                             <?php if ($sm['dosen_penguji2'] == null): ?>
                                 <td>-</td>
@@ -415,8 +430,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                     </div>
                 </form> 
             </div>
