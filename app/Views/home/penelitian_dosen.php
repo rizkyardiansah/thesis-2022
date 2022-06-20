@@ -32,7 +32,7 @@
                 <div class="tab-content p-2" id="penelitian-tabContent">
                     <?php $counter = 1; ?>
                     <?php foreach($daftarPenelitian as $dp): ?>
-                        <div class="card tab-pane fade <?= $counter == 1 ? "show active": "" ?>" id="penelitian-<?= $counter ?>" role="tabpanel" aria-labelledby="penelitian-<?= $counter ?>-tab">
+                        <div class="card tab-pane fade <?= $counter == 1 ? "show active": "" ?>" id="penelitian-<?= $counter ?>" role="tabpanel" aria-labelledby="penelitian-<?= $counter ?>-tab" style="min-height: 580px">
                             <div class="card-header d-flex justify-content-between">
                                 <span>Detail Penelitian</span>        
                                 <span class="badge badge-<?= $dp['status'] == 'TERSEDIA' ? "success" : "danger"; ?> p-2"><?= $dp['status'] ?></span>    
@@ -52,7 +52,6 @@
                                 <br>
                                 <h6>Kontak</h6>
                                 <p class="mb-0">Email: <strong><?= $dp['email_dosen'] ?></strong></p>
-                                <p>No. HP: <strong><?= $dp['telp_dosen'] ?></strong></p>
                             </div>
                         </div>
                         <?php $counter++; ?>
