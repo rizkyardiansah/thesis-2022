@@ -67,31 +67,10 @@
                             <input class="form-control" id="penguji" name="penguji" value="<?= $detailSidangSkripsi['nama_penguji'] ?>" disabled>
                         </div>
                     </div>
-                    <div class="col-lg-12 mb-3">
-                        <div class="form-group">
-                            <label for="file_draft_final">Draft Final Skripsi</label>
-                            <div class="embed-responsive embed-responsive-16by9 mx-auto" id="file_draft_final" style="width: 90%">
-                                <iframe class="embed-responsive-item" src="<?= base_url("folderDraftFinal/".$detailSidangSkripsi['file_draft_final']) ?>"></iframe>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-12 mb-3">
-                        <div class="form-group">
-                            <label for="file_form_bimbingan">Form Bimbingan Skripsi</label>
-                            <div class="embed-responsive embed-responsive-16by9 mx-auto" id="file_form_bimbingan" style="width: 90%">
-                                <iframe class="embed-responsive-item" src="<?= base_url("folderFormBimbingan/".$detailSidangSkripsi['file_form_bimbingan']) ?>"></iframe>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-12 mb-3">
-                        <div class="form-group">
-                            <label for="file_persyaratan_sidang">Persyaratan Sidang</label>
-                            <div class="embed-responsive embed-responsive-16by9 mx-auto" id="file_persyaratan_sidang" style="width: 90%">
-                                <iframe class="embed-responsive-item" src="<?= base_url("folderPersyaratanSidang/".$detailSidangSkripsi['file_persyaratan_sidang']) ?>"></iframe>
-                            </div>
-                        </div>
-                    </div>
 
+                    <div class="col-lg-12 mt-3">
+                        <h4 class="text-center">Penilaian Sidang</h4>
+                    </div>
                     <div class="row m-3">
                         <div class="col-lg-6">
                             <h5>Penyajian Lisan</h5>
@@ -229,6 +208,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="row m-3">
                         <div class="col-lg-3">
                             <div class="list-group">
@@ -263,6 +243,32 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-lg-12 mb-3">
+                        <div class="form-group">
+                            <label for="file_draft_final">Draft Final Skripsi</label>
+                            <div class="embed-responsive embed-responsive-16by9 mx-auto" id="file_draft_final" style="width: 90%">
+                                <iframe class="embed-responsive-item" src="<?= base_url("folderDraftFinal/".$detailSidangSkripsi['file_draft_final']) ?>"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 mb-3">
+                        <div class="form-group">
+                            <label for="file_form_bimbingan">Form Bimbingan Skripsi</label>
+                            <div class="embed-responsive embed-responsive-16by9 mx-auto" id="file_form_bimbingan" style="width: 90%">
+                                <iframe class="embed-responsive-item" src="<?= base_url("folderFormBimbingan/".$detailSidangSkripsi['file_form_bimbingan']) ?>"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 mb-3">
+                        <div class="form-group">
+                            <label for="file_persyaratan_sidang">Persyaratan Sidang</label>
+                            <div class="embed-responsive embed-responsive-16by9 mx-auto" id="file_persyaratan_sidang" style="width: 90%">
+                                <iframe class="embed-responsive-item" src="<?= base_url("folderPersyaratanSidang/".$detailSidangSkripsi['file_persyaratan_sidang']) ?>"></iframe>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="col-lg-12 d-flex justify-content-end">
                         <a role="button" class="btn btn-secondary mr-3" href="<?= base_url("dosen/pengujiSidangSkripsi") ?>">Kembali</a>
                         
