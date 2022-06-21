@@ -41,5 +41,21 @@ $(function () {
     );
   }
 
-  $("#jadwalSempro").DataTable();
+  $("#jadwalSempro").DataTable({
+    columnDefs: [
+      {
+        targets: [0, 2, 3],
+        className: "text-center",
+      },
+      {
+        targets: 3,
+        searchable: false,
+        orderable: false,
+      },
+      {
+        targets: "_all",
+        className: "align-middle",
+      },
+    ],
+  });
 });

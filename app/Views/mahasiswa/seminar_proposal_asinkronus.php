@@ -67,7 +67,7 @@
                         <tr>
                             <td class="text-center align-middle"><?= $counter ?></td>
                             <td class="judul align-middle" data-id="<?= $js['id_proposal'] ?>"><?= $js['judul'] ?></td>
-                            <td class="link_video align-middle"><?= $js['link_video'] ?></td>
+                            <td class="link_video align-middle"><a href="<?= $js['link_video'] ?>">Klik disini!</a></td>
                             <td class="text-center align-middle">
                                 <?php if ($js['editable']) : ?>
                                     <button class="btn btn-primary ubah-jadwal" data-toggle="tooltip" data-placement="top" title="Ubah" data-id="<?= $js['id'] ?>"><i class="fas fa-pencil-alt"></i></button>
