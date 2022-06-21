@@ -10,8 +10,15 @@
 <?php endif; ?>
     <h1 class="h3 mb-2 text-gray-800"><?= $title ?></h1>
     <div class="card shadow mb-4">
-        <div class="card-header py-3">
+        <div class="card-header py-3 d-flex justify-content-between">
             <?= $title ?>
+            <?php if ($detailPengajuan['status'] == 'TERTUNDA'): ?>
+                <span class="p-2 badge badge-secondary">TERTUNDA</span>
+            <?php elseif ($detailPengajuan['status'] == 'DITOLAK'): ?>
+                <span class="p-2 badge badge-danger">DITOLAK</span>
+            <?php elseif ($detailPengajuan['status'] == 'DISETUJUI'): ?>
+                <span class="p-2 badge badge-success">DISETUJUI</span>
+            <?php endif; ?>
         </div>
         <div class="card-body">
            <div class="row">
