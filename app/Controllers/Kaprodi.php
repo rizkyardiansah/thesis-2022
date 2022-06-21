@@ -525,6 +525,7 @@ class Kaprodi extends BaseController
             $jadwalSempraByIdSkripsi = $this->seminarPrasidangModel->getWhere(['id_skripsi' => $id_skripsi])->getResultArray();
             $isJadwalExist = count($jadwalSempraByIdSkripsi) != 0;
             if ($isJadwalExist) {
+                if ($jadwalSempraByIdSkripsi[0]['status'] != 'TERTUNDA') { continue; }
                 $id_sempra = $jadwalSempraByIdSkripsi[0]['id'];
             }
             
@@ -717,6 +718,8 @@ class Kaprodi extends BaseController
             $jadwalSidangByIdSkripsi = $this->sidangSkripsiModel->getWhere(['id_skripsi' => $id_skripsi])->getResultArray();
             $isJadwalExist = count($jadwalSidangByIdSkripsi) != 0;
             if ($isJadwalExist) {
+                $isReviewed = count($this->penilaianSidangModel->getWhere(['id_sidang_skripsi' => $jadwalSidangByIdSkripsi[0]['id']])->getResultArray()) > 0; 
+                if ($isReviewed) { continue; }
                 $id_sidang = $jadwalSidangByIdSkripsi[0]['id'];
             }
 
