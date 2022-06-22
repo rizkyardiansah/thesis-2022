@@ -12,7 +12,7 @@
     <div class="row mb-3">
         <?php if (count($dosenPembimbing) == 0 ) : ?>
             <div class="col-lg-12">
-                <div class="alert alert-warning" role="alert">
+                <div class="alert alert-danger" role="alert">
                     <small>Anda <strong>Belum</strong> mempunyai pembimbing</small>
                 </div>
             </div>
