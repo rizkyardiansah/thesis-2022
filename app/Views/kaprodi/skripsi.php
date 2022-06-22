@@ -100,7 +100,7 @@
                                 <td>
                                     <?php if($s['status'] == 'Lulus' && $s['file_skripsi'] != null): ?>
                                         <form action="<?= base_url("mahasiswa/downloadSkripsi/".$s['id']) ?>" method="post">
-                                            <button class="btn btn-primary" type="submit" data-toggle="tooltip" title="Unduh" data-placement="top"><i class="fas fa-download"></i></button>
+                                            <button class="btn btn-primary" type="submit" data-toggle="tooltip" title="Unduh berkas skripsi" data-placement="top"><i class="fas fa-download"></i></button>
                                         </form>
                                     <?php else: ?>
                                         <button class="btn btn-primary" disabled><i class="fas fa-download"></i></button>

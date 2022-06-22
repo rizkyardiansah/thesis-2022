@@ -181,7 +181,8 @@ class Mahasiswa extends BaseController
         return view('mahasiswa/proposal', $data);
     }
 
-    public function insertProposal() {
+    public function insertProposal() 
+    {
         $validationRules = [
             'file_proposal' => [
                 'rules' => 'uploaded[file_proposal]|mime_in[file_proposal,application/pdf]|ext_in[file_proposal,pdf]|max_size[file_proposal,10000]',
@@ -222,7 +223,8 @@ class Mahasiswa extends BaseController
         return redirect()->to(base_url("mahasiswa/proposal"));
     }
 
-    public function updateProposal($idProposal) {
+    public function updateProposal($idProposal) 
+    {
         $validationRules = [
             'file_proposal' => [
                 'rules' => 'mime_in[file_proposal,application/pdf]|ext_in[file_proposal,pdf]|max_size[file_proposal,10000]',
@@ -279,7 +281,8 @@ class Mahasiswa extends BaseController
         return $this->response->download("folderProposal/".$namaFileProposal, null);
     }
 
-    public function seminarProposal() {
+    public function seminarProposal() 
+    {
         $mahasiswa = $this->mahasiswaModel->find(session()->get("user_session")['id']);
         $proposal = $this->proposalModel->getMahasiswaLastProposal($mahasiswa['npm']);
 
@@ -326,7 +329,8 @@ class Mahasiswa extends BaseController
         
     }
 
-    public function insertVideoSempro() {
+    public function insertVideoSempro() 
+    {
         $id_proposal = $this->request->getPost("id_proposal", FILTER_SANITIZE_SPECIAL_CHARS);
         $link_video = $this->request->getPost("link_video", FILTER_SANITIZE_URL);
 
@@ -340,7 +344,8 @@ class Mahasiswa extends BaseController
         return redirect()->to(base_url("mahasiswa/seminarProposal")); 
     }
 
-    public function updateVideoSempro($id){
+    public function updateVideoSempro($id)
+    {
         $id_proposal = $this->request->getPost("id_proposal", FILTER_SANITIZE_SPECIAL_CHARS);
         $link_video = $this->request->getPost("link_video", FILTER_SANITIZE_URL);
 
@@ -353,7 +358,8 @@ class Mahasiswa extends BaseController
         return redirect()->to(base_url("mahasiswa/seminarProposal"));
     }
 
-    public function pembimbing() {
+    public function pembimbing() 
+    {
         $mahasiswa = $this->mahasiswaModel->find(session()->get("user_session")['id']);
         $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($mahasiswa['npm']);
         $dosenPembimbing = array();
@@ -371,7 +377,8 @@ class Mahasiswa extends BaseController
         return view("mahasiswa/pembimbing", $data);
     }
 
-    public function insertHasilBimbingan() {
+    public function insertHasilBimbingan() 
+    {
         $idPembimbing = $this->request->getPost("pembimbing");
         $materi = $this->request->getPost("materi", FILTER_SANITIZE_SPECIAL_CHARS);
         $tanggal = date_create($this->request->getPost("tanggalBimbingan"));
@@ -388,7 +395,8 @@ class Mahasiswa extends BaseController
         return redirect()->to(base_url("mahasiswa/pembimbing")); 
     }
 
-    public function updateHasilBimbingan($idCatatan) {
+    public function updateHasilBimbingan($idCatatan) 
+    {
         $idPembimbing = $this->request->getPost("pembimbing");
         $materi = $this->request->getPost("materi", FILTER_SANITIZE_SPECIAL_CHARS);
         $tanggal = date_create($this->request->getPost("tanggalBimbingan"));
@@ -405,13 +413,15 @@ class Mahasiswa extends BaseController
         return redirect()->to(base_url("mahasiswa/pembimbing")); 
     }
 
-    public function deleteHasilBimbingan($idCatatan) {
+    public function deleteHasilBimbingan($idCatatan) 
+    {
         $this->catatanBimbinganModel->delete($idCatatan);
         session()->setFlashdata("message", ["icon" => "success", "title" => "Penghapusan Catatan Hasil Bimbingan Berhasil", "text" => "Catatan Hasil Bimbingan telah berhasil dihapus"]);
         return redirect()->to(base_url("mahasiswa/pembimbing"));
     }
 
-    public function cetakFormBimbingan($npm) {
+    public function cetakFormBimbingan($npm) 
+    {
         $mahasiswa = $this->mahasiswaModel->find(session()->get("user_session")['id']);
         $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($mahasiswa['npm']);
         $hasilBimbingan = $this->catatanBimbinganModel->getAllCatatanByLastSkripsi($lastSkripsi['id']);
@@ -426,7 +436,8 @@ class Mahasiswa extends BaseController
         return view("cetakBimbingan", $data);
     }
 
-    public function skripsi() {
+    public function skripsi() 
+    {
         $mahasiswa = $this->mahasiswaModel->find(session()->get("user_session")['id']);
         $lastProposal = $this->proposalModel->getMahasiswaLastProposal($mahasiswa['npm']);
         $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($mahasiswa['npm']);
@@ -444,7 +455,8 @@ class Mahasiswa extends BaseController
         return view("mahasiswa/skripsi", $data);
     }
 
-    public function insertSkripsi() {
+    public function insertSkripsi() 
+    {
         $this->skripsiModel->insert([
             'judul' => $this->request->getPost("judul", FILTER_SANITIZE_SPECIAL_CHARS),
             'sifat' => $this->request->getPost("sifat", FILTER_SANITIZE_SPECIAL_CHARS),
@@ -459,7 +471,8 @@ class Mahasiswa extends BaseController
         return redirect()->to(base_url("mahasiswa/skripsi"));
     }
 
-    public function updateSkripsi($idSkripsi) {
+    public function updateSkripsi($idSkripsi) 
+    {
         $this->skripsiModel->update($idSkripsi, [
             'judul' => $this->request->getPost("judul", FILTER_SANITIZE_SPECIAL_CHARS),
             'sifat' => $this->request->getPost("sifat", FILTER_SANITIZE_SPECIAL_CHARS),
@@ -470,7 +483,8 @@ class Mahasiswa extends BaseController
         return redirect()->to(base_url("mahasiswa/skripsi"));
     }
 
-    public function uploadFileSkripsi($idSkripsi) {
+    public function uploadFileSkripsi($idSkripsi) 
+    {
         $npm = $this->request->getPost("npm");
 
         $fileSkripsi = $this->request->getFile("file_skripsi");
@@ -486,7 +500,8 @@ class Mahasiswa extends BaseController
         return redirect()->to(base_url("mahasiswa/skripsi"));
     }
 
-    public function pengajuanPraSidang() {
+    public function pengajuanPraSidang() 
+    {
         $mahasiswa = $this->mahasiswaModel->find(session()->get("user_session")['id']);
         $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($mahasiswa['npm']);
         $pembimbing = [];
@@ -506,7 +521,8 @@ class Mahasiswa extends BaseController
         return view("mahasiswa/pengajuan_pra_sidang", $data);
     }
 
-    public function detailPengajuanPraSidang($idPengajuanPrasidang) {
+    public function detailPengajuanPraSidang($idPengajuanPrasidang) 
+    {
         $dataAkun = $this->mahasiswaModel->find(session()->get("user_session")['id']);
         $detailPengajuan = $this->pengajuanPrasidangModel->getDetailPengajuanById($idPengajuanPrasidang);
         
@@ -528,7 +544,8 @@ class Mahasiswa extends BaseController
         return view("mahasiswa/detail_pengajuan_prasidang", $data);
     }
 
-    public function insertPengajuanPraSidang() {
+    public function insertPengajuanPraSidang() 
+    {
         $id_skripsi = $this->request->getPost("id_skripsi");
         $npm = $this->request->getPost("npm");
 
@@ -552,7 +569,8 @@ class Mahasiswa extends BaseController
         return redirect()->to(base_url("mahasiswa/pengajuanPraSidang"));
     }
 
-    public function updatePengajuanPrasidang($idPengajuanPrasidang) {
+    public function updatePengajuanPrasidang($idPengajuanPrasidang) 
+    {
         $pengajuanPrasidang = $this->pengajuanPrasidangModel->find($idPengajuanPrasidang);
         $npm = $this->request->getPost("npm");
         $id_skripsi = $this->request->getPost("id_skripsi");
@@ -581,7 +599,8 @@ class Mahasiswa extends BaseController
         return redirect()->back();
     }
 
-    public function seminarPrasidang() {
+    public function seminarPrasidang() 
+    {
         $dataAkun = $this->mahasiswaModel->find(session()->get("user_session")['id']);
         $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($dataAkun['npm']);
         $pengajuan = null;
@@ -605,7 +624,8 @@ class Mahasiswa extends BaseController
         return view("mahasiswa/seminar_prasidang", $data);
     }
 
-    public function pengajuanSidangSkripsi() {
+    public function pengajuanSidangSkripsi() 
+    {
         $dataAkun = $this->mahasiswaModel->find(session()->get("user_session")['id']);
         $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($dataAkun['npm']);
         if ($lastSkripsi != null) {
@@ -636,7 +656,8 @@ class Mahasiswa extends BaseController
         return view("mahasiswa/pengajuan_sidang_skripsi", $data);
     }
 
-    public function detailPengajuanSidangSkripsi($idpengajuanSidangSkripsi) {
+    public function detailPengajuanSidangSkripsi($idpengajuanSidangSkripsi) 
+    {
         $dataAkun = $this->mahasiswaModel->find(session()->get("user_session")['id']);
         $detailPengajuan = $this->pengajuanSidangModel->getDetailPengajuanById($idpengajuanSidangSkripsi);
         if ($detailPengajuan == null || $dataAkun == null) {
@@ -657,7 +678,8 @@ class Mahasiswa extends BaseController
         return view("mahasiswa/detail_pengajuan_sidang_skripsi", $data);
     }
 
-    public function insertPengajuanSidangSkripsi() {
+    public function insertPengajuanSidangSkripsi() 
+    {
         $id_skripsi = $this->request->getPost("id_skripsi");
         $npm = $this->request->getPost("npm");
 
@@ -686,7 +708,8 @@ class Mahasiswa extends BaseController
         return redirect()->to(base_url("mahasiswa/pengajuanSidangSkripsi"));
     }
 
-    public function updatePengajuanSidangSkripsi($idpengajuanSidangSkripsi) {
+    public function updatePengajuanSidangSkripsi($idpengajuanSidangSkripsi) 
+    {
         $pengajuanSidang = $this->pengajuanSidangModel->find($idpengajuanSidangSkripsi);
         $npm = $this->request->getPost("npm");
         $id_skripsi = $this->request->getPost("id_skripsi");
@@ -732,7 +755,8 @@ class Mahasiswa extends BaseController
         return redirect()->back();
     }
 
-    public function sidangSkripsi() {
+    public function sidangSkripsi() 
+    {
         $dataAkun = $this->mahasiswaModel->find(session()->get("user_session")['id']);
         $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($dataAkun['npm']);
         $pengajuan = null;
@@ -756,7 +780,8 @@ class Mahasiswa extends BaseController
         return view("mahasiswa/sidang_skripsi", $data);
     }
 
-    public function hasilSidangSkripsi($idSidangSkripsi) {
+    public function hasilSidangSkripsi($idSidangSkripsi) 
+    {
         $dataAkun = $this->mahasiswaModel->find(session()->get("user_session")['id']);
         $sidangSkripsi = $this->sidangSkripsiModel->find($idSidangSkripsi);
         if ($sidangSkripsi == null) {
@@ -846,7 +871,8 @@ class Mahasiswa extends BaseController
         return view("mahasiswa/hasil_sidang_skripsi", $data);
     }
 
-    public function makalah() {
+    public function makalah() 
+    {
         $dataAkun = $this->mahasiswaModel->find(session()->get("user_session")['id']);
         $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($dataAkun['npm']);
         $bidang = $this->bidangModel->getBidangByProdi($dataAkun['id_prodi']);
@@ -863,7 +889,8 @@ class Mahasiswa extends BaseController
         return view("mahasiswa/makalah", $data);
     }
 
-    public function insertMakalah() {
+    public function insertMakalah() 
+    {
         $validationRules = [
             'file_makalah' => [
                 'rules' => 'uploaded[file_makalah]|mime_in[file_makalah,application/pdf]|ext_in[file_makalah,pdf]|max_size[file_makalah,10000]',
@@ -906,7 +933,8 @@ class Mahasiswa extends BaseController
         return redirect()->to(base_url("mahasiswa/makalah"));
     }
 
-    public function updateMakalah($idMakalah) {
+    public function updateMakalah($idMakalah) 
+    {
         $validationRules = [
             'file_makalah' => [
                 'rules' => 'mime_in[file_makalah,application/pdf]|ext_in[file_makalah,pdf]|max_size[file_makalah,10000]',
@@ -1048,7 +1076,8 @@ class Mahasiswa extends BaseController
         return $this->response->download("folderPersyaratanSidang/".$namaFilePersyaratanSidang['file_persyaratan_sidang'], null);
     }
 
-    public function downloadSkripsi($idSkripsi) {
+    public function downloadSkripsi($idSkripsi) 
+    {
         $skripsi = $this->skripsiModel->find($idSkripsi);
         if ($skripsi == null) {
             session()->setFlashdata("message", ["icon" => "error", "title" => "Unduh File Skripsi Gagal", "text" => "File Skripsi tidak ditemukan"]);

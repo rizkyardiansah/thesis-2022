@@ -11,10 +11,10 @@
     <h1 class="h3 mb-2 text-gray-800"><?= $title ?></h1>
     <div class="row">
         <div class="col-lg-12">
-            <?php if ($lastSkripsi == null || $lastSkripsi['status'] != 'Lulus'): ?>
+            <?php if ($lastSkripsi == null || $lastSkripsi['status'] != 'Lulus' || $lastSkripsi['file_skripsi'] == null): ?>
                 <div class="alert alert-danger" role="alert">
                     <small>
-                        Fitur ini hanya dapat digunakan ketika anda sudah dinyatakan <strong>Lulus</strong>
+                        Fitur ini hanya dapat digunakan ketika anda sudah dinyatakan <strong>Lulus</strong> dan telah menggunggah <strong>Berkas Final Skripsi</strong>
                     </small>
                 </div>
             <?php endif; ?>
@@ -36,7 +36,7 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="judul">Judul</label>
-                                <?php if ($lastSkripsi == null || $lastSkripsi['status'] != 'Lulus'): ?>
+                                <?php if ($lastSkripsi == null || $lastSkripsi['status'] != 'Lulus' || $lastSkripsi['file_skripsi'] == null): ?>
                                     <textarea class="form-control" id="judul" name="judul" rows="4" disabled></textarea>
                                 <?php elseif (count($makalah) == 0) : ?>
                                     <textarea class="form-control" id="judul" name="judul" rows="4"></textarea>
@@ -126,7 +126,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <?php if ($lastSkripsi != null && $lastSkripsi['status'] == 'Lulus'): ?>
+                    <?php if ($lastSkripsi != null && $lastSkripsi['status'] == 'Lulus' && $lastSkripsi['file_skripsi'] != null): ?>
                         <button type="submit" class="btn btn-primary">Simpan</button>
                     <?php endif; ?>
                 </div>
