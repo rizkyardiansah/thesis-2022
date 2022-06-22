@@ -47,6 +47,8 @@
                             <th>Pembimbing Agama</th>
                             <th>Tanggal Mulai</th>
                             <th>Tanggal Selesai</th>
+                            <th>Berkas Skripsi</th>
+                            <th>Berkas Makalah</th>
                             <th>Status</th>
                             <th>Aksi</th>
                         </tr>
@@ -78,11 +80,33 @@
                                 <?php else: ?>
                                     <td style="min-width: 8vw"><?= date_format(date_create($s['tanggal_selesai_skripsi']), "d-m-Y") ?></td>
                                 <?php endif ?>
+                                <td>
+                                    <?php if($s['status'] == 'Lulus' && $s['file_skripsi'] != null): ?>
+                                        Sudah diunggah
+                                    <?php elseif ($s['status'] == 'Lulus' && $s['file_skripsi'] == null): ?>
+                                        Belum diunggah
+                                    <?php else: ?>
+                                        -
+                                    <?php endif; ?>
+                                </td>
+                                 <td>
+                                    <?php if($s['status'] == 'Lulus' && $s['id_makalah'] != null): ?>
+                                        Sudah diunggah
+                                    <?php elseif ($s['status'] == 'Lulus' && $s['id_makalah'] == null): ?>
+                                        Belum diunggah
+                                    <?php else: ?>
+                                        -
+                                    <?php endif; ?>
+                                </td>
                                 <td><?= $s['status'] ?></td>
                                 <td>
-                                    <form action="<?= base_url("mahasiswa/downloadSkripsi/".$s['id']) ?>" method="post">
-                                        <button class="btn btn-primary" type="submit" data-toggle="tooltip" title="Unduh" data-placement="top"><i class="fas fa-download"></i></button>
-                                    </form>
+                                    <?php if($s['status'] == 'Lulus' && $s['file_skripsi'] != null): ?>
+                                        <form action="<?= base_url("mahasiswa/downloadSkripsi/".$s['id']) ?>" method="post">
+                                            <button class="btn btn-primary" type="submit" data-toggle="tooltip" title="Unduh" data-placement="top"><i class="fas fa-download"></i></button>
+                                        </form>
+                                    <?php else: ?>
+                                        <button class="btn btn-primary" disabled><i class="fas fa-download"></i></button>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
                         <?php 

@@ -40,11 +40,11 @@ $(function () {
     ],
     columnDefs: [
       {
-        targets: [0, 1, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+        targets: [0, 1, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
         className: "text-center",
       },
       {
-        targets: 14,
+        targets: 16,
         searchable: false,
         orderable: false,
       },
