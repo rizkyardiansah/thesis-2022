@@ -180,7 +180,8 @@ class MahasiswaModel extends Model
         $db = \Config\Database::connect();
         $sql = "SELECT m.npm, m.nama as nama_mahasiswa, m.id_prodi, s.judul, b.nama as nama_bidang, b.inisial as inisial_bidang,
         prod.nama as nama_prodi, prod.inisial as inisial_prodi, d1.id as id_pembimbing1, d2.id as id_pembimbing2, 
-        d3.id as id_pembimbing_agama, s.id as id_skripsi, count(cb1.id) + count(cb2.id) + count(cb3.id) as total_bimbingan
+        d3.id as id_pembimbing_agama, s.id as id_skripsi, 
+        (select count(id) from catatan_bimbingan where id_pembimbing in (pem1.id, pem2.id, pem3.id)) as total_bimbingan
         from mahasiswa as m
         inner join skripsi as s on s.npm = m.npm
         inner join bidang as b on b.id = s.id_bidang
@@ -188,17 +189,13 @@ class MahasiswaModel extends Model
         inner join pembimbing as pem1 on pem1.id_skripsi = s.id
         inner join pembimbing as pem2 on pem2.id_skripsi = s.id
         inner join pembimbing as pem3 on pem3.id_skripsi = s.id
-        left join catatan_bimbingan as cb1 on cb1.id_pembimbing = pem1.id
-        left join catatan_bimbingan as cb2 on cb2.id_pembimbing = pem2.id
-        left join catatan_bimbingan as cb3 on cb3.id_pembimbing = pem3.id
         inner join dosen as d1 on d1.id = pem1.id_dosen
         left join dosen as d2 on d2.id = pem2.id_dosen
         inner join dosen as d3 on d3.id = pem3.id_dosen
         where s.tanggal_skripsi = (select max(tanggal_skripsi) from skripsi as s2 where s2.npm = m.npm) and
         pem1.role = 'Pembimbing Ilmu 1' and
-        (pem2.role = 'Pembimbing Ilmu 2' or pem2.role is null) and
+        pem2.role = 'Pembimbing Ilmu 2' and
         pem3.role = 'Pembimbing Agama'
-        group by s.id
         order by s.tanggal_skripsi";
         $result = $db->query($sql);
         return $result->getResultArray();
