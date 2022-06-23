@@ -33,15 +33,6 @@ class PembimbingModel extends Model
         where s.id = ? ";
         $result = $db->query($sql, [$idSkripsi]);
         return $result->getResultArray();
-
-        // $arrayPembimbing = $builder->
-        // select("dosen.id as id_dosen, dosen.nama as nama_dosen, dosen.inisial as inisial_dosen, pembimbing.role, pembimbing.id as id_pembimbing")->
-        // join("skripsi", "skripsi.id = pembimbing.id_skripsi")->
-        // join("dosen", "dosen.id = pembimbing.id_dosen")->
-        // getWhere(["skripsi.id" => $idSkripsi])->
-        // getResultArray();
-
-        // return $arrayPembimbing;
     }
 
     public function getAllMahasiswaBimbingan($idDosen) {

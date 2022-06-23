@@ -23,6 +23,12 @@
                         Lakukan <strong>Seminar Prasidang</strong> terlebih dahulu dan pastikan Anda dinyatakan <strong>Layak Sidang</strong>.
                     </small>
                 </div>
+            <?php elseif ($lastSkripsi != null && ($lastSkripsi['jumlah_bimbingan_ilmu'] < 8 || $lastSkripsi['jumlah_bimbingan_agama'] < 4)): ?>
+                <div class="alert alert-danger" role="alert">
+                    <small>
+                        Pengajuan Sidang Skripsi hanya dapat dibuat jika telah melakukan setidaknya <strong>8 kali Bimbingan Ilmu</strong> dan <strong>4 kali Bimbingan Agama</strong>.
+                    </small>
+                </div>
             <?php elseif ($lastSkripsi != null && count($pengajuanSidangSkripsi) > 0 && $pengajuanSidangSkripsi[count($pengajuanSidangSkripsi)-1]['id_skripsi'] == $lastSkripsi['id'] && $pengajuanSidangSkripsi[count($pengajuanSidangSkripsi)-1]['status'] == 'TERTUNDA'): ?>
                 <div class="alert alert-info" role="alert">
                     <small>
@@ -58,9 +64,9 @@
         <div class="card-body">
             <div class="row mb-3">
                 <div class="col-lg-3 d-flex align-items-center">
-                    <?php if ($lastSkripsi == null || $seminarPrasidang == null || $seminarPrasidang['status'] != 'LAYAK SIDANG' || ($lastSkripsi != null && count($pengajuanSidangSkripsi) > 0 && $pengajuanSidangSkripsi[count($pengajuanSidangSkripsi)-1]['id_skripsi'] == $lastSkripsi['id'])): ?>
+                    <?php if ($lastSkripsi == null || $seminarPrasidang == null || $seminarPrasidang['status'] != 'LAYAK SIDANG' || ($lastSkripsi != null && count($pengajuanSidangSkripsi) > 0 && $pengajuanSidangSkripsi[count($pengajuanSidangSkripsi)-1]['id_skripsi'] == $lastSkripsi['id']) || $lastSkripsi['jumlah_bimbingan_ilmu'] < 8 || $lastSkripsi['jumlah_bimbingan_agama'] < 4): ?>
                         <button class="btn btn-primary" disabled>Tambahkan Pengajuan</button>
-                    <?php elseif ($lastSkripsi != null && $seminarPrasidang != null && $seminarPrasidang['status'] == 'LAYAK SIDANG'): ?>
+                    <?php elseif ($lastSkripsi != null && $seminarPrasidang != null && $seminarPrasidang['status'] == 'LAYAK SIDANG' && $lastSkripsi['jumlah_bimbingan_ilmu'] >= 8 && $lastSkripsi['jumlah_bimbingan_agama'] >= 4): ?>
                         <button class="btn btn-primary" data-toggle="modal" data-target="#tambahPengajuan">Tambahkan Pengajuan</button>
                     <?php endif; ?>
                 </div>

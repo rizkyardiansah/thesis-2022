@@ -103,7 +103,7 @@
                         </div>
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <label for="materi">Materi Bimbimngan</label>
+                                <label for="materi">Materi Bimbingan</label>
                                 <textarea name="materi" id="materi" rows="2" class="form-control"></textarea>
                             </div>
                         </div>
@@ -149,7 +149,7 @@
                         </div>
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <label for="materi">Materi Bimbimngan</label>
+                                <label for="materi">Materi Bimbingan</label>
                                 <textarea name="materi" id="materi" rows="2" class="form-control"></textarea>
                             </div>
                         </div>

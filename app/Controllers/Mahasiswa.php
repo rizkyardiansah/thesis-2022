@@ -630,8 +630,19 @@ class Mahasiswa extends BaseController
         $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($dataAkun['npm']);
         if ($lastSkripsi != null) {
             $lastSkripsi['nama_bidang'] = $this->bidangModel->find($lastSkripsi['id_bidang'])['nama'];
-        }
+            $lastSkripsi['jumlah_bimbingan_ilmu'] = 0;
+            $lastSkripsi['jumlah_bimbingan_agama'] = 0;
+            foreach ($this->catatanBimbinganModel->getAllCatatanByLastSkripsi($lastSkripsi['id']) as $catatan) {
+                if (($catatan['role'] == 'Pembimbing Ilmu 1' || $catatan['role'] == 'Pembimbing Ilmu 2') && $catatan['status'] == 'DISETUJUI') {
+                    $lastSkripsi['jumlah_bimbingan_ilmu']++;
+                }
 
+                if ($catatan['role'] == 'Pembimbing Agama' && $catatan['status'] == 'DISETUJUI') {
+                    $lastSkripsi['jumlah_bimbingan_agama']++;
+                }
+            }
+        }
+        
         $seminarPrasidang = null;
         if ($lastSkripsi != null) {
             $seminarPrasidang = $this->seminarPrasidangModel->getWhere(['id_skripsi' => $lastSkripsi['id']])->getResultArray();
