@@ -10,6 +10,7 @@ class Fakultas extends BaseController
     protected $dosenModel;
     protected $bidangModel;
     protected $makalahModel;
+    protected $mahasiswaModel;
 
     public function __construct() 
     {
@@ -19,6 +20,7 @@ class Fakultas extends BaseController
         $this->dosenModel = new \App\Models\DosenModel();
         $this->bidangModel = new \App\Models\BidangModel();
         $this->makalahModel = new \App\Models\MakalahModel();
+        $this->mahasiswaModel = new \App\Models\MahasiswaModel();
     }
 
     public function index()
@@ -88,6 +90,16 @@ class Fakultas extends BaseController
             "makalah" => $makalah,
         ];
         return view("fakultas/makalah", $data);
+    }
+
+    public function pembimbing() {
+        $pembimbing = $this->mahasiswaModel->getAllPembimbingMahasiswa();
+
+        $data = [
+            "title" => "Pembimbing Mahasiswa FTI",
+            "pembimbing" => $pembimbing,
+        ];
+        return view("fakultas/pembimbing", $data);
     }
 
     public function kalender()

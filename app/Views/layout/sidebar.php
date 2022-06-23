@@ -120,6 +120,12 @@
         <span>Makalah</span>
     </a>
 </li>
+<li class="nav-item">
+    <a class="nav-link py-2" href="<?= base_url("fakultas/pembimbing") ?>" >
+        <i class="fas fa-fw fa-cog"></i>
+        <span>Pembimbing</span>
+    </a>
+</li>
 <!-- Nav Item - Pages Collapse Menu -->
 <li class="nav-item">
     <a class="nav-link py-2" href="<?= base_url("fakultas/kalender") ?>" >
@@ -151,6 +157,12 @@
     <a class="nav-link py-2" href="<?= base_url("kaprodi/makalah") ?>" >
         <i class="fas fa-fw fa-cog"></i>
         <span>Makalah</span>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link py-2" href="<?= base_url("kaprodi/pembimbing") ?>" >
+        <i class="fas fa-fw fa-cog"></i>
+        <span>Pembimbing</span>
     </a>
 </li>
 <li class="nav-item">

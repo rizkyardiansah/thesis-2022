@@ -159,7 +159,7 @@ class MahasiswaModel extends Model
 
     public function getMahasiswaTanpaPembimbing() {
         $db = \Config\Database::connect();
-        $sql = "select m.npm, m.nama as nama_mahasiswa, m.id_prodi, s.judul, b.nama as nama_bidang, 
+        $sql = "SELECT m.npm, m.nama as nama_mahasiswa, m.id_prodi, s.judul, b.nama as nama_bidang, 
         d1.nama as dosen_usulan1, d2.nama as dosen_usulan2
         from mahasiswa as m
         inner join skripsi as s on s.npm = m.npm
@@ -198,6 +198,68 @@ class MahasiswaModel extends Model
         pem3.role = 'Pembimbing Agama'
         order by s.tanggal_skripsi";
         $result = $db->query($sql);
+        return $result->getResultArray();
+    }
+
+    public function getAllPembimbingMahasiswa() {
+        $db = \Config\Database::connect();
+        $sql = "SELECT m.npm, m.nama as nama_mahasiswa, m.id_prodi, s.judul, b.nama as nama_bidang, b.inisial as inisial_bidang,
+        prod.nama as nama_prodi, prod.inisial as inisial_prodi, 
+        d1.nama as nama_pembimbing_1, d1.inisial as inisial_pembimbing_1,
+        d2.nama as nama_pembimbing_2, d2.inisial as inisial_pembimbing_2,
+        d3.nama as nama_pembimbing_agama, d3.inisial as inisial_pembimbing_agama,
+        s.id as id_skripsi,
+        (select count(id) from catatan_bimbingan where id_pembimbing = pem1.id and status = 'DISETUJUI') as jumlah_bimbingan_1,
+        (select count(id) from catatan_bimbingan where id_pembimbing = pem2.id and status = 'DISETUJUI') as jumlah_bimbingan_2,
+        (select count(id) from catatan_bimbingan where id_pembimbing = pem3.id and status = 'DISETUJUI') as jumlah_bimbingan_agama,
+        (select count(id) from catatan_bimbingan where id_pembimbing in (pem1.id, pem2.id, pem3.id) and status = 'DISETUJUI') as total_bimbingan
+        from mahasiswa as m
+        inner join skripsi as s on s.npm = m.npm
+        inner join bidang as b on b.id = s.id_bidang
+        inner join program_studi as prod on prod.id = m.id_prodi
+        inner join pembimbing as pem1 on pem1.id_skripsi = s.id
+        inner join pembimbing as pem2 on pem2.id_skripsi = s.id
+        inner join pembimbing as pem3 on pem3.id_skripsi = s.id
+        inner join dosen as d1 on d1.id = pem1.id_dosen
+        left join dosen as d2 on d2.id = pem2.id_dosen
+        inner join dosen as d3 on d3.id = pem3.id_dosen
+        where s.tanggal_skripsi = (select max(tanggal_skripsi) from skripsi as s2 where s2.npm = m.npm) and
+        pem1.role = 'Pembimbing Ilmu 1' and
+        pem2.role = 'Pembimbing Ilmu 2' and
+        pem3.role = 'Pembimbing Agama'
+        order by s.tanggal_skripsi";
+        $result = $db->query($sql);
+        return $result->getResultArray();
+    }
+
+    public function getPembimbingMahasiswaByProdi($id_prodi) {
+        $db = \Config\Database::connect();
+        $sql = "SELECT m.npm, m.nama as nama_mahasiswa, m.id_prodi, s.judul, b.nama as nama_bidang, b.inisial as inisial_bidang,
+        d1.nama as nama_pembimbing_1, d1.inisial as inisial_pembimbing_1,
+        d2.nama as nama_pembimbing_2, d2.inisial as inisial_pembimbing_2,
+        d3.nama as nama_pembimbing_agama, d3.inisial as inisial_pembimbing_agama,
+        s.id as id_skripsi,
+        (select count(id) from catatan_bimbingan where id_pembimbing = pem1.id and status = 'DISETUJUI') as jumlah_bimbingan_1,
+        (select count(id) from catatan_bimbingan where id_pembimbing = pem2.id and status = 'DISETUJUI') as jumlah_bimbingan_2,
+        (select count(id) from catatan_bimbingan where id_pembimbing = pem3.id and status = 'DISETUJUI') as jumlah_bimbingan_agama,
+        (select count(id) from catatan_bimbingan where id_pembimbing in (pem1.id, pem2.id, pem3.id) and status = 'DISETUJUI') as total_bimbingan
+        from mahasiswa as m
+        inner join skripsi as s on s.npm = m.npm
+        inner join bidang as b on b.id = s.id_bidang
+        inner join program_studi as prod on prod.id = m.id_prodi
+        inner join pembimbing as pem1 on pem1.id_skripsi = s.id
+        inner join pembimbing as pem2 on pem2.id_skripsi = s.id
+        inner join pembimbing as pem3 on pem3.id_skripsi = s.id
+        inner join dosen as d1 on d1.id = pem1.id_dosen
+        left join dosen as d2 on d2.id = pem2.id_dosen
+        inner join dosen as d3 on d3.id = pem3.id_dosen
+        where s.tanggal_skripsi = (select max(tanggal_skripsi) from skripsi as s2 where s2.npm = m.npm) and
+        pem1.role = 'Pembimbing Ilmu 1' and
+        pem2.role = 'Pembimbing Ilmu 2' and
+        pem3.role = 'Pembimbing Agama' and 
+        prod.id = ?
+        order by s.tanggal_skripsi";
+        $result = $db->query($sql, [$id_prodi]);
         return $result->getResultArray();
     }
 }

@@ -155,16 +155,16 @@
    
 
     <!-- <script src="<?= base_url("assets/js/datatables.js");?>"></script> -->
-    
-    
-    <?= $this->renderSection('scripts'); ?>
-
-    <!-- tooltips -->
     <script>
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip()
         })
     </script>
+    
+    
+    <?= $this->renderSection('scripts'); ?>
+
+    <!-- tooltips -->
 
 
 </body>

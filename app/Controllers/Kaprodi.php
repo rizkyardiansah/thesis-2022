@@ -136,6 +136,18 @@ class Kaprodi extends BaseController
     }
 
 
+    public function pembimbing() {
+        $dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
+        $prodi = $this->prodiModel->find($dataAkun['id_prodi']);
+        $pembimbing = $this->mahasiswaModel->getPembimbingMahasiswaByProdi($prodi['id']);
+
+        $data = [
+            "title" => "Pembimbing Mahasiswa ". $prodi['inisial'],
+            "pembimbing" => $pembimbing,
+        ];
+        return view("kaprodi/pembimbing", $data);
+    }
+
 
 
 
