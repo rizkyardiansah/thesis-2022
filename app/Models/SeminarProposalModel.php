@@ -15,7 +15,7 @@ class SeminarProposalModel extends Model
 
     public function getSemproByProdi($idProdi) {
         $db = \Config\Database::connect();
-        $sql = "SELECT sp.*, m.npm, m.nama as nama_mahasiswa, p.judul, p.status, p.komentar, 
+        $sql = "SELECT sp.*, m.npm, m.nama as nama_mahasiswa, p.judul, p.status, p.komentar, p.pembuat_komentar, 
         b.nama as nama_bidang, b.inisial as inisial_bidang
         from seminar_proposal as sp
         inner join proposal as p on p.id = sp.id_proposal
@@ -29,7 +29,7 @@ class SeminarProposalModel extends Model
 
      public function getSemproByDateRange($idProdi, $dari, $hingga) {
         $db = \Config\Database::connect();
-        $sql = "SELECT sp.*, m.npm, m.nama as nama_mahasiswa, p.judul, p.status, p.komentar, 
+        $sql = "SELECT sp.*, m.npm, m.nama as nama_mahasiswa, p.judul, p.status, p.komentar, p.pembuat_komentar,
         b.nama as nama_bidang, b.inisial as inisial_bidang
         from seminar_proposal as sp
         inner join proposal as p on p.id = sp.id_proposal
@@ -69,7 +69,7 @@ class SeminarProposalModel extends Model
 
     public function getSemproByDosen($idDosen) {
         $db = \Config\Database::connect();
-        $sql = "SELECT sp.*, m.npm, m.nama as nama_mahasiswa, p.judul, p.status, p.komentar, 
+        $sql = "SELECT sp.*, m.npm, m.nama as nama_mahasiswa, p.judul, p.status, p.komentar, p.pembuat_komentar,
         b.nama as nama_bidang, b.inisial as inisial_bidang
         from seminar_proposal as sp
         inner join proposal as p on p.id = sp.id_proposal
@@ -83,7 +83,7 @@ class SeminarProposalModel extends Model
 
     public function getSemproByDosenDateRange($idDosen, $dari, $hingga) {
         $db = \Config\Database::connect();
-        $sql = "SELECT sp.*, m.npm, m.nama as nama_mahasiswa, p.judul, p.status, p.komentar, 
+        $sql = "SELECT sp.*, m.npm, m.nama as nama_mahasiswa, p.judul, p.status, p.komentar, p.pembuat_komentar,
         b.nama as nama_bidang, b.inisial as inisial_bidang
         from seminar_proposal as sp
         inner join proposal as p on p.id = sp.id_proposal

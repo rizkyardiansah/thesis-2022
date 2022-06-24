@@ -10,7 +10,7 @@ class ProposalModel extends Model
     protected $useAutoIncrement = true;
     protected $returnType = "array";
     protected $useSoftDeletes = false;
-    protected $allowedFields = ['judul', 'id_bidang', 'npm', 'sifat', 'sumber', 'file_proposal', 'tanggal_upload', 'dosen_usulan1', 'dosen_usulan2', 'status', 'komentar'];
+    protected $allowedFields = ['judul', 'id_bidang', 'npm', 'sifat', 'sumber', 'file_proposal', 'tanggal_upload', 'dosen_usulan1', 'dosen_usulan2', 'status', 'komentar', 'pembuat_komentar'];
     protected $useTimestamps = false;
 
     public function getProposalMahasiswa($npm) {

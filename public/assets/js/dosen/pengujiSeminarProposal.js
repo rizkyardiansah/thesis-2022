@@ -25,8 +25,12 @@ $(function () {
 
   $("#jadwalPengujiSempro .buat-nilai").on("click", function () {
     const idSempro = $(this).data("id");
-
+    const status = $(this).parent().parent().children(".status").text();
+    const komentar = $(this).parent().parent().children(".komentar").text();
     $("#penilaianSempro").modal("show");
+    $("#formPenilaianSempro #komentar").text(komentar);
+    $(`#formPenilaianSempro input[type="radio"]`).prop("checked", false);
+    $(`#formPenilaianSempro input[value="${status}"]`).prop("checked", true);
     $("#formPenilaianSempro").attr(
       "action",
       `${BASE_URL}dosen/insertPenilaianSempro/${idSempro}`
@@ -83,11 +87,11 @@ $(function () {
     ],
     columnDefs: [
       {
-        targets: [0, 1, 4, 5, 6, 7, 8, 9, 11],
+        targets: [0, 1, 4, 5, 6, 7, 8, 9, 11, 12],
         className: "text-center",
       },
       {
-        targets: 11,
+        targets: 12,
         searchable: false,
         orderable: false,
       },

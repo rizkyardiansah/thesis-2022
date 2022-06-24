@@ -91,13 +91,15 @@ class Dosen extends BaseController
     }
 
     public function insertPenilaianSempro($idSempro) {
+        $dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
         $sempro = $this->semproModel->find($idSempro);
         $proposal = $this->proposalModel->find($sempro['id_proposal']);
-        $komentar = $proposal['komentar']. PHP_EOL . $this->request->getPost("komentar", FILTER_SANITIZE_SPECIAL_CHARS);
+        $komentar = $this->request->getPost("komentar", FILTER_SANITIZE_SPECIAL_CHARS);
 
         $this->proposalModel->update($sempro['id_proposal'], [
             'komentar' => $komentar,
             'status' => $this->request->getPost("status"),
+            'pembuat_komentar' => $dataAkun['id'],
         ]);
 
         session()->setFlashdata("message", ["icon" => "success", "title" => "Penilaian Seminar Proposal Berhasil", "text" => "Seminar Proposal berhasil dinilai!"]);

@@ -63,6 +63,7 @@
                         <?php endif; ?>
                             <th>Status</th>
                             <th>Komentar</th>
+                            <th>Pembuat Komentar</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -109,16 +110,26 @@
 
                             <td class="status"><?= $sm['status'] ?></td>
                             <td class="komentar"><?= $sm['komentar'] != null ? $sm['komentar'] : "-" ?></td>
-
+                            
+                        <?php if ($sm['pembuat_komentar'] != null) :?>
+                            <?php foreach($dosen as $d) : ?>
+                                <?php if ($d['id'] == $sm['pembuat_komentar']) : ?>
+                                    <td data-toggle="tooltip" data-placement="top" title="<?= $d['nama'] ?>" class="pembuat_komentar" data-id="<?= $d['id'] ?>"><?= $d['inisial'] ?></td>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        <?php else:?>
+                            <td>-</td>
+                        <?php endif; ?>
+                            
                             <td style="min-width: 7vw">
                                 <form action="<?= base_url("mahasiswa/downloadProposal/".$sm['id_proposal']) ?>" method="post" class="d-inline">
                                     <button class="btn btn-primary" type="submit" data-toggle="tooltip" data-placement="top" title="Unduh Proposal"><i class="fa fa-download" aria-hidden="true"></i></button>
                                 </form>
-                                <?php if ($sm['status'] == 'TERTUNDA' && $sm['komentar'] == null) : ?>
+                                <?php //if ($sm['status'] == 'TERTUNDA' && $sm['komentar'] == null) : ?>
                                     <button class="btn btn-primary buat-nilai" data-toggle="tooltip" data-placement="top" title="Beri Penilaian" data-id="<?= $sm['id'] ?>"><i class="fa fa-comment" aria-hidden="true"></i></button>
-                                <?php else: ?>
+                                <!-- <?php //else: ?>
                                     <button class="btn btn-primary buat-nilai" data-toggle="tooltip" data-placement="top" title="Beri Penilaian" disabled ><i class="fa fa-comment" aria-hidden="true"></i></button>
-                                <?php endif; ?>
+                                <?php //endif; ?> -->
                             </td>
                         </tr>
                         <?php $counter++; ?>
