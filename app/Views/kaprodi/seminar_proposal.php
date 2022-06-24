@@ -98,6 +98,7 @@
                             
                             <th>Status</th>
                             <th>Komentar</th>
+                            <th>Pembuat Komentar</th>
                         <?php if ($prodi['mode_sempro'] == 'Asinkronus') : ?>
                             <th hidden>Aksi</th>
                         <?php else: ?>
@@ -167,6 +168,17 @@
                         
                             <td><?= $sm['status'] != 'TERTUNDA' ? $sm['status'] : "-" ?></td>
                             <td><?= $sm['komentar'] != null ? $sm['komentar'] : "-" ?></td>
+
+                        <?php if ($sm['pembuat_komentar'] != null) :?>
+                            <?php foreach($dosen as $d) : ?>
+                                <?php if ($d['id'] == $sm['pembuat_komentar']) : ?>
+                                    <td data-toggle="tooltip" data-placement="top" title="<?= $d['nama'] ?>" class="pembuat_komentar" data-id="<?= $d['id'] ?>"><?= $d['inisial'] ?></td>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        <?php else:?>
+                            <td>-</td>
+                        <?php endif; ?>
+
                         <?php if ($prodi['mode_sempro'] == 'Asinkronus') : ?>
                             <td hidden>-</td>
                         <?php else: ?>
