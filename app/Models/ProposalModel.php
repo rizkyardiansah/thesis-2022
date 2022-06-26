@@ -14,11 +14,6 @@ class ProposalModel extends Model
     protected $useTimestamps = false;
 
     public function getProposalMahasiswa($npm) {
-        // return $this->builder->
-        // select("proposal.*, dosen.nama AS 'nama_dosen', dosen.inisial as 'inisial_dosen', bidang.nama AS 'nama_bidang', bidang.inisial as 'inisial_bidang'")->
-        // join("dosen", "dosen.id = proposal.dosen_usulan1 or dosen.id = proposal.dosen_usulan2")->
-        // join("bidang", "bidang.id = proposal.id_bidang")->
-        // getWhere(["proposal.npm" => $npm])->getResultArray();
         $db = \Config\Database::connect();
         $builder = $db->table("proposal");
 
@@ -97,6 +92,21 @@ class ProposalModel extends Model
         $arraySempro = $builder->select()->join("seminar_proposal", "seminar_proposal.id_proposal = proposal.id")->getWhere(["id_proposal" => $idProposal])->getResultArray();
 
         return count($arraySempro) == 0;
+    }
+
+    public function getDetailProposalById($id_proposal) {
+        $db = \Config\Database::connect();
+        $sql = "SELECT p.*, mhs.nama as nama_mahasiswa
+        from proposal as p
+        join mahasiswa as mhs on mhs.npm = p.npm
+        where p.id = ? 
+        ";
+        $result = $db->query($sql, [$id_proposal]);
+        if (count($result->getResultArray()) == 0) {
+            return null;
+        }
+
+        return $result->getResultArray()[0];
     }
 
 }

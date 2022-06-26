@@ -120,15 +120,8 @@
                                 <?php endforeach; ?>
                                 <td><?= $p['status'] ?></td>
                                 <td><?= ($p['komentar'] != null) ? $p['komentar'] : "-" ?></td>
-                                <td style="min-width: 7vw">
-                                    <form action="<?= base_url("mahasiswa/downloadProposal/".$p['id']) ?>" method="post" class="d-inline">
-                                        <button class="btn btn-primary" type="submit" data-toggle="tooltip" data-placement="top" title="Unduh Proposal"><i class="fa fa-download" aria-hidden="true"></i></button>
-                                    </form>
-                                    <?php if ($p['editable']) : ?>
-                                        <button class="btn btn-primary ubah-proposal" data-toggle="tooltip" data-placement="top" title="Ubah" data-id="<?= $p['id'] ?>"><i class="fas fa-pencil-alt"></i></button>
-                                    <?php else: ?>
-                                        <button class="btn btn-primary ubah-proposal" data-toggle="tooltip" data-placement="top" title="Ubah" data-id="<?= $p['id'] ?>" disabled><i class="fas fa-pencil-alt"></i></button>
-                                    <?php endif; ?>
+                                <td>
+                                    <a role="button" class="btn btn-primary" href="<?= base_url("mahasiswa/detailProposal/".$p['id']) ?>" data-toggle="tooltip" title="Detail"><i class="fas fa-info-circle"></i></a>
                                 </td>
                             </tr>
                         <?php 

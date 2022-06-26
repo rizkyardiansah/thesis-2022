@@ -23,13 +23,13 @@
                     <div class="col-lg-6">
                         <div class="form-group">
                             <label for="nama">Nama</label>
-                            <input type="text" class="form-control" id="nama" name="nama" value=<?= $detailPengajuan['nama_mahasiswa'] ?> disabled>
+                            <input type="text" class="form-control" id="nama" name="nama" value="<?= $detailPengajuan['nama_mahasiswa'] ?>" disabled>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-group">
                             <label for="npm">NPM</label>
-                            <input type="text" class="form-control" id="npm" name="npm" value=<?= $detailPengajuan['npm'] ?> disabled>
+                            <input type="text" class="form-control" id="npm" name="npm" value="<?= $detailPengajuan['npm'] ?>" disabled>
                         </div>
                     </div>
                     <div class="col-lg-12">
@@ -47,7 +47,7 @@
                     <div class="col-lg-4">
                         <div class="form-group">
                             <label for="pembimbing2">Pembimbing Ilmu 2</label>
-                            <input type="text" class="form-control" id="pembimbing2" name="pembimbing2" value="<?= $detailPengajuan['nama_pembimbing2'] == null ? "-" : $detailPengajuan['nama_pembimbing2'] ; ?>" disabled>
+                            <input type="text" class="form-control" id="pembimbing2" name="pembimbing2" value="<?= $detailPengajuan['nama_pembimbing2'] == null ? "-" : $detailPengajuan['nama_pembimbing2']; ?>" disabled>
                         </div>
                     </div>
                     <div class="col-lg-4">

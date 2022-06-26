@@ -10,6 +10,6 @@ class ProgramStudiModel extends Model
     protected $useAutoIncrement = true;
     protected $returnType = "array";
     protected $useSoftDeletes = false;
-    protected $allowedFields = ['nama', 'inisial', 'id_fakultas', 'mode_sempro'];
+    protected $allowedFields = ['nama', 'inisial', 'id_fakultas', 'mode_sempro', 'email'];
     protected $useTimestamps = false;
 }

@@ -181,6 +181,27 @@ class Mahasiswa extends BaseController
         return view('mahasiswa/proposal', $data);
     }
 
+    public function detailProposal($id_proposal) 
+    {
+        $dataAkun = $this->mahasiswaModel->find(session()->get("user_session")['id']);
+        $detailProposal = $this->proposalModel->getDetailProposalById($id_proposal);
+        
+        if ($detailProposal == null || $dataAkun == null) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+        $bidang = $this->bidangModel->getBidangByProdi($dataAkun['id_prodi']);
+        $dosen = $this->dosenModel->getDosenByProdi($dataAkun['id_prodi']);
+
+        $data = [
+            'title' => 'Detail Proposal Skripsi',
+            'detailProposal' => $detailProposal,
+            'bidang' => $bidang,
+            'dosen' => $dosen,
+        ];
+
+        return view("mahasiswa/detail_proposal", $data);
+    }
+
     public function insertProposal() 
     {
         $validationRules = [
@@ -224,36 +245,16 @@ class Mahasiswa extends BaseController
     }
 
     public function updateProposal($idProposal) 
-    {
-        $validationRules = [
-            'file_proposal' => [
-                'rules' => 'mime_in[file_proposal,application/pdf]|ext_in[file_proposal,pdf]|max_size[file_proposal,10000]',
-                'errors' => [
-                    'mime_in' => 'File Proposal harus berupa PDF',
-                    'ext_in' => 'File Proposal harus berekstensi .pdf',
-                    'max_size' => 'Ukuran File Proposal tidak boleh lebih dari 10MB'
-                ]
-            ]
-        ];
+    { 
+        $proposal = $this->proposalModel->find($idProposal);
+        $npm = $this->request->getPost("npm");
 
-        if (!$this->validate($validationRules)) {
-            $validation = \Config\Services::validation();
-            session()->setFlashdata("message", ["icon" => "error", "title" => "Upload File Proposal Gagal", "text" => $validation->getError("file_proposal")]);
-            return redirect()->to(base_url("mahasiswa/proposal"))->withInput();
-        }
-
-        
         $fileProposal = $this->request->getFile("file_proposal");
-        if ($fileProposal->getName() != "") {
-            $npm = $this->request->getPost("npm", FILTER_SANITIZE_SPECIAL_CHARS);
-            $namaFileProposal = $this->proposalModel->find($idProposal)['file_proposal'];
-            unlink("folderProposal/".$namaFileProposal);
-
-            $newName = "Proposal_". $npm ."_" . date("dmYHis") . "." .$fileProposal->getClientExtension();
-            $fileProposal->move("folderProposal", $newName);
-            $this->proposalModel->update($idProposal, [ "file_proposal" => $newName]);
+        $fileProposalBaru = $proposal['file_proposal'];
+        if ($fileProposal != null) {
+            $fileProposalBaru = "Proposal_". $npm ."_" . date("dmYHis") . "." .$fileProposal->getClientExtension();
+            $fileProposal->move("folderProposal", $fileProposalBaru);
         }
-        
 
         $this->proposalModel->update($idProposal, [
             'judul' => $this->request->getPost("judul", FILTER_SANITIZE_SPECIAL_CHARS),
@@ -261,24 +262,13 @@ class Mahasiswa extends BaseController
             'sifat' => $this->request->getPost("sifat", FILTER_SANITIZE_SPECIAL_CHARS),
             'sumber' => $this->request->getPost("sumber", FILTER_SANITIZE_SPECIAL_CHARS),
             'tanggal_upload' => date_format(Time::now('Asia/Jakarta', 'en_us'), 'Y-m-d H:i:s'),
+            'file_proposal' => $fileProposalBaru,
             'dosen_usulan1' => $this->request->getPost("dosen_usulan1", FILTER_SANITIZE_SPECIAL_CHARS),
             'dosen_usulan2' => $this->request->getPost("dosen_usulan2", FILTER_SANITIZE_SPECIAL_CHARS),
         ]);
 
         session()->setFlashdata("message", ["icon" => "success", "title" => "Ubah Proposal Berhasil", "text" => "Proposal berhasil diubah"]);
-        return redirect()->to(base_url("mahasiswa/proposal"));
-    }
-
-    public function downloadProposal($idProposal)
-    {
-        $namaFileProposal = $this->proposalModel->find($idProposal)['file_proposal'];
-        if ($namaFileProposal == null) {
-            session()->setFlashdata("message", ["icon" => "error", "title" => "Download File Proposal Gagal", "text" => "File Proposal tidak ditemukan"]);
-            return redirect()->to(base_url("mahasiswa/proposal"));
-        }
-        
-        redirect()->to(base_url("mahasiswa/proposal"));
-        return $this->response->download("folderProposal/".$namaFileProposal, null);
+        return redirect()->back();
     }
 
     public function seminarProposal() 
@@ -534,7 +524,6 @@ class Mahasiswa extends BaseController
         if ($skripsi == null || $skripsi['npm'] != $dataAkun['npm']) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
-
 
         $data = [
             'title' => 'Detail Pengajuan Seminar Prasidang',
@@ -1027,6 +1016,18 @@ class Mahasiswa extends BaseController
         return $this->response->download("folderPersetujuanSkripsi/".$namaFilePengajuan['file_persetujuan_skripsi'], null);
     }
 
+    public function downloadProposal($idProposal)
+    {
+        $namaFileProposal = $this->proposalModel->find($idProposal)['file_proposal'];
+        if ($namaFileProposal == null) {
+            session()->setFlashdata("message", ["icon" => "error", "title" => "Download File Proposal Gagal", "text" => "File Proposal tidak ditemukan"]);
+            return redirect()->to(base_url("mahasiswa/proposal"));
+        }
+        
+        redirect()->to(base_url("mahasiswa/proposal"));
+        return $this->response->download("folderProposal/".$namaFileProposal, null);
+    }
+
     public function downloadDraft($id)
     {
         $namaFilePengajuan = $this->pengajuanPrasidangModel->find($id);
@@ -1103,7 +1104,7 @@ class Mahasiswa extends BaseController
     {
         $namaFileKhs = $this->mahasiswaModel->find($npm);
         if ($namaFileKhs == null) {
-            session()->setFlashdata("message", ["icon" => "error", "title" => "Download File KHS Gagal", "text" => "File KHS tidak ditemukan"]);
+            session()->setFlashdata("message", ["icon" => "error", "title" => "Hapus File KHS Gagal", "text" => "File KHS tidak ditemukan"]);
             return redirect()->to(base_url("mahasiswa/pengajuanPenulisanSkripsi"));
         }
         unlink("folderKHS/".$namaFileKhs['file_khs']);
@@ -1119,7 +1120,7 @@ class Mahasiswa extends BaseController
     {
         $namaFileKrs = $this->mahasiswaModel->find($npm);
         if ($namaFileKrs == null) {
-            session()->setFlashdata("message", ["icon" => "error", "title" => "Download File KRS Gagal", "text" => "File KRS tidak ditemukan"]);
+            session()->setFlashdata("message", ["icon" => "error", "title" => "Hapus File KRS Gagal", "text" => "File KRS tidak ditemukan"]);
             return redirect()->to(base_url("mahasiswa/pengajuanPenulisanSkripsi"));
         }
         unlink("folderKRS/".$namaFileKrs['file_krs']);
@@ -1135,7 +1136,7 @@ class Mahasiswa extends BaseController
     {
         $namaFilePengajuan = $this->mahasiswaModel->find($npm);
         if ($namaFilePengajuan == null) {
-            session()->setFlashdata("message", ["icon" => "error", "title" => "Download File Persetujuan Skripsi Gagal", "text" => "File Persetujuan Skripsi tidak ditemukan"]);
+            session()->setFlashdata("message", ["icon" => "error", "title" => "Hapus File Persetujuan Skripsi Gagal", "text" => "File Persetujuan Skripsi tidak ditemukan"]);
             return redirect()->to(base_url("mahasiswa/pengajuanPenulisanSkripsi"));
         }
         unlink("folderPersetujuanSkripsi/".$namaFilePengajuan['file_persetujuan_skripsi']);
@@ -1147,11 +1148,27 @@ class Mahasiswa extends BaseController
         return redirect()->to(base_url("mahasiswa/pengajuanPenulisanSkripsi"));
     }
 
+    public function deleteProposal($id) 
+    {
+        $namaFileProposal = $this->proposalModel->find($id);
+        if ($namaFileProposal == null) {
+            session()->setFlashdata("message", ["icon" => "error", "title" => "Hapus File Proposal Gagal", "text" => "File Proposal tidak ditemukan"]);
+            return redirect()->back();
+        }
+        unlink("folderProposal/".$namaFileProposal['file_proposal']);
+        $this->proposalModel->update($id, [
+            "file_proposal" => null,
+            "status" => 'TERTUNDA',
+        ]);
+        session()->setFlashdata("message", ["icon" => "success", "title" => "Hapus File Proposal Berhasil", "text" => "File Proposal berhasil dihapus"]);
+        return redirect()->back();
+    }
+
     public function deleteDraft($id) 
     {
         $namaFileDraft = $this->pengajuanPrasidangModel->find($id);
         if ($namaFileDraft == null) {
-            session()->setFlashdata("message", ["icon" => "error", "title" => "Download File Draft Skripsi Gagal", "text" => "File Draft Skripsi tidak ditemukan"]);
+            session()->setFlashdata("message", ["icon" => "error", "title" => "Hapus File Draft Skripsi Gagal", "text" => "File Draft Skripsi tidak ditemukan"]);
             return redirect()->back();
         }
         unlink("folderDraft/".$namaFileDraft['file_draft']);
@@ -1167,7 +1184,7 @@ class Mahasiswa extends BaseController
     {
         $namaFileDraft = $this->pengajuanPrasidangModel->find($id);
         if ($namaFileDraft == null) {
-            session()->setFlashdata("message", ["icon" => "error", "title" => "Unduh File Lembar Persetujuan Seminar Prasidang Gagal", "text" => "File Lembar Persetujuan Seminar Prasidang tidak ditemukan"]);
+            session()->setFlashdata("message", ["icon" => "error", "title" => "Hapus File Lembar Persetujuan Seminar Prasidang Gagal", "text" => "File Lembar Persetujuan Seminar Prasidang tidak ditemukan"]);
             return redirect()->back();
         }
         unlink("folderLembarPersetujuanPrasidang/".$namaFileDraft['lembar_persetujuan']);
@@ -1183,7 +1200,7 @@ class Mahasiswa extends BaseController
     {
         $namaFileDraftFinal = $this->pengajuanSidangModel->find($id);
         if ($namaFileDraftFinal == null) {
-            session()->setFlashdata("message", ["icon" => "error", "title" => "Download File Draft Final Skripsi Gagal", "text" => "File Draft Final Skripsi tidak ditemukan"]);
+            session()->setFlashdata("message", ["icon" => "error", "title" => "Hapus File Draft Final Skripsi Gagal", "text" => "File Draft Final Skripsi tidak ditemukan"]);
             return redirect()->back();
         }
         unlink("folderDraftFinal/".$namaFileDraftFinal['file_draft_final']);
@@ -1199,7 +1216,7 @@ class Mahasiswa extends BaseController
     {
         $namaFileFormBimbingan = $this->pengajuanSidangModel->find($id);
         if ($namaFileFormBimbingan == null) {
-            session()->setFlashdata("message", ["icon" => "error", "title" => "Download File Form Bimbingan Skripsi Gagal", "text" => "File Form Bimbingan Skripsi tidak ditemukan"]);
+            session()->setFlashdata("message", ["icon" => "error", "title" => "Hapus File Form Bimbingan Skripsi Gagal", "text" => "File Form Bimbingan Skripsi tidak ditemukan"]);
             return redirect()->back();
         }
         unlink("folderFormBimbingan/".$namaFileFormBimbingan['file_form_bimbingan']);
@@ -1215,7 +1232,7 @@ class Mahasiswa extends BaseController
     {
         $namaFilePersyaratanSidang = $this->pengajuanSidangModel->find($id);
         if ($namaFilePersyaratanSidang == null) {
-            session()->setFlashdata("message", ["icon" => "error", "title" => "Download File Persyaratan Sidang Skripsi Gagal", "text" => "File Persyaratan Sidang Skripsi tidak ditemukan"]);
+            session()->setFlashdata("message", ["icon" => "error", "title" => "Hapus File Persyaratan Sidang Skripsi Gagal", "text" => "File Persyaratan Sidang Skripsi tidak ditemukan"]);
             return redirect()->back();
         }
         unlink("folderPersyaratanSidang/".$namaFilePersyaratanSidang['file_persyaratan_sidang']);
