@@ -88,19 +88,8 @@
                                 <td data-toggle="tooltip" data-placement="top" title="<?= $s['nama_p2'] ?>"><?= ($s['inisial_p2'] == null) ? "-" : $s['inisial_p2'] ?></td>
                                 <td data-toggle="tooltip" data-placement="top" title="<?= $s['nama_pagama'] ?>"><?= ($s['inisial_pagama'] == null) ? "-" : $s['inisial_pagama'] ?></td>
                                 <td><?= $s['status'] ?></td>
-                                <td style="min-width: 7vw">
-                                    <?php if ($s['status'] == 'Lulus' || $s['status'] == 'Tidak Lulus'): ?>
-                                        <button class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Ubah" disabled><i class="fas fa-pencil-alt"></i></button>
-                                    <?php else: ?>
-                                        <button class="btn btn-primary ubah-skripsi" data-toggle="tooltip" data-placement="top" title="Ubah" data-id="<?= $s['id'] ?>"><i class="fas fa-pencil-alt"></i></button>
-                                    <?php endif; ?>
-                                    <?php if ($s['status'] == 'Lulus' && $s['file_skripsi'] == null): ?>
-                                        <button class="btn btn-primary upload-skripsi" data-toggle="tooltip" data-placement="top" title="Unggah File Final Skripsi" data-id="<?= $s['id'] ?>"><i class="fas fa-upload"></i></button>
-                                    <?php elseif ($s['status'] == 'Lulus' && $s['file_skripsi'] != null): ?>
-                                        <form action="<?= base_url("mahasiswa/downloadSkripsi/".$s['id']) ?>" class="d-inline-block">
-                                            <button class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Unduh File Final Skripsi"><i class="fas fa-download"></i></button>
-                                        </form>
-                                    <?php endif; ?>
+                                <td>
+                                    <a role="button" class="btn btn-primary" href="<?= base_url("mahasiswa/detailSkripsi/".$s['id']) ?>" data-toggle="tooltip" title="Detail"><i class="fas fa-info-circle"></i></a>
                                 </td>
                             </tr>
                         <?php $counter++; ?>
@@ -178,108 +167,6 @@
             </div>
         </div>
     </div>
-
-    <!-- modal ubah skripsi -->
-    <div class="modal fade" id="ubahSkripsi" tabindex="-1" role="dialog" aria-labelledby="ubahSkripsiLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="ubahSkripsiLabel">Ubah Skripsi</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="" method="post" id="formUbahSkripsi">
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="form-group">
-                                    <label for="judul">Judul</label>
-                                    <textarea class="form-control" id="judul" name="judul" rows="2"></textarea>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-12">
-                                <div class="form-group">
-                                    <label for="bidang">Bidang</label>
-                                    <select class="form-control" name="bidang" id="bidang">
-                                        <option value="none" selected disabled> - Pilih Bidang Penelitian - </option>
-                                        <?php foreach($bidang as $b): ?>
-                                            <option value="<?= $b['id'] ?>"><?= $b['inisial'] . ' | ' . $b['nama'] ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label for="sifat">Sifat Penelitian</label>
-                                    <select class="form-control" id="sifat" name="sifat">
-                                        <option value="none" selected disabled> - Pilih Sifat Penelitian - </option>
-                                        <option value="Baru">Baru</option>
-                                        <option value="Lanjutan">Lanjutan</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label for="sumber">Sumber Penelitian</label>
-                                    <select class="form-control" id="sumber" name="sumber">
-                                        <option value="none" selected disabled> - Pilih Sumber Penelitian - </option>
-                                        <option value="Sendiri">Sendiri</option>
-                                        <option value="Dosen">Dosen</option>
-                                        <option value="Teman">Teman</option>
-                                        <option value="Keluarga">Keluarga</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- upload file skripsi -->
-    <div class="modal fade" id="uploadSkripsi" tabindex="-1" role="dialog" aria-labelledby="uploadSkripsiLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="uploadSkripsiLabel">Unggah File final Skripsi</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="" method="post" id="formUploadSkripsi" enctype="multipart/form-data">
-                    <div class="modal-body">
-                        <div class="row">
-                            <input type="hidden" id="npm" name="npm" value="<?= $mahasiswa['npm'] ?>">
-                            <div class="col-lg-12">
-                                <div class="input-group mb-3">
-                                    <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="file_skripsi" name="file_skripsi">
-                                        <label class="custom-file-label" for="file_skripsi">Pilih File Final Skripsi</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
 
 <?= $this->endSection(); ?>
 

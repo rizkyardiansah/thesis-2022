@@ -1,10 +1,13 @@
 $(function () {
-  $("#formTambahProposal").validate({
+  $("#editSkripsi").validate({
     rules: {
       judul: {
         required: true,
         minlength: 20,
         maxlength: 300,
+      },
+      bidang: {
+        required: true,
       },
       sifat: {
         required: true,
@@ -12,23 +15,14 @@ $(function () {
       sumber: {
         required: true,
       },
-      bidang: {
-        required: true,
-      },
-      dosen_usulan1: {
-        required: true,
-      },
-      dosen_usulan2: {
-        required: true,
-      },
-      file_proposal: {
+      file_skripsi: {
         required: true,
         extension: "pdf",
         filesize: 10000000,
       },
     },
     messages: {
-      file_proposal: {
+      file_skripsi: {
         extension: "File harus berekstensi PDF",
         filesize: "File tidak boleh melebihi 10MB",
       },
@@ -55,6 +49,28 @@ $(function () {
     "Ukuran file melebihi batas"
   );
 
+  //BASE_URL didapatkan dari constant.js
+  //kalo mau deploy BASE_URL harus diubah
+  $("#tinjauSkripsi").on("click", function () {
+    const file = $(this).parent().parent().children("input").val();
+    const id = $(this).data("id");
+
+    $("#filePreview").modal("show");
+    $("#filePreviewLabel").text("Tinjau File Final Skripsi");
+    $("#previewContainer iframe").attr(
+      "src",
+      `${BASE_URL}folderSkripsi/${file}`
+    );
+    $("#filePreview #formHapus").attr(
+      "action",
+      `${BASE_URL}mahasiswa/deleteSkripsi/${id}`
+    );
+    $("#filePreview #formUnduh").attr(
+      "action",
+      `${BASE_URL}mahasiswa/downloadSkripsi/${id}`
+    );
+  });
+
   //untuk nampilin nama file
   $("input[type='file']").on("change", function (e) {
     $(`label[for="${e.target.id}"]`).text(e.target.files[0].name);
@@ -68,22 +84,4 @@ $(function () {
       $("#flashdata #icon").text()
     );
   }
-
-  $("#proposalMahasiswa").DataTable({
-    columnDefs: [
-      {
-        targets: [0, 2, 3, 4, 5, 6, 7, 9],
-        className: "text-center",
-      },
-      {
-        targets: 9,
-        searchable: false,
-        orderable: false,
-      },
-      {
-        targets: "_all",
-        className: "align-middle",
-      },
-    ],
-  });
 });

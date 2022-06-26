@@ -181,12 +181,16 @@ class Mahasiswa extends BaseController
         return view('mahasiswa/proposal', $data);
     }
 
-    public function detailProposal($id_proposal) 
+    public function detailProposal($idProposal) 
     {
         $dataAkun = $this->mahasiswaModel->find(session()->get("user_session")['id']);
-        $detailProposal = $this->proposalModel->getDetailProposalById($id_proposal);
+        $detailProposal = $this->proposalModel->getDetailProposalById($idProposal);
         
         if ($detailProposal == null || $dataAkun == null) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
+        if ($detailProposal['npm'] != $dataAkun['npm']) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
         $bidang = $this->bidangModel->getBidangByProdi($dataAkun['id_prodi']);
@@ -445,6 +449,30 @@ class Mahasiswa extends BaseController
         return view("mahasiswa/skripsi", $data);
     }
 
+    public function detailSkripsi($idSkripsi) 
+    {
+        $dataAkun = $this->mahasiswaModel->find(session()->get("user_session")['id']);
+        $detailSkripsi = $this->skripsiModel->getDetailSkripsiById($idSkripsi);
+        
+        if ($detailSkripsi == null || $dataAkun == null) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
+        if ($detailSkripsi['npm'] != $dataAkun['npm']) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
+        $bidang = $this->bidangModel->getBidangByProdi($dataAkun['id_prodi']);
+
+        $data = [
+            'title' => 'Detail Skripsi',
+            'detailSkripsi' => $detailSkripsi,
+            'bidang' => $bidang,
+        ];
+
+        return view("mahasiswa/detail_skripsi", $data);
+    }
+
     public function insertSkripsi() 
     {
         $this->skripsiModel->insert([
@@ -463,31 +491,26 @@ class Mahasiswa extends BaseController
 
     public function updateSkripsi($idSkripsi) 
     {
+        $skripsi = $this->skripsiModel->find($idSkripsi);
+        $npm = $this->request->getPost("npm");
+
+        $fileSkripsi = $this->request->getFile("file_skripsi");
+        $fileSkripsiBaru = $skripsi['file_skripsi'];
+        if ($fileSkripsi != null) {
+            $fileSkripsiBaru = "Skripsi_". $npm ."_". $idSkripsi ."." .$fileSkripsi->getClientExtension();
+            $fileSkripsi->move("folderSkripsi", $fileSkripsiBaru);
+        }
+
         $this->skripsiModel->update($idSkripsi, [
+            'file_skripsi' => $fileSkripsiBaru,
+            'tanggal_selesai_skripsi' => date_format(Time::now('Asia/Jakarta', 'en_us'), 'Y-m-d H:i:s'),
             'judul' => $this->request->getPost("judul", FILTER_SANITIZE_SPECIAL_CHARS),
             'sifat' => $this->request->getPost("sifat", FILTER_SANITIZE_SPECIAL_CHARS),
             'sumber' => $this->request->getPost("sumber", FILTER_SANITIZE_SPECIAL_CHARS),
             'id_bidang' => $this->request->getPost("bidang"),
         ]);
         session()->setFlashdata("message", ["icon" => "success", "title" => "Ubah Skripsi Berhasil", "text" => "Skripsi berhasil diubah!"]);
-        return redirect()->to(base_url("mahasiswa/skripsi"));
-    }
-
-    public function uploadFileSkripsi($idSkripsi) 
-    {
-        $npm = $this->request->getPost("npm");
-
-        $fileSkripsi = $this->request->getFile("file_skripsi");
-        $fileSkripsiBaru = "Skripsi_". $npm ."_". $idSkripsi ."." .$fileSkripsi->getClientExtension();
-        $fileSkripsi->move("folderSkripsi", $fileSkripsiBaru);
-
-        $this->skripsiModel->update($idSkripsi, [
-            "file_skripsi" => $fileSkripsiBaru,
-            "tanggal_selesai_skripsi" => date_format(Time::now('Asia/Jakarta', 'en_us'), 'Y-m-d H:i:s'),
-        ]);
-
-        session()->setFlashdata("message", ["icon" => "success", "title" => "Unggah File Skripsi Berhasil", "text" => "File Skripsi anda telah Berhasil diunggah"]);
-        return redirect()->to(base_url("mahasiswa/skripsi"));
+        return redirect()->back();
     }
 
     public function pengajuanPraSidang() 
@@ -1241,6 +1264,22 @@ class Mahasiswa extends BaseController
             "status" => 'TERTUNDA',
         ]);
         session()->setFlashdata("message", ["icon" => "success", "title" => "Hapus File Persyaratan Sidang Skripsi Berhasil", "text" => "File Persyaratan Sidang Skripsi berhasil dihapus"]);
+        return redirect()->back();
+    }
+
+    public function deleteSkripsi($id) 
+    {
+        $namaFileSkripsi = $this->skripsiModel->find($id);
+        if ($namaFileSkripsi == null) {
+            session()->setFlashdata("message", ["icon" => "error", "title" => "Hapus File Skripsi Gagal", "text" => "File Skripsi tidak ditemukan"]);
+            return redirect()->back();
+        }
+        unlink("folderSkripsi/".$namaFileSkripsi['file_skripsi']);
+        $this->skripsiModel->update($id, [
+            "file_skripsi" => null,
+            "tanggal_selesai_skripsi" => null,
+        ]);
+        session()->setFlashdata("message", ["icon" => "success", "title" => "Hapus File Skripsi Berhasil", "text" => "File Skripsi berhasil dihapus"]);
         return redirect()->back();
     }
 

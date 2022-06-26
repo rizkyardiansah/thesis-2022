@@ -96,9 +96,8 @@ class ProposalModel extends Model
 
     public function getDetailProposalById($id_proposal) {
         $db = \Config\Database::connect();
-        $sql = "SELECT p.*, mhs.nama as nama_mahasiswa
+        $sql = "SELECT p.*
         from proposal as p
-        join mahasiswa as mhs on mhs.npm = p.npm
         where p.id = ? 
         ";
         $result = $db->query($sql, [$id_proposal]);
