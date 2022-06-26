@@ -40,7 +40,7 @@ class SkripsiModel extends Model
         b.nama as nama_bidang, b.inisial as inisial_bidang, 
         d1.nama as nama_pembimbing1, d1.inisial as inisial_pembimbing1,
         d2.nama as nama_pembimbing2, d2.inisial as inisial_pembimbing2,
-        d3.nama as nama_pembimbing_agama, d3.inisial as inisial_pembimbing_agama, mak.id as id_makalah
+        d3.nama as nama_pembimbing_agama, d3.inisial as inisial_pembimbing_agama, mak.id as id_makalah, mak.file_makalah
         from skripsi as s
         left join makalah as mak on mak.npm = s.npm
         inner join bidang as b on b.id = s.id_bidang
@@ -67,7 +67,7 @@ class SkripsiModel extends Model
         b.nama as nama_bidang, b.inisial as inisial_bidang, 
         d1.nama as nama_pembimbing1, d1.inisial as inisial_pembimbing1,
         d2.nama as nama_pembimbing2, d2.inisial as inisial_pembimbing2,
-        d3.nama as nama_pembimbing_agama, d3.inisial as inisial_pembimbing_agama, mak.id as id_makalah
+        d3.nama as nama_pembimbing_agama, d3.inisial as inisial_pembimbing_agama, mak.id as id_makalah, mak.file_makalah
         from skripsi as s
         left join makalah as mak on mak.npm = s.npm
         inner join bidang as b on b.id = s.id_bidang
@@ -94,7 +94,7 @@ class SkripsiModel extends Model
         $sql = 'SELECT s.*, m.nama as nama_mahasiswa, b.nama as nama_bidang, b.inisial as inisial_bidang, 
         d1.nama as nama_pembimbing1, d1.inisial as inisial_pembimbing1,
         d2.nama as nama_pembimbing2, d2.inisial as inisial_pembimbing2,
-        d3.nama as nama_pembimbing_agama, d3.inisial as inisial_pembimbing_agama, mak.id as id_makalah
+        d3.nama as nama_pembimbing_agama, d3.inisial as inisial_pembimbing_agama, mak.id as id_makalah, mak.file_makalah
         from skripsi as s
         left join makalah as mak on mak.npm = s.npm
         inner join bidang as b on b.id = s.id_bidang
@@ -120,7 +120,7 @@ class SkripsiModel extends Model
         $sql = 'SELECT s.*, m.nama as nama_mahasiswa, b.nama as nama_bidang, b.inisial as inisial_bidang, 
         d1.nama as nama_pembimbing1, d1.inisial as inisial_pembimbing1,
         d2.nama as nama_pembimbing2, d2.inisial as inisial_pembimbing2,
-        d3.nama as nama_pembimbing_agama, d3.inisial as inisial_pembimbing_agama, mak.id as id_makalah
+        d3.nama as nama_pembimbing_agama, d3.inisial as inisial_pembimbing_agama, mak.id as id_makalah, mak.file_makalah
         from skripsi as s
         left join makalah as mak on mak.npm = s.npm
         inner join bidang as b on b.id = s.id_bidang

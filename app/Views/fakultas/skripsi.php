@@ -90,9 +90,9 @@
                                     <?php endif; ?>
                                 </td>
                                  <td>
-                                    <?php if($s['status'] == 'Lulus' && $s['id_makalah'] != null): ?>
+                                    <?php if($s['status'] == 'Lulus' && $s['file_makalah'] != null): ?>
                                         Sudah diunggah
-                                    <?php elseif ($s['status'] == 'Lulus' && $s['id_makalah'] == null): ?>
+                                    <?php elseif ($s['status'] == 'Lulus' && $s['file_makalah'] == null): ?>
                                         Belum diunggah
                                     <?php else: ?>
                                         -

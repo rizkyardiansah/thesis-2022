@@ -58,11 +58,15 @@
                                 <td style="min-width: 10vw"><?= $m['deskripsi'] ?></td>
                                 <td style="min-width: 10vw"><?= $m['kata_kunci'] ?></td>
                                 <td data-toggle="tooltip" data-placement="top" title="<?= $m['nama_bidang'] ?>"><?= $m['inisial_bidang'] ?></td>
-                                <td style="min-width: 8vw"><?= date_format(date_create($m['tanggal_upload']), "d-m-Y") ?></td>
-                                <td>    
-                                    <form action="<?= base_url("home/downloadMakalah/".$m['id']) ?>" method="post">
-                                        <button class="btn btn-primary" type="submit" data-toggle="tooltip" title="Unduh" data-placement="top"><i class="fas fa-download"></i></button>
-                                    </form>
+                                <td style="min-width: 8vw"><?= $m['tanggal_upload'] == null ? "-" : date_format(date_create($m['tanggal_upload']), "d-m-Y") ?></td>
+                                <td>
+                                    <?php if ($m['file_makalah'] != null): ?>
+                                        <form action="<?= base_url("home/downloadMakalah/".$m['id']) ?>" method="post">
+                                            <button type="submit" class="btn btn-primary" data-toggle="tooltip" title="Unduh" data-placement="top"><i class="fas fa-download"></i></button>
+                                        </form>
+                                    <?php else: ?>
+                                        <button type="button" class="btn btn-primary" disabled><i class="fas fa-download"></i></button>
+                                    <?php endif; ?>    
                                 </td>
                             </tr>
                         <?php 
