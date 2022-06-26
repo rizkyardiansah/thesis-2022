@@ -109,18 +109,22 @@
                                         </div>
                                     </div>
                                 <?php elseif (count($makalah) == 1) : ?>
-                                    <div class="form-group">
-                                        <div class="embed-responsive embed-responsive-16by9" id="previewContainer">
-                                            <iframe class="embed-responsive-item" src="<?= base_url("folderMakalah/".$makalah[0]['file_makalah']) ?>"></iframe>
+                                    <?php if ($makalah[0]['file_makalah'] == null) : ?>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="file_makalah" name="file_makalah">
+                                                <label class="custom-file-label" for="file_makalah">Pilih File Makalah</label>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="input-group">
-                                        <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="file_makalah" name="file_makalah">
-                                            <label class="custom-file-label" for="file_makalah">Pilih File Makalah</label>
+                                    <?php else: ?>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" value="<?= $makalah[0]['file_makalah'] ?>" readonly>
+                                            <div class="input-group-append">
+                                                <a role="button" class="btn btn-outline-primary" id="tinjauMakalah" data-id="<?= $makalah[0]['id'] ?>">Tinjau</a>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <small>Unggah makalah baru jika ingin memperbarui file makalah</small>
+                                    <?php endif; ?>
+                                    
                                 <?php endif; ?>
                         </div>
                     </div>
@@ -131,6 +135,42 @@
                     <?php endif; ?>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- modal untuk preview file -->
+    <div class="modal fade" id="filePreview" tabindex="-1" role="dialog" aria-labelledby="filePreviewLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="filePreviewLabel"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <div class="embed-responsive embed-responsive-16by9" id="previewContainer">
+                                    <iframe class="embed-responsive-item" src=""></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
+                        <form action="" id="formUnduh">
+                            <button class="btn btn-primary" type="submit">Unduh</button>
+                        </form>
+                        <?php if ($lastSkripsi['status'] == 'Lulus'): ?>
+                            <form action="" id="formHapus">
+                                <button class="btn btn-danger" type="submit">Hapus</button>
+                            </form>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 <?= $this->endSection(); ?>

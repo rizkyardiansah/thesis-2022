@@ -957,34 +957,15 @@ class Mahasiswa extends BaseController
     }
 
     public function updateMakalah($idMakalah) 
-    {
-        $validationRules = [
-            'file_makalah' => [
-                'rules' => 'mime_in[file_makalah,application/pdf]|ext_in[file_makalah,pdf]|max_size[file_makalah,10000]',
-                'errors' => [
-                    'mime_in' => 'File Proposal harus berupa PDF',
-                    'ext_in' => 'File Proposal harus berekstensi .pdf',
-                    'max_size' => 'Ukuran File Proposal tidak boleh lebih dari 10MB'
-                ]
-            ]
-        ];
+    {   
+        $makalah = $this->makalahModel->find($idMakalah);
+        $npm = $this->request->getPost("npm");
 
-        if (!$this->validate($validationRules)) {
-            $validation = \Config\Services::validation();
-            session()->setFlashdata("message", ["icon" => "error", "title" => "Unggah File Makalah Gagal", "text" => $validation->getError("file_makalah")]);
-            return redirect()->to(base_url("mahasiswa/makalah"))->withInput();
-        }
-
-        
         $fileMakalah = $this->request->getFile("file_makalah");
-        if ($fileMakalah->getName() != "") {
-            $npm = $this->request->getPost("npm", FILTER_SANITIZE_SPECIAL_CHARS);
-            $namafileMakalah = $this->makalahModel->find($idMakalah)['file_makalah'];
-            unlink("folderMakalah/".$namafileMakalah);
-
-            $newName = "Makalah_". $npm . "." .$fileMakalah->getClientExtension();
-            $fileMakalah->move("folderMakalah", $newName);
-            $this->makalahModel->update($idMakalah, [ "file_makalah" => $newName]);
+        $fileMakalahBaru = $makalah['file_makalah'];
+        if ($fileMakalah != null) {
+            $fileMakalahBaru = "Makalah_". $npm . "." .$fileMakalah->getClientExtension();
+            $fileMakalah->move("folderMakalah", $fileMakalahBaru);
         }
 
         $judul = $this->request->getPost("judul", FILTER_SANITIZE_SPECIAL_CHARS);
@@ -993,6 +974,7 @@ class Mahasiswa extends BaseController
         $id_bidang = $this->request->getPost("bidang");
        
         $this->makalahModel->update($idMakalah,[
+            "file_makalah" => $fileMakalahBaru,
             "judul" => $judul,
             "deskripsi" => $deskripsi,
             "kata_kunci" => $kata_kunci,
@@ -1278,6 +1260,22 @@ class Mahasiswa extends BaseController
         $this->skripsiModel->update($id, [
             "file_skripsi" => null,
             "tanggal_selesai_skripsi" => null,
+        ]);
+        session()->setFlashdata("message", ["icon" => "success", "title" => "Hapus File Skripsi Berhasil", "text" => "File Skripsi berhasil dihapus"]);
+        return redirect()->back();
+    }
+
+    public function deleteMakalah($id) 
+    {
+        $namaFileMakalah = $this->makalahModel->find($id);
+        if ($namaFileMakalah == null) {
+            session()->setFlashdata("message", ["icon" => "error", "title" => "Hapus File Makalah Gagal", "text" => "File Makalah tidak ditemukan"]);
+            return redirect()->back();
+        }
+        unlink("folderMakalah/".$namaFileMakalah['file_makalah']);
+        $this->makalahModel->update($id, [
+            "file_makalah" => null,
+            "tanggal_upload" => null,
         ]);
         session()->setFlashdata("message", ["icon" => "success", "title" => "Hapus File Skripsi Berhasil", "text" => "File Skripsi berhasil dihapus"]);
         return redirect()->back();
