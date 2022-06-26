@@ -9,6 +9,7 @@ class Auth extends BaseController
     protected $aksesModel;
     protected $roleModel;
     protected $fakultasModel;
+    protected $prodiModel;
     protected $tendikModel;
     protected $dosenModel;
 
@@ -140,13 +141,33 @@ class Auth extends BaseController
                 'roles' => $akunRoles,
             ]);
         } 
-        elseif (in_array("dosen", $akunRoles) || in_array("fakultas", $akunRoles) || in_array("kaprodi", $akunRoles))
+        elseif (in_array("dosen", $akunRoles))
         {
             $akunDosen = $this->dosenModel->where("email", $akunData['email'])->first();
             session()->set("user_session", [
                 'id' => $akunDosen['id'],
                 'nama' => $akunDosen['nama'],
                 'email' => $akunDosen['email'],
+                'roles' => $akunRoles,
+            ]);
+        }
+        elseif (in_array("fakultas", $akunRoles))
+        {
+            $akunFakultas = $this->fakultasModel->where("email", $akunData['email'])->first();
+            session()->set("user_session", [
+                'id' => $akunFakultas['id'],
+                'nama' => $akunFakultas['nama'],
+                'email' => $akunFakultas['email'],
+                'roles' => $akunRoles,
+            ]);
+        }
+        elseif (in_array("kaprodi", $akunRoles))
+        {
+            $akunKaprodi = $this->prodiModel->where("email", $akunData['email'])->first();
+            session()->set("user_session", [
+                'id' => $akunKaprodi['id'],
+                'nama' => $akunKaprodi['nama'],
+                'email' => $akunKaprodi['email'],
                 'roles' => $akunRoles,
             ]);
         }
