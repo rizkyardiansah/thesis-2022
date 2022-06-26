@@ -58,7 +58,11 @@
 
                             <td class="tanggal" style="min-width: 8vw"><?= date_format(date_create($sp['tanggal']), 'd-m-Y H:i') ?> WIB</td>
 
-                            <td class="ruangan"><?= $sp['ruangan'] ?></td>
+                            <?php if (preg_match('#^https?://#i', $sp['ruangan']) === 1): ?>
+                                <td class="ruangan"><a href="<?= $sp['ruangan'] ?>" target="_blank">Klik disini!</a></td>
+                            <?php else: ?>
+                                <td class="ruangan"><?= $sp['ruangan'] ?></td>
+                            <?php endif; ?>
 
                             <td data-toggle="tooltip" data-placement="top" title="<?= $sp['nama_reviewer'] ?>" class="reviewer"><?= $sp['inisial_reviewer'] ?></td>
                             

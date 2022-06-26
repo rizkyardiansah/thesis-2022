@@ -81,11 +81,11 @@
                             <td class="tanggal" style="min-width: 8vw"><?= date_format(date_create($sm['tanggal']), 'd-m-Y H:i') ?> WIB</td>
 
                         <?php if ($prodi['mode_sempro'] == 'Sinkronus Daring') : ?>
-                            <td class="link_konferensi"><a href="<?= $sm['link_konferensi'] ?>">Klik disini!</a></td>
+                            <td class="link_konferensi"><a href="<?= $sm['link_konferensi'] ?>" target="_blank">Klik disini!</a></td>
                         <?php elseif ($prodi['mode_sempro'] == 'Sinkronus Luring') : ?>
                             <td class="ruangan"><?= $sm['ruangan'] ?></td>
                         <?php elseif ($prodi['mode_sempro'] == 'Asinkronus') : ?>
-                            <td class="link_video"><a href="<?= $sm['link_video'] ?>">Klik disini!</a></td>
+                            <td class="link_video"><a href="<?= $sm['link_video'] ?>" target="_blank">Klik disini!</a></td>
                         <?php endif; ?>
 
                         <?php if ($prodi['mode_sempro'] == 'Asinkronus') : ?>
@@ -125,11 +125,7 @@
                                 <form action="<?= base_url("mahasiswa/downloadProposal/".$sm['id_proposal']) ?>" method="post" class="d-inline">
                                     <button class="btn btn-primary" type="submit" data-toggle="tooltip" data-placement="top" title="Unduh Proposal"><i class="fa fa-download" aria-hidden="true"></i></button>
                                 </form>
-                                <?php //if ($sm['status'] == 'TERTUNDA' && $sm['komentar'] == null) : ?>
-                                    <button class="btn btn-primary buat-nilai" data-toggle="tooltip" data-placement="top" title="Beri Penilaian" data-id="<?= $sm['id'] ?>"><i class="fa fa-comment" aria-hidden="true"></i></button>
-                                <!-- <?php //else: ?>
-                                    <button class="btn btn-primary buat-nilai" data-toggle="tooltip" data-placement="top" title="Beri Penilaian" disabled ><i class="fa fa-comment" aria-hidden="true"></i></button>
-                                <?php //endif; ?> -->
+                                <button class="btn btn-primary buat-nilai" data-toggle="tooltip" data-placement="top" title="Beri Penilaian" data-id="<?= $sm['id'] ?>"><i class="fa fa-comment" aria-hidden="true"></i></button>
                             </td>
                         </tr>
                         <?php $counter++; ?>

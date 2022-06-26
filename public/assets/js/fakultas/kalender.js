@@ -49,7 +49,6 @@ $(function () {
       endDate: tanggalSelesai,
     });
     $("#ubahKegiatan").modal("show");
-    console.log(id);
   });
 
   $("#kegiatanSkripsi #formHapusKegiatan").on("submit", function (e) {

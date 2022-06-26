@@ -75,7 +75,11 @@
                             <td><?= $counter ?></td>
                             <td><?= $jsp['judul'] ?></td>
                             <td ><?= date_format(date_create($jsp['tanggal']), 'd-m-Y H:i') ?> WIB</td>
-                            <td ><?= $jsp['ruangan'] ?></td>
+                            <?php if (preg_match('#^https?://#i', $jsp['ruangan']) === 1): ?>
+                                <td class="ruangan"><a href="<?= $jsp['ruangan'] ?>" target="_blank">Klik disini!</a></td>
+                            <?php else: ?>
+                                <td class="ruangan"><?= $jsp['ruangan'] ?></td>
+                            <?php endif; ?>
                             <td data-toggle="tooltip" data-placement="top" title="<?= $jsp['nama_reviewer'] ?>"><?= $jsp['inisial_reviewer'] ?></td>
                         
                             <td hidden class="komentar"><?= $jsp['komentar_reviewer'] ?></td>

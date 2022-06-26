@@ -2,7 +2,6 @@ $(function () {
   $(".hasil-prasidang").on("click", function () {
     const parent = $(this).parent().parent();
     const komentar = parent.children(".komentar").text();
-    console.log("komentar");
     $("#hasilPrasidang #komentar").text(komentar);
   });
 

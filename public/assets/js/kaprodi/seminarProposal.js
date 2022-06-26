@@ -12,19 +12,13 @@ $(function () {
     },
   });
 
-  $("#formTambahJadwal #tanggal").daterangepicker(
-    {
-      singleDatePicker: true,
-      drops: "up",
-    },
-    function (start, end, label) {
-      console.log(start, end);
-    }
-  );
+  $("#formTambahJadwal #tanggal").daterangepicker({
+    singleDatePicker: true,
+    drops: "up",
+  });
 
   $("#formTambahJadwal #mahasiswa").on("change", function () {
     const npm = $(this).val();
-    console.log(npm);
     $("#formTambahJadwal textarea[name='judul']").prop("hidden", true);
     $(`#formTambahJadwal #judul[data-npm='${npm}']`).prop("hidden", false);
 

@@ -6,7 +6,6 @@ $(function () {
 
   $("#formTambahJadwal #mahasiswa").on("change", function () {
     const npm = $(this).val();
-    console.log(npm);
     $("#formTambahJadwal textarea[name='judul']").prop("hidden", true);
     $(`#formTambahJadwal #judul[data-npm='${npm}']`).prop("hidden", false);
 
@@ -39,7 +38,7 @@ $(function () {
       },
       ruangan: {
         required: true,
-        maxlength: 20,
+        maxlength: 200,
       },
       tanggal: {
         required: true,
@@ -63,7 +62,7 @@ $(function () {
     rules: {
       ruangan: {
         required: true,
-        maxlength: 20,
+        maxlength: 200,
       },
       tanggal: {
         required: true,
@@ -114,7 +113,6 @@ $(function () {
     const nama = parent.children(".nama").text();
     const judul = parent.children(".judul").text();
     const bidang = parent.children(".bidang").data("original-title");
-    console.log(bidang);
     const pembimbing1 = parent.children(".pembimbing1").data("original-title");
     const pembimbing2 = parent.children(".pembimbing2").data("original-title");
     const pembimbingAgama = parent
@@ -126,7 +124,12 @@ $(function () {
       .text()
       .split(" ")[1]
       .substring(0, 5);
-    const ruangan = parent.children(".ruangan").text();
+    let ruangan = "";
+    if (parent.children(".ruangan").children("a").length > 0) {
+      ruangan = parent.children(".ruangan").children("a").attr("href");
+    } else {
+      ruangan = parent.children(".ruangan").text();
+    }
     const dosen_penguji = parent.children(".penguji").data("id");
 
     $("#ubahJadwal").modal("show");

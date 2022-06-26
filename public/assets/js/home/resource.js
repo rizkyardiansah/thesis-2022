@@ -25,7 +25,6 @@ $(function () {
     errorClass: "text-danger",
     errorElement: "small",
     errorPlacement: function (error, element) {
-      console.log(element.attr("type") == "file");
       if (element.attr("type") == "file") {
         error.insertAfter(element.parent().parent());
       } else {

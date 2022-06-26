@@ -60,7 +60,11 @@
 
                             <td class="tanggal" style="min-width: 10vw"><?= date_format(date_create($ss['tanggal']), 'd-m-Y H:i') ?> WIB</td>
 
-                            <td class="ruangan"><?= $ss['ruangan'] ?></td>
+                            <?php if (preg_match('#^https?://#i', $ss['ruangan']) === 1): ?>
+                                <td class="ruangan"><a href="<?= $ss['ruangan'] ?>" target="_blank">Klik disini!</a></td>
+                            <?php else: ?>
+                                <td class="ruangan"><?= $ss['ruangan'] ?></td>
+                            <?php endif; ?>
 
                             <td data-toggle="tooltip" data-placement="top" title="<?= $ss['nama_penguji'] ?>" class="dosen_penguji"><?= $ss['inisial_penguji'] ?></td>
 

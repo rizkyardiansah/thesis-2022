@@ -18,7 +18,12 @@ $(function () {
     const idSemPro = $(this).data("id");
     const judul = parent.children(".judul").text();
     const idProposal = parent.children(".judul").data("id");
-    const link_video = parent.children(".link_video").text();
+    let link_video = "";
+    if (parent.children(".link_video").children("a").length > 0) {
+      link_video = parent.children(".link_video").children("a").attr("href");
+    } else {
+      link_video = parent.children(".link_video").text();
+    }
 
     $("#pengumpulanVideo").modal("show");
     $("#pengumpulanVideoLabel").text("Ubah Pengumpulan Video SemPro");

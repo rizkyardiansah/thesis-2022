@@ -5,7 +5,6 @@ $(function () {
     $("#formTambahPembimbing #pembimbingAgama").prop("disabled", false);
     let npm = $(this).val();
     let prodiId = $(this).children("option:selected").data("prodi");
-    console.log(npm, prodiId);
 
     $("#formTambahPembimbing #pembimbing1 option")
       .hide()
@@ -93,7 +92,6 @@ $(function () {
     errorClass: "text-danger",
     errorElement: "small",
     errorPlacement: function (error, element) {
-      console.log(element.attr("type") == "file");
       if (element.attr("type") == "file") {
         error.insertAfter(element.parent().parent());
       } else {

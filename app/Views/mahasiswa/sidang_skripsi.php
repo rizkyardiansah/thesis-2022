@@ -64,7 +64,11 @@
                             <td><?= $counter ?></td>
                             <td style="min-width: 10vw"><?= $jss['judul'] ?></td>
                             <td style="min-width: 8vw"><?= date_format(date_create($jss['tanggal']), 'd-m-Y H:i') ?> WIB</td>
-                            <td ><?= $jss['ruangan'] ?></td>
+                            <?php if (preg_match('#^https?://#i', $jss['ruangan']) === 1): ?>
+                                <td class="ruangan"><a href="<?= $jss['ruangan'] ?>" target="_blank">Klik disini!</a></td>
+                            <?php else: ?>
+                                <td class="ruangan"><?= $jss['ruangan'] ?></td>
+                            <?php endif; ?>
                             <td data-toggle="tooltip" data-placement="top" title="<?= $jss['nama_penguji'] ?>"><?= $jss['inisial_penguji'] ?></td>
                             <td data-toggle="tooltip" data-placement="top" title="<?= $jss['nama_pembimbing1'] ?>"><?= $jss['inisial_pembimbing1'] ?></td>
                             

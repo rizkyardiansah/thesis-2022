@@ -51,7 +51,6 @@ $(function () {
       parent.children(".tanggal").text(),
       "DD-MM-YYYY"
     ).format("MM/DD/YYYY");
-    console.log(tanggal);
     const hasil = parent.children(".hasil").text();
     const idPembimbing = parent.children(".dosen").data("id");
 

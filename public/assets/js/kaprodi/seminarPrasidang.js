@@ -1,17 +1,11 @@
 $(function () {
-  $("#formTambahJadwal #tanggal").daterangepicker(
-    {
-      singleDatePicker: true,
-      drops: "up",
-    },
-    function (start, end, label) {
-      console.log(start, end);
-    }
-  );
+  $("#formTambahJadwal #tanggal").daterangepicker({
+    singleDatePicker: true,
+    drops: "up",
+  });
 
   $("#formTambahJadwal #mahasiswa").on("change", function () {
     const npm = $(this).val();
-    console.log(npm);
     $("#formTambahJadwal textarea[name='judul']").prop("hidden", true);
     $(`#formTambahJadwal #judul[data-npm='${npm}']`).prop("hidden", false);
 
@@ -24,14 +18,9 @@ $(function () {
       mahasiswa: {
         required: true,
       },
-      link_konferensi: {
-        required: true,
-        url: true,
-        maxlength: 150,
-      },
       ruangan: {
         required: true,
-        maxlength: 20,
+        maxlength: 200,
       },
       tanggal: {
         required: true,
@@ -53,14 +42,9 @@ $(function () {
 
   $("#formUbahJadwal").validate({
     rules: {
-      link_konferensi: {
-        required: true,
-        url: true,
-        maxlength: 150,
-      },
       ruangan: {
         required: true,
-        maxlength: 20,
+        maxlength: 200,
       },
       tanggal: {
         required: true,
@@ -116,7 +100,12 @@ $(function () {
       .split(" ")[1]
       .substring(0, 5);
     const link_konferensi = parent.children(".link_konferensi").text();
-    const ruangan = parent.children(".ruangan").text();
+    let ruangan = "";
+    if (parent.children(".ruangan").children("a").length > 0) {
+      ruangan = parent.children(".ruangan").children("a").attr("href");
+    } else {
+      ruangan = parent.children(".ruangan").text();
+    }
     const dosen_reviewer = parent.children(".dosen_reviewer").data("id");
 
     $("#ubahJadwal").modal("show");
