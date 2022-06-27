@@ -142,11 +142,17 @@ class SidangSkripsiModel extends Model
         d2.nama as pembimbing2, 
         d3.nama as pembimbing_agama, 
         ps.file_draft_final, ps.file_form_bimbingan, ps.file_persyaratan_sidang,
+        reviewer.nama as nama_reviewer_sempra,
+        sempra.komentar_reviewer as komentar_sempra,
+        reviewer_sempro.nama as nama_reviewer_sempro,
+        prop.komentar as komentar_sempro,
         penguji.nama AS nama_penguji
         FROM sidang_skripsi AS ss
         INNER JOIN skripsi AS s ON s.id = ss.id_skripsi
+        inner join seminar_prasidang as sempra on sempra.id_skripsi = s.id
         INNER JOIN pengajuan_sidang AS ps ON ps.id_skripsi = s.id
         INNER JOIN mahasiswa As m ON m.npm = s.npm
+        inner join proposal as prop on prop.npm = m.npm
         INNER JOIN bidang AS b ON b.id = s.id_bidang
         INNER JOIN pembimbing AS p1 ON p1.id_skripsi = s.id
         INNER JOIN pembimbing AS p2 ON p2.id_skripsi = s.id
@@ -155,6 +161,8 @@ class SidangSkripsiModel extends Model
         INNER JOIN dosen AS d1 ON d1.id = p1.id_dosen
         LEFT JOIN dosen AS d2 ON d2.id = p2.id_dosen
         INNER JOIN dosen AS d3 ON d3.id = p3.id_dosen
+        inner join dosen as reviewer on reviewer.id = sempra.dosen_reviewer
+        inner join dosen as reviewer_sempro on reviewer_sempro.id = prop.pembuat_komentar
         WHERE ss.id = ? AND 
         p1.role = 'Pembimbing Ilmu 1' AND
         p2.role = 'Pembimbing Ilmu 2' AND
