@@ -10,7 +10,7 @@ class DosenModel extends Model
     protected $useAutoIncrement = true;
     protected $returnType = "array";
     protected $useSoftDeletes = false;
-    protected $allowedFields = ['nama', 'email', 'inisial', 'id_prodi', 'alamat', 'no_telp'];
+    protected $allowedFields = ['nama', 'email', 'inisial', 'id_prodi'];
     protected $useTimestamps = false;
 
     public function getDosenByProdi($idProdi) {

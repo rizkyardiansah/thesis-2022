@@ -1,9 +1,8 @@
 $(function () {
   $("#formLogin").validate({
     rules: {
-      email: {
+      username: {
         required: true,
-        email: true,
       },
       password: {
         required: true,

@@ -10,7 +10,7 @@ class AkunModel extends Model
     protected $useAutoIncrement = true;
     protected $returnType = "array";
     protected $useSoftDeletes = false;
-    protected $allowedFields = ['email', 'password'];
+    protected $allowedFields = ['username', 'email', 'password'];
     protected $useTimestamps = false;
 
 }

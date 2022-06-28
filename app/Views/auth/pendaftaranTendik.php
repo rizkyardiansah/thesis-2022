@@ -26,6 +26,13 @@
             background-size: unset;
             background-repeat: no-repeat;
         }
+
+        .bg-register-image {
+            background: url(<?= base_url("assets/img/hero_register.png"); ?>);
+            background-position: center;
+            background-size: unset;
+            background-repeat: no-repeat;
+        }
     </style>
 </head>
 
@@ -48,36 +55,42 @@
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block bg-login-image img-fluid"></div>
+                            <div class="col-lg-6 d-none d-lg-block bg-register-image"></div>
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Login</h1>
+                                        <h1 class="h4 text-gray-900 mb-4">Lengkapi Data Berikut</h1>
                                     </div>
-                                    <form id="formLogin" method="post" action="<?= base_url("auth/signInAccount") ?>">
+                                    <form id="pendaftaranTendik" method="post" action="<?= base_url("auth/pendaftaranTendik") ?>">
+                                        <input type="hidden" name="npm" value="<?= $userData['id_nik'] ?>">
+                                        <input type="hidden" name="nama" value="<?= $userData['displayname'] ?>">
+                                        <input type="hidden" name="username" value="<?= $userData['username'] ?>">
+                                        <input type="hidden" name="password" value="<?= $userData['password'] ?>">
                                         <div class="form-group row">
                                             <div class="col-sm-12 ">
-                                                <label for="username" class="form-label">Username</label>
-                                                <input type="text" class="form-control" id="username" name="username">
+                                                <label for="nama" class="form-label">Nama</label>
+                                                <input type="text" class="form-control" id="nama" value="<?= $userData['displayname'] ?>" disabled>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-sm-12 ">
-                                                <label for="password" class="form-label">Kata Sandi</label>
-                                                <input type="password" class="form-control" id="password" name="password">
+                                                <label for="email" class="form-label">Email</label>
+                                                <input type="email" class="form-control" id="email" name="email">
                                             </div>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="persetujuan" name="persetujuan">
+                                            <label class="form-check-label" for="persetujuan">
+                                                Saya menyatakan bahwa data yang saya isi adalah benar dan saya bertanggung jawab penuh atas data yang saya isi.
+                                            </label>
                                         </div>
 
-                                        <button type="submit" class="btn btn-primary btn-block">
-                                            Login
+                                        <button type="submit" class="btn btn-primary btn-block mt-3">
+                                            Kirim
                                         </button>
                                         
                                     </form>
                                     <hr>
-                                    
-                                    <!-- <div class="text-center">
-                                        <small>Belum mempunyai akun? <a href="">Register</a></small>
-                                    </div> -->
                                 </div>
                             </div>
                         </div>
@@ -105,7 +118,7 @@
     <script src="<?= base_url("assets/vendor/sweetalert2/sweetalert2.all.js") ?>"></script>
     <script src="<?= base_url("assets/vendor/jquery-validate/jquery.validate.min.js") ?>"></script>
     <script src="<?= base_url("assets/vendor/jquery-validate/localization/messages_id.js") ?>"></script>
-    <script src="<?= base_url("assets/js/auth/login.js") ?>"></script>
+    <script src="<?= base_url("assets/js/auth/pendaftaranTendik.js") ?>"></script>
 
 </body>
 

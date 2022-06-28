@@ -25,7 +25,7 @@ class PenelitianDosenModel extends Model
 
     public function getAllPenelitian() {
         $db = \Config\Database::connect();
-        $sql = "SELECT pd.*, b.nama as nama_bidang, d.nama as nama_dosen, d.email as email_dosen, d.no_telp as telp_dosen, prodi.inisial as inisial_prodi
+        $sql = "SELECT pd.*, b.nama as nama_bidang, d.nama as nama_dosen, d.email as email_dosen, prodi.inisial as inisial_prodi
         FROM penelitian_dosen as pd
         inner join bidang as b on b.id = pd.id_bidang
         inner join dosen as d on d.id = pd.id_dosen
