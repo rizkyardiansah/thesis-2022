@@ -42,7 +42,8 @@
                             <th>Bidang</th>
                             <th>Tanggal Seminar</th>
                             <th>Ruangan</th>
-                            <th>Reviewer</th>
+                            <!-- <th>Reviewer</th> -->
+                            <th>Status</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -64,8 +65,8 @@
                                 <td class="ruangan"><?= $sp['ruangan'] ?></td>
                             <?php endif; ?>
 
-                            <td data-toggle="tooltip" data-placement="top" title="<?= $sp['nama_reviewer'] ?>" class="reviewer"><?= $sp['inisial_reviewer'] ?></td>
-                            
+                            <!-- <td data-toggle="tooltip" data-placement="top" title="<?php //$sp['nama_reviewer'] ?>" class="reviewer"><?php //$sp['inisial_reviewer'] ?></td> -->
+                            <td><?= $sp['status'] ?></td>
                             <td>
                                 <a class="btn btn-primary" href="<?= base_url("dosen/reviewSeminarPrasidang/".$sp['id']) ?>" data-toggle="tooltip" title="Review"><i class="fas fa-clipboard-list"></i></a>
                             </td>

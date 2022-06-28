@@ -199,11 +199,11 @@ $(function () {
     ],
     columnDefs: [
       {
-        targets: [0, 1, 4, 5, 7, 8],
+        targets: [0, 1, 4, 5, 7, 8, 9],
         className: "text-center",
       },
       {
-        targets: 8,
+        targets: 9,
         searchable: false,
         orderable: false,
       },

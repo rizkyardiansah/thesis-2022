@@ -45,6 +45,7 @@
                             <th>Pembimbing Ilmu 1</th>
                             <th>Pembimbing Ilmu 2</th>
                             <th>Pembimbing Agama</th>
+                            <th>Status</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -77,7 +78,7 @@
                             <?php endif; ?>
 
                             <td data-toggle="tooltip" data-placement="top" title="<?= $ss['nama_pembimbing_agama'] ?>" class="pembimbing_agama"><?= $ss['inisial_pembimbing_agama'] ?></td>
-
+                            <td><?= $ss['status'] == null ? "TERTUNDA" : $ss['status'] ?></td>
                             <td>
                                 <a class="btn btn-primary" href="<?= base_url("dosen/penilaianSidangSkripsi/".$ss['id']) ?>" data-toggle="tooltip" title="Penilaian"><i class="fas fa-clipboard-list"></i></a>
                             </td>

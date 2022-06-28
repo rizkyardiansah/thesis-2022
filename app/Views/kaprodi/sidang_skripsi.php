@@ -57,6 +57,7 @@
                             <th>Pembimbing Ilmu 1</th>
                             <th>Pembimbing Ilmu 2</th>
                             <th>Pembimbing Agama</th>
+                            <th>Status</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -88,7 +89,7 @@
                             <?php endif;?>
 
                             <td data-toggle="tooltip" data-placement="top" title="<?= $ss['nama_pembimbing_agama'] ?>" class="pembimbing_agama"><?= $ss['inisial_pembimbing_agama'] ?></td>
-                        
+                            <td><?= $ss['status'] == null ? "TERTUNDA" : $ss['status'] ?></td>
                             <td style="min-width: 7vw">
                                 <?php if ($ss['jumlah_nilai_masuk'] == 0) : ?>
                                     <button class="btn btn-primary ubah-jadwal" data-toggle="tooltip" data-placement="top" title="Ubah" data-id="<?= $ss['id'] ?>"><i class="fas fa-pencil-alt"></i></button>

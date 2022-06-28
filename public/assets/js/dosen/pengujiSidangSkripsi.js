@@ -83,11 +83,11 @@ $(function () {
     ],
     columnDefs: [
       {
-        targets: [0, 1, 4, 5, 7, 8, 9, 10],
+        targets: [0, 1, 4, 5, 7, 8, 9, 10, 11],
         className: "text-center",
       },
       {
-        targets: 11,
+        targets: 12,
         searchable: false,
         orderable: false,
       },

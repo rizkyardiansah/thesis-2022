@@ -54,6 +54,7 @@
                             <th>Tanggal Seminar</th>
                             <th>Ruangan</th>
                             <th>Reviewer</th>
+                            <th>Status</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -79,6 +80,7 @@
                                 <?php endif; ?>
                             <?php endforeach; ?>
 
+                            <td><?= $sp['status'] ?></td>
                             <td style="min-width: 7vw;">
                                 <?php if ($sp['status'] == 'TERTUNDA'): ?>
                                     <button class="btn btn-primary ubah-jadwal" data-toggle="tooltip" data-placement="top" title="Ubah" data-id="<?= $sp['id'] ?>"><i class="fas fa-pencil-alt"></i></button>
