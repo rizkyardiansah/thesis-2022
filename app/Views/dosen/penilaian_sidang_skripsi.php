@@ -18,50 +18,50 @@
                 <div class="row">
                     <input type="hidden" name="idSidangSkripsi" value="<?= $detailSidangSkripsi['id'] ?>">
                     <input type="hidden" name="idDosen" value="<?= $dataAkun['id'] ?>">
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
                         <div class="form-group">
                             <label for="nama">Nama Mahasiswa</label>
                             <input type="text" class="form-control" id="nama" name="nama" value="<?= $detailSidangSkripsi['nama_mahasiswa'] ?>" disabled>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
                         <div class="form-group">
                             <label for="npm">NPM</label>
                             <input type="text" class="form-control" id="npm" name="npm" value="<?= $detailSidangSkripsi['npm'] ?>" disabled>
                         </div>
                     </div>
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label for="judul">Judul</label>
-                            <textarea class="form-control" id="judul" name="judul" disabled><?= $detailSidangSkripsi['judul'] ?></textarea>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
                         <div class="form-group">
                             <label for="bidang">Bidang</label>
                             <input class="form-control" id="bidang" name="bidang" value="<?= $detailSidangSkripsi['nama_bidang'] ?>" disabled>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="judul">Judul</label>
+                            <textarea class="form-control" id="judul" name="judul" disabled><?= $detailSidangSkripsi['judul'] ?></textarea>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
                         <div class="form-group">
                             <label for="pembimbing1">Pembimbing Ilmu 1</label>
                             <input class="form-control" id="pembimbing1" name="pembimbing1" value="<?= $detailSidangSkripsi['pembimbing1'] ?>" disabled>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-3">
                         <div class="form-group">
                             <label for="pembimbing2">Pembimbing Ilmu 2</label>
                             <input class="form-control" id="pembimbing2" name="pembimbing2" value="<?= $detailSidangSkripsi['pembimbing2'] == null ? "-" : $detailSidangSkripsi['pembimbing2'] ?>" disabled>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-3">
                         <div class="form-group">
                             <label for="pembimbingAgama">Pembimbing Agama</label>
                             <input class="form-control" id="pembimbingAgama" name="pembimbingAgama" value="<?= $detailSidangSkripsi['pembimbing_agama'] ?>" disabled>
                         </div>
                     </div>
                     
-                    <div class="col-lg-6">
+                    <div class="col-lg-3">
                         <div class="form-group">
                             <label for="penguji">Dosen Penguji</label>
                             <input class="form-control" id="penguji" name="penguji" value="<?= $detailSidangSkripsi['nama_penguji'] ?>" disabled>
@@ -75,23 +75,32 @@
                             <input class="form-control" id="reviewer_sempro" name="reviewer_sempro" value="<?= $detailSidangSkripsi['nama_reviewer_sempro'] ?>" disabled>
                         </div>
                     </div>
+
                     <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="komentar_sempro">Komentar Seminar Proposal</label>
+                            <textarea class="form-control" id="komentar_sempro" name="komentar_sempro" rows="1" disabled><?= $detailSidangSkripsi['komentar_sempro'] ?></textarea>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
                         <div class="form-group">
                             <label for="reviewer_sempra">Reviewer Seminar Prasidang</label>
                             <input class="form-control" id="reviewer_sempra" name="reviewer_sempra" value="<?= $detailSidangSkripsi['nama_reviewer_sempra'] ?>" disabled>
                         </div>
                     </div>
 
-                     <div class="col-lg-6">
+                    <div class="col-lg-4">
                         <div class="form-group">
-                            <label for="komentar_sempro">Komentar Seminar Proposal</label>
-                            <textarea class="form-control" id="komentar_sempro" name="komentar_sempro" disabled><?= $detailSidangSkripsi['komentar_sempro'] ?></textarea>
+                            <label for="rekomendasi_nilai">Rekomendasi Kluster Nilai</label>
+                            <input class="form-control" id="rekomendasi_nilai" name="rekomendasi_nilai" value="<?= $detailSidangSkripsi['rekomendasi_nilai'] ?>" disabled>
                         </div>
-                    </div>
-                    <div class="col-lg-6">
+                    </div> 
+
+                    <div class="col-lg-4">
                         <div class="form-group">
-                            <label for="komentar_sempra">Komentar Seminar Prasidang</label>
-                            <textarea class="form-control" id="komentar_sempra" name="komentar_sempra" disabled><?= $detailSidangSkripsi['komentar_sempra'] ?></textarea>
+                            <label for="komentar_sempra">Catatan Seminar Prasidang</label>
+                            <textarea class="form-control" id="komentar_sempra" name="komentar_sempra" rows="1" disabled><?= $detailSidangSkripsi['komentar_sempra'] ?></textarea>
                         </div>
                     </div>
 

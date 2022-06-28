@@ -10,7 +10,7 @@ class SeminarPrasidangModel extends Model
     protected $useAutoIncrement = true;
     protected $returnType = "array";
     protected $useSoftDeletes = false;
-    protected $allowedFields = ['id_skripsi', 'tanggal', 'ruangan', 'dosen_reviewer', 'komentar_reviewer', 'status'];
+    protected $allowedFields = ['id_skripsi', 'tanggal', 'ruangan', 'dosen_reviewer', 'komentar_reviewer', 'status', 'rekomendasi_nilai'];
     protected $useTimestamps = false;
 
     public function getPrasidangByProdi($idProdi) {

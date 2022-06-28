@@ -143,7 +143,7 @@ class SidangSkripsiModel extends Model
         d3.nama as pembimbing_agama, 
         ps.file_draft_final, ps.file_form_bimbingan, ps.file_persyaratan_sidang,
         reviewer.nama as nama_reviewer_sempra,
-        sempra.komentar_reviewer as komentar_sempra,
+        sempra.komentar_reviewer as komentar_sempra, sempra.rekomendasi_nilai,
         reviewer_sempro.nama as nama_reviewer_sempro,
         prop.komentar as komentar_sempro,
         penguji.nama AS nama_penguji

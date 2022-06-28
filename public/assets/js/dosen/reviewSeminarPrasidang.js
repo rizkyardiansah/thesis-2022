@@ -8,11 +8,17 @@ $(function () {
       status: {
         required: true,
       },
+      rekomendasi_nilai: {
+        required: true,
+      },
     },
     errorClass: "text-danger",
     errorElement: "small",
     errorPlacement: function (error, element) {
-      if (element.attr("name") == "status") {
+      if (
+        element.attr("name") == "status" ||
+        element.attr("name") == "rekomendasi_nilai"
+      ) {
         error.insertAfter(element.parent().parent().children(".last"));
       } else {
         error.insertAfter(element);

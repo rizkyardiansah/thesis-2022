@@ -205,6 +205,7 @@ class Dosen extends BaseController
     public function komentariSeminarPrasidang($idSeminarPrasidang) {
         $komentar = $this->request->getPost("komentar", FILTER_SANITIZE_SPECIAL_CHARS);
         $status = $this->request->getPost("status");
+        $rekomendasi_nilai = $this->request->getPost("rekomendasi_nilai");
         if ($status == 'TIDAK LAYAK SIDANG') {
             $npm = $this->request->getPost("npm");
             $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($npm);
@@ -215,6 +216,7 @@ class Dosen extends BaseController
         $this->seminarPrasidangModel->update($idSeminarPrasidang, [
             'komentar_reviewer' => $komentar,
             'status' => $status,
+            'rekomendasi_nilai' => $rekomendasi_nilai,
         ]);
 
         session()->setFlashdata("message", ["icon" => "success", "title" => "Hasil Review Seminar Prasidang Terkirim", "text" => "Hasil Review telah terkirim kepada mahasiswa"]);
