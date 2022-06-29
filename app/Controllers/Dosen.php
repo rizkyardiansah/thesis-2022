@@ -91,6 +91,17 @@ class Dosen extends BaseController
     }
 
     public function insertPenilaianSempro($idSempro) {
+        //autentikasi
+        if (!$this->authenticate(["dosen"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
         $sempro = $this->semproModel->find($idSempro);
         $proposal = $this->proposalModel->find($sempro['id_proposal']);
@@ -106,7 +117,18 @@ class Dosen extends BaseController
         return redirect()->to(base_url("dosen/pengujiSeminarProposal"));
     }
 
+
+
+
+    
+
     public function bimbingan() {
+         //autentikasi
+        if (!$this->authenticate(["dosen"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
         $dosen = $this->dosenModel->find(session()->get("user_session")['id']);
         $mahasiswaBimbingan = $this->pembimbingModel->getAllMahasiswaBimbingan($dosen['id']);
         //dd($mahasiswaBimbingan);
@@ -125,6 +147,12 @@ class Dosen extends BaseController
     }
 
     public function detailBimbingan($npm, $role) {
+         //autentikasi
+        if (!$this->authenticate(["dosen"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
         $dosen = $this->dosenModel->find(session()->get("user_session")['id']);
         $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($npm);
         if ($lastSkripsi == null) {
@@ -144,6 +172,17 @@ class Dosen extends BaseController
     }
 
     public function setujuiBimbingan($idCatatan) {
+         //autentikasi
+        if (!$this->authenticate(["dosen"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $this->catatanBimbinganModel->update($idCatatan, [
             'status' => 'DISETUJUI',
         ]);
@@ -153,6 +192,17 @@ class Dosen extends BaseController
     }
 
     public function tolakBimbingan($idCatatan) {
+         //autentikasi
+        if (!$this->authenticate(["dosen"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $this->catatanBimbinganModel->update($idCatatan, [
             'status' => 'DITOLAK',
         ]);
@@ -161,7 +211,18 @@ class Dosen extends BaseController
         return redirect()->back();
     }
 
+
+
+
+
+
     public function pengujiSeminarPrasidang() {
+         //autentikasi
+        if (!$this->authenticate(["dosen"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
         $dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
         $dosen = $this->dosenModel->getDosenByProdi($dataAkun['id_prodi']);
 
@@ -186,6 +247,12 @@ class Dosen extends BaseController
     }
 
     public function reviewSeminarPrasidang($idSeminarPrasidang) {
+         //autentikasi
+        if (!$this->authenticate(["dosen"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
         $dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
         $detailSeminarPrasidang = $this->seminarPrasidangModel->getDetailSeminarPrasidangById($idSeminarPrasidang);
         //dd($detailSeminarPrasidang);
@@ -203,6 +270,17 @@ class Dosen extends BaseController
     }
 
     public function komentariSeminarPrasidang($idSeminarPrasidang) {
+         //autentikasi
+        if (!$this->authenticate(["dosen"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $komentar = $this->request->getPost("komentar", FILTER_SANITIZE_SPECIAL_CHARS);
         $status = $this->request->getPost("status");
         $rekomendasi_nilai = $this->request->getPost("rekomendasi_nilai");
@@ -223,7 +301,18 @@ class Dosen extends BaseController
         return redirect()->to(base_url("dosen/pengujiSeminarPrasidang"));
     }
 
+
+
+
+
+
     public function pengujiSidangSkripsi() {
+         //autentikasi
+        if (!$this->authenticate(["dosen"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
         $dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
         $dosen = $this->dosenModel->getDosenByProdi($dataAkun['id_prodi']);
 
@@ -246,6 +335,12 @@ class Dosen extends BaseController
     }
 
     public function penilaianSidangSkripsi($idSidangSkripsi) {
+         //autentikasi
+        if (!$this->authenticate(["dosen"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
         $dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
         $detailSidangSkripsi = $this->sidangSkripsiModel->getDetailSidangSkripsiById($idSidangSkripsi);
         if (count($detailSidangSkripsi) == 0) {
@@ -268,6 +363,17 @@ class Dosen extends BaseController
     }
 
     public function insertNilaiSidangSkripsi() {
+         //autentikasi
+        if (!$this->authenticate(["dosen"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $idSidangSkripsi = $this->request->getPost("idSidangSkripsi");
         $idDosen = $this->request->getPost("idDosen");
         $nilai_1 = $this->request->getPost("nilai_1");
@@ -310,7 +416,17 @@ class Dosen extends BaseController
         return redirect()->back();
     }
 
+
+
+
+
     public function penelitian() {
+         //autentikasi
+        if (!$this->authenticate(["dosen"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
         $dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
         $daftarPenelitian = $this->penelitianDosenModel->getAllPenelitianByIdDosen($dataAkun['id']);
         $bidang = $this->bidangModel->getBidangByProdi($dataAkun['id_prodi']);
@@ -326,6 +442,17 @@ class Dosen extends BaseController
     }
 
     public function insertPenelitian() {
+         //autentikasi
+        if (!$this->authenticate(["dosen"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $id_dosen = $this->request->getPost("id_dosen");
         $id_bidang = $this->request->getPost("bidang");
         $judul = $this->request->getPost("judul", FILTER_SANITIZE_SPECIAL_CHARS);
@@ -346,6 +473,17 @@ class Dosen extends BaseController
     }
 
     public function updatePenelitian($idPenelitian) {
+         //autentikasi
+        if (!$this->authenticate(["dosen"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $id_bidang = $this->request->getPost("bidang");
         $judul = $this->request->getPost("judul", FILTER_SANITIZE_SPECIAL_CHARS);
         $deskripsi = $this->request->getPost("deskripsi", FILTER_SANITIZE_SPECIAL_CHARS);
@@ -365,11 +503,25 @@ class Dosen extends BaseController
     }
 
     public function deletePenelitian($idPenelitian) {
+         //autentikasi
+        if (!$this->authenticate(["dosen"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $this->penelitianDosenModel->delete($idPenelitian);
 
         session()->setFlashdata("message", ["icon" => "success", "title" => "Hapus Penelitian Berhasil", "text" => "Penelitian berhasil dihapus!"]);
         return redirect()->to(base_url("dosen/penelitian"));
     }
+
+
+
 
     private function authenticate($roles) {
         $userSession = session("user_session");

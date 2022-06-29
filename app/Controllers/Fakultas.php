@@ -37,6 +37,12 @@ class Fakultas extends BaseController
     }
 
     public function proposal() {
+        //autentikasi
+        if (!$this->authenticate(["fakultas"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
         $proposal = $this->proposalModel->getAllProposalMahasiswa();
 
         $dari = $this->request->getGet("dari");
@@ -61,6 +67,12 @@ class Fakultas extends BaseController
     }
 
     public function skripsi() {
+        //autentikasi
+        if (!$this->authenticate(["fakultas"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
         $skripsi = $this->skripsiModel->getAllSkripsiMahasiswa();
 
         $dari = $this->request->getGet("dari");
@@ -81,6 +93,12 @@ class Fakultas extends BaseController
     }
 
     public function makalah() {
+        //autentikasi
+        if (!$this->authenticate(["fakultas"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
         $makalah = $this->makalahModel->getAllMakalah();
 
         $dari = $this->request->getGet("dari");
@@ -101,6 +119,12 @@ class Fakultas extends BaseController
     }
 
     public function pembimbing() {
+        //autentikasi
+        if (!$this->authenticate(["fakultas"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
         $pembimbing = $this->mahasiswaModel->getAllPembimbingMahasiswa();
 
         $data = [
@@ -112,6 +136,12 @@ class Fakultas extends BaseController
 
     public function hasilSidangSkripsi($idSkripsi) 
     {
+        //autentikasi
+        if (!$this->authenticate(["fakultas"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
         $lastSkripsi = $this->skripsiModel->find($idSkripsi);
         if ($lastSkripsi == null) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
@@ -179,6 +209,11 @@ class Fakultas extends BaseController
             return redirect()->to(base_url("unauthorized.php"));
         }
 
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $tanggalMulai = date_create(explode(" - ", $this->request->getPost("durasiKegiatan"))[0]);
         $tanggalSelesai = date_create(explode(" - ", $this->request->getPost("durasiKegiatan"))[1]);
         $this->kalenderSkripsiModel->save([
@@ -197,6 +232,11 @@ class Fakultas extends BaseController
             return redirect()->to(base_url("unauthorized.php"));
         }
 
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $tanggalMulai = date_create(explode(" - ", $this->request->getPost("durasiKegiatan"))[0]);
         $tanggalSelesai = date_create(explode(" - ", $this->request->getPost("durasiKegiatan"))[1]);
         $this->kalenderSkripsiModel->update($id,[
@@ -213,6 +253,11 @@ class Fakultas extends BaseController
         if (!$this->authenticate(["fakultas"])) 
         {
             return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
         }
 
         $this->kalenderSkripsiModel->delete($id);

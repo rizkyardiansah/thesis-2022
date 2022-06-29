@@ -48,48 +48,59 @@ class Mahasiswa extends BaseController
        
     }
 
-    public function profil() 
-    {
-        //autentikasi
-        if (!$this->authenticate(["mahasiswa"])) 
-        {
-            return redirect()->to(base_url("unauthorized.php"));
-        }
+    // public function profil() 
+    // {
+    //     //autentikasi
+    //     if (!$this->authenticate(["mahasiswa"])) 
+    //     {
+    //         return redirect()->to(base_url("unauthorized.php"));
+    //     }
 
-        $dataMahasiswa = $this->mahasiswaModel->find(session()->get("user_session")['id']);
-        $dataMahasiswa["id_fakultas"] = $this->prodiModel->find($dataMahasiswa['id_prodi'])['id_fakultas'];
+    //     $dataMahasiswa = $this->mahasiswaModel->find(session()->get("user_session")['id']);
+    //     $dataMahasiswa["id_fakultas"] = $this->prodiModel->find($dataMahasiswa['id_prodi'])['id_fakultas'];
 
-        $data = [
-            "title" => "Profil",
-            "dataMahasiswa" => $dataMahasiswa,
-            "dataProdi" => $this->prodiModel->findAll(),
-            "dataFakultas" => $this->fakultasModel->findAll(),
-            "dataDosen" => $this->dosenModel->getDosenByProdi($dataMahasiswa['id_prodi']),
-        ];
-        return view("mahasiswa/profil", $data);
-    }
+    //     $data = [
+    //         "title" => "Profil",
+    //         "dataMahasiswa" => $dataMahasiswa,
+    //         "dataProdi" => $this->prodiModel->findAll(),
+    //         "dataFakultas" => $this->fakultasModel->findAll(),
+    //         "dataDosen" => $this->dosenModel->getDosenByProdi($dataMahasiswa['id_prodi']),
+    //     ];
+    //     return view("mahasiswa/profil", $data);
+    // }
 
-    public function updateDataDiri($npm) 
-    {
-        //autentikasi
-        if (!$this->authenticate(["mahasiswa"])) 
-        {
-            return redirect()->to(base_url("unauthorized.php"));
-        }
+    // public function updateDataDiri($npm) 
+    // {
+    //     //autentikasi
+    //     if (!$this->authenticate(["mahasiswa"])) 
+    //     {
+    //         return redirect()->to(base_url("unauthorized.php"));
+    //     }
 
-        $this->mahasiswaModel->update($npm,[
-            'nama' => $this->request->getPost("namaLengkap", FILTER_SANITIZE_SPECIAL_CHARS), 
-            'angkatan' => $this->request->getPost("angkatan", FILTER_SANITIZE_SPECIAL_CHARS),
-            'id_prodi' => $this->request->getPost("prodi", FILTER_SANITIZE_SPECIAL_CHARS)
-        ]);
+    //     $this->mahasiswaModel->update($npm,[
+    //         'nama' => $this->request->getPost("namaLengkap", FILTER_SANITIZE_SPECIAL_CHARS), 
+    //         'angkatan' => $this->request->getPost("angkatan", FILTER_SANITIZE_SPECIAL_CHARS),
+    //         'id_prodi' => $this->request->getPost("prodi", FILTER_SANITIZE_SPECIAL_CHARS)
+    //     ]);
 
-        session()->setFlashdata("message", ["icon" => "success", "title" => "Perbaruan Sukses", "text" => "Data diri berhasil diperbarui"]);
-        $_SESSION['user_session']['nama'] = $this->request->getPost("namaLengkap", FILTER_SANITIZE_SPECIAL_CHARS);
-        return redirect()->to(base_url("mahasiswa/profil"));
-    }
+    //     session()->setFlashdata("message", ["icon" => "success", "title" => "Perbaruan Sukses", "text" => "Data diri berhasil diperbarui"]);
+    //     $_SESSION['user_session']['nama'] = $this->request->getPost("namaLengkap", FILTER_SANITIZE_SPECIAL_CHARS);
+    //     return redirect()->to(base_url("mahasiswa/profil"));
+    // }
 
     public function pengajuanPenulisanSkripsi() 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $mahasiswa = $this->mahasiswaModel->find(session()->get("user_session")['id']);
         $dosen = $this->dosenModel->getDosenByProdi($mahasiswa['id_prodi']);
 
@@ -109,6 +120,12 @@ class Mahasiswa extends BaseController
         {
             return redirect()->to(base_url("unauthorized.php"));
         }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $mahasiswa = $this->mahasiswaModel->find($npm);
 
         $fileKhsLama = $this->request->getFile("inputKhs");
@@ -148,6 +165,11 @@ class Mahasiswa extends BaseController
         return redirect()->to(base_url("mahasiswa/pengajuanPenulisanSkripsi"));
     }
 
+
+
+
+
+
     public function proposal()
     {
         //autentikasi
@@ -183,6 +205,12 @@ class Mahasiswa extends BaseController
 
     public function detailProposal($idProposal) 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
         $dataAkun = $this->mahasiswaModel->find(session()->get("user_session")['id']);
         $detailProposal = $this->proposalModel->getDetailProposalById($idProposal);
         
@@ -208,6 +236,17 @@ class Mahasiswa extends BaseController
 
     public function insertProposal() 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $validationRules = [
             'file_proposal' => [
                 'rules' => 'uploaded[file_proposal]|mime_in[file_proposal,application/pdf]|ext_in[file_proposal,pdf]|max_size[file_proposal,10000]',
@@ -250,6 +289,17 @@ class Mahasiswa extends BaseController
 
     public function updateProposal($idProposal) 
     { 
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $proposal = $this->proposalModel->find($idProposal);
         $npm = $this->request->getPost("npm");
 
@@ -275,8 +325,19 @@ class Mahasiswa extends BaseController
         return redirect()->back();
     }
 
+
+
+
+
+
     public function seminarProposal() 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
         $mahasiswa = $this->mahasiswaModel->find(session()->get("user_session")['id']);
         $proposal = $this->proposalModel->getMahasiswaLastProposal($mahasiswa['npm']);
 
@@ -325,6 +386,17 @@ class Mahasiswa extends BaseController
 
     public function insertVideoSempro() 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $id_proposal = $this->request->getPost("id_proposal", FILTER_SANITIZE_SPECIAL_CHARS);
         $link_video = $this->request->getPost("link_video", FILTER_SANITIZE_URL);
 
@@ -340,6 +412,17 @@ class Mahasiswa extends BaseController
 
     public function updateVideoSempro($id)
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $id_proposal = $this->request->getPost("id_proposal", FILTER_SANITIZE_SPECIAL_CHARS);
         $link_video = $this->request->getPost("link_video", FILTER_SANITIZE_URL);
 
@@ -352,8 +435,20 @@ class Mahasiswa extends BaseController
         return redirect()->to(base_url("mahasiswa/seminarProposal"));
     }
 
+
+
+
+
+
+
     public function pembimbing() 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
         $mahasiswa = $this->mahasiswaModel->find(session()->get("user_session")['id']);
         $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($mahasiswa['npm']);
         $dosenPembimbing = array();
@@ -373,6 +468,17 @@ class Mahasiswa extends BaseController
 
     public function insertHasilBimbingan() 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $idPembimbing = $this->request->getPost("pembimbing");
         $materi = $this->request->getPost("materi", FILTER_SANITIZE_SPECIAL_CHARS);
         $tanggal = date_create($this->request->getPost("tanggalBimbingan"));
@@ -391,6 +497,17 @@ class Mahasiswa extends BaseController
 
     public function updateHasilBimbingan($idCatatan) 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $idPembimbing = $this->request->getPost("pembimbing");
         $materi = $this->request->getPost("materi", FILTER_SANITIZE_SPECIAL_CHARS);
         $tanggal = date_create($this->request->getPost("tanggalBimbingan"));
@@ -409,6 +526,17 @@ class Mahasiswa extends BaseController
 
     public function deleteHasilBimbingan($idCatatan) 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $this->catatanBimbinganModel->delete($idCatatan);
         session()->setFlashdata("message", ["icon" => "success", "title" => "Penghapusan Catatan Hasil Bimbingan Berhasil", "text" => "Catatan Hasil Bimbingan telah berhasil dihapus"]);
         return redirect()->to(base_url("mahasiswa/pembimbing"));
@@ -416,6 +544,12 @@ class Mahasiswa extends BaseController
 
     public function cetakFormBimbingan($npm) 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
         $mahasiswa = $this->mahasiswaModel->find(session()->get("user_session")['id']);
         $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($mahasiswa['npm']);
         $hasilBimbingan = $this->catatanBimbinganModel->getAllCatatanByLastSkripsi($lastSkripsi['id']);
@@ -430,8 +564,20 @@ class Mahasiswa extends BaseController
         return view("cetakBimbingan", $data);
     }
 
+
+
+
+
+
+
     public function skripsi() 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
         $mahasiswa = $this->mahasiswaModel->find(session()->get("user_session")['id']);
         $lastProposal = $this->proposalModel->getMahasiswaLastProposal($mahasiswa['npm']);
         $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($mahasiswa['npm']);
@@ -451,6 +597,12 @@ class Mahasiswa extends BaseController
 
     public function detailSkripsi($idSkripsi) 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
         $dataAkun = $this->mahasiswaModel->find(session()->get("user_session")['id']);
         $detailSkripsi = $this->skripsiModel->getDetailSkripsiById($idSkripsi);
         
@@ -475,6 +627,17 @@ class Mahasiswa extends BaseController
 
     public function insertSkripsi() 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $this->skripsiModel->insert([
             'judul' => $this->request->getPost("judul", FILTER_SANITIZE_SPECIAL_CHARS),
             'sifat' => $this->request->getPost("sifat", FILTER_SANITIZE_SPECIAL_CHARS),
@@ -491,6 +654,17 @@ class Mahasiswa extends BaseController
 
     public function updateSkripsi($idSkripsi) 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $skripsi = $this->skripsiModel->find($idSkripsi);
         $npm = $this->request->getPost("npm");
 
@@ -513,8 +687,21 @@ class Mahasiswa extends BaseController
         return redirect()->back();
     }
 
+
+
+
+
+
+
+
     public function pengajuanPraSidang() 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
         $mahasiswa = $this->mahasiswaModel->find(session()->get("user_session")['id']);
         $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($mahasiswa['npm']);
         $pembimbing = [];
@@ -536,6 +723,12 @@ class Mahasiswa extends BaseController
 
     public function detailPengajuanPraSidang($idPengajuanPrasidang) 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
         $dataAkun = $this->mahasiswaModel->find(session()->get("user_session")['id']);
         $detailPengajuan = $this->pengajuanPrasidangModel->getDetailPengajuanById($idPengajuanPrasidang);
         
@@ -558,6 +751,17 @@ class Mahasiswa extends BaseController
 
     public function insertPengajuanPraSidang() 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $id_skripsi = $this->request->getPost("id_skripsi");
         $npm = $this->request->getPost("npm");
 
@@ -583,6 +787,17 @@ class Mahasiswa extends BaseController
 
     public function updatePengajuanPrasidang($idPengajuanPrasidang) 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $pengajuanPrasidang = $this->pengajuanPrasidangModel->find($idPengajuanPrasidang);
         $npm = $this->request->getPost("npm");
         $id_skripsi = $this->request->getPost("id_skripsi");
@@ -611,8 +826,21 @@ class Mahasiswa extends BaseController
         return redirect()->back();
     }
 
+
+
+
+
+
+
+
     public function seminarPrasidang() 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
         $dataAkun = $this->mahasiswaModel->find(session()->get("user_session")['id']);
         $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($dataAkun['npm']);
         $pengajuan = null;
@@ -638,6 +866,12 @@ class Mahasiswa extends BaseController
 
     public function pengajuanSidangSkripsi() 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
         $dataAkun = $this->mahasiswaModel->find(session()->get("user_session")['id']);
         $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($dataAkun['npm']);
         if ($lastSkripsi != null) {
@@ -681,6 +915,12 @@ class Mahasiswa extends BaseController
 
     public function detailPengajuanSidangSkripsi($idpengajuanSidangSkripsi) 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
         $dataAkun = $this->mahasiswaModel->find(session()->get("user_session")['id']);
         $detailPengajuan = $this->pengajuanSidangModel->getDetailPengajuanById($idpengajuanSidangSkripsi);
         if ($detailPengajuan == null || $dataAkun == null) {
@@ -703,6 +943,17 @@ class Mahasiswa extends BaseController
 
     public function insertPengajuanSidangSkripsi() 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $id_skripsi = $this->request->getPost("id_skripsi");
         $npm = $this->request->getPost("npm");
 
@@ -733,6 +984,17 @@ class Mahasiswa extends BaseController
 
     public function updatePengajuanSidangSkripsi($idpengajuanSidangSkripsi) 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $pengajuanSidang = $this->pengajuanSidangModel->find($idpengajuanSidangSkripsi);
         $npm = $this->request->getPost("npm");
         $id_skripsi = $this->request->getPost("id_skripsi");
@@ -778,8 +1040,19 @@ class Mahasiswa extends BaseController
         return redirect()->back();
     }
 
+
+
+
+
+
     public function sidangSkripsi() 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
         $dataAkun = $this->mahasiswaModel->find(session()->get("user_session")['id']);
         $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($dataAkun['npm']);
         $pengajuan = null;
@@ -805,6 +1078,17 @@ class Mahasiswa extends BaseController
 
     public function hasilSidangSkripsi($idSidangSkripsi) 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $dataAkun = $this->mahasiswaModel->find(session()->get("user_session")['id']);
         $sidangSkripsi = $this->sidangSkripsiModel->find($idSidangSkripsi);
         if ($sidangSkripsi == null) {
@@ -894,8 +1178,21 @@ class Mahasiswa extends BaseController
         return view("mahasiswa/hasil_sidang_skripsi", $data);
     }
 
+
+
+
+
+
+
+
     public function makalah() 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
         $dataAkun = $this->mahasiswaModel->find(session()->get("user_session")['id']);
         $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($dataAkun['npm']);
         $bidang = $this->bidangModel->getBidangByProdi($dataAkun['id_prodi']);
@@ -914,6 +1211,17 @@ class Mahasiswa extends BaseController
 
     public function insertMakalah() 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $validationRules = [
             'file_makalah' => [
                 'rules' => 'uploaded[file_makalah]|mime_in[file_makalah,application/pdf]|ext_in[file_makalah,pdf]|max_size[file_makalah,10000]',
@@ -958,6 +1266,17 @@ class Mahasiswa extends BaseController
 
     public function updateMakalah($idMakalah) 
     {   
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $makalah = $this->makalahModel->find($idMakalah);
         $npm = $this->request->getPost("npm");
 
@@ -985,8 +1304,24 @@ class Mahasiswa extends BaseController
         return redirect()->to(base_url("mahasiswa/makalah"));
     }
 
+
+
+
+
+
     public function downloadKhs($npm)
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa", "tendik", "kaprodi", "fakultas", "dosen"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $namaFileKhs = $this->mahasiswaModel->find($npm);
         if ($namaFileKhs == null) {
             session()->setFlashdata("message", ["icon" => "error", "title" => "Download File KHS Gagal", "text" => "File KHS tidak ditemukan"]);
@@ -999,6 +1334,17 @@ class Mahasiswa extends BaseController
 
     public function downloadKrs($npm)
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa", "tendik", "kaprodi", "fakultas", "dosen"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $namaFileKrs = $this->mahasiswaModel->find($npm);
         if ($namaFileKrs == null) {
             session()->setFlashdata("message", ["icon" => "error", "title" => "Download File KRS Gagal", "text" => "File KRS tidak ditemukan"]);
@@ -1011,6 +1357,17 @@ class Mahasiswa extends BaseController
 
     public function downloadPersetujuanSkripsi($npm)
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa", "tendik", "kaprodi", "fakultas", "dosen"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $namaFilePengajuan = $this->mahasiswaModel->find($npm);
         if ($namaFilePengajuan == null) {
             session()->setFlashdata("message", ["icon" => "error", "title" => "Download File Persetujuan Skripsi Gagal", "text" => "File Persetujuan Skripsi tidak ditemukan"]);
@@ -1023,6 +1380,17 @@ class Mahasiswa extends BaseController
 
     public function downloadProposal($idProposal)
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa", "tendik", "kaprodi", "fakultas", "dosen"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $namaFileProposal = $this->proposalModel->find($idProposal)['file_proposal'];
         if ($namaFileProposal == null) {
             session()->setFlashdata("message", ["icon" => "error", "title" => "Download File Proposal Gagal", "text" => "File Proposal tidak ditemukan"]);
@@ -1035,6 +1403,17 @@ class Mahasiswa extends BaseController
 
     public function downloadDraft($id)
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa", "tendik", "kaprodi", "fakultas", "dosen"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $namaFilePengajuan = $this->pengajuanPrasidangModel->find($id);
         if ($namaFilePengajuan == null) {
             session()->setFlashdata("message", ["icon" => "error", "title" => "Unduh File Draft Skripsi Gagal", "text" => "File Draft Skripsi tidak ditemukan"]);
@@ -1047,6 +1426,17 @@ class Mahasiswa extends BaseController
     
     public function downloadLembarPersetujuan($id)
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa", "tendik", "kaprodi", "fakultas", "dosen"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $namaFilePengajuan = $this->pengajuanPrasidangModel->find($id);
         if ($namaFilePengajuan == null) {
             session()->setFlashdata("message", ["icon" => "error", "title" => "Unduh Lembar Persetujuan Seminar Prasidang Gagal", "text" => "Lembar Persetujuan Seminar Prasidang tidak ditemukan"]);
@@ -1059,6 +1449,17 @@ class Mahasiswa extends BaseController
 
     public function downloadDraftFinal($id)
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa", "tendik", "kaprodi", "fakultas", "dosen"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+        
         $namaFileDraftFinal = $this->pengajuanSidangModel->find($id);
         if ($namaFileDraftFinal == null) {
             session()->setFlashdata("message", ["icon" => "error", "title" => "Download File Draft Final Skripsi Gagal", "text" => "File Draft Final Skripsi tidak ditemukan"]);
@@ -1071,6 +1472,17 @@ class Mahasiswa extends BaseController
 
     public function downloadFormBimbingan($id)
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa", "tendik", "kaprodi", "fakultas", "dosen"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $namaFormBimbingan = $this->pengajuanSidangModel->find($id);
         if ($namaFormBimbingan == null) {
             session()->setFlashdata("message", ["icon" => "error", "title" => "Download File Form Bimbingan Skripsi Gagal", "text" => "File Form Bimbingan Skripsi tidak ditemukan"]);
@@ -1083,6 +1495,17 @@ class Mahasiswa extends BaseController
 
     public function downloadPersyaratanSidang($id)
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa", "tendik", "kaprodi", "fakultas", "dosen"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $namaFilePersyaratanSidang = $this->pengajuanSidangModel->find($id);
         if ($namaFilePersyaratanSidang == null) {
             session()->setFlashdata("message", ["icon" => "error", "title" => "Download File Persyaratan Sidang Skripsi Gagal", "text" => "File Persyaratan Sidang Skripsi tidak ditemukan"]);
@@ -1095,6 +1518,17 @@ class Mahasiswa extends BaseController
 
     public function downloadSkripsi($idSkripsi) 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa", "tendik", "kaprodi", "fakultas", "dosen"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $skripsi = $this->skripsiModel->find($idSkripsi);
         if ($skripsi == null) {
             session()->setFlashdata("message", ["icon" => "error", "title" => "Unduh File Skripsi Gagal", "text" => "File Skripsi tidak ditemukan"]);
@@ -1105,8 +1539,26 @@ class Mahasiswa extends BaseController
         return $this->response->download("folderSkripsi/".$skripsi['file_skripsi'], null);
     }
 
+
+
+
+
+
+    
+
     public function deleteKhs($npm) 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $namaFileKhs = $this->mahasiswaModel->find($npm);
         if ($namaFileKhs == null) {
             session()->setFlashdata("message", ["icon" => "error", "title" => "Hapus File KHS Gagal", "text" => "File KHS tidak ditemukan"]);
@@ -1123,6 +1575,17 @@ class Mahasiswa extends BaseController
 
     public function deleteKrs($npm) 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $namaFileKrs = $this->mahasiswaModel->find($npm);
         if ($namaFileKrs == null) {
             session()->setFlashdata("message", ["icon" => "error", "title" => "Hapus File KRS Gagal", "text" => "File KRS tidak ditemukan"]);
@@ -1139,6 +1602,17 @@ class Mahasiswa extends BaseController
 
     public function deletePersetujuanSkripsi($npm) 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $namaFilePengajuan = $this->mahasiswaModel->find($npm);
         if ($namaFilePengajuan == null) {
             session()->setFlashdata("message", ["icon" => "error", "title" => "Hapus File Persetujuan Skripsi Gagal", "text" => "File Persetujuan Skripsi tidak ditemukan"]);
@@ -1155,6 +1629,17 @@ class Mahasiswa extends BaseController
 
     public function deleteProposal($id) 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $namaFileProposal = $this->proposalModel->find($id);
         if ($namaFileProposal == null) {
             session()->setFlashdata("message", ["icon" => "error", "title" => "Hapus File Proposal Gagal", "text" => "File Proposal tidak ditemukan"]);
@@ -1171,6 +1656,17 @@ class Mahasiswa extends BaseController
 
     public function deleteDraft($id) 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $namaFileDraft = $this->pengajuanPrasidangModel->find($id);
         if ($namaFileDraft == null) {
             session()->setFlashdata("message", ["icon" => "error", "title" => "Hapus File Draft Skripsi Gagal", "text" => "File Draft Skripsi tidak ditemukan"]);
@@ -1187,6 +1683,17 @@ class Mahasiswa extends BaseController
 
     public function deleteLembarPersetujuan($id) 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $namaFileDraft = $this->pengajuanPrasidangModel->find($id);
         if ($namaFileDraft == null) {
             session()->setFlashdata("message", ["icon" => "error", "title" => "Hapus File Lembar Persetujuan Seminar Prasidang Gagal", "text" => "File Lembar Persetujuan Seminar Prasidang tidak ditemukan"]);
@@ -1203,6 +1710,17 @@ class Mahasiswa extends BaseController
 
     public function deleteDraftFinal($id) 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $namaFileDraftFinal = $this->pengajuanSidangModel->find($id);
         if ($namaFileDraftFinal == null) {
             session()->setFlashdata("message", ["icon" => "error", "title" => "Hapus File Draft Final Skripsi Gagal", "text" => "File Draft Final Skripsi tidak ditemukan"]);
@@ -1219,6 +1737,17 @@ class Mahasiswa extends BaseController
 
     public function deleteFormBimbingan($id) 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $namaFileFormBimbingan = $this->pengajuanSidangModel->find($id);
         if ($namaFileFormBimbingan == null) {
             session()->setFlashdata("message", ["icon" => "error", "title" => "Hapus File Form Bimbingan Skripsi Gagal", "text" => "File Form Bimbingan Skripsi tidak ditemukan"]);
@@ -1235,6 +1764,17 @@ class Mahasiswa extends BaseController
 
     public function deletePersyaratanSidang($id) 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $namaFilePersyaratanSidang = $this->pengajuanSidangModel->find($id);
         if ($namaFilePersyaratanSidang == null) {
             session()->setFlashdata("message", ["icon" => "error", "title" => "Hapus File Persyaratan Sidang Skripsi Gagal", "text" => "File Persyaratan Sidang Skripsi tidak ditemukan"]);
@@ -1251,6 +1791,17 @@ class Mahasiswa extends BaseController
 
     public function deleteSkripsi($id) 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $namaFileSkripsi = $this->skripsiModel->find($id);
         if ($namaFileSkripsi == null) {
             session()->setFlashdata("message", ["icon" => "error", "title" => "Hapus File Skripsi Gagal", "text" => "File Skripsi tidak ditemukan"]);
@@ -1267,6 +1818,17 @@ class Mahasiswa extends BaseController
 
     public function deleteMakalah($id) 
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $namaFileMakalah = $this->makalahModel->find($id);
         if ($namaFileMakalah == null) {
             session()->setFlashdata("message", ["icon" => "error", "title" => "Hapus File Makalah Gagal", "text" => "File Makalah tidak ditemukan"]);

@@ -35,6 +35,12 @@ class TenagaKependidikan extends BaseController
     }
 
     public function pengajuanSkripsi() {
+        //autentikasi
+        if (!$this->authenticate(["tendik"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
         $pengajuanPenulisanSkripsi = $this->mahasiswaModel->getAllPengajuanSkripsi();
         $dari = $this->request->getGet("dari");
         $hingga = $this->request->getGet("hingga");
@@ -53,6 +59,12 @@ class TenagaKependidikan extends BaseController
     }
 
     public function detailPengajuanSkripsi($npm) {
+        //autentikasi
+        if (!$this->authenticate(["tendik"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
         $mahasiswa = $this->mahasiswaModel->find($npm);
         if ($mahasiswa == null) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
@@ -71,6 +83,17 @@ class TenagaKependidikan extends BaseController
     }
 
     public function terimaPengajuanSkripsi($npm) {
+        //autentikasi
+        if (!$this->authenticate(["tendik"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $this->mahasiswaModel->update($npm, [
             'status_persetujuan_skripsi' => 'Disetujui',
         ]);
@@ -79,6 +102,17 @@ class TenagaKependidikan extends BaseController
     }
 
     public function tolakPengajuanSkripsi($npm) {
+        //autentikasi
+        if (!$this->authenticate(["tendik"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $this->mahasiswaModel->update($npm, [
             'status_persetujuan_skripsi' => 'Ditolak',
         ]);
@@ -87,6 +121,12 @@ class TenagaKependidikan extends BaseController
     }
 
     public function pembimbing() {
+        //autentikasi
+        if (!$this->authenticate(["tendik"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
         // $dosen = $this->dosenModel->find(session()->get("user_session")['id']);
         $mahasiswaTanpaPembimbing = $this->mahasiswaModel->getMahasiswaTanpaPembimbing();
         // dd($mahasiswaTanpaPembimbing);
@@ -104,6 +144,17 @@ class TenagaKependidikan extends BaseController
     }
 
     public function insertPembimbing() {
+        //autentikasi
+        if (!$this->authenticate(["tendik"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $npm = $this->request->getPost("mahasiswa");
         $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($npm);
         $idPembimbing1 = $this->request->getPost("pembimbing1");
@@ -137,11 +188,33 @@ class TenagaKependidikan extends BaseController
     }
 
     public function downloadFormatPembimbing() {
+        //autentikasi
+        if (!$this->authenticate(["tendik"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         redirect()->to(base_url("dosen/pembimbing"));
         return $this->response->download("folderResource/Format_Pembimbing_Skripsi_Mahasiswa.xlsx", null);
     }
 
     public function insertPembimbingBatch() {
+        //autentikasi
+        if (!$this->authenticate(["tendik"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $validationRules = [
             'filePembimbing' => [
                 'rules' => 'uploaded[filePembimbing]|mime_in[filePembimbing,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet]|ext_in[filePembimbing,xls,xlsx]|max_size[filePembimbing,10000]',
@@ -288,6 +361,17 @@ class TenagaKependidikan extends BaseController
     }
 
     public function updatePembimbing() {
+        //autentikasi
+        if (!$this->authenticate(["tendik"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+        
         $npm = $this->request->getPost("npm");
         $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($npm);
         $id_skripsi = $lastSkripsi['id'];
@@ -323,6 +407,16 @@ class TenagaKependidikan extends BaseController
     }
 
     public function deletePembimbing($npm) {
+        //autentikasi
+        if (!$this->authenticate(["tendik"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
         $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($npm);
         $id_skripsi = $lastSkripsi['id'];
         $id1 = $this->pembimbingModel->select('id')->where("id_skripsi", $id_skripsi)->where("role", 'Pembimbing Ilmu 1')->first();
@@ -342,6 +436,12 @@ class TenagaKependidikan extends BaseController
     }
 
     public function pengajuanPrasidang() {
+        //autentikasi
+        if (!$this->authenticate(["tendik"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
         $dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
         $daftarPengajuan = $this->pengajuanPrasidangModel->getAllPengajuanPrasidang();
         
@@ -362,6 +462,12 @@ class TenagaKependidikan extends BaseController
     }
 
     public function detailPengajuanPrasidang($idPengajuanPrasidang) {
+        //autentikasi
+        if (!$this->authenticate(["tendik"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
         $detailPengajuan = $this->pengajuanPrasidangModel->getDetailPengajuanById($idPengajuanPrasidang);
         if ($detailPengajuan == null) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
@@ -375,6 +481,17 @@ class TenagaKependidikan extends BaseController
     }
 
     public function setujuiPengajuanPrasidang($idPengajuanPrasidang) {
+        //autentikasi
+        if (!$this->authenticate(["tendik"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $this->pengajuanPrasidangModel->update($idPengajuanPrasidang, [
             'status' => 'DISETUJUI'
         ]);
@@ -383,6 +500,17 @@ class TenagaKependidikan extends BaseController
     }
 
     public function tolakPengajuanPrasidang($idPengajuanPrasidang) {
+        //autentikasi
+        if (!$this->authenticate(["tendik"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $npm = $this->request->getPost("npm");
         $this->pengajuanPrasidangModel->update($idPengajuanPrasidang, [
             'status' => 'DITOLAK'
@@ -392,6 +520,12 @@ class TenagaKependidikan extends BaseController
     }
 
     public function pengajuanSidangSkripsi() {
+        //autentikasi
+        if (!$this->authenticate(["tendik"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
         $pengajuanSidangSkripsi = $this->pengajuanSidangModel->getAllPengajuanSidang();
 
         $dari = $this->request->getGet("dari");
@@ -412,6 +546,12 @@ class TenagaKependidikan extends BaseController
     }
 
     public function detailPengajuanSidangSkripsi($idPengajuanSidangSkripsi) {
+        //autentikasi
+        if (!$this->authenticate(["tendik"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+        
         $detailPengajuan = $this->pengajuanSidangModel->getDetailPengajuanById($idPengajuanSidangSkripsi);
 
         //dd($detailPengajuan);
@@ -427,6 +567,17 @@ class TenagaKependidikan extends BaseController
     }
 
     public function tolakPengajuanSidangSkripsi($idPengajuanSidangSkripsi) {
+        //autentikasi
+        if (!$this->authenticate(["tendik"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $npm = $this->request->getPost("npm");
         $pengajuanSidang = $this->pengajuanSidangModel->find($idPengajuanSidangSkripsi);
         if ($pengajuanSidang == null) {
@@ -443,6 +594,17 @@ class TenagaKependidikan extends BaseController
     }
 
     public function setujuiPengajuanSidangSkripsi($idPengajuanSidangSkripsi) {
+        //autentikasi
+        if (!$this->authenticate(["tendik"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $pengajuanSidang = $this->pengajuanSidangModel->find($idPengajuanSidangSkripsi);
         if ($pengajuanSidang == null) {
             session()->setFlashdata("message", ["icon" => "error", "title" => "Pengajuan Sidang Skripsi Tidak Ditemukan", "text" => "Pengajuan Sidang Skripsi Tidak Ditemukan"]);

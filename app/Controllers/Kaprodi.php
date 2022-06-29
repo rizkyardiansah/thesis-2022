@@ -137,6 +137,12 @@ class Kaprodi extends BaseController
 
 
     public function pembimbing() {
+        //autentikasi
+        if (!$this->authenticate(["kaprodi"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
         $dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
         $prodi = $this->prodiModel->find($dataAkun['id_prodi']);
         $pembimbing = $this->mahasiswaModel->getPembimbingMahasiswaByProdi($prodi['id']);
@@ -150,6 +156,12 @@ class Kaprodi extends BaseController
 
     public function hasilSidangSkripsi($idSkripsi) 
     {
+        //autentikasi
+        if (!$this->authenticate(["kaprodi"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
         $lastSkripsi = $this->skripsiModel->find($idSkripsi);
         if ($lastSkripsi == null) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
@@ -233,6 +245,17 @@ class Kaprodi extends BaseController
     }
 
     public function updateModeSempro($idProdi) {
+        //autentikasi
+        if (!$this->authenticate(["kaprodi"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $mode_sempro = $this->request->getPost("mode_sempro", FILTER_SANITIZE_SPECIAL_CHARS);
         $this->prodiModel->update($idProdi, [
             "mode_sempro" => $mode_sempro
@@ -243,6 +266,17 @@ class Kaprodi extends BaseController
     }
 
     public function insertJadwalSempro() {
+        //autentikasi
+        if (!$this->authenticate(["kaprodi"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $npm = $this->request->getPost("mahasiswa", FILTER_SANITIZE_SPECIAL_CHARS);
         $proposal = $this->proposalModel->getMahasiswaLastProposal($npm);
 
@@ -273,6 +307,17 @@ class Kaprodi extends BaseController
     }
 
     public function updateJadwalSempro($idSempro) {
+        //autentikasi
+        if (!$this->authenticate(["kaprodi"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $npm = $this->request->getPost("mahasiswa", FILTER_SANITIZE_SPECIAL_CHARS);
         $proposal = $this->proposalModel->getMahasiswaLastProposal($npm);
 
@@ -307,12 +352,28 @@ class Kaprodi extends BaseController
             return redirect()->to(base_url("unauthorized.php"));
         }
 
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $this->semproModel->delete($idSempro);
         session()->setFlashdata("message", ["icon" => "success", "title" => "Hapus Jadwal SemPro Berhasil", "text" => "Jadwal Seminar Proposal Berhasil dihapus"]);
         return redirect()->to(base_url("Kaprodi/seminarProposal"));
     }
 
     public function insertJadwalSemproBatch() {
+        //autentikasi
+        if (!$this->authenticate(["kaprodi"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $dataAkun = $this->dosenModel->find(session()->get('user_session')['id']);
         $validationRules = [
             'fileJadwal' => [
@@ -415,6 +476,17 @@ class Kaprodi extends BaseController
     }
 
     public function downloadFormatJadwalSempro($mode_sempro) {
+        //autentikasi
+        if (!$this->authenticate(["kaprodi"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         redirect()->to(base_url("Kaprodi/seminarProposal"));
         if ($mode_sempro == 'Sinkronus Daring') {
             return $this->response->download("folderResource/Format_Jadwal_SemPro_Sinkronus_Daring.xlsx", null);
@@ -464,6 +536,17 @@ class Kaprodi extends BaseController
     }
 
     public function insertJadwalSeminarPrasidang() {
+        //autentikasi
+        if (!$this->authenticate(["kaprodi"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
         $prodi = $this->prodiModel->find($dataAkun['id_prodi']);
         $npm = $this->request->getPost("mahasiswa", FILTER_SANITIZE_SPECIAL_CHARS);
@@ -500,6 +583,17 @@ class Kaprodi extends BaseController
     }
 
     public function updateJadwalSeminarPrasidang($idSeminarPrasidang) {
+        //autentikasi
+        if (!$this->authenticate(["kaprodi"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+        
         $npm = $this->request->getPost("mahasiswa", FILTER_SANITIZE_SPECIAL_CHARS);
         $skripsi = $this->skripsiModel->getMahasiswaLastSkripsi($npm);
 
@@ -523,17 +617,44 @@ class Kaprodi extends BaseController
             return redirect()->to(base_url("unauthorized.php"));
         }
 
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $this->seminarPrasidangModel->delete($idSeminarPrasidang);
         session()->setFlashdata("message", ["icon" => "success", "title" => "Hapus Jadwal Seminar Prasidang Berhasil", "text" => "Jadwal Seminar Prasidang Berhasil dihapus"]);
         return redirect()->to(base_url("Kaprodi/seminarPrasidang"));
     }
 
     public function downloadFormatJadwalSeminarPrasidang() {
+        //autentikasi
+        if (!$this->authenticate(["kaprodi"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         redirect()->to(base_url("Kaprodi/seminarPrasidang"));
         return $this->response->download("folderResource/Format_Jadwal_Seminar_Prasidang.xlsx", null);
     }
 
     public function insertJadwalSeminarPrasidangBatch() {
+        //autentikasi
+        if (!$this->authenticate(["kaprodi"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $dataAkun = $this->dosenModel->find(session()->get('user_session')['id']);
         $validationRules = [
             'fileJadwal' => [
@@ -656,6 +777,17 @@ class Kaprodi extends BaseController
     }
 
     public function insertJadwalSidangSkripsi() {
+        //autentikasi
+        if (!$this->authenticate(["kaprodi"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
         $prodi = $this->prodiModel->find($dataAkun['id_prodi']);
 
@@ -693,6 +825,17 @@ class Kaprodi extends BaseController
     }
 
     public function updateJadwalSidangSkripsi($idSidangSkripsi) {
+        //autentikasi
+        if (!$this->authenticate(["kaprodi"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $npm = $this->request->getPost("mahasiswa", FILTER_SANITIZE_SPECIAL_CHARS);
         $skripsi = $this->skripsiModel->getMahasiswaLastSkripsi($npm);
 
@@ -716,17 +859,44 @@ class Kaprodi extends BaseController
             return redirect()->to(base_url("unauthorized.php"));
         }
 
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $this->sidangSkripsiModel->delete($idSidangSkripsi);
         session()->setFlashdata("message", ["icon" => "success", "title" => "Hapus Jadwal Sidang Skripsi Berhasil", "text" => "Jadwal Sidang Skripsi Berhasil dihapus"]);
         return redirect()->to(base_url("Kaprodi/sidangSkripsi"));
     }
 
     public function downloadFormatJadwalSidangSkripsi() {
+        //autentikasi
+        if (!$this->authenticate(["kaprodi"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         redirect()->to(base_url("Kaprodi/sidangSkripsi"));
         return $this->response->download("folderResource/Format_Jadwal_Sidang_Skripsi.xlsx", null);
     }
 
     public function insertJadwalSidangSkripsiBatch() {
+        //autentikasi
+        if (!$this->authenticate(["kaprodi"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $dataAkun = $this->dosenModel->find(session()->get('user_session')['id']);
         $validationRules = [
             'fileJadwal' => [

@@ -21,6 +21,7 @@ class Home extends BaseController
         {
             return redirect()->to(base_url("unauthorized.php"));
         }
+
         $makalah = $this->makalahModel->getAllMakalah();
         $dari = $this->request->getGet("dari");
         $hingga = $this->request->getGet("hingga");
@@ -39,7 +40,8 @@ class Home extends BaseController
         return view('home/repository_skripsi', $data);
     }
 
-    public function kalender() {
+    public function kalender() 
+    {
         //autentikasi
         if (!$this->authenticate(["mahasiswa", "tendik", "kaprodi", "fakultas", "dosen"])) 
         {
@@ -54,8 +56,8 @@ class Home extends BaseController
         return view("home/kalender", $data);
     }
     
-    public function penelitian() {
-        
+    public function penelitian() 
+    {
         //autentikasi
         if (!$this->authenticate(["mahasiswa", "tendik", "kaprodi", "fakultas", "dosen"])) 
         {
@@ -70,7 +72,19 @@ class Home extends BaseController
         return view("home/penelitian_dosen", $data);
     }
 
-    public function downloadMakalah($idMakalah) {
+    public function downloadMakalah($idMakalah) 
+    {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa", "tendik", "kaprodi", "fakultas", "dosen"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $makalah = $this->makalahModel->find($idMakalah);
         if ($makalah == null) {
             session()->setFlashdata("message", ["icon" => "error", "title" => "Unduh File Makalah Gagal", "text" => "File Makalah tidak ditemukan"]);
@@ -81,11 +95,14 @@ class Home extends BaseController
         return $this->response->download("folderMakalah/".$makalah['file_makalah'], null);
     }
 
-    public function resources() {
-        
-    }
+    public function resource() 
+    {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa", "tendik", "kaprodi", "fakultas", "dosen"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
 
-    public function resource() {
         $roles = session()->get("user_session")['roles'];
         $resources = $this->sumberDayaModel->findAll();
         $data = [
@@ -97,7 +114,19 @@ class Home extends BaseController
         return view("home/resource", $data);
     }
 
-    public function insertResource() {
+    public function insertResource() 
+    {
+        //autentikasi
+        if (!$this->authenticate(["kaprodi", "fakultas"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $allResource = $this->sumberDayaModel->findAll();
         $nama = $this->request->getPost("nama", FILTER_SANITIZE_SPECIAL_CHARS);
 
@@ -124,7 +153,19 @@ class Home extends BaseController
         return redirect()->to(base_url("home/resource"));
     }
 
-    public function updateResource($idResource) {
+    public function updateResource($idResource) 
+    {
+        //autentikasi
+        if (!$this->authenticate(["kaprodi", "fakultas"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $sumber_daya_lama = $this->sumberDayaModel->find($idResource);
         if ($sumber_daya_lama == null) {
             session()->setFlashdata("message", ["icon" => "error", "title" => "Perbarui Sumber Daya Gagal", "text" => "Sumber Daya tidak ditemukan!"]);
@@ -171,6 +212,17 @@ class Home extends BaseController
 
     public function downloadResource($idResource)
     {
+        //autentikasi
+        if (!$this->authenticate(["mahasiswa", "tendik", "kaprodi", "fakultas", "dosen"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
         $namaFileResource = $this->sumberDayaModel->find($idResource);
         if ($namaFileResource == null) {
             session()->setFlashdata("message", ["icon" => "error", "title" => "Unduh File Sumber Daya Gagal", "text" => "File Sumber Daya tidak ditemukan"]);
@@ -181,7 +233,20 @@ class Home extends BaseController
         return $this->response->download("folderResource/".$namaFileResource['nama_file'], null);
     }
 
-    public function deleteResource($idResource) {
+    public function deleteResource($idResource) 
+    {
+        //autentikasi
+        if (!$this->authenticate(["kaprodi", "fakultas"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') 
+        {
+            return redirect()->back();
+        }
+
         $namaFileResource = $this->sumberDayaModel->find($idResource);
         if ($namaFileResource == null) {
             session()->setFlashdata("message", ["icon" => "error", "title" => "Hapus Sumber Daya Gagal", "text" => "Sumber Daya tidak ditemukan"]);
