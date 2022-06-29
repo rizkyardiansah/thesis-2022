@@ -160,11 +160,11 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
-                        <form action="" id="formUnduh">
+                        <form action="" id="formUnduh" method="post">
                             <button class="btn btn-primary" type="submit">Unduh</button>
                         </form>
                         <?php if ($lastSkripsi != null && $lastSkripsi['status'] == 'Lulus'): ?>
-                            <form action="" id="formHapus">
+                            <form action="" id="formHapus" method="post">
                                 <button class="btn btn-danger" type="submit">Hapus</button>
                             </form>
                         <?php endif; ?>
