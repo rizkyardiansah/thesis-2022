@@ -303,5 +303,5 @@
 <?= $this->endSection(); ?>
 
 <?= $this->section("scripts"); ?>
-    <script src="<?= base_url("assets/js/TenagaKependidikan/pembimbing.js");?>"></script>
+    <script src="<?= base_url("assets/js/tenagakependidikan/pembimbing.js");?>"></script>
 <?= $this->endSection(); ?>

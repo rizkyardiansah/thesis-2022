@@ -111,7 +111,7 @@ $(function () {
     $("#ubahJadwal").modal("show");
     $("#formUbahJadwal").attr(
       "action",
-      `${BASE_URL}kaprodi/updateJadwalSeminarPrasidang/${id}`
+      `${BASE_URL}Kaprodi/updateJadwalSeminarPrasidang/${id}`
     );
 
     $("#formUbahJadwal #mahasiswa").val(`${npm} | ${nama}`);

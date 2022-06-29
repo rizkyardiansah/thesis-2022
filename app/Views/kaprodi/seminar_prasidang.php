@@ -27,7 +27,7 @@
                     <button class="btn btn-primary mr-2" data-toggle="modal" data-target="#tambahJadwal">Tambahkan Jadwal</button>
                 </div>
                 <div class="col-lg-7 d-flex justify-content-end align-items-center">
-                    <form class="form-inline" action="<?= base_url("kaprodi/seminarPrasidang") ?>" method="get">
+                    <form class="form-inline" action="<?= base_url("Kaprodi/seminarPrasidang") ?>" method="get">
                         <div class="form-group mr-2">
                             <label for="dari" class="form-control-label mr-1">Dari</label>
                             <input type="date" id="dari" name="dari" class="form-control" placeholder="dari">
@@ -84,7 +84,7 @@
                             <td style="min-width: 7vw;">
                                 <?php if ($sp['status'] == 'TERTUNDA'): ?>
                                     <button class="btn btn-primary ubah-jadwal" data-toggle="tooltip" data-placement="top" title="Ubah" data-id="<?= $sp['id'] ?>"><i class="fas fa-pencil-alt"></i></button>
-                                    <form action="<?= base_url("kaprodi/deleteJadwalSeminarPrasidang/" . $sp['id']) ?>" method="post" class="d-inline" id="formHapusJadwal">
+                                    <form action="<?= base_url("Kaprodi/deleteJadwalSeminarPrasidang/" . $sp['id']) ?>" method="post" class="d-inline" id="formHapusJadwal">
                                         <button type="submit" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Hapus"><i class="fa fa-trash"></i></button>
                                     </form>
                                 <?php else: ?>
@@ -119,7 +119,7 @@
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="nav-single" role="tabpanel" aria-labelledby="nav-single-tab">
-                        <form action="<?= base_url("kaprodi/insertJadwalSeminarPrasidang") ?>" method="post" id="formTambahJadwal">
+                        <form action="<?= base_url("Kaprodi/insertJadwalSeminarPrasidang") ?>" method="post" id="formTambahJadwal">
                             <div class="modal-body">
                                 <div class="row">
                                     <div class="col-lg-12">
@@ -193,7 +193,7 @@
                         </form>
                     </div>
                     <div class="tab-pane fade" id="nav-batch" role="tabpanel" aria-labelledby="nav-batch-tab">
-                        <form action="<?= base_url("kaprodi/insertJadwalSeminarPrasidangBatch") ?>" method="post" id="formJadwalBatch" enctype="multipart/form-data">
+                        <form action="<?= base_url("Kaprodi/insertJadwalSeminarPrasidangBatch") ?>" method="post" id="formJadwalBatch" enctype="multipart/form-data">
                             <div class="modal-body">
                                 <label>File Jadwal Seminar Prasidang</label>
                                 <div class="input-group">
@@ -203,7 +203,7 @@
                                     </div>
                                 </div>
 
-                                <a href="<?= base_url("kaprodi/downloadFormatJadwalSeminarPrasidang") ?>"><small>Download Format Jadwal Seminar Prasidang</small></a>
+                                <a href="<?= base_url("Kaprodi/downloadFormatJadwalSeminarPrasidang") ?>"><small>Download Format Jadwal Seminar Prasidang</small></a>
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-primary">Simpan</button>

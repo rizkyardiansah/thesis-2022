@@ -50,7 +50,7 @@
 
                 </div>
                 <div class="col-lg-7 d-flex justify-content-end align-items-center">
-                    <form class="form-inline" action="<?= base_url("kaprodi/seminarProposal") ?>" method="get">
+                    <form class="form-inline" action="<?= base_url("Kaprodi/seminarProposal") ?>" method="get">
                         <div class="form-group mr-2">
                             <label for="dari" class="form-control-label mr-1">Dari</label>
                             <input type="date" id="dari" name="dari" class="form-control" placeholder="dari">
@@ -188,7 +188,7 @@
                                     <button type="button" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Hapus" disabled><i class="fa fa-trash"></i></button>
                                 <?php else: ?>
                                     <button class="btn btn-primary ubah-jadwal" data-toggle="tooltip" data-placement="top" title="Ubah" data-id="<?= $sm['id'] ?>"><i class="fas fa-pencil-alt"></i></button>
-                                    <form action="<?= base_url("kaprodi/deleteJadwalSempro/" . $sm['id']) ?>" method="post" class="d-inline" id="formHapusJadwal">
+                                    <form action="<?= base_url("Kaprodi/deleteJadwalSempro/" . $sm['id']) ?>" method="post" class="d-inline" id="formHapusJadwal">
                                         <button type="submit" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Hapus"><i class="fa fa-trash"></i></button>
                                     </form>
                                 <?php endif; ?>
@@ -221,7 +221,7 @@
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="nav-single" role="tabpanel" aria-labelledby="nav-single-tab">
-                        <form action="<?= base_url("kaprodi/insertJadwalSempro") ?>" method="post" id="formTambahJadwal">
+                        <form action="<?= base_url("Kaprodi/insertJadwalSempro") ?>" method="post" id="formTambahJadwal">
                             <input type="hidden" name="mode_sempro" id="mode_sempro" value="<?= $prodi['mode_sempro'] ?>">
                             <div class="modal-body">
                                 <div class="row">
@@ -315,7 +315,7 @@
                         </form>
                     </div>
                     <div class="tab-pane fade" id="nav-batch" role="tabpanel" aria-labelledby="nav-batch-tab">
-                        <form action="<?= base_url("kaprodi/insertJadwalSemproBatch") ?>" method="post" id="formJadwalBatch" enctype="multipart/form-data">
+                        <form action="<?= base_url("Kaprodi/insertJadwalSemproBatch") ?>" method="post" id="formJadwalBatch" enctype="multipart/form-data">
                             <input type="hidden" name="mode_sempro" id="mode_sempro" value="<?= $prodi['mode_sempro'] ?>">
                             <div class="modal-body">
                                 <label>File Jadwal Seminar Proposal</label>
@@ -326,7 +326,7 @@
                                     </div>
                                 </div>
 
-                                <a href="<?= base_url("kaprodi/downloadFormatJadwalSempro/". $prodi['mode_sempro']) ?>"><small>Download Format Jadwal SemPro <?= $prodi['mode_sempro'] ?></small></a>
+                                <a href="<?= base_url("Kaprodi/downloadFormatJadwalSempro/". $prodi['mode_sempro']) ?>"><small>Download Format Jadwal SemPro <?= $prodi['mode_sempro'] ?></small></a>
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-primary">Simpan</button>
@@ -429,7 +429,7 @@
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="<?= base_url("kaprodi/updateModeSempro/".$prodi['id']) ?>" method="post" id="formAturMode">
+                <form action="<?= base_url("Kaprodi/updateModeSempro/".$prodi['id']) ?>" method="post" id="formAturMode">
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="mode_sempro">Model Seminar Proposal</label>

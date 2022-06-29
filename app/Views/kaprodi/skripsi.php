@@ -17,7 +17,7 @@
             <div class="row">
                 <div class="col-lg-5"></div>
                 <div class="col-lg-7 d-flex justify-content-end align-items-center">
-                    <form class="form-inline" action="<?= base_url("kaprodi/skripsi") ?>" method="get">
+                    <form class="form-inline" action="<?= base_url("Kaprodi/skripsi") ?>" method="get">
                         <div class="form-group mr-2">
                             <label for="dari" class="form-control-label mr-1">Dari</label>
                             <input type="date" id="dari" name="dari" class="form-control" placeholder="dari">
@@ -106,7 +106,7 @@
                                         <button class="btn btn-primary" disabled><i class="fas fa-download"></i></button>
                                     <?php endif; ?>
                                     <?php if($s['status'] == 'Lulus'): ?>
-                                        <a role="button" class="btn btn-primary" href="<?= base_url("kaprodi/hasilSidangSkripsi/".$s['id']) ?>" data-toggle="tooltip" title="Hasil Sidang Skripsi" data-placement="top"><i class="fas fa-clipboard-list"></i></a>
+                                        <a role="button" class="btn btn-primary" href="<?= base_url("Kaprodi/hasilSidangSkripsi/".$s['id']) ?>" data-toggle="tooltip" title="Hasil Sidang Skripsi" data-placement="top"><i class="fas fa-clipboard-list"></i></a>
                                     <?php else: ?>
                                         <button class="btn btn-primary" disabled><i class="fas fa-clipboard-list"></i></button>
                                     <?php endif; ?>

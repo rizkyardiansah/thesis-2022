@@ -68,7 +68,7 @@
                     <div class="form-group">
                         <label for="file_khs">File Kartu Hasil Studi</label>
                         <div class="embed-responsive embed-responsive-16by9 mx-auto" id="file_khs" style="width: 90%">
-                            <iframe class="embed-responsive-item" src="<?= base_url("folderKhs/".$detailPengajuan['file_khs']) ?>"></iframe>
+                            <iframe class="embed-responsive-item" src="<?= base_url("folderKHS/".$detailPengajuan['file_khs']) ?>"></iframe>
                         </div>
                     </div>
                 </div>
@@ -76,7 +76,7 @@
                     <div class="form-group">
                         <label for="file_krs">File Kartu Rencana Studi</label>
                         <div class="embed-responsive embed-responsive-16by9 mx-auto" id="file_krs" style="width: 90%">
-                            <iframe class="embed-responsive-item" src="<?= base_url("folderKrs/".$detailPengajuan['file_krs']) ?>"></iframe>
+                            <iframe class="embed-responsive-item" src="<?= base_url("folderKRS/".$detailPengajuan['file_krs']) ?>"></iframe>
                         </div>
                     </div>
                 </div>
@@ -107,5 +107,5 @@
 <?= $this->endSection(); ?>
 
 <?= $this->section("scripts"); ?>
-    <script src="<?= base_url("assets/js/TenagaKependidikan/detailPengajuanSkripsi.js");?>"></script>
+    <script src="<?= base_url("assets/js/tenagakependidikan/detailPengajuanSkripsi.js");?>"></script>
 <?= $this->endSection(); ?>

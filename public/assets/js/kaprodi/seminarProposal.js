@@ -101,7 +101,7 @@ $(function () {
     $("#ubahJadwal").modal("show");
     $("#formUbahJadwal").attr(
       "action",
-      `${BASE_URL}kaprodi/updateJadwalSempro/${id}`
+      `${BASE_URL}Kaprodi/updateJadwalSempro/${id}`
     );
 
     $("#formUbahJadwal #mahasiswa").val(`${npm} | ${nama}`);

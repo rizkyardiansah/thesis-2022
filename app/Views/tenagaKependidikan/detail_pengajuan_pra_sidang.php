@@ -93,5 +93,5 @@
 <?= $this->endSection(); ?>
 
 <?= $this->section("scripts"); ?>
-    <script src="<?= base_url("assets/js/TenagaKependidikan/detailPengajuanPraSidang.js");?>"></script>
+    <script src="<?= base_url("assets/js/tenagakependidikan/detailPengajuanPraSidang.js");?>"></script>
 <?= $this->endSection(); ?>

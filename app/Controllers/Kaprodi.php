@@ -239,7 +239,7 @@ class Kaprodi extends BaseController
         ]);
 
         session()->setFlashdata("message", ["icon" => "success", "title" => "Atur Mode Seminar Proposal Berhasil", "text" => "Seminar Proposal diatur menjadi ".$mode_sempro]);
-        return redirect()->to(base_url("kaprodi/seminarProposal"));
+        return redirect()->to(base_url("Kaprodi/seminarProposal"));
     }
 
     public function insertJadwalSempro() {
@@ -269,7 +269,7 @@ class Kaprodi extends BaseController
         }
 
         session()->setFlashdata("message", ["icon" => "success", "title" => "Jadwal Seminar Proposal Berhsil dibuat", "text" => "Jadwal seminar telah dibuat"]);
-        return redirect()->to(base_url("kaprodi/seminarProposal"));
+        return redirect()->to(base_url("Kaprodi/seminarProposal"));
     }
 
     public function updateJadwalSempro($idSempro) {
@@ -297,7 +297,7 @@ class Kaprodi extends BaseController
         }
 
         session()->setFlashdata("message", ["icon" => "success", "title" => "Jadwal Seminar Proposal Berhasil diperbarui", "text" => "Jadwal seminar telah diperbarui"]);
-        return redirect()->to(base_url("kaprodi/seminarProposal"));
+        return redirect()->to(base_url("Kaprodi/seminarProposal"));
     }
 
     public function deleteJadwalSempro($idSempro) {
@@ -309,7 +309,7 @@ class Kaprodi extends BaseController
 
         $this->semproModel->delete($idSempro);
         session()->setFlashdata("message", ["icon" => "success", "title" => "Hapus Jadwal SemPro Berhasil", "text" => "Jadwal Seminar Proposal Berhasil dihapus"]);
-        return redirect()->to(base_url("kaprodi/seminarProposal"));
+        return redirect()->to(base_url("Kaprodi/seminarProposal"));
     }
 
     public function insertJadwalSemproBatch() {
@@ -329,7 +329,7 @@ class Kaprodi extends BaseController
         if (!$this->validate($validationRules)) {
             $validation = \Config\Services::validation();
             session()->setFlashdata("message", ["icon" => "error", "title" => "Upload File Jadwal Seminar Proposal Gagal", "text" => $validation->getError("fileJadwal")]);
-            return redirect()->to(base_url("kaprodi/seminarProposal"))->withInput();
+            return redirect()->to(base_url("Kaprodi/seminarProposal"))->withInput();
         }
 
         $file = $this->request->getFile("fileJadwal");
@@ -411,11 +411,11 @@ class Kaprodi extends BaseController
         }
 
         session()->setFlashdata("message", ["icon" => "info", "title" => "Jadwal Seminar Proposal Berhasil dibuat", "text" => "$successCounter dari $totalCounter Jadwal telah berhasil ditambahkan!"]);
-        return redirect()->to(base_url("kaprodi/seminarProposal"));
+        return redirect()->to(base_url("Kaprodi/seminarProposal"));
     }
 
     public function downloadFormatJadwalSempro($mode_sempro) {
-        redirect()->to(base_url("kaprodi/seminarProposal"));
+        redirect()->to(base_url("Kaprodi/seminarProposal"));
         if ($mode_sempro == 'Sinkronus Daring') {
             return $this->response->download("folderResource/Format_Jadwal_SemPro_Sinkronus_Daring.xlsx", null);
         } else if ($mode_sempro == 'Sinkronus Luring') {
@@ -496,7 +496,7 @@ class Kaprodi extends BaseController
         ]);
 
         session()->setFlashdata("message", ["icon" => "success", "title" => "Jadwal Seminar Prasidang Berhasil dibuat", "text" => "Jadwal seminar prasidang telah dibuat"]);
-        return redirect()->to(base_url("kaprodi/seminarPrasidang"));
+        return redirect()->to(base_url("Kaprodi/seminarPrasidang"));
     }
 
     public function updateJadwalSeminarPrasidang($idSeminarPrasidang) {
@@ -513,7 +513,7 @@ class Kaprodi extends BaseController
         ]);
 
         session()->setFlashdata("message", ["icon" => "success", "title" => "Jadwal Seminar Prasidang Berhasil diperbarui", "text" => "Jadwal seminar prasidang telah diperbarui"]);
-        return redirect()->to(base_url("kaprodi/seminarPrasidang"));
+        return redirect()->to(base_url("Kaprodi/seminarPrasidang"));
     }
 
     public function deleteJadwalSeminarPrasidang($idSeminarPrasidang) {
@@ -525,11 +525,11 @@ class Kaprodi extends BaseController
 
         $this->seminarPrasidangModel->delete($idSeminarPrasidang);
         session()->setFlashdata("message", ["icon" => "success", "title" => "Hapus Jadwal Seminar Prasidang Berhasil", "text" => "Jadwal Seminar Prasidang Berhasil dihapus"]);
-        return redirect()->to(base_url("kaprodi/seminarPrasidang"));
+        return redirect()->to(base_url("Kaprodi/seminarPrasidang"));
     }
 
     public function downloadFormatJadwalSeminarPrasidang() {
-        redirect()->to(base_url("kaprodi/seminarPrasidang"));
+        redirect()->to(base_url("Kaprodi/seminarPrasidang"));
         return $this->response->download("folderResource/Format_Jadwal_Seminar_Prasidang.xlsx", null);
     }
 
@@ -550,7 +550,7 @@ class Kaprodi extends BaseController
         if (!$this->validate($validationRules)) {
             $validation = \Config\Services::validation();
             session()->setFlashdata("message", ["icon" => "error", "title" => "Upload File Jadwal Seminar Prasidang Gagal", "text" => $validation->getError("fileJadwal")]);
-            return redirect()->to(base_url("kaprodi/seminarPrasidang"))->withInput();
+            return redirect()->to(base_url("Kaprodi/seminarPrasidang"))->withInput();
         }
 
         $file = $this->request->getFile("fileJadwal");
@@ -613,7 +613,7 @@ class Kaprodi extends BaseController
             $successCounter++;
         }
         session()->setFlashdata("message", ["icon" => "info", "title" => "Jadwal Seminar Prasidang Berhasil ditambahkan", "text" => "$successCounter dari $totalCounter Jadwal telah berhasil ditambahkan!"]);
-        return redirect()->to(base_url("kaprodi/seminarPrasidang"));
+        return redirect()->to(base_url("Kaprodi/seminarPrasidang"));
     }
 
     
@@ -689,7 +689,7 @@ class Kaprodi extends BaseController
         ]);
 
         session()->setFlashdata("message", ["icon" => "success", "title" => "Jadwal Sidang Skripsi Berhasil dibuat", "text" => "Jadwal sidang skripsi telah dibuat"]);
-        return redirect()->to(base_url("kaprodi/sidangSkripsi"));
+        return redirect()->to(base_url("Kaprodi/sidangSkripsi"));
     }
 
     public function updateJadwalSidangSkripsi($idSidangSkripsi) {
@@ -706,7 +706,7 @@ class Kaprodi extends BaseController
         ]);
 
         session()->setFlashdata("message", ["icon" => "success", "title" => "Jadwal Sidang Skripsi Berhasil diperbarui", "text" => "Jadwal Sidang Skripsi telah diperbarui"]);
-        return redirect()->to(base_url("kaprodi/sidangSkripsi"));
+        return redirect()->to(base_url("Kaprodi/sidangSkripsi"));
     }
 
     public function deleteJadwalSidangSkripsi($idSidangSkripsi) {
@@ -718,11 +718,11 @@ class Kaprodi extends BaseController
 
         $this->sidangSkripsiModel->delete($idSidangSkripsi);
         session()->setFlashdata("message", ["icon" => "success", "title" => "Hapus Jadwal Sidang Skripsi Berhasil", "text" => "Jadwal Sidang Skripsi Berhasil dihapus"]);
-        return redirect()->to(base_url("kaprodi/sidangSkripsi"));
+        return redirect()->to(base_url("Kaprodi/sidangSkripsi"));
     }
 
     public function downloadFormatJadwalSidangSkripsi() {
-        redirect()->to(base_url("kaprodi/sidangSkripsi"));
+        redirect()->to(base_url("Kaprodi/sidangSkripsi"));
         return $this->response->download("folderResource/Format_Jadwal_Sidang_Skripsi.xlsx", null);
     }
 
@@ -743,7 +743,7 @@ class Kaprodi extends BaseController
         if (!$this->validate($validationRules)) {
             $validation = \Config\Services::validation();
             session()->setFlashdata("message", ["icon" => "error", "title" => "Upload File Jadwal Sidang Skripsi Gagal", "text" => $validation->getError("fileJadwal")]);
-            return redirect()->to(base_url("kaprodi/sidangSkripsi"))->withInput();
+            return redirect()->to(base_url("Kaprodi/sidangSkripsi"))->withInput();
         }
 
         $file = $this->request->getFile("fileJadwal");
@@ -808,7 +808,7 @@ class Kaprodi extends BaseController
         }
 
         session()->setFlashdata("message", ["icon" => "info", "title" => "Jadwal Sidang Skripsi Berhasil ditambahkan", "text" => "$successCounter dari $totalCounter Jadwal telah berhasil ditambahkan!"]);
-        return redirect()->to(base_url("kaprodi/sidangSkripsi"));
+        return redirect()->to(base_url("Kaprodi/sidangSkripsi"));
     }
 
     
