@@ -90,6 +90,7 @@
                             <th>Dosen Usulan 2</th>
                             <th>Status</th>
                             <th>Komentar</th>
+                            <th>Dikomentari oleh</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -120,6 +121,15 @@
                                 <?php endforeach; ?>
                                 <td><?= $p['status'] ?></td>
                                 <td><?= ($p['komentar'] != null) ? $p['komentar'] : "-" ?></td>
+                                <?php if ($p['pembuat_komentar'] == null): ?>
+                                    <td>-</td>
+                                <?php else: ?>
+                                    <?php foreach($dosen as $d) : ?>
+                                        <?php if ($d['id'] == $p['pembuat_komentar']) : ?>
+                                            <td data-toggle="tooltip" data-placement="top" title="<?= $d['nama'] ?>" class="pembuat_komentar" data-id="<?= $p['pembuat_komentar'] ?>"><?= $d['inisial'] ?></td>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
                                 <td>
                                     <a role="button" class="btn btn-primary" href="<?= base_url("mahasiswa/detailProposal/".$p['id']) ?>" data-toggle="tooltip" title="Detail"><i class="fas fa-info-circle"></i></a>
                                 </td>
@@ -214,13 +224,13 @@
 
                             <div class="col-lg-12">
                                 <label>File Proposal</label>
+                                <small class="text-muted d-block">Unggah Proposal Skripsi dalam format PDF dengan ukuran maksimal 10 MB</small>
                                 <div class="input-group">
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" id="file_proposal" name="file_proposal">
                                         <label class="custom-file-label" for="file_proposal">Pilih File Proposal</label>
                                     </div>
                                 </div>
-                                <small class="text-muted alert-proposal" style="display: none">Pilih File Proposal Baru jika ingin mengubah File Proposal</small>
                             </div>
                         </div>
                     </div>

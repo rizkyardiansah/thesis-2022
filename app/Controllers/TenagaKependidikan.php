@@ -194,11 +194,6 @@ class TenagaKependidikan extends BaseController
             return redirect()->to(base_url("unauthorized.php"));
         }
 
-        //buat mencegah access langsung dari link
-        if ($this->request->getMethod() != 'post') {
-            return redirect()->back();
-        }
-
         redirect()->to(base_url("dosen/pembimbing"));
         return $this->response->download("folderResource/Format_Pembimbing_Skripsi_Mahasiswa.xlsx", null);
     }

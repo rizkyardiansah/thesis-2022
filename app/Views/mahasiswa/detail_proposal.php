@@ -104,6 +104,7 @@
                     <div class="col-lg-12 my-1">
                         <label>File Proposal</label>
                         <?php if ($detailProposal['file_proposal'] == null) : ?>
+                            <small class="text-muted d-block">Unggah Proposal Skripsi dalam format PDF dengan ukuran maksimal 10 MB</small>
                             <div class="input-group">
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="file_proposal" name="file_proposal">

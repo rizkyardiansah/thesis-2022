@@ -87,6 +87,7 @@
                     <div class="col-lg-12 my-2">
                         <label>File Kartu Hasil Studi</label>
                         <?php if ($mahasiswa['file_khs'] == null) : ?>
+                            <small class="text-muted d-block">Unggah KHS dalam format PDF dengan ukuran maksimal 10 MB </small>
                             <div class="input-group">
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="inputKhs" name="inputKhs">
@@ -106,6 +107,7 @@
                     <div class="col-lg-12 my-2">
                         <label>File Kartu Rencana Studi</label>
                         <?php if ($mahasiswa['file_krs'] == null) : ?>
+                            <small class="text-muted d-block">Unggah KRS dalam format PDF dengan ukuran maksimal 10 MB </small>
                             <div class="input-group">
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="inputKrs" name="inputKrs">
@@ -125,6 +127,7 @@
                     <div class="col-lg-12 my-2">
                         <label>File Persetujuan Penyusunan Skripsi</label>
                         <?php if ($mahasiswa['file_persetujuan_skripsi'] == null) : ?>
+                            <small class="text-muted d-block">Unggah Persetujuan Penyusunan Skripsi dalam format PDF dengan ukuran maksimal 10 MB</small>
                             <div class="input-group">
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="inputPersetujuanSkripsi" name="inputPersetujuanSkripsi">

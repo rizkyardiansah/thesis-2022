@@ -60,6 +60,7 @@
                     <div class="col-lg-12 my-2">
                         <label>File Draft Final Skripsi</label>
                         <?php if ($detailPengajuan['file_draft_final'] == null) : ?>
+                            <small class="text-muted d-block">Unggah Draft Final Skripsi dalam format PDF dengan ukuran maksimal 10 MB</small>
                             <div class="input-group">
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="file_draft_final" name="file_draft_final">
@@ -79,6 +80,7 @@
                     <div class="col-lg-12 my-2">
                         <label>Form Bimbingan Skripsi</label>
                         <?php if ($detailPengajuan['file_form_bimbingan'] == null) : ?>
+                            <small class="text-muted d-block">Unggah Form Bimbingan Skripsi dalam format PDF dengan ukuran maksimal 10 MB</small>
                             <div class="input-group">
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="file_form_bimbingan" name="file_form_bimbingan">
@@ -98,6 +100,7 @@
                     <div class="col-lg-12 my-2">
                         <label>Kelengkapan Persyaratan Sidang Skripsi</label>
                         <?php if ($detailPengajuan['file_persyaratan_sidang'] == null) : ?>
+                            <small class="text-muted d-block">Unggah Persyaratan Sidang Skripsi dalam format PDF dengan ukuran maksimal 10 MB</small>
                             <div class="input-group">
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="file_persyaratan_sidang" name="file_persyaratan_sidang">

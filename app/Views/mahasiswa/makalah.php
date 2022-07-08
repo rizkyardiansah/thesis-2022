@@ -102,6 +102,7 @@
                                     </div>
                                 </div>
                                 <?php elseif (count($makalah) == 0) : ?>
+                                    <small class="text-muted d-block">Unggah Makalah dalam format PDF dengan ukuran maksimal 10 MB</small>
                                     <div class="input-group">
                                         <div class="custom-file">
                                             <input type="file" class="custom-file-input" id="file_makalah" name="file_makalah">
@@ -110,6 +111,7 @@
                                     </div>
                                 <?php elseif (count($makalah) == 1) : ?>
                                     <?php if ($makalah[0]['file_makalah'] == null) : ?>
+                                        <small class="text-muted d-block">Unggah Makalah dalam format PDF dengan ukuran maksimal 10 MB</small>
                                         <div class="input-group">
                                             <div class="custom-file">
                                                 <input type="file" class="custom-file-input" id="file_makalah" name="file_makalah">

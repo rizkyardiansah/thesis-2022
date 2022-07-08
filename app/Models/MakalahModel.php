@@ -20,7 +20,7 @@ class MakalahModel extends Model
         inner join mahasiswa as m on m.npm = mak.npm
         inner join bidang as b on b.id = mak.id_bidang
         inner join program_studi as ps on ps.id = m.id_prodi
-        order by mak.tanggal_upload desc";
+        order by mak.tanggal_upload DESC";
         $result = $db->query($sql);
         return $result->getResultArray();
     }
@@ -33,7 +33,7 @@ class MakalahModel extends Model
         inner join bidang as b on b.id = mak.id_bidang
         inner join program_studi as ps on ps.id = m.id_prodi
         where mak.tanggal_upload between ? and ?
-        order by mak.tanggal_upload desc";
+        order by mak.tanggal_upload DESC";
         $result = $db->query($sql, [$dari, $hingga]);
         return $result->getResultArray();
     }

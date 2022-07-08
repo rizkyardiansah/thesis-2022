@@ -168,16 +168,16 @@ class SkripsiModel extends Model
         (select count(cb.id) from catatan_bimbingan as cb where cb.id_pembimbing = p2.id and cb.status = 'DISETUJUI') as total_bimbingan2,
         (select count(cb.id) from catatan_bimbingan as cb where cb.id_pembimbing = p3.id and cb.status = 'DISETUJUI') as total_bimbingan3
         from skripsi as s
-        inner join pembimbing as p1 on p1.id_skripsi = s.id
-        inner join pembimbing as p2 on p2.id_skripsi = s.id
-        inner join pembimbing as p3 on p3.id_skripsi = s.id
-        inner join dosen as d1 on d1.id = p1.id_dosen
+        left join pembimbing as p1 on p1.id_skripsi = s.id
+        left join pembimbing as p2 on p2.id_skripsi = s.id
+        left join pembimbing as p3 on p3.id_skripsi = s.id
+        left join dosen as d1 on d1.id = p1.id_dosen
         left join dosen as d2 on d2.id = p2.id_dosen
-        inner join dosen as d3 on d3.id = p3.id_dosen
+        left join dosen as d3 on d3.id = p3.id_dosen
         where s.id = ? and
-        p1.role = 'Pembimbing Ilmu 1' and
-        p2.role = 'Pembimbing Ilmu 2' and
-        p3.role = 'Pembimbing Agama'
+        (p1.role = 'Pembimbing Ilmu 1' or p1.role is NULL) and
+        (p2.role = 'Pembimbing Ilmu 2'or p2.role is NULL) and
+        (p3.role = 'Pembimbing Agama' or p3.role is NULL)
         ";
         $result = $db->query($sql, [$idSkripsi]);
         if (count($result->getResultArray()) == 0) {

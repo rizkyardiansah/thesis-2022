@@ -163,6 +163,7 @@
                             </div>
                             <div class="col-lg-12 mb-3">
                                 <label>Draft Final Skripsi</label>
+                                <small class="text-muted d-block">Unggah Draft Final Skripsi dalam format PDF dengan ukuran maksimal 10 MB</small>
                                 <div class="input-group">
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" id="file_draft_final" name="file_draft_final">
@@ -172,6 +173,7 @@
                             </div>
                             <div class="col-lg-12 mb-3">
                                 <label>Formulir Bimbingan Skripsi</label>
+                                <small class="text-muted d-block">Unggah Formulir Bimbingan dalam format PDF dengan ukuran maksimal 10 MB</small>
                                 <div class="input-group">
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" id="file_form_bimbingan" name="file_form_bimbingan">
@@ -181,6 +183,7 @@
                             </div>
                             <div class="col-lg-12 mb-3">
                                 <label>Form Persyaratan Sidang Skripsi</label>
+                                <small class="text-muted d-block">Unggah Persyaratan Sidang Skripsi dalam format PDF dengan ukuran maksimal 10 MB</small>
                                 <div class="input-group">
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" id="file_persyaratan_sidang" name="file_persyaratan_sidang">

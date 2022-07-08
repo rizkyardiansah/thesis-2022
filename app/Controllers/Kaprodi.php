@@ -54,8 +54,8 @@ class Kaprodi extends BaseController
             return redirect()->to(base_url("unauthorized.php"));
         }
 
-        $dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
-        $prodi = $this->prodiModel->find($dataAkun['id_prodi']);
+        //$dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
+        $prodi = $this->prodiModel->find(session()->get("user_session")['id']);;
         $proposal = $this->proposalModel->getProposalMahasiswaByProdi($prodi['id']);
 
         $dari = $this->request->getGet("dari");
@@ -86,8 +86,8 @@ class Kaprodi extends BaseController
             return redirect()->to(base_url("unauthorized.php"));
         }
 
-        $dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
-        $prodi = $this->prodiModel->find($dataAkun['id_prodi']);
+        //$dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
+        $prodi = $this->prodiModel->find(session()->get("user_session")['id']);;
         $skripsi = $this->skripsiModel->getSkripsiMahasiswaByProdi($prodi['id']);
 
         $dari = $this->request->getGet("dari");
@@ -114,8 +114,8 @@ class Kaprodi extends BaseController
             return redirect()->to(base_url("unauthorized.php"));
         }
 
-        $dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
-        $prodi = $this->prodiModel->find($dataAkun['id_prodi']);
+        //$dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
+        $prodi = $this->prodiModel->find(session()->get("user_session")['id']);;
         $makalah = $this->makalahModel->getMakalahMahasiswaByProdi($prodi['id']);
 
         $dari = $this->request->getGet("dari");
@@ -143,8 +143,8 @@ class Kaprodi extends BaseController
             return redirect()->to(base_url("unauthorized.php"));
         }
 
-        $dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
-        $prodi = $this->prodiModel->find($dataAkun['id_prodi']);
+        //$dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
+        $prodi = $this->prodiModel->find(session()->get("user_session")['id']);;
         $pembimbing = $this->mahasiswaModel->getPembimbingMahasiswaByProdi($prodi['id']);
 
         $data = [
@@ -216,8 +216,7 @@ class Kaprodi extends BaseController
             return redirect()->to(base_url("unauthorized.php"));
         }
 
-        $dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
-        $prodi = $this->prodiModel->find($dataAkun['id_prodi']);
+        $prodi = $this->prodiModel->find(session()->get("user_session")['id']);
         
         $seminarProposal = $this->semproModel->getSemproByProdi($prodi['id']);
         $dari = $this->request->getGet("dari");
@@ -374,7 +373,8 @@ class Kaprodi extends BaseController
             return redirect()->back();
         }
 
-        $dataAkun = $this->dosenModel->find(session()->get('user_session')['id']);
+        //$dataAkun = $this->dosenModel->find(session()->get('user_session')['id']);
+        $dataAkun = $this->prodiModel->find(session()->get("user_session")['id']);
         $validationRules = [
             'fileJadwal' => [
                 'rules' => 'uploaded[fileJadwal]|mime_in[fileJadwal,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet]|ext_in[fileJadwal,xls,xlsx]|max_size[fileJadwal,10000]',
@@ -441,7 +441,7 @@ class Kaprodi extends BaseController
             $penguji1 = $this->dosenModel->getDosenByInisial($worksheet->getCell("D$row")->getValue());
             $penguji2 = $this->dosenModel->getDosenByInisial($worksheet->getCell("E$row")->getValue());
             if ($penguji1 == null) { continue; }
-            if ($penguji1 != null && $penguji1['id_prodi'] != $dataAkun['id_prodi'] || $penguji2 != null && $penguji2['id_prodi'] != $dataAkun['id_prodi']) { continue; }
+            if ($penguji1 != null && $penguji1['id_prodi'] != $dataAkun['id'] || $penguji2 != null && $penguji2['id_prodi'] != $dataAkun['id']) { continue; }
             if ($penguji2 == null && $worksheet->getCell("E$row")->getValue() != "-") { continue; }
 
             $dosen_penguji1 = $penguji1['id'];
@@ -482,11 +482,6 @@ class Kaprodi extends BaseController
             return redirect()->to(base_url("unauthorized.php"));
         }
 
-        //buat mencegah access langsung dari link
-        if ($this->request->getMethod() != 'post') {
-            return redirect()->back();
-        }
-
         redirect()->to(base_url("Kaprodi/seminarProposal"));
         if ($mode_sempro == 'Sinkronus Daring') {
             return $this->response->download("folderResource/Format_Jadwal_SemPro_Sinkronus_Daring.xlsx", null);
@@ -508,8 +503,8 @@ class Kaprodi extends BaseController
             return redirect()->to(base_url("unauthorized.php"));
         }
 
-        $dataAkun = $this->dosenModel->find(session()->get('user_session')['id']);
-        $prodi = $this->prodiModel->find($dataAkun['id_prodi']);
+        //$dataAkun = $this->dosenModel->find(session()->get('user_session')['id']);
+        $prodi = $this->prodiModel->find(session()->get("user_session")['id']);;
         $mahasiswa = $this->mahasiswaModel->getMahasiswaBelumDapatSempraByProdi($prodi['id']);
 
         $seminarPrasidang = $this->seminarPrasidangModel->getPrasidangByProdi($prodi['id']);
@@ -547,8 +542,8 @@ class Kaprodi extends BaseController
             return redirect()->back();
         }
 
-        $dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
-        $prodi = $this->prodiModel->find($dataAkun['id_prodi']);
+        //$dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
+        $prodi = $this->prodiModel->find(session()->get("user_session")['id']);;
         $npm = $this->request->getPost("mahasiswa", FILTER_SANITIZE_SPECIAL_CHARS);
         $skripsi = $this->skripsiModel->getMahasiswaLastSkripsi($npm);
 
@@ -634,11 +629,6 @@ class Kaprodi extends BaseController
             return redirect()->to(base_url("unauthorized.php"));
         }
 
-        //buat mencegah access langsung dari link
-        if ($this->request->getMethod() != 'post') {
-            return redirect()->back();
-        }
-
         redirect()->to(base_url("Kaprodi/seminarPrasidang"));
         return $this->response->download("folderResource/Format_Jadwal_Seminar_Prasidang.xlsx", null);
     }
@@ -655,7 +645,8 @@ class Kaprodi extends BaseController
             return redirect()->back();
         }
 
-        $dataAkun = $this->dosenModel->find(session()->get('user_session')['id']);
+        //$dataAkun = $this->dosenModel->find(session()->get('user_session')['id']);
+        $dataAkun = $this->prodiModel->find(session()->get("user_session")['id']);;
         $validationRules = [
             'fileJadwal' => [
                 'rules' => 'uploaded[fileJadwal]|mime_in[fileJadwal,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet]|ext_in[fileJadwal,xls,xlsx]|max_size[fileJadwal,10000]',
@@ -715,7 +706,7 @@ class Kaprodi extends BaseController
 
             $reviewer = $this->dosenModel->getDosenByInisial($worksheet->getCell("D$row")->getValue());
             if ($reviewer == null) { continue; }
-            if ($reviewer != null && $reviewer['id_prodi'] != $dataAkun['id_prodi']) { continue; }
+            if ($reviewer != null && $reviewer['id_prodi'] != $dataAkun['id']) { continue; }
 
             $dosen_reviewer = $reviewer['id'];
 
@@ -750,8 +741,8 @@ class Kaprodi extends BaseController
             return redirect()->to(base_url("unauthorized.php"));
         }
 
-        $dataAkun = $this->dosenModel->find(session()->get('user_session')['id']);
-        $prodi = $this->prodiModel->find($dataAkun['id_prodi']);
+        //$dataAkun = $this->dosenModel->find(session()->get('user_session')['id']);
+        $prodi = $this->prodiModel->find(session()->get("user_session")['id']);;
         $mahasiswa = $this->mahasiswaModel->getMahasiswaBelumDapatSidangByProdi($prodi['id']);
 
         $sidangSkripsi = $this->sidangSkripsiModel->getSidangSkripsiByProdi($prodi['id']);
@@ -788,8 +779,8 @@ class Kaprodi extends BaseController
             return redirect()->back();
         }
 
-        $dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
-        $prodi = $this->prodiModel->find($dataAkun['id_prodi']);
+        //$dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
+        $prodi = $this->prodiModel->find(session()->get("user_session")['id']);;
 
         $npm = $this->request->getPost("mahasiswa", FILTER_SANITIZE_SPECIAL_CHARS);
         $skripsi = $this->skripsiModel->getMahasiswaLastSkripsi($npm);
@@ -876,11 +867,6 @@ class Kaprodi extends BaseController
             return redirect()->to(base_url("unauthorized.php"));
         }
 
-        //buat mencegah access langsung dari link
-        if ($this->request->getMethod() != 'post') {
-            return redirect()->back();
-        }
-
         redirect()->to(base_url("Kaprodi/sidangSkripsi"));
         return $this->response->download("folderResource/Format_Jadwal_Sidang_Skripsi.xlsx", null);
     }
@@ -897,7 +883,8 @@ class Kaprodi extends BaseController
             return redirect()->back();
         }
 
-        $dataAkun = $this->dosenModel->find(session()->get('user_session')['id']);
+        // $dataAkun = $this->dosenModel->find(session()->get('user_session')['id']);
+        $dataAkun = $this->prodiModel->find(session()->get("user_session")['id']);;
         $validationRules = [
             'fileJadwal' => [
                 'rules' => 'uploaded[fileJadwal]|mime_in[fileJadwal,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet]|ext_in[fileJadwal,xls,xlsx]|max_size[fileJadwal,10000]',
@@ -958,7 +945,7 @@ class Kaprodi extends BaseController
 
             $penguji1 = $this->dosenModel->getDosenByInisial($worksheet->getCell("D$row")->getValue());
             if ($penguji1 == null) { continue; }
-            if ($penguji1 != null && $penguji1['id_prodi'] != $dataAkun['id_prodi']) { continue; }
+            if ($penguji1 != null && $penguji1['id_prodi'] != $dataAkun['id']) { continue; }
 
             $dosen_penguji1 = $penguji1['id'];
 

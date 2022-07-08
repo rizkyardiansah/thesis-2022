@@ -100,6 +100,7 @@
                     <div class="col-lg-12 my-1">
                         <label>File Final Skripsi</label>
                         <?php if ($detailSkripsi['file_skripsi'] == null && $detailSkripsi['status'] == 'Lulus') : ?>
+                            <small class="text-muted d-block">Unggah Final Skripsi dalam format PDF dengan ukuran maksimal 10 MB</small>
                             <div class="input-group">
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="file_skripsi" name="file_skripsi">

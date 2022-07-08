@@ -158,6 +158,10 @@ class Dosen extends BaseController
         if ($lastSkripsi == null) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
+        $mahasiswa = $this->mahasiswaModel->find($npm);
+        if ($mahasiswa == null) {
+           throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound(); 
+        }
         $dataPembimbing = $this->pembimbingModel->getWhere(['id_skripsi' => $lastSkripsi['id'], 'id_dosen' => $dosen['id'], 'role' => $role])->getResultArray();
         if (count($dataPembimbing) == 0) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
@@ -166,6 +170,8 @@ class Dosen extends BaseController
         $catatanBimbingan = $this->catatanBimbinganModel->getWhere(['id_pembimbing' => $dataPembimbing[0]['id']])->getResultArray();
         $data = [
             'title' => 'Detail Bimbingan',
+            'mahasiswa' => $mahasiswa,
+            'skripsi' => $lastSkripsi,
             'catatanBimbingan' => $catatanBimbingan,
         ];
         return view("dosen/detail_bimbingan", $data);

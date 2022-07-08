@@ -477,10 +477,16 @@
                 </table>
             </div>
 
-            <div class="row">
-                <div class="col-lg-12 d-flex justify-content-center">
-                    <h3><strong><?= $mahasiswa['nama'] ?></strong> dinyatakan <strong><?= $sidangSkripsi['status'] ?></strong> dengan total nilai <strong><?= $sidangSkripsi['total_nilai'] ?> (<?= $sidangSkripsi['grade'] ?>)</strong></h3>
+            <?php if (count($nilaiPembimbing1) == 1 && ($pembimbingIlmu2[0]['id_dosen'] == null || ($pembimbingIlmu2[0]['id_dosen'] != null && count($nilaiPembimbing2) == 1)) && count($nilaiPembimbingAgama) == 1 && count($nilaiPenguji) == 1): ?>
+                <div class="row">
+                    <div class="col-lg-12 d-flex justify-content-center">
+                        <h3>Anda dinyatakan <strong><?= $sidangSkripsi['status'] ?></strong> dengan total nilai <strong><?= $sidangSkripsi['total_nilai'] ?> (<?= $sidangSkripsi['grade'] ?>)</strong></h3>
+                    </div>
                 </div>
+            <?php endif; ?>
+
+            <div class="col-lg-12 my-2 d-flex justify-content-end">
+                <a class="btn btn-secondary mr-2" role="button" href="<?= base_url("kaprodi/skripsi") ?>">Kembali</a>
             </div>
         </div>
     </div>

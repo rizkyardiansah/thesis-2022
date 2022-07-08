@@ -15,22 +15,28 @@
                 <div class="alert alert-danger" role="alert">
                     <small>Kumpulkan <strong>Skripsi</strong> terlebih dahulu pada <a href="<?= base_url("mahasiswa/skripsi") ?>">Menu Berikut</a>.</small>
                 </div>
-            <?php elseif (count($lastSkripsi) > 0 && $lastSkripsi['status'] != 'Dalam Pengerjaan') : ?>
-                <div class="alert alert-danger" role="alert">
+            <?php elseif (count($lastSkripsi) > 0 && $lastSkripsi['status'] == 'Lulus') : ?>
+                <div class="alert alert-info" role="alert">
                     <small>
-                        Menu ini hanya dapat digunakan oleh mahasiswa yang <strong>Sedang Menulis Skripsi</strong>.
+                        Anda telah dinyatakan <strong>Lulus</strong>. Silahkan kumpulkan <strong>File Final Skripsi</strong> pada <a href="<?= base_url("mahasiswa/skripsi") ?>">Menu Berikut</a>.
+                    </small>
+                </div>
+             <?php elseif (count($lastSkripsi) > 0 && $lastSkripsi['status'] == 'Tidak Lulus') : ?>
+                <div class="alert alert-info" role="alert">
+                    <small>
+                        Anda telah dinyatakan <strong>Tidak Lulus</strong>. Silahkan kumpulkan <strong>Proposal</strong> kembali pada <a href="<?= base_url("mahasiswa/proposal") ?>">Menu Berikut</a>.
                     </small>
                 </div>
             <?php elseif (count($jadwalSeminarPrasidang) != 0 && $jadwalSeminarPrasidang[0]['status'] == 'TIDAK LAYAK SIDANG') : ?>
                 <div class="alert alert-danger" role="alert">
                     <small>
-                        Hasil Seminar Anda adalah <strong>Tidak Layak Sidang</strong>. Anda Tidak dapat melanjutkan ke tahap selanjutnya.
+                        Hasil Seminar Anda adalah <strong>Tidak Layak Sidang</strong> dan telah dinyatakan <strong>Tidak Lulus</strong>. Anda Tidak dapat melanjutkan ke tahap selanjutnya.
                     </small>
                 </div>
             <?php elseif (count($jadwalSeminarPrasidang) != 0 && $jadwalSeminarPrasidang[0]['status'] == 'LAYAK SIDANG') : ?>
                 <div class="alert alert-success" role="alert">
                     <small>
-                        Selamat! Anda dinyatakan <strong>Layak Sidang</strong>. Anda dapat melanjutkan ke tahap selanjutnya.
+                        Selamat! Anda dinyatakan <strong>Layak Sidang</strong>. Silahkan buat <strong>Pengajuan Sidang</strong> pada <a href="<?= base_url("mahasiswa/pengajuanSidangSkripsi") ?>">Menu Berikut</a>.
                     </small>
                 </div>
             <?php elseif ($pengajuan == null) : ?>

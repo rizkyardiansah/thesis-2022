@@ -32,7 +32,7 @@
             <?php elseif ($lastSkripsi != null && $lastSkripsi['status'] == 'Lulus' ): ?>
                 <div class="alert alert-success" role="alert">
                     <small>
-                        Selamat anda dinyatakan <strong>Lulus</strong>. Silahkan unggah Makalah anda pada <a href="<?= base_url("mahasiswa/makalah") ?>">Menu Berikut</a>.
+                        Selamat anda dinyatakan <strong>Lulus</strong>. Silahkan unggah <strong>File Final Skripsi</strong> pada halaman ini dan unggah <strong>File Makalah</strong> anda pada <a href="<?= base_url("mahasiswa/makalah") ?>">Menu Berikut</a>.
                     </small>
                 </div>
             <?php elseif ($lastSkripsi != null && $lastSkripsi['status'] == 'Tidak Lulus' ): ?>

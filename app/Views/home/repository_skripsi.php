@@ -27,6 +27,7 @@
                 <table class="table table-bordered" id="repositorySkripsi" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>Judul</th>
                             <th>Deskripsi Singkat</th>
                             <th>Penulis</th>
@@ -38,8 +39,10 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <?php $counter = 1 ; ?>
                         <?php foreach($makalah as $m): ?>
                             <tr>
+                                <td><?= $counter++; ?></td>
                                 <td><?= $m['judul'] ?></td>
                                 <td><?= $m['deskripsi'] ?></td>
                                 <td><?= $m['nama_mahasiswa'] ?></td>

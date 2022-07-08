@@ -3,7 +3,7 @@ $(function () {
     rules: {
       sks_lulus: {
         required: true,
-        number: true,
+        digits: true,
         min: 1,
         max: 140,
       },

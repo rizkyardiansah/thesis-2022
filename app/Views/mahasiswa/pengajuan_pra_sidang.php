@@ -157,6 +157,7 @@
                             </div>
                             <div class="col-lg-12">
                                 <label>File Draft Skripsi</label>
+                                <small class="text-muted d-block">Unggah Draft Skripsi dalam format PDF dengan ukuran maksimal 10 MB</small>
                                 <div class="input-group">
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" id="file_draft" name="file_draft">
@@ -165,11 +166,12 @@
                                 </div>
                             </div>
                             <div class="col-lg-12">
-                                <label>Lembar Persetujuan Seminar Pra Sidang</label>
+                                <label>Lembar Persetujuan Seminar Prasidang</label>
+                                <small class="text-muted d-block">Unggah Persetujuan Seminar Prasidang dalam format PDF dengan ukuran maksimal 10 MB</small>
                                 <div class="input-group">
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" id="lembar_persetujuan" name="lembar_persetujuan">
-                                        <label class="custom-file-label" for="lembar_persetujuan">Pilih File Lembar Persetujuan Seminar Pra Sidang</label>
+                                        <label class="custom-file-label" for="lembar_persetujuan">Pilih File Lembar Persetujuan Seminar Prasidang</label>
                                     </div>
                                 </div>
                             </div>

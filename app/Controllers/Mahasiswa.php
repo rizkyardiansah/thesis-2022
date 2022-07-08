@@ -96,11 +96,6 @@ class Mahasiswa extends BaseController
             return redirect()->to(base_url("unauthorized.php"));
         }
 
-        //buat mencegah access langsung dari link
-        if ($this->request->getMethod() != 'post') {
-            return redirect()->back();
-        }
-
         $mahasiswa = $this->mahasiswaModel->find(session()->get("user_session")['id']);
         $dosen = $this->dosenModel->getDosenByProdi($mahasiswa['id_prodi']);
 
@@ -1084,11 +1079,6 @@ class Mahasiswa extends BaseController
             return redirect()->to(base_url("unauthorized.php"));
         }
 
-        //buat mencegah access langsung dari link
-        if ($this->request->getMethod() != 'post') {
-            return redirect()->back();
-        }
-
         $dataAkun = $this->mahasiswaModel->find(session()->get("user_session")['id']);
         $sidangSkripsi = $this->sidangSkripsiModel->find($idSidangSkripsi);
         if ($sidangSkripsi == null) {
@@ -1842,6 +1832,8 @@ class Mahasiswa extends BaseController
         session()->setFlashdata("message", ["icon" => "success", "title" => "Hapus File Skripsi Berhasil", "text" => "File Skripsi berhasil dihapus"]);
         return redirect()->back();
     }
+
+    
 
     private function authenticate($roles) {
         $userSession = session("user_session");

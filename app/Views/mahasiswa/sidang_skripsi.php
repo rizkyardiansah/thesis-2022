@@ -15,10 +15,16 @@
                 <div class="alert alert-danger" role="alert">
                     <small>Kumpulkan <strong>Skripsi</strong> terlebih dahulu pada <a href="<?= base_url("mahasiswa/skripsi") ?>">Menu Berikut</a>.</small>
                 </div>
-            <?php elseif (count($lastSkripsi) > 0 && $lastSkripsi['status'] != 'Dalam Pengerjaan') : ?>
-                <div class="alert alert-danger" role="alert">
+            <?php elseif (count($lastSkripsi) > 0 && $lastSkripsi['status'] == 'Lulus') : ?>
+                <div class="alert alert-info" role="alert">
                     <small>
-                        Menu ini hanya dapat digunakan oleh mahasiswa yang <strong>Sedang Menulis Skripsi</strong>.
+                        Anda telah dinyatakan <strong>Lulus</strong>. Silahkan kumpulkan <strong>File Final Skripsi</strong> pada <a href="<?= base_url("mahasiswa/skripsi") ?>">Menu Berikut</a>.
+                    </small>
+                </div>
+             <?php elseif (count($lastSkripsi) > 0 && $lastSkripsi['status'] == 'Tidak Lulus') : ?>
+                <div class="alert alert-info" role="alert">
+                    <small>
+                        Anda telah dinyatakan <strong>Tidak Lulus</strong>. Silahkan kumpulkan <strong>Proposal</strong> kembali pada <a href="<?= base_url("mahasiswa/proposal") ?>">Menu Berikut</a>.
                     </small>
                 </div>
             <?php elseif ($pengajuan == null) : ?>

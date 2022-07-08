@@ -51,9 +51,9 @@
     </a>
     <div id="collapsePengajuan" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="<?= base_url("mahasiswa/pengajuanPenulisanSkripsi") ?>">Penulisan Skripsi</a>
-            <a class="collapse-item" href="<?= base_url("mahasiswa/pengajuanPraSidang") ?>">Seminar Prasidang</a>
-            <a class="collapse-item" href="<?= base_url("mahasiswa/pengajuanSidangSkripsi") ?>">Sidang Skripsi</a>
+            <a class="collapse-item" href="<?= base_url("Mahasiswa/pengajuanPenulisanSkripsi") ?>">Penulisan Skripsi</a>
+            <a class="collapse-item" href="<?= base_url("Mahasiswa/pengajuanPraSidang") ?>">Seminar Prasidang</a>
+            <a class="collapse-item" href="<?= base_url("Mahasiswa/pengajuanSidangSkripsi") ?>">Sidang Skripsi</a>
         </div>
     </div>
 </li>
@@ -66,9 +66,9 @@
     </a>
     <div id="collapseBerkas" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="<?= base_url("mahasiswa/proposal") ?>">Proposal</a>
-            <a class="collapse-item" href="<?= base_url("mahasiswa/skripsi") ?>">Skripsi</a>
-            <a class="collapse-item" href="<?= base_url("mahasiswa/makalah") ?>">Makalah</a>
+            <a class="collapse-item" href="<?= base_url("Mahasiswa/proposal") ?>">Proposal</a>
+            <a class="collapse-item" href="<?= base_url("Mahasiswa/skripsi") ?>">Skripsi</a>
+            <a class="collapse-item" href="<?= base_url("Mahasiswa/makalah") ?>">Makalah</a>
         </div>
     </div>
 </li>
@@ -81,15 +81,15 @@
     </a>
     <div id="collapseJadwal" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="<?= base_url("mahasiswa/seminarProposal") ?>">Seminar Proposal</a>
-            <a class="collapse-item" href="<?= base_url("mahasiswa/seminarPrasidang") ?>">Seminar Prasidang</a>
-            <a class="collapse-item" href="<?= base_url("mahasiswa/sidangSkripsi") ?>">Sidang Skripsi</a>
+            <a class="collapse-item" href="<?= base_url("Mahasiswa/seminarProposal") ?>">Seminar Proposal</a>
+            <a class="collapse-item" href="<?= base_url("Mahasiswa/seminarPrasidang") ?>">Seminar Prasidang</a>
+            <a class="collapse-item" href="<?= base_url("Mahasiswa/sidangSkripsi") ?>">Sidang Skripsi</a>
         </div>
     </div>
 </li>
 
 <li class="nav-item ">
-    <a class="nav-link py-2" href="<?= base_url("mahasiswa/pembimbing")?>">
+    <a class="nav-link py-2" href="<?= base_url("Mahasiswa/pembimbing")?>">
         <i class="fas fa-file-medical"></i>
         <span>Catatan Bimbingan</span></a>
 </li>

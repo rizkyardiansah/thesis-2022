@@ -60,6 +60,7 @@
                     <div class="col-lg-12 my-2">
                         <label>File Draft Skripsi</label>
                         <?php if ($detailPengajuan['file_draft'] == null) : ?>
+                            <small class="text-muted d-block">Unggah Draft Skripsi dalam format PDF dengan ukuran maksimal 10 MB</small>
                             <div class="input-group">
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="file_draft" name="file_draft">
@@ -79,6 +80,7 @@
                     <div class="col-lg-12 my-2">
                         <label>Lembar Persetujuan Seminar Prasidang</label>
                         <?php if ($detailPengajuan['lembar_persetujuan'] == null) : ?>
+                            <small class="text-muted d-block">Unggah Persetujuan Seminar Prasidang dalam format PDF dengan ukuran maksimal 10 MB</small>
                             <div class="input-group">
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="lembar_persetujuan" name="lembar_persetujuan">

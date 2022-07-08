@@ -490,6 +490,10 @@
                     </div>
                 </div>
             <?php endif; ?>
+
+            <div class="col-lg-12 my-2 d-flex justify-content-end">
+                <a class="btn btn-secondary mr-2" role="button" href="<?= base_url("mahasiswa/sidangSkripsi") ?>">Kembali</a>
+            </div>
         </div>
     </div>
 
