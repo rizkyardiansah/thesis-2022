@@ -69,17 +69,10 @@
                     </div>
 
                    
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
                         <div class="form-group">
                             <label for="reviewer_sempro">Reviewer Seminar Proposal</label>
                             <input class="form-control" id="reviewer_sempro" name="reviewer_sempro" value="<?= $detailSidangSkripsi['nama_reviewer_sempro'] ?>" disabled>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label for="komentar_sempro">Komentar Seminar Proposal</label>
-                            <textarea class="form-control" id="komentar_sempro" name="komentar_sempro" rows="1" disabled><?= $detailSidangSkripsi['komentar_sempro'] ?></textarea>
                         </div>
                     </div>
 
@@ -97,10 +90,17 @@
                         </div>
                     </div> 
 
-                    <div class="col-lg-4">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="komentar_sempro">Komentar Seminar Proposal</label>
+                            <textarea class="form-control" id="komentar_sempro" name="komentar_sempro" rows="5" disabled><?= $detailSidangSkripsi['komentar_sempro'] ?></textarea>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
                         <div class="form-group">
                             <label for="komentar_sempra">Catatan Seminar Prasidang</label>
-                            <textarea class="form-control" id="komentar_sempra" name="komentar_sempra" rows="1" disabled><?= $detailSidangSkripsi['komentar_sempra'] ?></textarea>
+                            <textarea class="form-control" id="komentar_sempra" name="komentar_sempra" rows="5" disabled><?= $detailSidangSkripsi['komentar_sempra'] ?></textarea>
                         </div>
                     </div>
 
