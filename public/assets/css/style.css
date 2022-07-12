@@ -1,0 +1,11 @@
+@media only screen and (max-width: 1700px) {
+  table.dataTable {
+    font-size: 0.9rem;
+  }
+}
+
+@media only screen and (max-width: 1300px) {
+  table.dataTable {
+    font-size: 0.8rem;
+  }
+}
