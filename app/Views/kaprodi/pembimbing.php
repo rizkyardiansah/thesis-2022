@@ -23,9 +23,9 @@
                             <th>Nama</th>
                             <th>Judul</th>
                             <th>Bidang</th>
-                            <th>Pembimbing 1</th>
-                            <th>Pembimbing 2</th>
-                            <th>Pembimbing Agama</th>
+                            <th>Pemb. Ilmu 1</th>
+                            <th>Pemb. Ilmu 2</th>
+                            <th>Pemb. Agama</th>
                             <th>Jumlah Bimbingan Ilmu 1</th>
                             <th>Jumlah Bimbingan Ilmu 2</th>
                             <th>Jumlah Bimbingan Agama</th>

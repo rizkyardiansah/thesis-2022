@@ -39,7 +39,7 @@
                             <th>Nama</th>
                             <th>Program Studi</th>
                             <th>SKS Lulus</th>
-                            <th>Pembimbing Akademik</th>
+                            <th>Pemb. Akademik</th>
                             <th>Matakuliah sedang diambil</th>
                             <th>Matakuliah akan diambil</th>
                             <th>Tanggal Pengajuan</th>

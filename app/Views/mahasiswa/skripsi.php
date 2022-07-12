@@ -68,9 +68,9 @@
                             <th>Bidang</th>
                             <th>Sifat Penelitian</th>
                             <th>Sumber Penelitian</th>
-                            <th>Pembimbing Ilmu 1</th>
-                            <th>Pembimbing Ilmu 2</th>
-                            <th>Pembimbing Agama</th>
+                            <th>Pemb. Ilmu 1</th>
+                            <th>Pemb. Ilmu 2</th>
+                            <th>Pemb. Agama</th>
                             <th>Status</th>
                             <th>Aksi</th>
                         </tr>
