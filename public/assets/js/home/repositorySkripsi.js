@@ -5,13 +5,6 @@ $(function () {
       "<'row'<'col-sm-12'tr>>" +
       "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
     buttons: [
-      // {
-      //   extend: "copyHtml5",
-      //   className: "btn-dark",
-      //   exportOptions: {
-      //     columns: ":visible",
-      //   },
-      // },
       {
         extend: "excelHtml5",
         className: "btn-dark",
@@ -19,16 +12,10 @@ $(function () {
           columns: ":visible",
         },
       },
-      // {
-      //   extend: "csvHtml5",
-      //   className: "btn-dark",
-      //   exportOptions: {
-      //     columns: ":visible",
-      //   },
-      // },
       {
         extend: "pdfHtml5",
         className: "btn-dark",
+        orientation: "landscape",
         exportOptions: {
           columns: ":visible",
         },

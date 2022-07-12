@@ -70,6 +70,7 @@ $(function () {
       {
         extend: "pdfHtml5",
         className: "btn-dark",
+        orientation: "landscape",
         exportOptions: {
           columns: ":visible",
         },
