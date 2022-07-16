@@ -181,7 +181,7 @@
                         <form action="" id="formUnduh" method="post">
                             <button class="btn btn-primary" type="submit">Unduh</button>
                         </form>
-                        <?php if ($mahasiswa['status_persetujuan_skripsi'] == null): ?>
+                        <?php if ($mahasiswa['status_persetujuan_skripsi'] != 'Disetujui'): ?>
                             <form action="" id="formHapus" method="post">
                                 <button class="btn btn-danger" type="submit">Hapus</button>
                             </form>
