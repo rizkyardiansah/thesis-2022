@@ -69,7 +69,7 @@
         <div class="card-body">
             <div class="row mb-3">
                 <div class="col-lg-3 d-flex align-items-center">
-                    <?php if (($mahasiswa['status_persetujuan_skripsi'] == 'Disetujui' && (($lastProposal == null || $lastProposal['status'] == 'DITOLAK')) || ($lastSkripsi == null || $lastSkripsi['status'] == 'Tidak Lulus') )) : ?>
+                    <?php if ($mahasiswa['status_persetujuan_skripsi'] == 'Disetujui' && (($lastProposal == null || $lastProposal['status'] == 'DITOLAK') || ($lastSkripsi != null && $lastSkripsi['status'] == 'Tidak Lulus')) ) : ?>
                         <button class="btn btn-primary" data-toggle="modal" data-target="#tambahProposal">Tambahkan Proposal</button>
                     <?php elseif (($lastSkripsi != null && $lastSkripsi['status'] != 'Tidak Lulus') || $mahasiswa['status_persetujuan_skripsi'] == null || $mahasiswa['status_persetujuan_skripsi'] == 'Ditolak' || $lastProposal['status'] == "TERTUNDA" ||  $lastProposal['status'] == 'DITERIMA' || $lastProposal['status'] == 'REVISI'): ?>
                         <button class="btn btn-primary" disabled>Tambahkan Proposal</button>
