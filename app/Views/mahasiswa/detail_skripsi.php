@@ -70,7 +70,7 @@
                     <div class="col-lg-4">
                         <div class="form-group">
                             <label for="pembimbing1">Pembimbing Ilmu 1</label>
-                            <input type="text" class="form-control" id="pembimbing1" name="pembimbing1" value="<?= $detailSkripsi['inisial_pembimbing1'] ?> | <?= $detailSkripsi['nama_pembimbing1'] ?>" disabled>
+                            <input type="text" class="form-control" id="pembimbing1" name="pembimbing1" value="<?= $detailSkripsi['inisial_pembimbing1'] ?> <?= $detailSkripsi['inisial_pembimbing1'] == null ? "-": "|" ?> <?= $detailSkripsi['nama_pembimbing1'] ?>" disabled>
                         </div>
                     </div>
                     <div class="col-lg-4">
@@ -82,7 +82,7 @@
                     <div class="col-lg-4">
                         <div class="form-group">
                             <label for="pembimbing3">Pembimbing Agama</label>
-                            <input type="text" class="form-control" id="pembimbing3" name="pembimbing3" value="<?= $detailSkripsi['inisial_pembimbing3'] ?> | <?= $detailSkripsi['nama_pembimbing3'] ?>" disabled>
+                            <input type="text" class="form-control" id="pembimbing3" name="pembimbing3" value="<?= $detailSkripsi['inisial_pembimbing3'] ?> <?= $detailSkripsi['inisial_pembimbing3'] == null ? "-": "|" ?> <?= $detailSkripsi['nama_pembimbing3'] ?>" disabled>
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -93,8 +93,8 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <label for="total_bimbingan_ilmu">Total Bimbingan Ilmu yang Disetujui</label>
-                            <input type="text" class="form-control" id="total_bimbingan_ilmu" name="total_bimbingan_ilmu" value="<?= $detailSkripsi['total_bimbingan3']?>" disabled>
+                            <label for="total_bimbingan_agama">Total Bimbingan Agama yang Disetujui</label>
+                            <input type="text" class="form-control" id="total_bimbingan_agama" name="total_bimbingan_agama" value="<?= $detailSkripsi['total_bimbingan3']?>" disabled>
                         </div>
                     </div>
                     <div class="col-lg-12 my-1">
