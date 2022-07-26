@@ -66,7 +66,7 @@
                                 <td><?= $s['sifat'] ?></td>
                                 <td><?= $s['sumber'] ?></td>
                                 <td data-toggle="tooltip" data-placement="top" title="<?= $s['nama_pembimbing1'] ?>"><?= $s['inisial_pembimbing1'] ?></td>
-                                <?php if ($s['tanggal_selesai_skripsi'] == null) : ?>
+                                <?php if ($s['nama_pembimbing2'] == null) : ?>
                                     <td>-</td>
                                 <?php else: ?>
                                     <td data-toggle="tooltip" data-placement="top" title="<?= $s['nama_pembimbing2'] ?>"><?= $s['inisial_pembimbing2'] ?></td>

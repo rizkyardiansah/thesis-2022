@@ -55,7 +55,7 @@ class Kaprodi extends BaseController
         }
 
         //$dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
-        $prodi = $this->prodiModel->find(session()->get("user_session")['id']);;
+        $prodi = $this->prodiModel->find(session()->get("user_session")['id']);
         $proposal = $this->proposalModel->getProposalMahasiswaByProdi($prodi['id']);
 
         $dari = $this->request->getGet("dari");
@@ -87,7 +87,7 @@ class Kaprodi extends BaseController
         }
 
         //$dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
-        $prodi = $this->prodiModel->find(session()->get("user_session")['id']);;
+        $prodi = $this->prodiModel->find(session()->get("user_session")['id']);
         $skripsi = $this->skripsiModel->getSkripsiMahasiswaByProdi($prodi['id']);
 
         $dari = $this->request->getGet("dari");
@@ -115,7 +115,7 @@ class Kaprodi extends BaseController
         }
 
         //$dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
-        $prodi = $this->prodiModel->find(session()->get("user_session")['id']);;
+        $prodi = $this->prodiModel->find(session()->get("user_session")['id']);
         $makalah = $this->makalahModel->getMakalahMahasiswaByProdi($prodi['id']);
 
         $dari = $this->request->getGet("dari");
@@ -144,14 +144,37 @@ class Kaprodi extends BaseController
         }
 
         //$dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
-        $prodi = $this->prodiModel->find(session()->get("user_session")['id']);;
-        $pembimbing = $this->mahasiswaModel->getPembimbingMahasiswaByProdi($prodi['id']);
+        $prodi = $this->prodiModel->find(session()->get("user_session")['id']);
+        // $pembimbing = $this->mahasiswaModel->getPembimbingMahasiswaByProdi($prodi['id']);
+        $pembimbing = $this->dosenModel->getDosenWithCountMahasiswaBimbinganByProdi($prodi['id']);
 
         $data = [
             "title" => "Pembimbing Mahasiswa ". $prodi['inisial'],
             "pembimbing" => $pembimbing,
         ];
         return view("kaprodi/pembimbing", $data);
+    }
+
+    public function detailPembimbing($id_dosen) {
+        //autentikasi
+        if (!$this->authenticate(["kaprodi"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+        
+        $dosen = $this->dosenModel->find($id_dosen);
+        if ($dosen == null) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
+        $prodi = $this->prodiModel->find(session()->get("user_session")['id']);
+        $mahasiswaBimbingan = $this->dosenModel->getMahasiswaBimbinganByIdDosen($dosen['id']);
+        
+        $data = [
+            "title" => "Mahasiswa Bimbingan ". $prodi['inisial'],
+            "mahasiswaBimbingan" => $mahasiswaBimbingan,
+        ];
+        return view("kaprodi/detailPembimbing", $data);
     }
 
     public function hasilSidangSkripsi($idSkripsi) 
@@ -504,7 +527,7 @@ class Kaprodi extends BaseController
         }
 
         //$dataAkun = $this->dosenModel->find(session()->get('user_session')['id']);
-        $prodi = $this->prodiModel->find(session()->get("user_session")['id']);;
+        $prodi = $this->prodiModel->find(session()->get("user_session")['id']);
         $mahasiswa = $this->mahasiswaModel->getMahasiswaBelumDapatSempraByProdi($prodi['id']);
 
         $seminarPrasidang = $this->seminarPrasidangModel->getPrasidangByProdi($prodi['id']);
@@ -543,7 +566,7 @@ class Kaprodi extends BaseController
         }
 
         //$dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
-        $prodi = $this->prodiModel->find(session()->get("user_session")['id']);;
+        $prodi = $this->prodiModel->find(session()->get("user_session")['id']);
         $npm = $this->request->getPost("mahasiswa", FILTER_SANITIZE_SPECIAL_CHARS);
         $skripsi = $this->skripsiModel->getMahasiswaLastSkripsi($npm);
 
@@ -646,7 +669,7 @@ class Kaprodi extends BaseController
         }
 
         //$dataAkun = $this->dosenModel->find(session()->get('user_session')['id']);
-        $dataAkun = $this->prodiModel->find(session()->get("user_session")['id']);;
+        $dataAkun = $this->prodiModel->find(session()->get("user_session")['id']);
         $validationRules = [
             'fileJadwal' => [
                 'rules' => 'uploaded[fileJadwal]|mime_in[fileJadwal,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet]|ext_in[fileJadwal,xls,xlsx]|max_size[fileJadwal,10000]',
@@ -742,7 +765,7 @@ class Kaprodi extends BaseController
         }
 
         //$dataAkun = $this->dosenModel->find(session()->get('user_session')['id']);
-        $prodi = $this->prodiModel->find(session()->get("user_session")['id']);;
+        $prodi = $this->prodiModel->find(session()->get("user_session")['id']);
         $mahasiswa = $this->mahasiswaModel->getMahasiswaBelumDapatSidangByProdi($prodi['id']);
 
         $sidangSkripsi = $this->sidangSkripsiModel->getSidangSkripsiByProdi($prodi['id']);
@@ -780,7 +803,7 @@ class Kaprodi extends BaseController
         }
 
         //$dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
-        $prodi = $this->prodiModel->find(session()->get("user_session")['id']);;
+        $prodi = $this->prodiModel->find(session()->get("user_session")['id']);
 
         $npm = $this->request->getPost("mahasiswa", FILTER_SANITIZE_SPECIAL_CHARS);
         $skripsi = $this->skripsiModel->getMahasiswaLastSkripsi($npm);
@@ -884,7 +907,7 @@ class Kaprodi extends BaseController
         }
 
         // $dataAkun = $this->dosenModel->find(session()->get('user_session')['id']);
-        $dataAkun = $this->prodiModel->find(session()->get("user_session")['id']);;
+        $dataAkun = $this->prodiModel->find(session()->get("user_session")['id']);
         $validationRules = [
             'fileJadwal' => [
                 'rules' => 'uploaded[fileJadwal]|mime_in[fileJadwal,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet]|ext_in[fileJadwal,xls,xlsx]|max_size[fileJadwal,10000]',

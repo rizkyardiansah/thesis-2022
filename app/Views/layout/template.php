@@ -35,6 +35,19 @@
         h1,h2,h3,h4,h5,h6 {
             color: #000;
         }
+
+        table.dataTable thead>tr>th.sorting:before, 
+        table.dataTable thead>tr>th.sorting:after {
+            opacity: .4;
+        }
+        
+        table.dataTable thead>tr>th.sorting_asc:before, 
+        table.dataTable thead>tr>th.sorting_desc:after, 
+        table.dataTable thead>tr>td.sorting_asc:before, 
+        table.dataTable thead>tr>td.sorting_desc:after {
+            opacity: 1;
+        }
+
     </style>
 
 </head>
