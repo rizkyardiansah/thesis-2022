@@ -158,10 +158,12 @@ class Auth extends BaseController
                 if (in_array("mahasiswa", $akunRoles)) 
                 {
                     $akunMahasiswa = $this->mahasiswaModel->where("email", $akunData['email'])->first();
+                    $prodi = $this->prodiModel->find($akunMahasiswa['id_prodi']);
                     session()->set("user_session",[
                         "id" => $akunMahasiswa['npm'],
                         "nama" => $akunMahasiswa['nama'],
                         "email" => $akunMahasiswa['email'],
+                        "prodi" => $prodi['inisial'],
                         "roles" => $akunRoles,
                     ]);
                 } 
@@ -172,16 +174,19 @@ class Auth extends BaseController
                         'id' => $akunTendik['id'],
                         'nama' => $akunTendik['nama'],
                         'email' => $akunTendik['email'],
+                        'prodi' => "-",
                         'roles' => $akunRoles,
                     ]);
                 } 
                 elseif (in_array("dosen", $akunRoles))
                 {
                     $akunDosen = $this->dosenModel->where("email", $akunData['email'])->first();
+                    $prodi = $this->prodiModel->find($akunDosen['id_prodi']);
                     session()->set("user_session", [
                         'id' => $akunDosen['id'],
                         'nama' => $akunDosen['nama'],
                         'email' => $akunDosen['email'],
+                        'prodi' => $prodi['inisial'],
                         'roles' => $akunRoles,
                     ]);
                 }
@@ -192,6 +197,7 @@ class Auth extends BaseController
                         'id' => $akunFakultas['id'],
                         'nama' => $akunFakultas['nama'],
                         'email' => $akunFakultas['email'],
+                        'prodi' => "-",
                         'roles' => $akunRoles,
                     ]);
                 }
@@ -202,6 +208,7 @@ class Auth extends BaseController
                         'id' => $akunKaprodi['id'],
                         'nama' => $akunKaprodi['nama'],
                         'email' => $akunKaprodi['email'],
+                        'prodi' => $akunKaprodi['inisial'],
                         'roles' => $akunRoles,
                     ]);
                 }
