@@ -19,33 +19,40 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Inisial</th>
-                            <th class="text-center">Nama</th>
-                            <th>Jumlah Mahasiswa</th>
-                            <th>Aksi</th>
+                            <th>NPM</th>
+                            <th>Nama</th>
+                            <th>Judul</th>
+                            <th>Bidang</th>
+                            <th>Peran</th>
+                            <th>Jumlah Bimbingan Diterima</th>
+                            <th>Status Skripsi</th>
                         </tr>
                     </thead>
                     <tbody>
                     <?php $counter = 1; ?>
-                    <?php foreach($pembimbing as $mpp): ?>
+                    <?php foreach($mahasiswaBimbingan as $mb): ?>
                         <tr>
                             <td><?= $counter ?></td>
-                            <td><?= $mpp['inisial_dosen'] ?></td>
-                            <td><?= $mpp['nama_dosen'] ?></td>
-                            <td><?= $mpp['jumlah_mahasiswa'] ?></td>
-                            <td>
-                                <a role="button" class="btn btn-primary" href="<?= base_url("kaprodi/detailPembimbing/".$mpp['id_dosen']) ?>" data-toggle="tooltip" title="Detail"><i class="fas fa-info-circle"></i></a>
-                            </td>
+                            <td><?= $mb['npm'] ?></td>
+                            <td><?= $mb['nama_mahasiswa'] ?></td>
+                            <td><?= $mb['judul'] ?></td>
+                            <td data-toggle="tooltip" data-placement="top" title="<?= $mb['nama_bidang'] ?>"><?= $mb['inisial_bidang'] ?></td>
+                            <td><?= $mb['peran_pembimbing'] ?></td>
+                            <td><?= $mb['jumlah_bimbingan'] ?></td>
+                            <td><?= $mb['status_skripsi'] ?></td>
                         </tr>
                         <?php $counter++; ?>
                     <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
+            <div class="col-lg-12 mt-2 mb-0 d-flex justify-content-end">
+                <a class="btn btn-secondary mr-2" role="button" href="<?= base_url("kaprodi/pembimbing") ?>">Kembali</a>
+            </div>
         </div>
     </div>
 <?= $this->endSection(); ?>
 
 <?= $this->section("scripts"); ?>
-    <script src="<?= base_url("assets/js/kaprodi/pembimbing.js");?>"></script>
+    <script src="<?= base_url("assets/js/kaprodi/detailPembimbing.js");?>"></script>
 <?= $this->endSection(); ?>
