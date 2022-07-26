@@ -193,7 +193,7 @@ class Dosen extends BaseController
             'status' => 'DISETUJUI',
         ]);
 
-        session()->setFlashdata("message", ["icon" => "success", "title" => "Catatan Bimbingan Diterima", "text" => "Seminar Proposal berhasil diterima!"]);
+        session()->setFlashdata("message", ["icon" => "success", "title" => "Catatan Bimbingan Diterima", "text" => "Catatan Bimbingan berhasil diterima!"]);
         return redirect()->back();
     }
 
@@ -213,7 +213,7 @@ class Dosen extends BaseController
             'status' => 'DITOLAK',
         ]);
 
-        session()->setFlashdata("message", ["icon" => "success", "title" => "Catatan Bimbingan Ditolak", "text" => "Seminar Proposal berhasil ditolak!"]);
+        session()->setFlashdata("message", ["icon" => "success", "title" => "Catatan Bimbingan Ditolak", "text" => "Catatan Bimbingan berhasil ditolak!"]);
         return redirect()->back();
     }
 
