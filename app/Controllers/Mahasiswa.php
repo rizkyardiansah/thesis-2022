@@ -547,12 +547,22 @@ class Mahasiswa extends BaseController
 
         $mahasiswa = $this->mahasiswaModel->find(session()->get("user_session")['id']);
         $lastSkripsi = $this->skripsiModel->getMahasiswaLastSkripsi($mahasiswa['npm']);
-        $hasilBimbingan = $this->catatanBimbinganModel->getAllCatatanByLastSkripsi($lastSkripsi['id']);
+        $pembimbingIlmu1 = $this->pembimbingModel->getPembimbingIlmu1ByIdSkripsi($lastSkripsi['id']);
+        $pembimbingIlmu2 = $this->pembimbingModel->getPembimbingIlmu2ByIdSkripsi($lastSkripsi['id']);
+        $pembimbingAgama = $this->pembimbingModel->getPembimbingAgamaByIdSkripsi($lastSkripsi['id']);
+        $hasilBimbinganIlmu1 = $this->catatanBimbinganModel->getWhere(['id_pembimbing' => $pembimbingIlmu1[0]['id']])->getResultArray();
+        $hasilBimbinganIlmu2 = $this->catatanBimbinganModel->getWhere(['id_pembimbing' => $pembimbingIlmu2[0]['id']])->getResultArray();
+        $hasilBimbinganAgama = $this->catatanBimbinganModel->getWhere(['id_pembimbing' => $pembimbingAgama[0]['id']])->getResultArray();
         $prodi = $this->prodiModel->find($mahasiswa['id_prodi']);
         $data = [
             'mahasiswa' => $mahasiswa,
             'lastSkripsi' => $lastSkripsi,
-            'hasilBimbingan' => $hasilBimbingan,
+            'pembimbingIlmu1' => $pembimbingIlmu1,
+            'pembimbingIlmu2' => $pembimbingIlmu2,
+            'pembimbingAgama' => $pembimbingAgama,
+            'hasilBimbinganIlmu1' => $hasilBimbinganIlmu1,
+            'hasilBimbinganIlmu2' => $hasilBimbinganIlmu2,
+            'hasilBimbinganAgama' => $hasilBimbinganAgama,
             'prodi' => $prodi,
         ];
 

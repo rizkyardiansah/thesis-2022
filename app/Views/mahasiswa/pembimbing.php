@@ -27,7 +27,7 @@
                 <?php if (count($dosenPembimbing) != 0 ) : ?>
                     <div class="col-lg-6">
                         <button class="btn btn-primary mr-2" data-toggle="modal" data-target="#catatBimbingan">Catat Hasil Bimbingan</button>
-                        <a role="button" class="btn btn-primary" href="<?= base_url("mahasiswa/cetakFormBimbingan/".$mahasiswa['npm']) ?>">Cetak Form Bimbingan</a>
+                        <a role="button" class="btn btn-primary" href="<?= base_url("mahasiswa/cetakFormBimbingan/".$mahasiswa['npm']) ?>" target="_blank">Cetak Form Bimbingan</a>
                     </div>
                 <?php else: ?>
                     <div class="col-lg-3 d-flex align-items-center">
