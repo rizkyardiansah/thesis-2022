@@ -258,6 +258,12 @@
         <span>Kelola Pembimbing</span>
     </a>
 </li>
+<li class="nav-item">
+    <a class="nav-link py-2" href="<?= base_url("TenagaKependidikan/penilaianSidang") ?>" >
+        <i class="fas fa-fw fa-cog"></i>
+        <span>Penilaian Sidang</span>
+    </a>
+</li>
 <?php endif; ?>
 
 <!-- Divider -->

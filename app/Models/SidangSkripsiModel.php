@@ -211,4 +211,20 @@ class SidangSkripsiModel extends Model
         return $result->getResultArray();
     }
 
+    public function getAllSidangSkripsi() {
+        $db = \Config\Database::connect();
+        $sql = "SELECT mhs.nama as nama_mahasiswa, mhs.npm as npm,
+        prodi.inisial as inisial_prodi, prodi.nama as nama_prodi,
+        skri.judul as judul, skri.id as id_skripsi,
+        ss.tanggal, ss.ruangan, ss.total_nilai, ss.grade, ss.status,
+        penguji.inisial as inisial_penguji, penguji.nama as nama_penguji 
+        from sidang_skripsi as ss
+        inner join skripsi as skri on skri.id = ss.id_skripsi
+        inner join mahasiswa as mhs on mhs.npm = skri.npm
+        inner join program_studi as prodi on prodi.id = mhs.id_prodi
+        inner join dosen as penguji on penguji.id = ss.dosen_penguji
+        order by ss.tanggal DESC";
+        $result = $db->query($sql);
+        return $result->getResultArray();
+    }
 }
