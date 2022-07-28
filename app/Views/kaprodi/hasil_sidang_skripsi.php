@@ -82,24 +82,24 @@
                             <?php if(count($nilaiPenguji) == 0): ?>
                                 <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center align-middle"><?= $nilaiPenguji[0]['nilai_1'] ?></td>
+                                <td class="text-center align-middle"><?= number_format($nilaiPenguji[0]['nilai_1'], 2, ".", "") ?></td>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbing1) == 0): ?>
                                 <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center align-middle"><?= $nilaiPembimbing1[0]['nilai_1'] ?></td>
+                                <td class="text-center align-middle"><?= number_format($nilaiPembimbing1[0]['nilai_1'], 2, ".", "") ?></td>
                             <?php endif; ?>
                             <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
                                 <?php if(count($nilaiPembimbing2) == 0): ?>
                                     <td class="text-center align-middle">-</td>
                                 <?php else: ?>
-                                    <td class="text-center align-middle"><?= $nilaiPembimbing2[0]['nilai_1'] ?></td>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbing2[0]['nilai_1'], 2, ".", "") ?></td>
                                 <?php endif; ?>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbingAgama) == 0): ?>
                                 <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center align-middle"><?= $nilaiPembimbingAgama[0]['nilai_1'] ?></td>
+                                <td class="text-center align-middle"><?= number_format($nilaiPembimbingAgama[0]['nilai_1'], 2, ".", "") ?></td>
                             <?php endif; ?>
                         </tr>
                         <tr>
@@ -107,24 +107,24 @@
                             <?php if(count($nilaiPenguji) == 0): ?>
                                 <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center align-middle"><?= $nilaiPenguji[0]['nilai_2'] ?></td>
+                                <td class="text-center align-middle"><?= number_format($nilaiPenguji[0]['nilai_2'], 2, ".", "") ?></td>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbing1) == 0): ?>
                                 <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center align-middle"><?= $nilaiPembimbing1[0]['nilai_2'] ?></td>
+                                <td class="text-center align-middle"><?= number_format($nilaiPembimbing1[0]['nilai_2'], 2, ".", "") ?></td>
                             <?php endif; ?>
                             <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
                                 <?php if(count($nilaiPembimbing2) == 0): ?>
                                     <td class="text-center align-middle">-</td>
                                 <?php else: ?>
-                                    <td class="text-center align-middle"><?= $nilaiPembimbing2[0]['nilai_2'] ?></td>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbing2[0]['nilai_2'], 2, ".", "") ?></td>
                                 <?php endif; ?>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbingAgama) == 0): ?>
                                 <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center align-middle"><?= $nilaiPembimbingAgama[0]['nilai_2'] ?></td>
+                                <td class="text-center align-middle"><?= number_format($nilaiPembimbingAgama[0]['nilai_2'], 2, ".", "") ?></td>
                             <?php endif; ?>
                         </tr>
                         <tr>
@@ -132,24 +132,24 @@
                             <?php if(count($nilaiPenguji) == 0): ?>
                                 <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center align-middle"><?= $nilaiPenguji[0]['nilai_3'] ?></td>
+                                <td class="text-center align-middle"><?= number_format($nilaiPenguji[0]['nilai_3'], 2, ".", "") ?></td>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbing1) == 0): ?>
                                 <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center align-middle"><?= $nilaiPembimbing1[0]['nilai_3'] ?></td>
+                                <td class="text-center align-middle"><?= number_format($nilaiPembimbing1[0]['nilai_3'], 2, ".", "") ?></td>
                             <?php endif; ?>
                             <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
                                 <?php if(count($nilaiPembimbing2) == 0): ?>
                                     <td class="text-center align-middle">-</td>
                                 <?php else: ?>
-                                    <td class="text-center align-middle"><?= $nilaiPembimbing2[0]['nilai_3'] ?></td>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbing2[0]['nilai_3'], 2, ".", "") ?></td>
                                 <?php endif; ?>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbingAgama) == 0): ?>
                                 <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center align-middle"><?= $nilaiPembimbingAgama[0]['nilai_3'] ?></td>
+                                <td class="text-center align-middle"><?= number_format($nilaiPembimbingAgama[0]['nilai_3'], 2, ".", "") ?></td>
                             <?php endif; ?>
                         </tr>
                         <tr>
@@ -164,24 +164,24 @@
                             <?php if(count($nilaiPenguji) == 0): ?>
                                 <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center align-middle"><?= $nilaiPenguji[0]['nilai_4'] ?></td>
+                                <td class="text-center align-middle"><?= number_format($nilaiPenguji[0]['nilai_4'], 2, ".", "") ?></td>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbing1) == 0): ?>
                                 <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center align-middle"><?= $nilaiPembimbing1[0]['nilai_4'] ?></td>
+                                <td class="text-center align-middle"><?= number_format($nilaiPembimbing1[0]['nilai_4'], 2, ".", "") ?></td>
                             <?php endif; ?>
                             <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
                                 <?php if(count($nilaiPembimbing2) == 0): ?>
                                     <td class="text-center align-middle">-</td>
                                 <?php else: ?>
-                                    <td class="text-center align-middle"><?= $nilaiPembimbing2[0]['nilai_4'] ?></td>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbing2[0]['nilai_4'], 2, ".", "") ?></td>
                                 <?php endif; ?>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbingAgama) == 0): ?>
                                 <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center align-middle"><?= $nilaiPembimbingAgama[0]['nilai_4'] ?></td>
+                                <td class="text-center align-middle"><?= number_format($nilaiPembimbingAgama[0]['nilai_4'], 2, ".", "") ?></td>
                             <?php endif; ?>
                         </tr>
                         <tr>
@@ -189,24 +189,24 @@
                             <?php if(count($nilaiPenguji) == 0): ?>
                                 <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center align-middle"><?= $nilaiPenguji[0]['nilai_5'] ?></td>
+                                <td class="text-center align-middle"><?= number_format($nilaiPenguji[0]['nilai_5'], 2, ".", "") ?></td>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbing1) == 0): ?>
                                 <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center align-middle"><?= $nilaiPembimbing1[0]['nilai_5'] ?></td>
+                                <td class="text-center align-middle"><?= number_format($nilaiPembimbing1[0]['nilai_5'], 2, ".", "") ?></td>
                             <?php endif; ?>
                             <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
                                 <?php if(count($nilaiPembimbing2) == 0): ?>
                                     <td class="text-center align-middle">-</td>
                                 <?php else: ?>
-                                    <td class="text-center align-middle"><?= $nilaiPembimbing2[0]['nilai_5'] ?></td>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbing2[0]['nilai_5'], 2, ".", "") ?></td>
                                 <?php endif; ?>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbingAgama) == 0): ?>
                                 <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center align-middle"><?= $nilaiPembimbingAgama[0]['nilai_5'] ?></td>
+                                <td class="text-center align-middle"><?= number_format($nilaiPembimbingAgama[0]['nilai_5'], 2, ".", "") ?></td>
                             <?php endif; ?>
                         </tr>
                         <tr>
@@ -214,24 +214,24 @@
                             <?php if(count($nilaiPenguji) == 0): ?>
                                 <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center align-middle"><?= $nilaiPenguji[0]['nilai_6'] ?></td>
+                                <td class="text-center align-middle"><?= number_format($nilaiPenguji[0]['nilai_6'], 2, ".", "") ?></td>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbing1) == 0): ?>
                                 <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center align-middle"><?= $nilaiPembimbing1[0]['nilai_6'] ?></td>
+                                <td class="text-center align-middle"><?= number_format($nilaiPembimbing1[0]['nilai_6'], 2, ".", "") ?></td>
                             <?php endif; ?>
                             <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
                                 <?php if(count($nilaiPembimbing2) == 0): ?>
                                     <td class="text-center align-middle">-</td>
                                 <?php else: ?>
-                                    <td class="text-center align-middle"><?= $nilaiPembimbing2[0]['nilai_6'] ?></td>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbing2[0]['nilai_6'], 2, ".", "") ?></td>
                                 <?php endif; ?>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbingAgama) == 0): ?>
                                 <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center align-middle"><?= $nilaiPembimbingAgama[0]['nilai_6'] ?></td>
+                                <td class="text-center align-middle"><?= number_format($nilaiPembimbingAgama[0]['nilai_6'], 2, ".", "") ?></td>
                             <?php endif; ?>
                         </tr>
                         <tr>
@@ -246,24 +246,24 @@
                             <?php if(count($nilaiPenguji) == 0): ?>
                                 <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center align-middle"><?= $nilaiPenguji[0]['nilai_7'] ?></td>
+                                <td class="text-center align-middle"><?= number_format($nilaiPenguji[0]['nilai_7'], 2, ".", "") ?></td>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbing1) == 0): ?>
                                 <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center align-middle"><?= $nilaiPembimbing1[0]['nilai_7'] ?></td>
+                                <td class="text-center align-middle"><?= number_format($nilaiPembimbing1[0]['nilai_7'], 2, ".", "") ?></td>
                             <?php endif; ?>
                             <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
                                 <?php if(count($nilaiPembimbing2) == 0): ?>
                                     <td class="text-center align-middle">-</td>
                                 <?php else: ?>
-                                    <td class="text-center align-middle"><?= $nilaiPembimbing2[0]['nilai_7'] ?></td>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbing2[0]['nilai_7'], 2, ".", "") ?></td>
                                 <?php endif; ?>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbingAgama) == 0): ?>
                                 <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center align-middle"><?= $nilaiPembimbingAgama[0]['nilai_7'] ?></td>
+                                <td class="text-center align-middle"><?= number_format($nilaiPembimbingAgama[0]['nilai_7'], 2, ".", "") ?></td>
                             <?php endif; ?>
                         </tr>
                         <tr>
@@ -271,24 +271,24 @@
                             <?php if(count($nilaiPenguji) == 0): ?>
                                 <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center align-middle"><?= $nilaiPenguji[0]['nilai_8'] ?></td>
+                                <td class="text-center align-middle"><?= number_format($nilaiPenguji[0]['nilai_8'], 2, ".", "") ?></td>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbing1) == 0): ?>
                                 <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center align-middle"><?= $nilaiPembimbing1[0]['nilai_8'] ?></td>
+                                <td class="text-center align-middle"><?= number_format($nilaiPembimbing1[0]['nilai_8'], 2, ".", "") ?></td>
                             <?php endif; ?>
                             <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
                                 <?php if(count($nilaiPembimbing2) == 0): ?>
                                     <td class="text-center align-middle">-</td>
                                 <?php else: ?>
-                                    <td class="text-center align-middle"><?= $nilaiPembimbing2[0]['nilai_8'] ?></td>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbing2[0]['nilai_8'], 2, ".", "") ?></td>
                                 <?php endif; ?>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbingAgama) == 0): ?>
                                 <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center align-middle"><?= $nilaiPembimbingAgama[0]['nilai_8'] ?></td>
+                                <td class="text-center align-middle"><?= number_format($nilaiPembimbingAgama[0]['nilai_8'], 2, ".", "") ?></td>
                             <?php endif; ?>
                         </tr>
                         <tr>
@@ -296,24 +296,24 @@
                             <?php if(count($nilaiPenguji) == 0): ?>
                                 <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center align-middle"><?= $nilaiPenguji[0]['nilai_9'] ?></td>
+                                <td class="text-center align-middle"><?= number_format($nilaiPenguji[0]['nilai_9'], 2, ".", "") ?></td>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbing1) == 0): ?>
                                 <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center align-middle"><?= $nilaiPembimbing1[0]['nilai_9'] ?></td>
+                                <td class="text-center align-middle"><?= number_format($nilaiPembimbing1[0]['nilai_9'], 2, ".", "") ?></td>
                             <?php endif; ?>
                             <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
                                 <?php if(count($nilaiPembimbing2) == 0): ?>
                                     <td class="text-center align-middle">-</td>
                                 <?php else: ?>
-                                    <td class="text-center align-middle"><?= $nilaiPembimbing2[0]['nilai_9'] ?></td>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbing2[0]['nilai_9'], 2, ".", "") ?></td>
                                 <?php endif; ?>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbingAgama) == 0): ?>
                                 <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center align-middle"><?= $nilaiPembimbingAgama[0]['nilai_9'] ?></td>
+                                <td class="text-center align-middle"><?= number_format($nilaiPembimbingAgama[0]['nilai_9'], 2, ".", "") ?></td>
                             <?php endif; ?>
                         </tr>
                         <tr>
@@ -328,24 +328,24 @@
                             <?php if(count($nilaiPenguji) == 0): ?>
                                 <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center align-middle"><?= $nilaiPenguji[0]['nilai_10'] ?></td>
+                                <td class="text-center align-middle"><?= number_format($nilaiPenguji[0]['nilai_10'], 2, ".", "") ?></td>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbing1) == 0): ?>
                                 <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center align-middle"><?= $nilaiPembimbing1[0]['nilai_10'] ?></td>
+                                <td class="text-center align-middle"><?= number_format($nilaiPembimbing1[0]['nilai_10'], 2, ".", "") ?></td>
                             <?php endif; ?>
                             <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
                                 <?php if(count($nilaiPembimbing2) == 0): ?>
                                     <td class="text-center align-middle">-</td>
                                 <?php else: ?>
-                                    <td class="text-center align-middle"><?= $nilaiPembimbing2[0]['nilai_10'] ?></td>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbing2[0]['nilai_10'], 2, ".", "") ?></td>
                                 <?php endif; ?>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbingAgama) == 0): ?>
                                 <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center align-middle"><?= $nilaiPembimbingAgama[0]['nilai_10'] ?></td>
+                                <td class="text-center align-middle"><?= number_format($nilaiPembimbingAgama[0]['nilai_10'], 2, ".", "") ?></td>
                             <?php endif; ?>
                         </tr>
                         <tr>
@@ -353,24 +353,24 @@
                             <?php if(count($nilaiPenguji) == 0): ?>
                                 <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center align-middle"><?= $nilaiPenguji[0]['nilai_11'] ?></td>
+                                <td class="text-center align-middle"><?= number_format($nilaiPenguji[0]['nilai_11'], 2, ".", "") ?></td>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbing1) == 0): ?>
                                 <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center align-middle"><?= $nilaiPembimbing1[0]['nilai_11'] ?></td>
+                                <td class="text-center align-middle"><?= number_format($nilaiPembimbing1[0]['nilai_11'], 2, ".", "") ?></td>
                             <?php endif; ?>
                             <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
                                 <?php if(count($nilaiPembimbing2) == 0): ?>
                                     <td class="text-center align-middle">-</td>
                                 <?php else: ?>
-                                    <td class="text-center align-middle"><?= $nilaiPembimbing2[0]['nilai_11'] ?></td>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbing2[0]['nilai_11'], 2, ".", "") ?></td>
                                 <?php endif; ?>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbingAgama) == 0): ?>
                                 <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center align-middle"><?= $nilaiPembimbingAgama[0]['nilai_11'] ?></td>
+                                <td class="text-center align-middle"><?= number_format($nilaiPembimbingAgama[0]['nilai_11'], 2, ".", "") ?></td>
                             <?php endif; ?>
                         </tr>
                         <tr>
@@ -378,24 +378,24 @@
                             <?php if(count($nilaiPenguji) == 0): ?>
                                 <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center align-middle"><?= $nilaiPenguji[0]['nilai_12'] ?></td>
+                                <td class="text-center align-middle"><?= number_format($nilaiPenguji[0]['nilai_12'], 2, ".", "") ?></td>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbing1) == 0): ?>
                                 <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center align-middle"><?= $nilaiPembimbing1[0]['nilai_12'] ?></td>
+                                <td class="text-center align-middle"><?= number_format($nilaiPembimbing1[0]['nilai_12'], 2, ".", "") ?></td>
                             <?php endif; ?>
                             <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
                                 <?php if(count($nilaiPembimbing2) == 0): ?>
                                     <td class="text-center align-middle">-</td>
                                 <?php else: ?>
-                                    <td class="text-center align-middle"><?= $nilaiPembimbing2[0]['nilai_12'] ?></td>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbing2[0]['nilai_12'], 2, ".", "") ?></td>
                                 <?php endif; ?>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbingAgama) == 0): ?>
                                 <td class="text-center align-middle">-</td>
                             <?php else: ?>
-                                <td class="text-center align-middle"><?= $nilaiPembimbingAgama[0]['nilai_12'] ?></td>
+                                <td class="text-center align-middle"><?= number_format($nilaiPembimbingAgama[0]['nilai_12'], 2, ".", "") ?></td>
                             <?php endif; ?>
                         </tr>
                         <tr>
@@ -403,24 +403,24 @@
                             <?php if(count($nilaiPenguji) == 0): ?>
                                 <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
                             <?php else: ?>
-                                <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPenguji[0]['nilai_akhir'] ?></strong></td>
+                                <td class="text-center text-dark font-weight-bold align-middle"><strong><?= number_format($nilaiPenguji[0]['nilai_akhir'], 2, ".", "") ?></strong></td>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbing1) == 0): ?>
                                 <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
                             <?php else: ?>
-                                <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPembimbing1[0]['nilai_akhir'] ?></strong></td>
+                                <td class="text-center text-dark font-weight-bold align-middle"><strong><?= number_format($nilaiPembimbing1[0]['nilai_akhir'], 2, ".", "") ?></strong></td>
                             <?php endif; ?>
                             <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
                                 <?php if(count($nilaiPembimbing2) == 0): ?>
                                     <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
                                 <?php else: ?>
-                                    <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPembimbing2[0]['nilai_akhir'] ?></strong></td>
+                                    <td class="text-center text-dark font-weight-bold align-middle"><strong><?= number_format($nilaiPembimbing2[0]['nilai_akhir'], 2, ".", "") ?></strong></td>
                                 <?php endif; ?>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbingAgama) == 0): ?>
                                 <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
                             <?php else: ?>
-                                <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPembimbingAgama[0]['nilai_akhir'] ?></strong></td>
+                                <td class="text-center text-dark font-weight-bold align-middle"><strong><?= number_format($nilaiPembimbingAgama[0]['nilai_akhir'], 2, ".", "") ?></strong></td>
                             <?php endif; ?>
                         </tr>
                         <tr>
@@ -428,24 +428,24 @@
                             <?php if(count($nilaiPenguji) == 0): ?>
                                 <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
                             <?php else: ?>
-                                <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPenguji[0]['grade'] ?></strong></td>
+                                <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPenguji[0]['grade'] == null ? "-" : $nilaiPenguji[0]['grade'] ?></strong></td>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbing1) == 0): ?>
                                 <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
                             <?php else: ?>
-                                <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPembimbing1[0]['grade'] ?></strong></td>
+                                <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPembimbing1[0]['grade'] == null ? "-" : $nilaiPembimbing1[0]['grade'] ?></strong></td>
                             <?php endif; ?>
                             <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
                                 <?php if(count($nilaiPembimbing2) == 0): ?>
                                     <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
                                 <?php else: ?>
-                                    <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPembimbing2[0]['grade'] ?></strong></td>
+                                    <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPembimbing2[0]['grade'] == null ? "-" : $nilaiPembimbing2[0]['grade'] ?></strong></td>
                                 <?php endif; ?>
                             <?php endif; ?>
                             <?php if(count($nilaiPembimbingAgama) == 0): ?>
                                 <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
                             <?php else: ?>
-                                <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPembimbingAgama[0]['grade'] ?></strong></td>
+                                <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPembimbingAgama[0]['grade'] == null ? "-" : $nilaiPembimbingAgama[0]['grade'] ?></strong></td>
                             <?php endif; ?>
                         </tr>
                         <tr>
@@ -480,13 +480,13 @@
             <?php if (count($nilaiPembimbing1) == 1 && ($pembimbingIlmu2[0]['id_dosen'] == null || ($pembimbingIlmu2[0]['id_dosen'] != null && count($nilaiPembimbing2) == 1)) && count($nilaiPembimbingAgama) == 1 && count($nilaiPenguji) == 1): ?>
                 <div class="row">
                     <div class="col-lg-12 d-flex justify-content-center">
-                        <h3>Anda dinyatakan <strong><?= $sidangSkripsi['status'] ?></strong> dengan total nilai <strong><?= $sidangSkripsi['total_nilai'] ?> (<?= $sidangSkripsi['grade'] ?>)</strong></h3>
+                        <h3>Dinyatakan <strong><?= $sidangSkripsi['status'] ?></strong> dengan total nilai <strong><?= number_format($sidangSkripsi['total_nilai'], 2, ".", "") ?> (<?= $sidangSkripsi['grade'] == null ? "-" : $sidangSkripsi['grade'] ?>)</strong></h3>
                     </div>
                 </div>
             <?php endif; ?>
 
             <div class="col-lg-12 my-2 d-flex justify-content-end">
-                <a class="btn btn-secondary mr-2" role="button" href="<?= base_url("kaprodi/skripsi") ?>">Kembali</a>
+                <a class="btn btn-secondary mr-2" role="button" href="<?= base_url("kaprodi/penilaianSidang") ?>">Kembali</a>
             </div>
         </div>
     </div>

@@ -97,18 +97,13 @@
                                     <?php endif; ?>
                                 </td>
                                 <td><?= $s['status'] ?></td>
-                                <td style="min-width: 7vw">
+                                <td>
                                     <?php if($s['file_skripsi'] != null): ?>
                                         <form action="<?= base_url("mahasiswa/downloadSkripsi/".$s['id']) ?>" method="post" style="display: inline;">
                                             <button class="btn btn-primary" type="submit" data-toggle="tooltip" title="Unduh berkas skripsi" data-placement="top"><i class="fas fa-download"></i></button>
                                         </form>
                                     <?php else: ?>
                                         <button class="btn btn-primary" disabled><i class="fas fa-download"></i></button>
-                                    <?php endif; ?>
-                                    <?php if($s['status'] == 'Lulus'): ?>
-                                        <a role="button" class="btn btn-primary" href="<?= base_url("Kaprodi/hasilSidangSkripsi/".$s['id']) ?>" data-toggle="tooltip" title="Hasil Sidang Skripsi" data-placement="top"><i class="fas fa-clipboard-list"></i></a>
-                                    <?php else: ?>
-                                        <button class="btn btn-primary" disabled><i class="fas fa-clipboard-list"></i></button>
                                     <?php endif; ?>
                                 </td>
                             </tr>

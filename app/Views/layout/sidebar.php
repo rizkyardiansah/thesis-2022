@@ -171,6 +171,12 @@
     </a>
 </li>
 <li class="nav-item">
+    <a class="nav-link py-2" href="<?= base_url("Kaprodi/penilaianSidang") ?>" >
+        <i class="fas fa-fw fa-cog"></i>
+        <span>Penilaian Sidang</span>
+    </a>
+</li>
+<li class="nav-item">
     <a class="nav-link collapsed py-2" href="#" data-toggle="collapse" data-target="#collapseJadwalKaprodi"
         aria-expanded="true" aria-controls="collapseJadwalKaprodi">
         <i class="fas fa-fw fa-folder"></i>

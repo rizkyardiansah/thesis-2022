@@ -174,7 +174,23 @@ class Kaprodi extends BaseController
             "title" => "Mahasiswa Bimbingan ". $prodi['inisial'],
             "mahasiswaBimbingan" => $mahasiswaBimbingan,
         ];
-        return view("kaprodi/detailPembimbing", $data);
+        return view("kaprodi/detail_pembimbing", $data);
+    }
+
+    public function penilaianSidang() {
+        //autentikasi
+        if (!$this->authenticate(["kaprodi"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        $prodi = $this->prodiModel->find(session()->get("user_session")['id']);
+        $mahasiswa = $this->sidangSkripsiModel->getAllSidangSkripsiByProdi($prodi['id']);
+        $data = [
+            'title' => 'Penilaian Sidang Mahasiswa',
+            'mahasiswa' => $mahasiswa,
+        ];
+        return view("kaprodi/penilaian_sidang", $data);
     }
 
     public function hasilSidangSkripsi($idSkripsi) 
@@ -226,6 +242,57 @@ class Kaprodi extends BaseController
 
         return view("kaprodi/hasil_sidang_skripsi", $data);
     }
+
+    public function cetakBeritaAcara($id_skripsi) {
+        //autentikasi
+        if (!$this->authenticate(["kaprodi"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        $lastSkripsi = $this->skripsiModel->find($id_skripsi);
+        if ($lastSkripsi == null) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
+        $mahasiswa = $this->mahasiswaModel->find($lastSkripsi['npm']);
+
+        $sidangSkripsi = $this->sidangSkripsiModel->getWhere(['id_skripsi' => $id_skripsi])->getResultArray();
+        if (count($sidangSkripsi) == 0) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+        $prodi = $this->prodiModel->find($mahasiswa['id_prodi']);
+        $sidangSkripsi = $this->sidangSkripsiModel->getWhere(['id_skripsi' => $id_skripsi])->getResultArray()[0];
+        $idSidangSkripsi = $sidangSkripsi['id'];
+
+        $pembimbingIlmu1 = $this->pembimbingModel->getPembimbingIlmu1ByIdSkripsi($lastSkripsi['id']);
+        $pembimbingIlmu2 = $this->pembimbingModel->getPembimbingIlmu2ByIdSkripsi($lastSkripsi['id']);
+        $pembimbingAgama = $this->pembimbingModel->getPembimbingAgamaByIdSkripsi($lastSkripsi['id']);
+        $penguji = $this->dosenModel->find($sidangSkripsi['dosen_penguji']);
+        
+        $nilaiPembimbing1 = $this->penilaianSidangModel->getWhere(['id_sidang_skripsi' => $idSidangSkripsi, 'id_dosen' => $pembimbingIlmu1[0]['id_dosen']])->getResultArray();
+        $nilaiPembimbing2 = $this->penilaianSidangModel->getWhere(['id_sidang_skripsi' => $idSidangSkripsi, 'id_dosen' => $pembimbingIlmu2[0]['id_dosen']])->getResultArray();
+        $nilaiPembimbingAgama = $this->penilaianSidangModel->getWhere(['id_sidang_skripsi' => $idSidangSkripsi, 'id_dosen' => $pembimbingAgama[0]['id_dosen']])->getResultArray();
+        $nilaiPenguji = $this->penilaianSidangModel->getWhere(['id_sidang_skripsi' => $idSidangSkripsi, 'id_dosen' => $sidangSkripsi['dosen_penguji']])->getResultArray();
+
+        $data = [
+            'title' => 'Hasil Sidang Skripsi',
+            'mahasiswa' => $mahasiswa,
+            'prodi' => $prodi,
+            'lastSkripsi' => $lastSkripsi,
+            'sidangSkripsi' => $sidangSkripsi,
+            'pembimbingIlmu1' => $pembimbingIlmu1,
+            'pembimbingIlmu2' => $pembimbingIlmu2,
+            'pembimbingAgama' => $pembimbingAgama,
+            'penguji' => $penguji,
+            'nilaiPembimbing1' => $nilaiPembimbing1,
+            'nilaiPembimbing2' => $nilaiPembimbing2,
+            'nilaiPembimbingAgama' => $nilaiPembimbingAgama,
+            'nilaiPenguji' => $nilaiPenguji,
+        ];
+
+        return view("kaprodi/berita_acara", $data);
+    } 
 
 
 
