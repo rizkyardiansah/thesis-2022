@@ -74,11 +74,11 @@ class SidangSkripsiModel extends Model
         $sql = "SELECT ss.*, 
         m.nama as nama_mahasiswa,
         s.judul, s.npm,
-        b.nama AS nama_bidang, b.inisial AS inisial_bidang,
-        penguji.nama as nama_penguji, penguji.inisial as inisial_penguji,
-        d1.nama AS nama_pembimbing1, d1.inisial AS inisial_pembimbing1, 
-        d2.nama AS nama_pembimbing2, d2.inisial AS inisial_pembimbing2, 
-        d3.nama as nama_pembimbing_agama, d3.inisial as inisial_pembimbing_agama 
+        b.nama AS nama_bidang, b.inisial AS inisial_bidang, 
+        p1.id_dosen as id_pembimbing_1, 
+        p2.id_dosen as id_pembimbing_2, 
+        p3.id_dosen as id_pembimbing_agama,
+        (select ps.status from penilaian_sidang as ps where ps.id_sidang_skripsi = ss.id and ps.id_dosen = ?) as status_nilai
         FROM sidang_skripsi AS ss
         INNER JOIN skripsi AS s ON s.id = ss.id_skripsi
         inner join mahasiswa as m on m.npm = s.npm
@@ -86,17 +86,13 @@ class SidangSkripsiModel extends Model
         INNER JOIN pembimbing as p1 on p1.id_skripsi = s.id
         INNER JOIN pembimbing as p2 on p2.id_skripsi = s.id
         INNER JOIN pembimbing as p3 on p3.id_skripsi = s.id
-        INNER JOIN dosen AS penguji ON penguji.id = ss.dosen_penguji
-        INNER JOIN dosen as d1 on d1.id = p1.id_dosen
-        LEFT JOIN dosen as d2 on d2.id = p2.id_dosen
-        INNER JOIN dosen as d3 on d3.id = p3.id_dosen
         WHERE 
         (ss.dosen_penguji = ? or p1.id_dosen = ? or p2.id_dosen = ? or p3.id_dosen = ?) and
         p1.role = 'Pembimbing Ilmu 1' and
         p2.role = 'Pembimbing Ilmu 2' and
         p3.role = 'Pembimbing Agama'
         ORDER BY ss.tanggal DESC";
-        $result = $db->query($sql, [$idDosen, $idDosen, $idDosen, $idDosen]);
+        $result = $db->query($sql, [$idDosen, $idDosen, $idDosen, $idDosen, $idDosen]);
         return $result->getResultArray();
     }
 
@@ -105,11 +101,11 @@ class SidangSkripsiModel extends Model
         $sql = "SELECT ss.*, 
         m.nama as nama_mahasiswa,
         s.judul, s.npm,
-        b.nama AS nama_bidang, b.inisial AS inisial_bidang,
-        penguji.nama as nama_penguji, penguji.inisial as inisial_penguji,
-        d1.nama AS nama_pembimbing1, d1.inisial AS inisial_pembimbing1, 
-        d2.nama AS nama_pembimbing2, d2.inisial AS inisial_pembimbing2, 
-        d3.nama as nama_pembimbing_agama, d3.inisial as inisial_pembimbing_agama 
+        b.nama AS nama_bidang, b.inisial AS inisial_bidang, 
+        p1.id_dosen as id_pembimbing_1, 
+        p2.id_dosen as id_pembimbing_2, 
+        p3.id_dosen as id_pembimbing_agama,
+        (select ps.status from penilaian_sidang as ps where ps.id_sidang_skripsi = ss.id and ps.id_dosen = ?) as status_nilai 
         FROM sidang_skripsi AS ss
         INNER JOIN skripsi AS s ON s.id = ss.id_skripsi
         inner join mahasiswa as m on m.npm = s.npm
@@ -117,10 +113,6 @@ class SidangSkripsiModel extends Model
         INNER JOIN pembimbing as p1 on p1.id_skripsi = s.id
         INNER JOIN pembimbing as p2 on p2.id_skripsi = s.id
         INNER JOIN pembimbing as p3 on p3.id_skripsi = s.id
-        INNER JOIN dosen AS penguji ON penguji.id = ss.dosen_penguji
-        INNER JOIN dosen as d1 on d1.id = p1.id_dosen
-        LEFT JOIN dosen as d2 on d2.id = p2.id_dosen
-        INNER JOIN dosen as d3 on d3.id = p3.id_dosen
         WHERE 
         (ss.dosen_penguji = ? or p1.id_dosen = ? or p2.id_dosen = ? or p3.id_dosen = ?) and
         p1.role = 'Pembimbing Ilmu 1' and
@@ -128,7 +120,7 @@ class SidangSkripsiModel extends Model
         p3.role = 'Pembimbing Agama' and
         ss.tanggal between ? and ?
         ORDER BY ss.tanggal DESC";
-        $result = $db->query($sql, [$idDosen, $idDosen, $idDosen, $idDosen, $dari, $hingga]);
+        $result = $db->query($sql, [$idDosen, $idDosen, $idDosen, $idDosen, $idDosen, $dari, $hingga]);
         return $result->getResultArray();
     }
 

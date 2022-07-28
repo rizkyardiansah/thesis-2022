@@ -320,7 +320,6 @@ class Dosen extends BaseController
         }
 
         $dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
-        $dosen = $this->dosenModel->getDosenByProdi($dataAkun['id_prodi']);
 
         $sidangSkripsi = $this->sidangSkripsiModel->getSidangSkripsiByDosen($dataAkun['id']);
         $dari = $this->request->getGet("dari");
@@ -332,9 +331,11 @@ class Dosen extends BaseController
             $hingga = date_format($hingga, 'Y-m-d');
             $sidangSkripsi = $this->sidangSkripsiModel->getSidangSkripsiByDosenDateRange($dataAkun['id'], $dari, $hingga);
         } 
+        
         $data = [
             'title' => 'Jadwal Sidang Skripsi',
-            'sidangSkripsi' => $sidangSkripsi
+            'sidangSkripsi' => $sidangSkripsi,
+            'dataAkun' => $dataAkun,
         ];
 
         return view("dosen/penguji_sidang_skripsi", $data);

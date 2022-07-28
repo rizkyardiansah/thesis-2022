@@ -41,10 +41,7 @@
                             <th>Bidang</th>
                             <th>Tanggal Sidang</th>
                             <th>Ruangan</th>
-                            <th>Penguji</th>
-                            <th>Pemb. Ilmu 1</th>
-                            <th>Pemb. Ilmu 2</th>
-                            <th>Pemb. Agama</th>
+                            <th>Peran</th>
                             <th>Status</th>
                             <th>Aksi</th>
                         </tr>
@@ -59,7 +56,7 @@
                             <td><?= $ss['judul'] ?></td>
                             <td data-toggle="tooltip" data-placement="top" title="<?= $ss['nama_bidang'] ?>"><?= $ss['inisial_bidang'] ?></td>
 
-                            <td class="tanggal" style="min-width: 10vw"><?= date_format(date_create($ss['tanggal']), 'd-m-Y H:i') ?> WIB</td>
+                            <td class="tanggal" style="min-width: 6vw"><?= date_format(date_create($ss['tanggal']), 'd-m-Y H:i') ?> WIB</td>
 
                             <?php if (preg_match('#^https?://#i', $ss['ruangan']) === 1): ?>
                                 <td class="ruangan"><a href="<?= $ss['ruangan'] ?>" target="_blank">Klik disini!</a></td>
@@ -67,18 +64,19 @@
                                 <td class="ruangan"><?= $ss['ruangan'] ?></td>
                             <?php endif; ?>
 
-                            <td data-toggle="tooltip" data-placement="top" title="<?= $ss['nama_penguji'] ?>" class="dosen_penguji"><?= $ss['inisial_penguji'] ?></td>
+                            <td>
+                                <?php if ($dataAkun['id'] == $ss['id_pembimbing_1']): ?>
+                                    Pembimbing Ilmu 1
+                                <?php elseif ($dataAkun['id'] == $ss['id_pembimbing_2']): ?>
+                                    Pembimbing Ilmu 2
+                                <?php elseif ($dataAkun['id'] == $ss['id_pembimbing_agama']): ?>
+                                    Pembimbing Agama
+                                <?php elseif ($dataAkun['id'] == $ss['dosen_penguji']): ?>
+                                    Penguji Murni
+                                <?php endif; ?>
+                            </td>
 
-                            <td data-toggle="tooltip" data-placement="top" title="<?= $ss['nama_pembimbing1'] ?>" class="pembimbing1"><?= $ss['inisial_pembimbing1'] ?></td>
-
-                            <?php if ($ss['nama_pembimbing2'] != null): ?>
-                                <td data-toggle="tooltip" data-placement="top" title="<?= $ss['nama_pembimbing2'] ?>" class="pembimbing2"><?= $ss['inisial_pembimbing2'] ?></td>
-                            <?php else: ?>
-                                <td>-</td>
-                            <?php endif; ?>
-
-                            <td data-toggle="tooltip" data-placement="top" title="<?= $ss['nama_pembimbing_agama'] ?>" class="pembimbing_agama"><?= $ss['inisial_pembimbing_agama'] ?></td>
-                            <td><?= $ss['status'] == null ? "TERTUNDA" : $ss['status'] ?></td>
+                            <td><?= $ss['status_nilai'] == null ? 'Belum dinilai': 'Sudah dinilai' ?></td>
                             <td>
                                 <a class="btn btn-primary" href="<?= base_url("dosen/penilaianSidangSkripsi/".$ss['id']) ?>" data-toggle="tooltip" title="Penilaian"><i class="fas fa-clipboard-list"></i></a>
                             </td>
