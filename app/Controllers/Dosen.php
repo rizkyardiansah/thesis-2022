@@ -418,8 +418,80 @@ class Dosen extends BaseController
             'status' => $status,
         ]);
 
+        $this->perbaruiStatusKelulusan($idSidangSkripsi);
+
         session()->setFlashdata("message", ["icon" => "success", "title" => "Beri Penilaian Sidang Berhasil", "text" => "Penilaian Sidang Skripsi telah berhasil disimpan"]);
         return redirect()->back();
+    }
+
+    public function perbaruiStatusKelulusan($idSidangSkripsi) 
+    {
+        $sidangSkripsi = $this->sidangSkripsiModel->find($idSidangSkripsi);
+        if ($sidangSkripsi == null) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+        
+        $lastSkripsi = $this->skripsiModel->find($sidangSkripsi['id_skripsi']);
+        
+        $pembimbingIlmu1 = $this->pembimbingModel->getPembimbingIlmu1ByIdSkripsi($lastSkripsi['id']);
+        $pembimbingIlmu2 = $this->pembimbingModel->getPembimbingIlmu2ByIdSkripsi($lastSkripsi['id']);
+        $pembimbingAgama = $this->pembimbingModel->getPembimbingAgamaByIdSkripsi($lastSkripsi['id']);
+        $penguji = $this->dosenModel->find($sidangSkripsi['dosen_penguji']);
+        
+        $nilaiPembimbing1 = $this->penilaianSidangModel->getWhere(['id_sidang_skripsi' => $idSidangSkripsi, 'id_dosen' => $pembimbingIlmu1[0]['id_dosen']])->getResultArray();
+        $nilaiPembimbing2 = $this->penilaianSidangModel->getWhere(['id_sidang_skripsi' => $idSidangSkripsi, 'id_dosen' => $pembimbingIlmu2[0]['id_dosen']])->getResultArray();
+        $nilaiPembimbingAgama = $this->penilaianSidangModel->getWhere(['id_sidang_skripsi' => $idSidangSkripsi, 'id_dosen' => $pembimbingAgama[0]['id_dosen']])->getResultArray();
+        $nilaiPenguji = $this->penilaianSidangModel->getWhere(['id_sidang_skripsi' => $idSidangSkripsi, 'id_dosen' => $sidangSkripsi['dosen_penguji']])->getResultArray();
+
+        //set data kelulusan
+        if (count($nilaiPembimbing1) == 1 && ($pembimbingIlmu2[0]['id_dosen'] == null || ($pembimbingIlmu2[0]['id_dosen'] != null && count($nilaiPembimbing2) == 1)) && count($nilaiPembimbingAgama) == 1 && count($nilaiPenguji) == 1)
+        {
+            $jumlah = 0.0;
+            $total_nilai = 0.0;
+
+            //jika punya pembimbing 2
+            if ($pembimbingIlmu2[0]['id_dosen'] != null) {
+                $jumlah = floatval($nilaiPembimbing1[0]['nilai_akhir']) + floatval($nilaiPembimbing2[0]['nilai_akhir']) + floatval($nilaiPembimbingAgama[0]['nilai_akhir']) + floatval($nilaiPenguji[0]['nilai_akhir']); 
+                $total_nilai = (float)$jumlah / (float)4;
+            }//jika gak punya pembimbing 2 
+            else if ($pembimbingIlmu2[0]['id_dosen'] == null) {
+                $jumlah = floatval($nilaiPembimbing1[0]['nilai_akhir']) + floatval($nilaiPembimbingAgama[0]['nilai_akhir']) + floatval($nilaiPenguji[0]['nilai_akhir']); 
+                $total_nilai = (float)$jumlah / (float)3;
+            }
+
+            $grade = "";
+
+            if ($total_nilai >= 3.76) {
+                $grade = "A";
+            } else if ($total_nilai >= 3.51) {
+                $grade = "A-";
+            } else if ($total_nilai >= 3.10) {
+                $grade = "B+";
+            } else if ($total_nilai >= 2.76) {
+                $grade = "B";
+            }
+            
+            $status = "";
+
+            if ($total_nilai >= 2.76) {
+                $status = 'LULUS';
+            } else {
+                $status = 'TIDAK LULUS';
+            }
+
+            //update sidang skripsi
+            $this->sidangSkripsiModel->update($idSidangSkripsi, [
+                'total_nilai' => $total_nilai,
+                'grade' => $grade,
+                'status' => $status,
+            ]);
+            $sidangSkripsi = $this->sidangSkripsiModel->find($idSidangSkripsi);
+
+            //update skripsi
+            $this->skripsiModel->update($lastSkripsi['id'], [
+                'status' => $status,
+            ]);
+        } 
     }
 
 
