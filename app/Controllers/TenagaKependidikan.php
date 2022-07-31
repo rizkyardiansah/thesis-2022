@@ -35,11 +35,13 @@ class TenagaKependidikan extends BaseController
 
     public function index()
     {
-        if (session()->get("user_session") == null) {
-            return view("auth/login");
-        } else {
-            return redirect()->to(base_url("home"));
+        //autentikasi
+        if (!$this->authenticate(["tendik"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
         }
+
+        return redirect()->to(base_url("home"));
     }
 
     public function pengajuanSkripsi() {

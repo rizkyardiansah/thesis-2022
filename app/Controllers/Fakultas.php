@@ -33,7 +33,13 @@ class Fakultas extends BaseController
 
     public function index()
     {
-        
+        //autentikasi
+        if (!$this->authenticate(["fakultas"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        return redirect()->to(base_url("home"));
     }
 
     public function proposal() {

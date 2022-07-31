@@ -45,7 +45,13 @@ class Mahasiswa extends BaseController
 
     public function index()
     {
-       
+       //autentikasi
+        if (!$this->authenticate(["mahasiswa"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        return redirect()->to(base_url("home"));
     }
 
     // public function profil() 

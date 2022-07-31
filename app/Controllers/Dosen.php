@@ -44,7 +44,13 @@ class Dosen extends BaseController
 
     public function index()
     {
-        
+        //autentikasi
+        if (!$this->authenticate(["dosen"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        return redirect()->to(base_url("home"));
     }
 
     public function pengujiSeminarProposal() {
