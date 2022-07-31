@@ -1,4 +1,14 @@
 $(function () {
+  $("#simpanTanggal").on("click", function () {
+    const dari = $("#dari").val();
+    const hingga = $("#hingga").val();
+    $(this).attr(
+      "href",
+      `${BASE_URL}kaprodi/cetakBeritaAcaraBulk?dari=${dari}&hingga=${hingga}`
+    );
+    $(this).attr("target", "_blank");
+  });
+
   $("#tablePenilaianSidang").DataTable({
     dom:
       "<'row mt-3'<'col-sm-12 col-md-4'B><'col-sm-12 col-md-4'l><'col-sm-12 col-md-4'f>>" +

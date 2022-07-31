@@ -14,6 +14,12 @@
             <?= $title ?>
         </div>
         <div class="card-body">
+            <div class="row">
+                <div class="col-lg-3 d-flex align-items-center">
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#tanggalModal">Print Berita Acara Bulk</button>
+                </div>
+            </div>
+
             <div class="table-responsive">
                 <table class="table table-bordered" id="tablePenilaianSidang" width="100%" cellspacing="0">
                     <thead>
@@ -60,6 +66,37 @@
                     <?php endforeach; ?>
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="tanggalModal" tabindex="-1" role="dialog" aria-labelledby="tanggalModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tanggalModalLabel">Rentang Berita Acara</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="dari">Dari</label>
+                            <input type="date" class="form-control" id="dari" name="dari" placeholder="Dari"></input>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="hingga">Hingga</label>
+                            <input type="date" class="form-control" id="hingga" name="hingga" placeholder="Hingga"></input>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <a role="button" class="btn btn-primary" id="simpanTanggal">Simpan</a>
+                </div>
             </div>
         </div>
     </div>

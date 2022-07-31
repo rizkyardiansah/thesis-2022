@@ -35,7 +35,11 @@ class TenagaKependidikan extends BaseController
 
     public function index()
     {
-        
+        if (session()->get("user_session") == null) {
+            return view("auth/login");
+        } else {
+            return redirect()->to(base_url("home"));
+        }
     }
 
     public function pengajuanSkripsi() {
@@ -719,9 +723,9 @@ class TenagaKependidikan extends BaseController
         $nilaiPembimbing2 = $this->penilaianSidangModel->getWhere(['id_sidang_skripsi' => $idSidangSkripsi, 'id_dosen' => $pembimbingIlmu2[0]['id_dosen']])->getResultArray();
         $nilaiPembimbingAgama = $this->penilaianSidangModel->getWhere(['id_sidang_skripsi' => $idSidangSkripsi, 'id_dosen' => $pembimbingAgama[0]['id_dosen']])->getResultArray();
         $nilaiPenguji = $this->penilaianSidangModel->getWhere(['id_sidang_skripsi' => $idSidangSkripsi, 'id_dosen' => $sidangSkripsi['dosen_penguji']])->getResultArray();
-
-        $data = [
-            'title' => 'Hasil Sidang Skripsi',
+        
+        $arrBeritaAcara = [];
+        array_push($arrBeritaAcara, [
             'mahasiswa' => $mahasiswa,
             'prodi' => $prodi,
             'lastSkripsi' => $lastSkripsi,
@@ -734,6 +738,64 @@ class TenagaKependidikan extends BaseController
             'nilaiPembimbing2' => $nilaiPembimbing2,
             'nilaiPembimbingAgama' => $nilaiPembimbingAgama,
             'nilaiPenguji' => $nilaiPenguji,
+        ]);
+
+        $data = [
+            'title' => 'Hasil Sidang Skripsi',
+            'arrBeritaAcara' => $arrBeritaAcara,
+        ];
+
+        return view("tenagaKependidikan/berita_acara", $data);
+    }
+
+    public function cetakBeritaAcaraBulk() {
+        //autentikasi
+        if (!$this->authenticate(["tendik"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        $dari = $this->request->getGet("dari");
+        $hingga = $this->request->getGet("hingga");
+
+        $arrBeritaAcara = [];
+
+        $jadwalSidang = $this->sidangSkripsiModel->orderBy('tanggal', 'ASC')->getWhere(['status' => 'LULUS',  'tanggal >=' => $dari, 'tanggal <=' => $hingga])->getResultArray();
+        foreach($jadwalSidang as $js) {
+            $lastSkripsi = $this->skripsiModel->find($js['id_skripsi']);
+    
+            $mahasiswa = $this->mahasiswaModel->find($lastSkripsi['npm']);
+            $prodi = $this->prodiModel->find($mahasiswa['id_prodi']);
+            
+            $idSidangSkripsi = $js['id'];
+    
+            $pembimbingIlmu1 = $this->pembimbingModel->getPembimbingIlmu1ByIdSkripsi($lastSkripsi['id']);
+            $pembimbingIlmu2 = $this->pembimbingModel->getPembimbingIlmu2ByIdSkripsi($lastSkripsi['id']);
+            $pembimbingAgama = $this->pembimbingModel->getPembimbingAgamaByIdSkripsi($lastSkripsi['id']);
+            $penguji = $this->dosenModel->find($js['dosen_penguji']);
+            
+            $nilaiPembimbing1 = $this->penilaianSidangModel->getWhere(['id_sidang_skripsi' => $idSidangSkripsi, 'id_dosen' => $pembimbingIlmu1[0]['id_dosen']])->getResultArray();
+            $nilaiPembimbing2 = $this->penilaianSidangModel->getWhere(['id_sidang_skripsi' => $idSidangSkripsi, 'id_dosen' => $pembimbingIlmu2[0]['id_dosen']])->getResultArray();
+            $nilaiPembimbingAgama = $this->penilaianSidangModel->getWhere(['id_sidang_skripsi' => $idSidangSkripsi, 'id_dosen' => $pembimbingAgama[0]['id_dosen']])->getResultArray();
+            $nilaiPenguji = $this->penilaianSidangModel->getWhere(['id_sidang_skripsi' => $idSidangSkripsi, 'id_dosen' => $js['dosen_penguji']])->getResultArray();
+            
+            array_push($arrBeritaAcara, ['mahasiswa' => $mahasiswa,
+            'prodi' => $prodi,
+            'lastSkripsi' => $lastSkripsi,
+            'sidangSkripsi' => $js,
+            'pembimbingIlmu1' => $pembimbingIlmu1,
+            'pembimbingIlmu2' => $pembimbingIlmu2,
+            'pembimbingAgama' => $pembimbingAgama,
+            'penguji' => $penguji,
+            'nilaiPembimbing1' => $nilaiPembimbing1,
+            'nilaiPembimbing2' => $nilaiPembimbing2,
+            'nilaiPembimbingAgama' => $nilaiPembimbingAgama,
+            'nilaiPenguji' => $nilaiPenguji]);
+        }
+
+        $data = [
+            'title' => 'Hasil Sidang Skripsi',
+            'arrBeritaAcara' => $arrBeritaAcara,
         ];
 
         return view("tenagaKependidikan/berita_acara", $data);
