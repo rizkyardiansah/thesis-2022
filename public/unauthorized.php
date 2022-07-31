@@ -76,12 +76,14 @@
 			Anda tidak bisa mengakses halaman ini karena belum melakukan login atau tidak memiliki hak akses
 		</p>
 
-		<h3>Anda Akan dialihkan dalam <span id="countdown">5</span> detik</h3>
+		<h3><strong>Anda akan dialihkan dalam <span id="countdown">5</span> detik</strong></h3>
 	</div>
 	<script src="/assets/js/constant.js"></script>
 	<script>
 		setInterval(() => {
-			document.getElementById("countdown").innerText--;
+			if (document.getElementById("countdown").innerText > 0) {
+				document.getElementById("countdown").innerText--;
+			}
 
 			if (document.getElementById("countdown").innerText == 0) {
 				console.log(`${BASE_URL}auth`)

@@ -271,6 +271,10 @@ class Dosen extends BaseController
         if (count($detailSeminarPrasidang) == 0) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
+        
+        if ($detailSeminarPrasidang[0]['dosen_reviewer'] != $dataAkun['id']) {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
 
         $data = [
             'title' => 'Review Seminar Prasidang',
@@ -360,6 +364,13 @@ class Dosen extends BaseController
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
 
+        if ($detailSidangSkripsi[0]['id_pembimbing1'] != $dataAkun['id'] && 
+        $detailSidangSkripsi[0]['id_pembimbing2'] != $dataAkun['id'] && 
+        $detailSidangSkripsi[0]['id_pembimbing_agama'] != $dataAkun['id'] && 
+        $detailSidangSkripsi[0]['dosen_penguji'] != $dataAkun['id']) {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
         $nilaiSidang = $this->penilaianSidangModel->getWhere([
             'id_sidang_skripsi' => $idSidangSkripsi,
             'id_dosen' => $dataAkun['id'], 
@@ -386,8 +397,23 @@ class Dosen extends BaseController
         if ($this->request->getMethod() != 'post') {
             return redirect()->back();
         }
-
+        
         $idSidangSkripsi = $this->request->getPost("idSidangSkripsi");
+        
+        $detailSidangSkripsi = $this->sidangSkripsiModel->getDetailSidangSkripsiById($idSidangSkripsi);
+        if (count($detailSidangSkripsi) == 0) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
+        $dataAkun = $this->dosenModel->find(session()->get("user_session")['id']);
+        
+        if ($detailSidangSkripsi[0]['id_pembimbing1'] != $dataAkun['id'] && 
+        $detailSidangSkripsi[0]['id_pembimbing2'] != $dataAkun['id'] && 
+        $detailSidangSkripsi[0]['id_pembimbing_agama'] != $dataAkun['id'] && 
+        $detailSidangSkripsi[0]['dosen_penguji'] != $dataAkun['id']) {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
         $idDosen = $this->request->getPost("idDosen");
         $nilai_1 = $this->request->getPost("nilai_1");
         $nilai_2 = $this->request->getPost("nilai_2");
