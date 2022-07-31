@@ -74,7 +74,7 @@ $(function () {
     },
   });
 
-  $(".nilai-sidang").on("change", hitungNilaiSidang);
+  $(".nilai-sidang").on("input", hitungNilaiSidang);
 
   //untuk sweetalert
   if ($("#flashdata").data("open") == true) {
@@ -108,18 +108,18 @@ function hitungNilaiSidang() {
   const subtotal1 = (
     (nilai_1 + nilai_2 + nilai_3) *
     persentasePenyajian
-  ).toFixed(1);
+  ).toFixed(2);
   const subtotal2 = (
     (nilai_4 + nilai_5 + nilai_6) *
     persentaseSistematika
-  ).toFixed(1);
+  ).toFixed(2);
   const subtotal3 = ((nilai_7 + nilai_8 + nilai_9) * persentaseTulisan).toFixed(
-    1
+    2
   );
   const subtotal4 = (
     (nilai_10 + nilai_11 + nilai_12) *
     persentaseTanyaJawab
-  ).toFixed(1);
+  ).toFixed(2);
   $("#subtotal1").val(subtotal1);
   $("#subtotal2").val(subtotal2);
   $("#subtotal3").val(subtotal3);
@@ -130,7 +130,7 @@ function hitungNilaiSidang() {
     parseFloat(subtotal2) +
     parseFloat(subtotal3) +
     parseFloat(subtotal4)
-  ).toFixed(1);
+  ).toFixed(2);
   const nilaiAkhir = (total / 300).toFixed(2);
   const status = nilaiAkhir >= 2.76 ? "LULUS" : "TIDAK LULUS";
   let grade = "";

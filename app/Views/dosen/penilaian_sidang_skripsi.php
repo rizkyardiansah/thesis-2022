@@ -14,10 +14,13 @@
             <?= $title ?>
         </div>
         <div class="card-body">
-            <form action="<?= base_url("dosen/insertNilaiSidangSkripsi") ?>" method="post" id="formPenilaianSidang">
+            <form action="<?= count($nilaiSidang) == 0 ? base_url("dosen/insertNilaiSidangSkripsi") : base_url("dosen/updateNilaiSidangSkripsi") ?>" method="post" id="formPenilaianSidang">
                 <div class="row">
                     <input type="hidden" name="idSidangSkripsi" value="<?= $detailSidangSkripsi['id'] ?>">
                     <input type="hidden" name="idDosen" value="<?= $dataAkun['id'] ?>">
+                    <?php if (count($nilaiSidang) != 0): ?>
+                        <input type="hidden" name="idPenilaianSidang" value="<?= $nilaiSidang[0]['id'] ?>">
+                    <?php endif; ?>
                     <div class="col-lg-4">
                         <div class="form-group">
                             <label for="nama">Nama Mahasiswa</label>
@@ -116,7 +119,7 @@
                                     <?php if (count($nilaiSidang) == 0 || $nilaiSidang[0]['nilai_1'] == null): ?>
                                         <input type="text" class="form-control form-control-sm nilai-sidang" id="nilai_1" name="nilai_1" style="width: 13%">
                                     <?php else: ?>
-                                        <input type="text" class="form-control form-control-sm nilai-sidang" id="nilai_1" name="nilai_1" style="width: 13%" value="<?= $nilaiSidang[0]['nilai_1'] ?>" disabled>
+                                        <input type="text" class="form-control form-control-sm nilai-sidang" id="nilai_1" name="nilai_1" style="width: 13%" value="<?= $nilaiSidang[0]['nilai_1'] ?>">
                                     <?php endif; ?>
                                 </div>
                                 <div class="list-group-item d-flex justify-content-between align-items-center">
@@ -124,7 +127,7 @@
                                     <?php if (count($nilaiSidang) == 0 || $nilaiSidang[0]['nilai_2'] == null): ?>
                                         <input type="text" class="form-control form-control-sm nilai-sidang" id="nilai_2" name="nilai_2" style="width: 13%">
                                     <?php else: ?>
-                                        <input type="text" class="form-control form-control-sm nilai-sidang" id="nilai_2" name="nilai_2" style="width: 13%" value="<?= $nilaiSidang[0]['nilai_2'] ?>" disabled>
+                                        <input type="text" class="form-control form-control-sm nilai-sidang" id="nilai_2" name="nilai_2" style="width: 13%" value="<?= $nilaiSidang[0]['nilai_2'] ?>">
                                     <?php endif; ?>
                                 </div>
                                 <div class="list-group-item d-flex justify-content-between align-items-center">
@@ -132,7 +135,7 @@
                                    <?php if (count($nilaiSidang) == 0 || $nilaiSidang[0]['nilai_3'] == null): ?>
                                         <input type="text" class="form-control form-control-sm nilai-sidang" id="nilai_3" name="nilai_3" style="width: 13%">
                                     <?php else: ?>
-                                        <input type="text" class="form-control form-control-sm nilai-sidang" id="nilai_3" name="nilai_3" style="width: 13%" value="<?= $nilaiSidang[0]['nilai_3'] ?>" disabled>
+                                        <input type="text" class="form-control form-control-sm nilai-sidang" id="nilai_3" name="nilai_3" style="width: 13%" value="<?= $nilaiSidang[0]['nilai_3'] ?>">
                                     <?php endif; ?>
                                 </div>
                                 <div class="list-group-item d-flex justify-content-between align-items-center">
@@ -149,7 +152,7 @@
                                     <?php if (count($nilaiSidang) == 0 || $nilaiSidang[0]['nilai_4'] == null): ?>
                                         <input type="text" class="form-control form-control-sm nilai-sidang" id="nilai_4" name="nilai_4" style="width: 13%">
                                     <?php else: ?>
-                                        <input type="text" class="form-control form-control-sm nilai-sidang" id="nilai_4" name="nilai_4" style="width: 13%" value="<?= $nilaiSidang[0]['nilai_4'] ?>" disabled>
+                                        <input type="text" class="form-control form-control-sm nilai-sidang" id="nilai_4" name="nilai_4" style="width: 13%" value="<?= $nilaiSidang[0]['nilai_4'] ?>">
                                     <?php endif; ?>
                                 </div>
                                 <div class="list-group-item d-flex justify-content-between align-items-center">
@@ -157,7 +160,7 @@
                                     <?php if (count($nilaiSidang) == 0 || $nilaiSidang[0]['nilai_5'] == null): ?>
                                         <input type="text" class="form-control form-control-sm nilai-sidang" id="nilai_5" name="nilai_5" style="width: 13%">
                                     <?php else: ?>
-                                        <input type="text" class="form-control form-control-sm nilai-sidang" id="nilai_5" name="nilai_5" style="width: 13%" value="<?= $nilaiSidang[0]['nilai_5'] ?>" disabled>
+                                        <input type="text" class="form-control form-control-sm nilai-sidang" id="nilai_5" name="nilai_5" style="width: 13%" value="<?= $nilaiSidang[0]['nilai_5'] ?>">
                                     <?php endif; ?>
                                 </div>
                                 <div class="list-group-item d-flex justify-content-between align-items-center">
@@ -165,7 +168,7 @@
                                     <?php if (count($nilaiSidang) == 0 || $nilaiSidang[0]['nilai_6'] == null): ?>
                                         <input type="text" class="form-control form-control-sm nilai-sidang" id="nilai_6" name="nilai_6" style="width: 13%">
                                     <?php else: ?>
-                                        <input type="text" class="form-control form-control-sm nilai-sidang" id="nilai_6" name="nilai_6" style="width: 13%" value="<?= $nilaiSidang[0]['nilai_6'] ?>" disabled>
+                                        <input type="text" class="form-control form-control-sm nilai-sidang" id="nilai_6" name="nilai_6" style="width: 13%" value="<?= $nilaiSidang[0]['nilai_6'] ?>">
                                     <?php endif; ?>
                                 </div>
                                 <div class="list-group-item d-flex justify-content-between align-items-center">
@@ -185,7 +188,7 @@
                                     <?php if (count($nilaiSidang) == 0 || $nilaiSidang[0]['nilai_7'] == null): ?>
                                         <input type="text" class="form-control form-control-sm nilai-sidang" id="nilai_7" name="nilai_7" style="width: 13%">
                                     <?php else: ?>
-                                        <input type="text" class="form-control form-control-sm nilai-sidang" id="nilai_7" name="nilai_7" style="width: 13%" value="<?= $nilaiSidang[0]['nilai_7'] ?>" disabled>
+                                        <input type="text" class="form-control form-control-sm nilai-sidang" id="nilai_7" name="nilai_7" style="width: 13%" value="<?= $nilaiSidang[0]['nilai_7'] ?>">
                                     <?php endif; ?>
                                 </div>
                                 <div class="list-group-item d-flex justify-content-between align-items-center">
@@ -193,7 +196,7 @@
                                     <?php if (count($nilaiSidang) == 0 || $nilaiSidang[0]['nilai_8'] == null): ?>
                                         <input type="text" class="form-control form-control-sm nilai-sidang" id="nilai_8" name="nilai_8" style="width: 13%">
                                     <?php else: ?>
-                                        <input type="text" class="form-control form-control-sm nilai-sidang" id="nilai_8" name="nilai_8" style="width: 13%" value="<?= $nilaiSidang[0]['nilai_8'] ?>" disabled>
+                                        <input type="text" class="form-control form-control-sm nilai-sidang" id="nilai_8" name="nilai_8" style="width: 13%" value="<?= $nilaiSidang[0]['nilai_8'] ?>">
                                     <?php endif; ?>
                                 </div>
                                 <div class="list-group-item d-flex justify-content-between align-items-center">
@@ -201,7 +204,7 @@
                                     <?php if (count($nilaiSidang) == 0 || $nilaiSidang[0]['nilai_9'] == null): ?>
                                         <input type="text" class="form-control form-control-sm nilai-sidang" id="nilai_9" name="nilai_9" style="width: 13%">
                                     <?php else: ?>
-                                        <input type="text" class="form-control form-control-sm nilai-sidang" id="nilai_9" name="nilai_9" style="width: 13%" value="<?= $nilaiSidang[0]['nilai_9'] ?>" disabled>
+                                        <input type="text" class="form-control form-control-sm nilai-sidang" id="nilai_9" name="nilai_9" style="width: 13%" value="<?= $nilaiSidang[0]['nilai_9'] ?>">
                                     <?php endif; ?>
                                 </div>
                                 <div class="list-group-item d-flex justify-content-between align-items-center">
@@ -218,7 +221,7 @@
                                     <?php if (count($nilaiSidang) == 0 || $nilaiSidang[0]['nilai_10'] == null): ?>
                                         <input type="text" class="form-control form-control-sm nilai-sidang" id="nilai_10" name="nilai_10" style="width: 13%">
                                     <?php else: ?>
-                                        <input type="text" class="form-control form-control-sm nilai-sidang" id="nilai_10" name="nilai_10" style="width: 13%" value="<?= $nilaiSidang[0]['nilai_10'] ?>" disabled>
+                                        <input type="text" class="form-control form-control-sm nilai-sidang" id="nilai_10" name="nilai_10" style="width: 13%" value="<?= $nilaiSidang[0]['nilai_10'] ?>">
                                     <?php endif; ?>
                                 </div>
                                 <div class="list-group-item d-flex justify-content-between align-items-center">
@@ -226,7 +229,7 @@
                                     <?php if (count($nilaiSidang) == 0 || $nilaiSidang[0]['nilai_11'] == null): ?>
                                         <input type="text" class="form-control form-control-sm nilai-sidang" id="nilai_11" name="nilai_11" style="width: 13%">
                                     <?php else: ?>
-                                        <input type="text" class="form-control form-control-sm nilai-sidang" id="nilai_11" name="nilai_11" style="width: 13%" value="<?= $nilaiSidang[0]['nilai_11'] ?>" disabled>
+                                        <input type="text" class="form-control form-control-sm nilai-sidang" id="nilai_11" name="nilai_11" style="width: 13%" value="<?= $nilaiSidang[0]['nilai_11'] ?>">
                                     <?php endif; ?>
                                 </div>
                                 <div class="list-group-item d-flex justify-content-between align-items-center">
@@ -234,7 +237,7 @@
                                     <?php if (count($nilaiSidang) == 0 || $nilaiSidang[0]['nilai_12'] == null): ?>
                                         <input type="text" class="form-control form-control-sm nilai-sidang" id="nilai_12" name="nilai_12" style="width: 13%">
                                     <?php else: ?>
-                                        <input type="text" class="form-control form-control-sm nilai-sidang" id="nilai_12" name="nilai_12" style="width: 13%" value="<?= $nilaiSidang[0]['nilai_12'] ?>" disabled>
+                                        <input type="text" class="form-control form-control-sm nilai-sidang" id="nilai_12" name="nilai_12" style="width: 13%" value="<?= $nilaiSidang[0]['nilai_12'] ?>">
                                     <?php endif; ?>
                                 </div>
                                 <div class="list-group-item d-flex justify-content-between align-items-center">
@@ -250,7 +253,7 @@
                             <div class="list-group">
                                 <div class="list-group-item d-flex justify-content-between align-items-center">
                                     Total
-                                    <input type="text" class="form-control form-control-sm" id="total" name="total" style="width: 30%" readonly>
+                                    <input type="text" class="form-control form-control-sm" id="total" name="total" style="width: 50%" readonly>
                                 </div>
                             </div>
                         </div>
@@ -258,7 +261,7 @@
                             <div class="list-group">
                                 <div class="list-group-item d-flex justify-content-between align-items-center">
                                     Nilai Akhir
-                                    <input type="text" class="form-control form-control-sm" id="nilai_akhir" name="nilai_akhir" style="width: 30%" readonly>
+                                    <input type="text" class="form-control form-control-sm" id="nilai_akhir" name="nilai_akhir" style="width: 50%" readonly>
                                 </div>
                             </div>
                         </div>
@@ -266,7 +269,7 @@
                             <div class="list-group">
                                 <div class="list-group-item d-flex justify-content-between align-items-center">
                                     Grade
-                                    <input type="text" class="form-control form-control-sm" id="grade" name="grade" style="width: 30%" readonly>
+                                    <input type="text" class="form-control form-control-sm" id="grade" name="grade" style="width: 50%" readonly>
                                 </div>
                             </div>
                         </div>
@@ -307,10 +310,7 @@
 
                     <div class="col-lg-12 d-flex justify-content-end">
                         <a role="button" class="btn btn-secondary mr-3" href="<?= base_url("dosen/pengujiSidangSkripsi") ?>">Kembali</a>
-                        
-                        <?php if (count($nilaiSidang) == 0): ?>
-                            <button class="btn btn-primary" type="submit" id="submitNilai">Simpan</button>
-                        <?php endif; ?>
+                        <button class="btn btn-primary" type="submit" id="submitNilai">Simpan</button>
                     </div>
                 </div>
             </form>

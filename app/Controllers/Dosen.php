@@ -457,6 +457,63 @@ class Dosen extends BaseController
         return redirect()->back();
     }
 
+    public function updateNilaiSidangSkripsi() {
+         //autentikasi
+        if (!$this->authenticate(["dosen"])) 
+        {
+            return redirect()->to(base_url("unauthorized.php"));
+        }
+
+        //buat mencegah access langsung dari link
+        if ($this->request->getMethod() != 'post') {
+            return redirect()->back();
+        }
+
+        $idPenilaianSidang = $this->request->getPost("idPenilaianSidang");   
+        $idSidangSkripsi = $this->request->getPost("idSidangSkripsi");
+        $idDosen = $this->request->getPost("idDosen");
+        $nilai_1 = $this->request->getPost("nilai_1");
+        $nilai_2 = $this->request->getPost("nilai_2");
+        $nilai_3 = $this->request->getPost("nilai_3");
+        $nilai_4 = $this->request->getPost("nilai_4");
+        $nilai_5 = $this->request->getPost("nilai_5");
+        $nilai_6 = $this->request->getPost("nilai_6");
+        $nilai_7 = $this->request->getPost("nilai_7");
+        $nilai_8 = $this->request->getPost("nilai_8");
+        $nilai_9 = $this->request->getPost("nilai_9");
+        $nilai_10 = $this->request->getPost("nilai_10");
+        $nilai_11 = $this->request->getPost("nilai_11");
+        $nilai_12 = $this->request->getPost("nilai_12");
+        $nilai_akhir = $this->request->getPost("nilai_akhir");
+        $grade = $this->request->getPost("grade");
+        $status = $this->request->getPost("status");
+
+        $this->penilaianSidangModel->update($idPenilaianSidang, [
+            'id_dosen' => $idDosen,
+            'id_sidang_skripsi' => $idSidangSkripsi,
+            'nilai_1' => $nilai_1,
+            'nilai_2' => $nilai_2,
+            'nilai_3' => $nilai_3,
+            'nilai_4' => $nilai_4,
+            'nilai_5' => $nilai_5,
+            'nilai_6' => $nilai_6,
+            'nilai_7' => $nilai_7,
+            'nilai_8' => $nilai_8,
+            'nilai_9' => $nilai_9,
+            'nilai_10' => $nilai_10,
+            'nilai_11' => $nilai_11,
+            'nilai_12' => $nilai_12,
+            'nilai_akhir' => $nilai_akhir,
+            'grade' => $grade,
+            'status' => $status,
+        ]);
+
+        $this->perbaruiStatusKelulusan($idSidangSkripsi);
+
+        session()->setFlashdata("message", ["icon" => "success", "title" => "Beri Penilaian Sidang Berhasil", "text" => "Penilaian Sidang Skripsi telah berhasil disimpan"]);
+        return redirect()->back();
+    }
+
     public function perbaruiStatusKelulusan($idSidangSkripsi) 
     {
         $sidangSkripsi = $this->sidangSkripsiModel->find($idSidangSkripsi);
