@@ -281,6 +281,35 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-lg-6 mt-3">
+                            <div class="form-group">
+                                <label for="tundaNilai">Tunda Tampilan Nilai untuk Mahasiswa <a tabindex="0" role="button" id="instruksiTundaNilai"><i class="fa fa-question-circle text-dark"></i></a></label>
+                                <div class="row">
+                                    <div class="col-2">
+                                        <label class="switch mb-0">
+                                            <input type="checkbox" id="tundaNilai" name="tundaNilai" <?= count($nilaiSidang) == 1 && $nilaiSidang[0]['tunda_nilai'] == 'YA' ? 'checked' : ''; ?>><span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                    <div class="col-10">
+                                        <span id="langsungTampil" class="my-auto" hidden>Langsung menampilkan nilai kepada mahasiswa</span>
+                                        <span id="tundaTampil" class="my-auto" hidden>Tunda menampilkan nilai kepada mahasiswa</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mt-3">
+                            <p class="mb-0">Keputusan penguji lain:</p>
+                            <table class="table table-sm table-bordered">
+                                <?php foreach($statusPenampilanNilai as $spn) : ?>
+                                    <?php if ($spn['id_dosen'] != session("user_session")['id']): ?>
+                                        <tr>
+                                            <td><?= $spn['nama_dosen'] ?></td>
+                                            <td><?= $spn['tunda_nilai'] == 'YA' ? "Tunda menampilkan nilai" : "Langsung menampilkan nilai" ?></td>
+                                        </tr>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </table>
+                        </div>
                     </div>
 
                     <div class="col-lg-12 mb-3">

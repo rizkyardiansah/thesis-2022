@@ -63,434 +63,459 @@
             </div>
             <div class="table-responsive mt-3">
                 <h4>Nilai Sidang Skripsi</h4>
-                <table class="table table-bordered table-sm" id="hasilNilaiSidang" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th class="text-center text-dark align-middle">Aspek</th>
-                            <th class="text-center text-dark align-middle">Penguji Ilmu</th>
-                            <th class="text-center text-dark align-middle">Pembimbing Ilmu 1</th>
-                            <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
-                                <th class="text-center text-dark align-middle">Pembimbing Ilmu 2</th>
-                            <?php endif; ?>
-                            <th class="text-center text-dark align-middle">Pembimbing Agama</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
-                                <td colspan="5" class="bg-secondary text-white">Aspek Penyajian Lisan</td>
-                            <?php else: ?>
-                                <td colspan="4" class="bg-secondary text-white">Aspek Penyajian Lisan</td>
-                            <?php endif; ?>
-                        </tr>
-                        <tr>
-                            <td>Penyajian sesuai dengan waktu yang disediakan</td>
-                            <?php if(count($nilaiPenguji) == 0): ?>
-                                <td class="text-center align-middle">-</td>
-                            <?php else: ?>
-                                <td class="text-center align-middle"><?= number_format($nilaiPenguji[0]['nilai_1'], 2, '.', '') ?></td>
-                            <?php endif; ?>
-                            <?php if(count($nilaiPembimbing1) == 0): ?>
-                                <td class="text-center align-middle">-</td>
-                            <?php else: ?>
-                                <td class="text-center align-middle"><?= number_format($nilaiPembimbing1[0]['nilai_1'], 2, '.', '') ?></td>
-                            <?php endif; ?>
-                            <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
-                                <?php if(count($nilaiPembimbing2) == 0): ?>
+
+                <?php if (count($nilaiPembimbing1) == 0 || 
+                ($pembimbingIlmu2[0]['id_dosen'] != null && count($nilaiPembimbing2) == 0) || 
+                count($nilaiPembimbingAgama) == 0 || 
+                count($nilaiPenguji) == 0 ): ?>
+
+                    <p class="text-center"><strong><?= count($nilaiPenguji) == 0 ? 'Penguji,' : '' ?> <?= count($nilaiPembimbing1) == 0 ? 'Pembimbing Ilmu 1,' : '' ?> <?= $pembimbingIlmu2[0]['id_dosen'] != null && count($nilaiPembimbing2) == 0 ? 'Pembimbing Ilmu 2,' : '' ?> <?= count($nilaiPembimbingAgama) == 0 ? 'Pembimbing Agama,' : '' ?> belum memberikan penilaian.</strong></p>
+
+                <?php elseif ($nilaiPembimbing1[0]['tunda_nilai'] == 'YA' || 
+                ($pembimbingIlmu2[0]['id_dosen'] != null && $nilaiPembimbing2[0]['tunda_nilai'] == 'YA') || 
+                $nilaiPembimbingAgama[0]['tunda_nilai'] == 'YA' || 
+                $nilaiPenguji[0]['tunda_nilai'] == 'YA' ): ?>
+
+                    <p class="text-center"><strong><?= $nilaiPenguji[0]['tunda_nilai'] == 'YA' ? 'Penguji,' : ''?> <?= $nilaiPembimbing1[0]['tunda_nilai'] == 'YA' ? 'Pembimbing Ilmu 1,' : ''?> <?= $pembimbingIlmu2[0]['id_dosen'] != null && $nilaiPembimbing2[0]['tunda_nilai'] == 'YA' ? 'Pembimbing Ilmu 2,' : ''?> <?= $nilaiPembimbingAgama[0]['tunda_nilai'] == 'YA' ? 'Pembimbing Agama,' : ''?> memutuskan untuk menunda menampilkan nilai hasil sidang skripsi.</strong></p>
+
+                <?php else: ?>
+
+                    <table class="table table-bordered table-sm" id="hasilNilaiSidang" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th class="text-center text-dark align-middle">Aspek</th>
+                                <th class="text-center text-dark align-middle">Penguji Ilmu</th>
+                                <th class="text-center text-dark align-middle">Pembimbing Ilmu 1</th>
+                                <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
+                                    <th class="text-center text-dark align-middle">Pembimbing Ilmu 2</th>
+                                <?php endif; ?>
+                                <th class="text-center text-dark align-middle">Pembimbing Agama</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
+                                    <td colspan="5" class="bg-secondary text-white">Aspek Penyajian Lisan</td>
+                                <?php else: ?>
+                                    <td colspan="4" class="bg-secondary text-white">Aspek Penyajian Lisan</td>
+                                <?php endif; ?>
+                            </tr>
+                            <tr>
+                                <td>Penyajian sesuai dengan waktu yang disediakan</td>
+                                <?php if(count($nilaiPenguji) == 0): ?>
                                     <td class="text-center align-middle">-</td>
                                 <?php else: ?>
-                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbing2[0]['nilai_1'], 2, '.', '') ?></td>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPenguji[0]['nilai_1'], 2, '.', '') ?></td>
                                 <?php endif; ?>
-                            <?php endif; ?>
-                            <?php if(count($nilaiPembimbingAgama) == 0): ?>
-                                <td class="text-center align-middle">-</td>
-                            <?php else: ?>
-                                <td class="text-center align-middle"><?= number_format($nilaiPembimbingAgama[0]['nilai_1'], 2, '.', '') ?></td>
-                            <?php endif; ?>
-                        </tr>
-                        <tr>
-                            <td>Relevansi penyajian dengan isi skripsi</td>
-                            <?php if(count($nilaiPenguji) == 0): ?>
-                                <td class="text-center align-middle">-</td>
-                            <?php else: ?>
-                                <td class="text-center align-middle"><?= number_format($nilaiPenguji[0]['nilai_2'], 2, '.', '') ?></td>
-                            <?php endif; ?>
-                            <?php if(count($nilaiPembimbing1) == 0): ?>
-                                <td class="text-center align-middle">-</td>
-                            <?php else: ?>
-                                <td class="text-center align-middle"><?= number_format($nilaiPembimbing1[0]['nilai_2'], 2, '.', '') ?></td>
-                            <?php endif; ?>
-                            <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
-                                <?php if(count($nilaiPembimbing2) == 0): ?>
+                                <?php if(count($nilaiPembimbing1) == 0): ?>
                                     <td class="text-center align-middle">-</td>
                                 <?php else: ?>
-                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbing2[0]['nilai_2'], 2, '.', '') ?></td>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbing1[0]['nilai_1'], 2, '.', '') ?></td>
                                 <?php endif; ?>
-                            <?php endif; ?>
-                            <?php if(count($nilaiPembimbingAgama) == 0): ?>
-                                <td class="text-center align-middle">-</td>
-                            <?php else: ?>
-                                <td class="text-center align-middle"><?= number_format($nilaiPembimbingAgama[0]['nilai_2'], 2, '.', '') ?></td>
-                            <?php endif; ?>
-                        </tr>
-                        <tr>
-                            <td>Cara Penyajian (Kelancaran, kejelasan, penampilan/sikap dll)</td>
-                            <?php if(count($nilaiPenguji) == 0): ?>
-                                <td class="text-center align-middle">-</td>
-                            <?php else: ?>
-                                <td class="text-center align-middle"><?= number_format($nilaiPenguji[0]['nilai_3'], 2, '.', '') ?></td>
-                            <?php endif; ?>
-                            <?php if(count($nilaiPembimbing1) == 0): ?>
-                                <td class="text-center align-middle">-</td>
-                            <?php else: ?>
-                                <td class="text-center align-middle"><?= number_format($nilaiPembimbing1[0]['nilai_3'], 2, '.', '') ?></td>
-                            <?php endif; ?>
-                            <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
-                                <?php if(count($nilaiPembimbing2) == 0): ?>
+                                <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
+                                    <?php if(count($nilaiPembimbing2) == 0): ?>
+                                        <td class="text-center align-middle">-</td>
+                                    <?php else: ?>
+                                        <td class="text-center align-middle"><?= number_format($nilaiPembimbing2[0]['nilai_1'], 2, '.', '') ?></td>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                                <?php if(count($nilaiPembimbingAgama) == 0): ?>
                                     <td class="text-center align-middle">-</td>
                                 <?php else: ?>
-                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbing2[0]['nilai_3'], 2, '.', '') ?></td>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbingAgama[0]['nilai_1'], 2, '.', '') ?></td>
                                 <?php endif; ?>
-                            <?php endif; ?>
-                            <?php if(count($nilaiPembimbingAgama) == 0): ?>
-                                <td class="text-center align-middle">-</td>
-                            <?php else: ?>
-                                <td class="text-center align-middle"><?= number_format($nilaiPembimbingAgama[0]['nilai_3'], 2, '.', '') ?></td>
-                            <?php endif; ?>
-                        </tr>
-                        <tr>
-                            <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
-                                <td colspan="5" class="bg-secondary text-white">Teknik dan Sistematika Penulisan</td>
-                            <?php else: ?>
-                                <td colspan="4" class="bg-secondary text-white">Teknik dan Sistematika Penulisan</td>
-                            <?php endif; ?>
-                        </tr>
-                        <tr>
-                            <td>Kesinambungan antara alinea, antar bab dalam susunan skripsi</td>
-                            <?php if(count($nilaiPenguji) == 0): ?>
-                                <td class="text-center align-middle">-</td>
-                            <?php else: ?>
-                                <td class="text-center align-middle"><?= number_format($nilaiPenguji[0]['nilai_4'], 2, '.', '') ?></td>
-                            <?php endif; ?>
-                            <?php if(count($nilaiPembimbing1) == 0): ?>
-                                <td class="text-center align-middle">-</td>
-                            <?php else: ?>
-                                <td class="text-center align-middle"><?= number_format($nilaiPembimbing1[0]['nilai_4'], 2, '.', '') ?></td>
-                            <?php endif; ?>
-                            <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
-                                <?php if(count($nilaiPembimbing2) == 0): ?>
+                            </tr>
+                            <tr>
+                                <td>Relevansi penyajian dengan isi skripsi</td>
+                                <?php if(count($nilaiPenguji) == 0): ?>
                                     <td class="text-center align-middle">-</td>
                                 <?php else: ?>
-                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbing2[0]['nilai_4'], 2, '.', '') ?></td>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPenguji[0]['nilai_2'], 2, '.', '') ?></td>
                                 <?php endif; ?>
-                            <?php endif; ?>
-                            <?php if(count($nilaiPembimbingAgama) == 0): ?>
-                                <td class="text-center align-middle">-</td>
-                            <?php else: ?>
-                                <td class="text-center align-middle"><?= number_format($nilaiPembimbingAgama[0]['nilai_4'], 2, '.', '') ?></td>
-                            <?php endif; ?>
-                        </tr>
-                        <tr>
-                            <td>Tata cara penulisan kepustakaan dan catatan kaki</td>
-                            <?php if(count($nilaiPenguji) == 0): ?>
-                                <td class="text-center align-middle">-</td>
-                            <?php else: ?>
-                                <td class="text-center align-middle"><?= number_format($nilaiPenguji[0]['nilai_5'], 2, '.', '') ?></td>
-                            <?php endif; ?>
-                            <?php if(count($nilaiPembimbing1) == 0): ?>
-                                <td class="text-center align-middle">-</td>
-                            <?php else: ?>
-                                <td class="text-center align-middle"><?= number_format($nilaiPembimbing1[0]['nilai_5'], 2, '.', '') ?></td>
-                            <?php endif; ?>
-                            <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
-                                <?php if(count($nilaiPembimbing2) == 0): ?>
+                                <?php if(count($nilaiPembimbing1) == 0): ?>
                                     <td class="text-center align-middle">-</td>
                                 <?php else: ?>
-                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbing2[0]['nilai_5'], 2, '.', '') ?></td>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbing1[0]['nilai_2'], 2, '.', '') ?></td>
                                 <?php endif; ?>
-                            <?php endif; ?>
-                            <?php if(count($nilaiPembimbingAgama) == 0): ?>
-                                <td class="text-center align-middle">-</td>
-                            <?php else: ?>
-                                <td class="text-center align-middle"><?= number_format($nilaiPembimbingAgama[0]['nilai_5'], 2, '.', '') ?></td>
-                            <?php endif; ?>
-                        </tr>
-                        <tr>
-                            <td>Kebersihan dan kerapihan tulisan</td>
-                            <?php if(count($nilaiPenguji) == 0): ?>
-                                <td class="text-center align-middle">-</td>
-                            <?php else: ?>
-                                <td class="text-center align-middle"><?= number_format($nilaiPenguji[0]['nilai_6'], 2, '.', '') ?></td>
-                            <?php endif; ?>
-                            <?php if(count($nilaiPembimbing1) == 0): ?>
-                                <td class="text-center align-middle">-</td>
-                            <?php else: ?>
-                                <td class="text-center align-middle"><?= number_format($nilaiPembimbing1[0]['nilai_6'], 2, '.', '') ?></td>
-                            <?php endif; ?>
-                            <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
-                                <?php if(count($nilaiPembimbing2) == 0): ?>
+                                <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
+                                    <?php if(count($nilaiPembimbing2) == 0): ?>
+                                        <td class="text-center align-middle">-</td>
+                                    <?php else: ?>
+                                        <td class="text-center align-middle"><?= number_format($nilaiPembimbing2[0]['nilai_2'], 2, '.', '') ?></td>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                                <?php if(count($nilaiPembimbingAgama) == 0): ?>
                                     <td class="text-center align-middle">-</td>
                                 <?php else: ?>
-                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbing2[0]['nilai_6'], 2, '.', '') ?></td>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbingAgama[0]['nilai_2'], 2, '.', '') ?></td>
                                 <?php endif; ?>
-                            <?php endif; ?>
-                            <?php if(count($nilaiPembimbingAgama) == 0): ?>
-                                <td class="text-center align-middle">-</td>
-                            <?php else: ?>
-                                <td class="text-center align-middle"><?= number_format($nilaiPembimbingAgama[0]['nilai_6'], 2, '.', '') ?></td>
-                            <?php endif; ?>
-                        </tr>
-                        <tr>
-                            <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
-                                <td colspan="5" class="bg-secondary text-white">Aspek Isi Tulisan</td>
-                            <?php else: ?>
-                                <td colspan="4" class="bg-secondary text-white">Aspek Isi Tulisan</td>
-                            <?php endif; ?>
-                        </tr>
-                        <tr>
-                            <td>Kejelasan rumusan penulisan</td>
-                            <?php if(count($nilaiPenguji) == 0): ?>
-                                <td class="text-center align-middle">-</td>
-                            <?php else: ?>
-                                <td class="text-center align-middle"><?= number_format($nilaiPenguji[0]['nilai_7'], 2, '.', '') ?></td>
-                            <?php endif; ?>
-                            <?php if(count($nilaiPembimbing1) == 0): ?>
-                                <td class="text-center align-middle">-</td>
-                            <?php else: ?>
-                                <td class="text-center align-middle"><?= number_format($nilaiPembimbing1[0]['nilai_7'], 2, '.', '') ?></td>
-                            <?php endif; ?>
-                            <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
-                                <?php if(count($nilaiPembimbing2) == 0): ?>
+                            </tr>
+                            <tr>
+                                <td>Cara Penyajian (Kelancaran, kejelasan, penampilan/sikap dll)</td>
+                                <?php if(count($nilaiPenguji) == 0): ?>
                                     <td class="text-center align-middle">-</td>
                                 <?php else: ?>
-                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbing2[0]['nilai_7'], 2, '.', '') ?></td>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPenguji[0]['nilai_3'], 2, '.', '') ?></td>
                                 <?php endif; ?>
-                            <?php endif; ?>
-                            <?php if(count($nilaiPembimbingAgama) == 0): ?>
-                                <td class="text-center align-middle">-</td>
-                            <?php else: ?>
-                                <td class="text-center align-middle"><?= number_format($nilaiPembimbingAgama[0]['nilai_7'], 2, '.', '') ?></td>
-                            <?php endif; ?>
-                        </tr>
-                        <tr>
-                            <td>Kesesuaian isi tulisan dengan judul skripsi</td>
-                            <?php if(count($nilaiPenguji) == 0): ?>
-                                <td class="text-center align-middle">-</td>
-                            <?php else: ?>
-                                <td class="text-center align-middle"><?= number_format($nilaiPenguji[0]['nilai_8'], 2, '.', '') ?></td>
-                            <?php endif; ?>
-                            <?php if(count($nilaiPembimbing1) == 0): ?>
-                                <td class="text-center align-middle">-</td>
-                            <?php else: ?>
-                                <td class="text-center align-middle"><?= number_format($nilaiPembimbing1[0]['nilai_8'], 2, '.', '') ?></td>
-                            <?php endif; ?>
-                            <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
-                                <?php if(count($nilaiPembimbing2) == 0): ?>
+                                <?php if(count($nilaiPembimbing1) == 0): ?>
                                     <td class="text-center align-middle">-</td>
                                 <?php else: ?>
-                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbing2[0]['nilai_8'], 2, '.', '') ?></td>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbing1[0]['nilai_3'], 2, '.', '') ?></td>
                                 <?php endif; ?>
-                            <?php endif; ?>
-                            <?php if(count($nilaiPembimbingAgama) == 0): ?>
-                                <td class="text-center align-middle">-</td>
-                            <?php else: ?>
-                                <td class="text-center align-middle"><?= number_format($nilaiPembimbingAgama[0]['nilai_8'], 2, '.', '') ?></td>
-                            <?php endif; ?>
-                        </tr>
-                        <tr>
-                            <td>Kemampuan membuat analisa dan pembahasan</td>
-                            <?php if(count($nilaiPenguji) == 0): ?>
-                                <td class="text-center align-middle">-</td>
-                            <?php else: ?>
-                                <td class="text-center align-middle"><?= number_format($nilaiPenguji[0]['nilai_9'], 2, '.', '') ?></td>
-                            <?php endif; ?>
-                            <?php if(count($nilaiPembimbing1) == 0): ?>
-                                <td class="text-center align-middle">-</td>
-                            <?php else: ?>
-                                <td class="text-center align-middle"><?= number_format($nilaiPembimbing1[0]['nilai_9'], 2, '.', '') ?></td>
-                            <?php endif; ?>
-                            <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
-                                <?php if(count($nilaiPembimbing2) == 0): ?>
+                                <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
+                                    <?php if(count($nilaiPembimbing2) == 0): ?>
+                                        <td class="text-center align-middle">-</td>
+                                    <?php else: ?>
+                                        <td class="text-center align-middle"><?= number_format($nilaiPembimbing2[0]['nilai_3'], 2, '.', '') ?></td>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                                <?php if(count($nilaiPembimbingAgama) == 0): ?>
                                     <td class="text-center align-middle">-</td>
                                 <?php else: ?>
-                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbing2[0]['nilai_9'], 2, '.', '') ?></td>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbingAgama[0]['nilai_3'], 2, '.', '') ?></td>
                                 <?php endif; ?>
-                            <?php endif; ?>
-                            <?php if(count($nilaiPembimbingAgama) == 0): ?>
-                                <td class="text-center align-middle">-</td>
-                            <?php else: ?>
-                                <td class="text-center align-middle"><?= number_format($nilaiPembimbingAgama[0]['nilai_9'], 2, '.', '') ?></td>
-                            <?php endif; ?>
-                        </tr>
-                        <tr>
-                            <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
-                                <td colspan="5" class="bg-secondary text-white">Aspek Tanya Jawab</td>
-                            <?php else: ?>
-                                <td colspan="4" class="bg-secondary text-white">Aspek Tanya Jawab</td>
-                            <?php endif; ?>
-                        </tr>
-                        <tr>
-                            <td>Pengetahuan Umum yang berhubungan dengan tulisan</td>
-                            <?php if(count($nilaiPenguji) == 0): ?>
-                                <td class="text-center align-middle">-</td>
-                            <?php else: ?>
-                                <td class="text-center align-middle"><?= number_format($nilaiPenguji[0]['nilai_10'], 2, '.', '') ?></td>
-                            <?php endif; ?>
-                            <?php if(count($nilaiPembimbing1) == 0): ?>
-                                <td class="text-center align-middle">-</td>
-                            <?php else: ?>
-                                <td class="text-center align-middle"><?= number_format($nilaiPembimbing1[0]['nilai_10'], 2, '.', '') ?></td>
-                            <?php endif; ?>
-                            <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
-                                <?php if(count($nilaiPembimbing2) == 0): ?>
+                            </tr>
+                            <tr>
+                                <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
+                                    <td colspan="5" class="bg-secondary text-white">Teknik dan Sistematika Penulisan</td>
+                                <?php else: ?>
+                                    <td colspan="4" class="bg-secondary text-white">Teknik dan Sistematika Penulisan</td>
+                                <?php endif; ?>
+                            </tr>
+                            <tr>
+                                <td>Kesinambungan antara alinea, antar bab dalam susunan skripsi</td>
+                                <?php if(count($nilaiPenguji) == 0): ?>
                                     <td class="text-center align-middle">-</td>
                                 <?php else: ?>
-                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbing2[0]['nilai_10'], 2, '.', '') ?></td>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPenguji[0]['nilai_4'], 2, '.', '') ?></td>
                                 <?php endif; ?>
-                            <?php endif; ?>
-                            <?php if(count($nilaiPembimbingAgama) == 0): ?>
-                                <td class="text-center align-middle">-</td>
-                            <?php else: ?>
-                                <td class="text-center align-middle"><?= number_format($nilaiPembimbingAgama[0]['nilai_10'], 2, '.', '') ?></td>
-                            <?php endif; ?>
-                        </tr>
-                        <tr>
-                            <td>Pengetahuan khusus tentang isi tulisan</td>
-                            <?php if(count($nilaiPenguji) == 0): ?>
-                                <td class="text-center align-middle">-</td>
-                            <?php else: ?>
-                                <td class="text-center align-middle"><?= number_format($nilaiPenguji[0]['nilai_11'], 2, '.', '') ?></td>
-                            <?php endif; ?>
-                            <?php if(count($nilaiPembimbing1) == 0): ?>
-                                <td class="text-center align-middle">-</td>
-                            <?php else: ?>
-                                <td class="text-center align-middle"><?= number_format($nilaiPembimbing1[0]['nilai_11'], 2, '.', '') ?></td>
-                            <?php endif; ?>
-                            <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
-                                <?php if(count($nilaiPembimbing2) == 0): ?>
+                                <?php if(count($nilaiPembimbing1) == 0): ?>
                                     <td class="text-center align-middle">-</td>
                                 <?php else: ?>
-                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbing2[0]['nilai_11'], 2, '.', '') ?></td>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbing1[0]['nilai_4'], 2, '.', '') ?></td>
                                 <?php endif; ?>
-                            <?php endif; ?>
-                            <?php if(count($nilaiPembimbingAgama) == 0): ?>
-                                <td class="text-center align-middle">-</td>
-                            <?php else: ?>
-                                <td class="text-center align-middle"><?= number_format($nilaiPembimbingAgama[0]['nilai_11'], 2, '.', '') ?></td>
-                            <?php endif; ?>
-                        </tr>
-                        <tr>
-                            <td>Ketepatan menjawab</td>
-                            <?php if(count($nilaiPenguji) == 0): ?>
-                                <td class="text-center align-middle">-</td>
-                            <?php else: ?>
-                                <td class="text-center align-middle"><?= number_format($nilaiPenguji[0]['nilai_12'], 2, '.', '') ?></td>
-                            <?php endif; ?>
-                            <?php if(count($nilaiPembimbing1) == 0): ?>
-                                <td class="text-center align-middle">-</td>
-                            <?php else: ?>
-                                <td class="text-center align-middle"><?= number_format($nilaiPembimbing1[0]['nilai_12'], 2, '.', '') ?></td>
-                            <?php endif; ?>
-                            <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
-                                <?php if(count($nilaiPembimbing2) == 0): ?>
+                                <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
+                                    <?php if(count($nilaiPembimbing2) == 0): ?>
+                                        <td class="text-center align-middle">-</td>
+                                    <?php else: ?>
+                                        <td class="text-center align-middle"><?= number_format($nilaiPembimbing2[0]['nilai_4'], 2, '.', '') ?></td>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                                <?php if(count($nilaiPembimbingAgama) == 0): ?>
                                     <td class="text-center align-middle">-</td>
                                 <?php else: ?>
-                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbing2[0]['nilai_12'], 2, '.', '') ?></td>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbingAgama[0]['nilai_4'], 2, '.', '') ?></td>
                                 <?php endif; ?>
-                            <?php endif; ?>
-                            <?php if(count($nilaiPembimbingAgama) == 0): ?>
-                                <td class="text-center align-middle">-</td>
-                            <?php else: ?>
-                                <td class="text-center align-middle"><?= number_format($nilaiPembimbingAgama[0]['nilai_12'], 2, '.', '') ?></td>
-                            <?php endif; ?>
-                        </tr>
-                        <tr>
-                            <td class="text-dark font-weight-bold"><strong>Nilai Akhir</strong></td>
-                            <?php if(count($nilaiPenguji) == 0): ?>
-                                <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
-                            <?php else: ?>
-                                <td class="text-center text-dark font-weight-bold align-middle"><strong><?= number_format($nilaiPenguji[0]['nilai_akhir'], 2, '.', '') ?></strong></td>
-                            <?php endif; ?>
-                            <?php if(count($nilaiPembimbing1) == 0): ?>
-                                <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
-                            <?php else: ?>
-                                <td class="text-center text-dark font-weight-bold align-middle"><strong><?= number_format($nilaiPembimbing1[0]['nilai_akhir'], 2, '.', '') ?></strong></td>
-                            <?php endif; ?>
-                            <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
-                                <?php if(count($nilaiPembimbing2) == 0): ?>
+                            </tr>
+                            <tr>
+                                <td>Tata cara penulisan kepustakaan dan catatan kaki</td>
+                                <?php if(count($nilaiPenguji) == 0): ?>
+                                    <td class="text-center align-middle">-</td>
+                                <?php else: ?>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPenguji[0]['nilai_5'], 2, '.', '') ?></td>
+                                <?php endif; ?>
+                                <?php if(count($nilaiPembimbing1) == 0): ?>
+                                    <td class="text-center align-middle">-</td>
+                                <?php else: ?>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbing1[0]['nilai_5'], 2, '.', '') ?></td>
+                                <?php endif; ?>
+                                <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
+                                    <?php if(count($nilaiPembimbing2) == 0): ?>
+                                        <td class="text-center align-middle">-</td>
+                                    <?php else: ?>
+                                        <td class="text-center align-middle"><?= number_format($nilaiPembimbing2[0]['nilai_5'], 2, '.', '') ?></td>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                                <?php if(count($nilaiPembimbingAgama) == 0): ?>
+                                    <td class="text-center align-middle">-</td>
+                                <?php else: ?>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbingAgama[0]['nilai_5'], 2, '.', '') ?></td>
+                                <?php endif; ?>
+                            </tr>
+                            <tr>
+                                <td>Kebersihan dan kerapihan tulisan</td>
+                                <?php if(count($nilaiPenguji) == 0): ?>
+                                    <td class="text-center align-middle">-</td>
+                                <?php else: ?>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPenguji[0]['nilai_6'], 2, '.', '') ?></td>
+                                <?php endif; ?>
+                                <?php if(count($nilaiPembimbing1) == 0): ?>
+                                    <td class="text-center align-middle">-</td>
+                                <?php else: ?>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbing1[0]['nilai_6'], 2, '.', '') ?></td>
+                                <?php endif; ?>
+                                <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
+                                    <?php if(count($nilaiPembimbing2) == 0): ?>
+                                        <td class="text-center align-middle">-</td>
+                                    <?php else: ?>
+                                        <td class="text-center align-middle"><?= number_format($nilaiPembimbing2[0]['nilai_6'], 2, '.', '') ?></td>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                                <?php if(count($nilaiPembimbingAgama) == 0): ?>
+                                    <td class="text-center align-middle">-</td>
+                                <?php else: ?>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbingAgama[0]['nilai_6'], 2, '.', '') ?></td>
+                                <?php endif; ?>
+                            </tr>
+                            <tr>
+                                <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
+                                    <td colspan="5" class="bg-secondary text-white">Aspek Isi Tulisan</td>
+                                <?php else: ?>
+                                    <td colspan="4" class="bg-secondary text-white">Aspek Isi Tulisan</td>
+                                <?php endif; ?>
+                            </tr>
+                            <tr>
+                                <td>Kejelasan rumusan penulisan</td>
+                                <?php if(count($nilaiPenguji) == 0): ?>
+                                    <td class="text-center align-middle">-</td>
+                                <?php else: ?>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPenguji[0]['nilai_7'], 2, '.', '') ?></td>
+                                <?php endif; ?>
+                                <?php if(count($nilaiPembimbing1) == 0): ?>
+                                    <td class="text-center align-middle">-</td>
+                                <?php else: ?>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbing1[0]['nilai_7'], 2, '.', '') ?></td>
+                                <?php endif; ?>
+                                <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
+                                    <?php if(count($nilaiPembimbing2) == 0): ?>
+                                        <td class="text-center align-middle">-</td>
+                                    <?php else: ?>
+                                        <td class="text-center align-middle"><?= number_format($nilaiPembimbing2[0]['nilai_7'], 2, '.', '') ?></td>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                                <?php if(count($nilaiPembimbingAgama) == 0): ?>
+                                    <td class="text-center align-middle">-</td>
+                                <?php else: ?>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbingAgama[0]['nilai_7'], 2, '.', '') ?></td>
+                                <?php endif; ?>
+                            </tr>
+                            <tr>
+                                <td>Kesesuaian isi tulisan dengan judul skripsi</td>
+                                <?php if(count($nilaiPenguji) == 0): ?>
+                                    <td class="text-center align-middle">-</td>
+                                <?php else: ?>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPenguji[0]['nilai_8'], 2, '.', '') ?></td>
+                                <?php endif; ?>
+                                <?php if(count($nilaiPembimbing1) == 0): ?>
+                                    <td class="text-center align-middle">-</td>
+                                <?php else: ?>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbing1[0]['nilai_8'], 2, '.', '') ?></td>
+                                <?php endif; ?>
+                                <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
+                                    <?php if(count($nilaiPembimbing2) == 0): ?>
+                                        <td class="text-center align-middle">-</td>
+                                    <?php else: ?>
+                                        <td class="text-center align-middle"><?= number_format($nilaiPembimbing2[0]['nilai_8'], 2, '.', '') ?></td>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                                <?php if(count($nilaiPembimbingAgama) == 0): ?>
+                                    <td class="text-center align-middle">-</td>
+                                <?php else: ?>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbingAgama[0]['nilai_8'], 2, '.', '') ?></td>
+                                <?php endif; ?>
+                            </tr>
+                            <tr>
+                                <td>Kemampuan membuat analisa dan pembahasan</td>
+                                <?php if(count($nilaiPenguji) == 0): ?>
+                                    <td class="text-center align-middle">-</td>
+                                <?php else: ?>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPenguji[0]['nilai_9'], 2, '.', '') ?></td>
+                                <?php endif; ?>
+                                <?php if(count($nilaiPembimbing1) == 0): ?>
+                                    <td class="text-center align-middle">-</td>
+                                <?php else: ?>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbing1[0]['nilai_9'], 2, '.', '') ?></td>
+                                <?php endif; ?>
+                                <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
+                                    <?php if(count($nilaiPembimbing2) == 0): ?>
+                                        <td class="text-center align-middle">-</td>
+                                    <?php else: ?>
+                                        <td class="text-center align-middle"><?= number_format($nilaiPembimbing2[0]['nilai_9'], 2, '.', '') ?></td>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                                <?php if(count($nilaiPembimbingAgama) == 0): ?>
+                                    <td class="text-center align-middle">-</td>
+                                <?php else: ?>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbingAgama[0]['nilai_9'], 2, '.', '') ?></td>
+                                <?php endif; ?>
+                            </tr>
+                            <tr>
+                                <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
+                                    <td colspan="5" class="bg-secondary text-white">Aspek Tanya Jawab</td>
+                                <?php else: ?>
+                                    <td colspan="4" class="bg-secondary text-white">Aspek Tanya Jawab</td>
+                                <?php endif; ?>
+                            </tr>
+                            <tr>
+                                <td>Pengetahuan Umum yang berhubungan dengan tulisan</td>
+                                <?php if(count($nilaiPenguji) == 0): ?>
+                                    <td class="text-center align-middle">-</td>
+                                <?php else: ?>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPenguji[0]['nilai_10'], 2, '.', '') ?></td>
+                                <?php endif; ?>
+                                <?php if(count($nilaiPembimbing1) == 0): ?>
+                                    <td class="text-center align-middle">-</td>
+                                <?php else: ?>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbing1[0]['nilai_10'], 2, '.', '') ?></td>
+                                <?php endif; ?>
+                                <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
+                                    <?php if(count($nilaiPembimbing2) == 0): ?>
+                                        <td class="text-center align-middle">-</td>
+                                    <?php else: ?>
+                                        <td class="text-center align-middle"><?= number_format($nilaiPembimbing2[0]['nilai_10'], 2, '.', '') ?></td>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                                <?php if(count($nilaiPembimbingAgama) == 0): ?>
+                                    <td class="text-center align-middle">-</td>
+                                <?php else: ?>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbingAgama[0]['nilai_10'], 2, '.', '') ?></td>
+                                <?php endif; ?>
+                            </tr>
+                            <tr>
+                                <td>Pengetahuan khusus tentang isi tulisan</td>
+                                <?php if(count($nilaiPenguji) == 0): ?>
+                                    <td class="text-center align-middle">-</td>
+                                <?php else: ?>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPenguji[0]['nilai_11'], 2, '.', '') ?></td>
+                                <?php endif; ?>
+                                <?php if(count($nilaiPembimbing1) == 0): ?>
+                                    <td class="text-center align-middle">-</td>
+                                <?php else: ?>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbing1[0]['nilai_11'], 2, '.', '') ?></td>
+                                <?php endif; ?>
+                                <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
+                                    <?php if(count($nilaiPembimbing2) == 0): ?>
+                                        <td class="text-center align-middle">-</td>
+                                    <?php else: ?>
+                                        <td class="text-center align-middle"><?= number_format($nilaiPembimbing2[0]['nilai_11'], 2, '.', '') ?></td>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                                <?php if(count($nilaiPembimbingAgama) == 0): ?>
+                                    <td class="text-center align-middle">-</td>
+                                <?php else: ?>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbingAgama[0]['nilai_11'], 2, '.', '') ?></td>
+                                <?php endif; ?>
+                            </tr>
+                            <tr>
+                                <td>Ketepatan menjawab</td>
+                                <?php if(count($nilaiPenguji) == 0): ?>
+                                    <td class="text-center align-middle">-</td>
+                                <?php else: ?>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPenguji[0]['nilai_12'], 2, '.', '') ?></td>
+                                <?php endif; ?>
+                                <?php if(count($nilaiPembimbing1) == 0): ?>
+                                    <td class="text-center align-middle">-</td>
+                                <?php else: ?>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbing1[0]['nilai_12'], 2, '.', '') ?></td>
+                                <?php endif; ?>
+                                <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
+                                    <?php if(count($nilaiPembimbing2) == 0): ?>
+                                        <td class="text-center align-middle">-</td>
+                                    <?php else: ?>
+                                        <td class="text-center align-middle"><?= number_format($nilaiPembimbing2[0]['nilai_12'], 2, '.', '') ?></td>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                                <?php if(count($nilaiPembimbingAgama) == 0): ?>
+                                    <td class="text-center align-middle">-</td>
+                                <?php else: ?>
+                                    <td class="text-center align-middle"><?= number_format($nilaiPembimbingAgama[0]['nilai_12'], 2, '.', '') ?></td>
+                                <?php endif; ?>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-bold"><strong>Nilai Akhir</strong></td>
+                                <?php if(count($nilaiPenguji) == 0): ?>
                                     <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
                                 <?php else: ?>
-                                    <td class="text-center text-dark font-weight-bold align-middle"><strong><?= number_format($nilaiPembimbing2[0]['nilai_akhir'], 2, '.', '') ?></strong></td>
+                                    <td class="text-center text-dark font-weight-bold align-middle"><strong><?= number_format($nilaiPenguji[0]['nilai_akhir'], 2, '.', '') ?></strong></td>
                                 <?php endif; ?>
-                            <?php endif; ?>
-                            <?php if(count($nilaiPembimbingAgama) == 0): ?>
-                                <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
-                            <?php else: ?>
-                                <td class="text-center text-dark font-weight-bold align-middle"><strong><?= number_format($nilaiPembimbingAgama[0]['nilai_akhir'], 2, '.', '') ?></strong></td>
-                            <?php endif; ?>
-                        </tr>
-                        <tr>
-                            <td class="text-dark font-weight-bold"><strong>Grade</strong></td>
-                            <?php if(count($nilaiPenguji) == 0): ?>
-                                <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
-                            <?php else: ?>
-                                <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPenguji[0]['grade'] == null ? "-" : $nilaiPenguji[0]['grade'] ?></strong></td>
-                            <?php endif; ?>
-                            <?php if(count($nilaiPembimbing1) == 0): ?>
-                                <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
-                            <?php else: ?>
-                                <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPembimbing1[0]['grade'] == null ? "-" : $nilaiPembimbing1[0]['grade'] ?></strong></td>
-                            <?php endif; ?>
-                            <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
-                                <?php if(count($nilaiPembimbing2) == 0): ?>
+                                <?php if(count($nilaiPembimbing1) == 0): ?>
                                     <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
                                 <?php else: ?>
-                                    <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPembimbing2[0]['grade'] == null ? "-" : $nilaiPembimbing2[0]['grade'] ?></strong></td>
+                                    <td class="text-center text-dark font-weight-bold align-middle"><strong><?= number_format($nilaiPembimbing1[0]['nilai_akhir'], 2, '.', '') ?></strong></td>
                                 <?php endif; ?>
-                            <?php endif; ?>
-                            <?php if(count($nilaiPembimbingAgama) == 0): ?>
-                                <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
-                            <?php else: ?>
-                                <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPembimbingAgama[0]['grade'] == null ? "-" : $nilaiPembimbingAgama[0]['grade'] ?></strong></td>
-                            <?php endif; ?>
-                        </tr>
-                        <tr>
-                            <td class="text-dark font-weight-bold"><strong>Status</strong></td>
-                            <?php if(count($nilaiPenguji) == 0): ?>
-                                <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
-                            <?php else: ?>
-                                <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPenguji[0]['status'] ?></strong></td>
-                            <?php endif; ?>
-                            <?php if(count($nilaiPembimbing1) == 0): ?>
-                                <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
-                            <?php else: ?>
-                                <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPembimbing1[0]['status'] ?></strong></td>
-                            <?php endif; ?>
-                            <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
-                                <?php if(count($nilaiPembimbing2) == 0): ?>
+                                <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
+                                    <?php if(count($nilaiPembimbing2) == 0): ?>
+                                        <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
+                                    <?php else: ?>
+                                        <td class="text-center text-dark font-weight-bold align-middle"><strong><?= number_format($nilaiPembimbing2[0]['nilai_akhir'], 2, '.', '') ?></strong></td>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                                <?php if(count($nilaiPembimbingAgama) == 0): ?>
                                     <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
                                 <?php else: ?>
-                                    <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPembimbing2[0]['status'] ?></strong></td>
+                                    <td class="text-center text-dark font-weight-bold align-middle"><strong><?= number_format($nilaiPembimbingAgama[0]['nilai_akhir'], 2, '.', '') ?></strong></td>
                                 <?php endif; ?>
-                            <?php endif; ?>
-                            <?php if(count($nilaiPembimbingAgama) == 0): ?>
-                                <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
-                            <?php else: ?>
-                                <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPembimbingAgama[0]['status'] ?></strong></td>
-                            <?php endif; ?>
-                        </tr>
-                    </tbody>
-                </table>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-bold"><strong>Grade</strong></td>
+                                <?php if(count($nilaiPenguji) == 0): ?>
+                                    <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
+                                <?php else: ?>
+                                    <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPenguji[0]['grade'] == null ? "-" : $nilaiPenguji[0]['grade'] ?></strong></td>
+                                <?php endif; ?>
+                                <?php if(count($nilaiPembimbing1) == 0): ?>
+                                    <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
+                                <?php else: ?>
+                                    <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPembimbing1[0]['grade'] == null ? "-" : $nilaiPembimbing1[0]['grade'] ?></strong></td>
+                                <?php endif; ?>
+                                <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
+                                    <?php if(count($nilaiPembimbing2) == 0): ?>
+                                        <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
+                                    <?php else: ?>
+                                        <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPembimbing2[0]['grade'] == null ? "-" : $nilaiPembimbing2[0]['grade'] ?></strong></td>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                                <?php if(count($nilaiPembimbingAgama) == 0): ?>
+                                    <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
+                                <?php else: ?>
+                                    <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPembimbingAgama[0]['grade'] == null ? "-" : $nilaiPembimbingAgama[0]['grade'] ?></strong></td>
+                                <?php endif; ?>
+                            </tr>
+                            <tr>
+                                <td class="text-dark font-weight-bold"><strong>Status</strong></td>
+                                <?php if(count($nilaiPenguji) == 0): ?>
+                                    <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
+                                <?php else: ?>
+                                    <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPenguji[0]['status'] ?></strong></td>
+                                <?php endif; ?>
+                                <?php if(count($nilaiPembimbing1) == 0): ?>
+                                    <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
+                                <?php else: ?>
+                                    <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPembimbing1[0]['status'] ?></strong></td>
+                                <?php endif; ?>
+                                <?php if ($pembimbingIlmu2[0]['id_dosen'] != null): ?>
+                                    <?php if(count($nilaiPembimbing2) == 0): ?>
+                                        <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
+                                    <?php else: ?>
+                                        <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPembimbing2[0]['status'] ?></strong></td>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                                <?php if(count($nilaiPembimbingAgama) == 0): ?>
+                                    <td class="text-center text-dark font-weight-bold align-middle"><strong>-</strong></td>
+                                <?php else: ?>
+                                    <td class="text-center text-dark font-weight-bold align-middle"><strong><?= $nilaiPembimbingAgama[0]['status'] ?></strong></td>
+                                <?php endif; ?>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                <?php endif; ?>
             </div>
 
-            <?php if (count($nilaiPembimbing1) == 1 && ($pembimbingIlmu2[0]['id_dosen'] == null || ($pembimbingIlmu2[0]['id_dosen'] != null && count($nilaiPembimbing2) == 1)) && count($nilaiPembimbingAgama) == 1 && count($nilaiPenguji) == 1): ?>
-                <div class="row">
-                    <div class="col-lg-12 d-flex justify-content-center">
-                        <h3>Anda dinyatakan <strong><?= $sidangSkripsi['status'] ?></strong> dengan total nilai <strong><?= number_format($sidangSkripsi['total_nilai'], 2, '.', '') ?> (<?= $sidangSkripsi['grade'] == null ? "-" : $sidangSkripsi['grade'] ?>)</strong></h3>
+            <?php if ((count($nilaiPembimbing1) == 1 && $nilaiPembimbing1[0]['tunda_nilai'] == 'TIDAK') && 
+                ($pembimbingIlmu2[0]['id_dosen'] == null || ($pembimbingIlmu2[0]['id_dosen'] != null && count($nilaiPembimbing2) == 1 && $nilaiPembimbing2[0]['tunda_nilai'] == 'TIDAK')) && 
+                (count($nilaiPembimbingAgama) == 1 && $nilaiPembimbingAgama[0]['tunda_nilai'] == 'TIDAK') && 
+                count($nilaiPenguji) == 1 && $nilaiPenguji[0]['tunda_nilai'] == 'TIDAK' ): ?>
+                
+                <?php if (count($nilaiPembimbing1) == 1 && ($pembimbingIlmu2[0]['id_dosen'] == null || ($pembimbingIlmu2[0]['id_dosen'] != null && count($nilaiPembimbing2) == 1)) && count($nilaiPembimbingAgama) == 1 && count($nilaiPenguji) == 1): ?>
+                    <div class="row">
+                        <div class="col-lg-12 d-flex justify-content-center">
+                            <h3>Anda dinyatakan <strong><?= $sidangSkripsi['status'] ?></strong> dengan total nilai <strong><?= number_format($sidangSkripsi['total_nilai'], 2, '.', '') ?> (<?= $sidangSkripsi['grade'] == null ? "-" : $sidangSkripsi['grade'] ?>)</strong></h3>
+                        </div>
                     </div>
-                </div>
-            <?php endif; ?>
+                <?php endif; ?>
 
+            <?php endif;?>
             <div class="col-lg-12 my-2 d-flex justify-content-end">
                 <a class="btn btn-secondary mr-2" role="button" href="<?= base_url("mahasiswa/sidangSkripsi") ?>">Kembali</a>
             </div>

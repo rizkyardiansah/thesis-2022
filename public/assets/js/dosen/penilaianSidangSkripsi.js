@@ -1,5 +1,6 @@
 $(function () {
   hitungNilaiSidang();
+  checkTundaNilai();
 
   $("#formPenilaianSidang").validate({
     rules: {
@@ -74,7 +75,19 @@ $(function () {
     },
   });
 
+  $("a#instruksiTundaNilai").popover({
+    content: `<p>Selama masih terdapat penguji atau pembimbing yang <strong>mengaktifkan</strong> tombol ini, maka peserta sidang <strong>tidak dapat melihat nilai</strong> hasil sidangnya</p>`,
+    container: "body",
+    html: true,
+    placement: "bottom",
+    trigger: "hover",
+  });
+
   $(".nilai-sidang").on("input", hitungNilaiSidang);
+
+  $("#tundaNilai").on("input", function () {
+    checkTundaNilai();
+  });
 
   //untuk sweetalert
   if ($("#flashdata").data("open") == true) {
@@ -149,4 +162,14 @@ function hitungNilaiSidang() {
   $("#nilai_akhir").val(nilaiAkhir);
   $("#grade").val(grade);
   $("#status").val(status);
+}
+
+function checkTundaNilai() {
+  if ($("#tundaNilai").prop("checked") == true) {
+    $("#langsungTampil").prop("hidden", true);
+    $("#tundaTampil").prop("hidden", false);
+  } else {
+    $("#langsungTampil").prop("hidden", false);
+    $("#tundaTampil").prop("hidden", true);
+  }
 }

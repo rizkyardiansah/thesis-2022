@@ -376,11 +376,14 @@ class Dosen extends BaseController
             'id_dosen' => $dataAkun['id'], 
         ])->getResultArray();
 
+        $statusPenampilanNilai = $this->penilaianSidangModel->getStatusPenampilanNilai($idSidangSkripsi);
+//dd($nilaiSidang);
         $data = [
             'title' => 'Penilaian Sidang Skripsi',
             'dataAkun' => $dataAkun,
             'detailSidangSkripsi' => $detailSidangSkripsi[0],
             'nilaiSidang' => $nilaiSidang,
+            'statusPenampilanNilai' => $statusPenampilanNilai,
         ];
 
         return view("dosen/penilaian_sidang_skripsi", $data);
@@ -430,7 +433,8 @@ class Dosen extends BaseController
         $nilai_akhir = $this->request->getPost("nilai_akhir");
         $grade = $this->request->getPost("grade");
         $status = $this->request->getPost("status");
-
+        $tunda_nilai = $this->request->getPost("tundaNilai");
+        
         $this->penilaianSidangModel->insert([
             'id_dosen' => $idDosen,
             'id_sidang_skripsi' => $idSidangSkripsi,
@@ -449,6 +453,7 @@ class Dosen extends BaseController
             'nilai_akhir' => $nilai_akhir,
             'grade' => $grade,
             'status' => $status,
+            'tunda_nilai' => $tunda_nilai != null ? 'YA' : 'TIDAK',
         ]);
 
         $this->perbaruiStatusKelulusan($idSidangSkripsi);
@@ -487,6 +492,7 @@ class Dosen extends BaseController
         $nilai_akhir = $this->request->getPost("nilai_akhir");
         $grade = $this->request->getPost("grade");
         $status = $this->request->getPost("status");
+        $tunda_nilai = $this->request->getPost("tundaNilai");
 
         $this->penilaianSidangModel->update($idPenilaianSidang, [
             'id_dosen' => $idDosen,
@@ -506,6 +512,7 @@ class Dosen extends BaseController
             'nilai_akhir' => $nilai_akhir,
             'grade' => $grade,
             'status' => $status,
+            'tunda_nilai' => $tunda_nilai != null ? 'YA' : 'TIDAK',
         ]);
 
         $this->perbaruiStatusKelulusan($idSidangSkripsi);
