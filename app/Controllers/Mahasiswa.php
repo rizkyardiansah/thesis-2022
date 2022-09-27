@@ -1252,6 +1252,7 @@ class Mahasiswa extends BaseController
             "judul" => $judul,
             "deskripsi" => $deskripsi,
             "kata_kunci" => $kata_kunci,
+            "tanggal_upload" => date_format(Time::now('Asia/Jakarta', 'en_us'), 'Y-m-d H:i:s'),
             "id_bidang" => $id_bidang,
         ]);
 
