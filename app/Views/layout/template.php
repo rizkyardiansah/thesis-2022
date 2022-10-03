@@ -30,6 +30,7 @@
     <link href="<?= base_url("assets/vendor/datatables/Buttons-2.2.3/css/buttons.bootstrap4.min.css") ?>" rel="stylesheet">
     <link href="<?= base_url("assets/vendor/fullcalendar/main.css") ?>" rel="stylesheet" />
     <link href="<?= base_url("assets/vendor/daterangepicker/daterangepicker.css") ?>" rel="stylesheet" />
+    <link rel="icon" type="image/x-icon" href="<?= base_url("assets/img/logo-yarsi.png") ?>">
 
     <style>
         h1,h2,h3,h4,h5,h6 {
