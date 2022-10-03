@@ -17,7 +17,7 @@
                         <strong>Tambahkan Skripsi</strong> terlebih dahulu pada <a href="<?= base_url("mahasiswa/skripsi") ?>">Menu Berikut</a>.
                     </small>
                 </div>
-            <?php elseif (session()->get("user_session")['prodi'] == 'TI' && ($seminarPrasidang == null || $seminarPrasidang['status'] != 'LAYAK SIDANG')): ?>
+            <?php elseif ($seminarPrasidang == null || $seminarPrasidang['status'] != 'LAYAK SIDANG'): ?>
                 <div class="alert alert-danger" role="alert">
                     <small>
                         Lakukan <strong>Seminar Prasidang</strong> terlebih dahulu dan pastikan Anda dinyatakan <strong>Layak Sidang</strong>.
@@ -47,7 +47,7 @@
                         <strong>Pengajuan Sidang Skripsi</strong> anda <strong>Ditolak</strong>. Silahkan <strong>Perbaiki Pengajuan Terakhir</strong> Anda.
                     </small>
                 </div>
-            <?php elseif (session()->get("user_session")['prodi'] == 'PdSI' || $seminarPrasidang != null && $seminarPrasidang['status'] == 'LAYAK SIDANG'): ?>
+            <?php elseif ($seminarPrasidang != null && $seminarPrasidang['status'] == 'LAYAK SIDANG'): ?>
                 <div class="alert alert-info" role="alert">
                     <small>
                         Silahkan buat <strong>Pengajuan Sidang Skripsi</strong> anda.
@@ -64,19 +64,11 @@
         <div class="card-body">
             <div class="row mb-3">
                 <div class="col-lg-3 d-flex align-items-center">
-                    <?php if ($lastSkripsi == null || 
-                    (session()->get("user_session")['prodi'] == 'TI' && ($seminarPrasidang == null || $seminarPrasidang['status'] != 'LAYAK SIDANG')) || 
-                    ($lastSkripsi != null && 
-                    count($pengajuanSidangSkripsi) > 0 && $pengajuanSidangSkripsi[count($pengajuanSidangSkripsi)-1]['id_skripsi'] == $lastSkripsi['id']) || 
+                    <?php if ($lastSkripsi == null || $seminarPrasidang == null || $seminarPrasidang['status'] != 'LAYAK SIDANG' || 
+                    ($lastSkripsi != null && count($pengajuanSidangSkripsi) > 0 && $pengajuanSidangSkripsi[count($pengajuanSidangSkripsi)-1]['id_skripsi'] == $lastSkripsi['id']) || 
                     $lastSkripsi['jumlah_bimbingan_ilmu'] < 8 || $lastSkripsi['jumlah_bimbingan_agama'] < 4): ?>
                         <button class="btn btn-primary" disabled>Tambahkan Pengajuan</button>
-                    <?php elseif ($lastSkripsi != null && 
-                    session()->get("user_session")['prodi'] == 'PdSI' && 
-                    $lastSkripsi['jumlah_bimbingan_ilmu'] >= 8 && $lastSkripsi['jumlah_bimbingan_agama'] >= 4): ?>
-                        <button class="btn btn-primary" data-toggle="modal" data-target="#tambahPengajuan">Tambahkan Pengajuan</button>
-                    <?php elseif ($lastSkripsi != null && 
-                    session()->get("user_session")['prodi'] == 'TI' && $seminarPrasidang != null && $seminarPrasidang['status'] == 'LAYAK SIDANG' && 
-                    $lastSkripsi['jumlah_bimbingan_ilmu'] >= 8 && $lastSkripsi['jumlah_bimbingan_agama'] >= 4): ?>
+                    <?php elseif ($lastSkripsi != null && $seminarPrasidang != null && $seminarPrasidang['status'] == 'LAYAK SIDANG' && $lastSkripsi['jumlah_bimbingan_ilmu'] >= 8 && $lastSkripsi['jumlah_bimbingan_agama'] >= 4): ?>
                         <button class="btn btn-primary" data-toggle="modal" data-target="#tambahPengajuan">Tambahkan Pengajuan</button>
                     <?php endif; ?>
                 </div>

@@ -1,4 +1,3 @@
-<?php //dd(session()->get("user_session")) ?>
 <!-- Sidebar -->
 <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
 
@@ -53,9 +52,7 @@
     <div id="collapsePengajuan" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="<?= base_url("Mahasiswa/pengajuanPenulisanSkripsi") ?>">Penulisan Skripsi</a>
-            <?php if (session()->get("user_session")['prodi'] == 'TI'): ?>
-                <a class="collapse-item" href="<?= base_url("Mahasiswa/pengajuanPraSidang") ?>">Seminar Prasidang</a>
-            <?php endif; ?>
+            <a class="collapse-item" href="<?= base_url("Mahasiswa/pengajuanPraSidang") ?>">Seminar Prasidang</a>
             <a class="collapse-item" href="<?= base_url("Mahasiswa/pengajuanSidangSkripsi") ?>">Sidang Skripsi</a>
         </div>
     </div>
@@ -85,9 +82,7 @@
     <div id="collapseJadwal" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="<?= base_url("Mahasiswa/seminarProposal") ?>">Seminar Proposal</a>
-            <?php if (session()->get("user_session")['prodi'] == 'TI'): ?>
-                <a class="collapse-item" href="<?= base_url("Mahasiswa/seminarPrasidang") ?>">Seminar Prasidang</a>
-            <?php endif; ?>
+            <a class="collapse-item" href="<?= base_url("Mahasiswa/seminarPrasidang") ?>">Seminar Prasidang</a>
             <a class="collapse-item" href="<?= base_url("Mahasiswa/sidangSkripsi") ?>">Sidang Skripsi</a>
         </div>
     </div>
@@ -185,9 +180,7 @@
     <div id="collapseJadwalKaprodi" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="<?= base_url("Kaprodi/seminarProposal") ?>">Seminar Proposal</a>
-            <?php if (session()->get("user_session")['prodi'] == 'TI'): ?>
-                <a class="collapse-item" href="<?= base_url("Kaprodi/seminarPrasidang") ?>">Seminar Prasidang</a>
-            <?php endif; ?>
+            <a class="collapse-item" href="<?= base_url("Kaprodi/seminarPrasidang") ?>">Seminar Prasidang</a>
             <a class="collapse-item" href="<?= base_url("Kaprodi/sidangSkripsi") ?>">Sidang Skripsi</a>
         </div>
     </div>
@@ -222,9 +215,7 @@
     <div id="collapsePenguji" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="<?= base_url("dosen/pengujiSeminarProposal") ?>">Seminar Proposal</a>
-            <?php if (session()->get("user_session")['prodi'] == 'TI'): ?>
-                <a class="collapse-item" href="<?= base_url("dosen/pengujiSeminarPrasidang") ?>">Seminar Prasidang</a>
-            <?php endif; ?>
+            <a class="collapse-item" href="<?= base_url("dosen/pengujiSeminarPrasidang") ?>">Seminar Prasidang</a>
             <a class="collapse-item" href="<?= base_url("dosen/pengujiSidangSkripsi") ?>">Sidang Skripsi</a>
         </div>
     </div>
